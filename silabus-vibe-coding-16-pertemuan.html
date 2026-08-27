@@ -1830,8 +1830,8 @@
       </a>
       <div class="nav-modules">
         <a href="silabus-vibe-coding-16-pertemuan.html" class="nav-tab active">📋 Silabus 16 Pertemuan</a>
-        <a href="praktikum_git_sebelum_coding.html" class="nav-tab">🌳 Praktikum Git (P5)</a>
-        <a href="panduan_push_github.html" class="nav-tab">🚀 Panduan Push GitHub</a>
+        <a href="praktikum_git_sebelum_coding.html" class="nav-tab">🌳 Git Lokal (P5)</a>
+        <a href="panduan_push_github.html" class="nav-tab">☁️ Push GitHub (P6)</a>
         <a href="panduan_vibecoding_owasp.html" class="nav-tab">🛡️ Panduan OWASP</a>
       </div>
       <nav class="nav-sections">
@@ -2420,84 +2420,64 @@ Contoh:
               <a href="#p4" class="btn-nav">← Pertemuan 4 (Chunking)</a>
               <div style="display:flex; gap:10px; flex-wrap:wrap;">
                 <a href="praktikum_git_sebelum_coding.html" target="_blank" class="btn-nav btn-nav-primary"
-                  style="background:#00A896; border-color:#00A896; font-weight:700;">🌳 Buka Praktikum Git (P5) →</a>
-                <a href="#modul-6-github" class="btn-nav btn-nav-primary"
-                  style="background:#028090; border-color:#028090; font-weight:700;">Lanjut ke Modul 6 (Push GitHub) →</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- P5+ PUSH KE GITHUB -->
+                  style="background:#00A896; border-co          <!-- P5+ PUSH KE GITHUB -->
           <!-- MODUL 6: PUSH KE GITHUB -->
           <article class="session" id="modul-6-github" data-block="bangun"
-            style="border-left:4px solid #028090; background:#fbfefe;">
+            style="border-left:4px solid #7C3AED; background:#fbfefe;">
             <div class="session-head">
-              <div class="session-badge" style="background:linear-gradient(135deg,#028090,#02C39A);">6</div>
+              <div class="session-badge" style="background:linear-gradient(135deg,#7C3AED,#A78BFA);">6</div>
               <div class="session-headtext">
-                <h3>Modul 6: Push Project ke GitHub — Backup &amp; Kolaborasi Cloud</h3>
+                <h3>Modul 6: Push Project ke GitHub — Backup, Portofolio &amp; Kolaborasi Cloud</h3>
                 <div class="session-meta">
                   <span class="meta-chip">Bangun Halaman Pertama</span>
                   <span class="meta-chip">90 menit</span>
                   <span class="meta-chip"
-                    style="background:#EAF6F4; color:#01656F; border-color:#A7D8D4; font-weight:bold;">Modul Praktikum
-                    Lengkap</span>
+                    style="background:#F5F3FF; color:#6D28D9; border-color:#DDD6FE; font-weight:bold;">Modul Praktikum
+                    Cloud</span>
                 </div>
               </div>
             </div>
-            <p class="session-goal"><b>Tujuan:</b> Proyek tersimpan aman di cloud GitHub — bisa diakses dari mana saja,
-              punya riwayat commit lengkap, terproteksi dari kebocoran kredensial (anti-leak), dan siap untuk
-              auto-deploy hosting Netlify/Vercel.</p>
+            <p class="session-goal"><b>Tujuan:</b> Proyek lokal terhubung dan terunggah aman ke GitHub Cloud — memiliki standar pesan Conventional Commits, etalase README.md profesional, branch main terstandar, dan mampu sinkronisasi pull &amp; perbaikan error push.</p>
             <div class="session-two-col">
               <div class="teori-col">
                 <h4 class="col-title">&#128218; Teori</h4>
                 <ul class="plain-list">
-                  <li>GitHub = <em>"lemari brankas online"</em> — repo di laptop bukan cadangan yang aman jika laptop
-                    rusak atau hilang</li>
-                  <li>Kamus istilah sederhana: <strong>Repository</strong> = Gudang proyek, <strong>Commit</strong> =
-                    Catatan simpanan, <strong>Push</strong> = Upload ke cloud, <strong>.gitignore</strong> = Daftar
-                    barang terlarang</li>
-                  <li>Mengapa Vibe Coder <em>tidak perlu menghafal</em> perintah terminal — cukup pahami konsepnya,
-                    biarkan AI yang menjalankannya</li>
-                  <li>Cara mengamankan file rahasia: <code>.env.local</code> dan <code>node_modules/</code> wajib masuk
-                    <code>.gitignore</code> sebelum push</li>
-                  <li>Menulis <code>README.md</code> profesional melalui prompt AI agar proyek bisa dipahami orang lain
-                  </li>
+                  <li><strong>GitHub Cloud:</strong> Mengapa repo di laptop bukan cadangan aman jika laptop rusak/hilang — cloud adalah etalase portofolio publik</li>
+                  <li><strong>Conventional Commits:</strong> Standar format pesan commit profesional (<code>feat:</code>, <code>fix:</code>, <code>docs:</code>, <code>refactor:</code>, <code>style:</code>)</li>
+                  <li><strong>README.md Standard:</strong> Elevator pitch, daftar fitur berikon, tech stack, dan instruksi instalasi lokal</li>
+                  <li><strong>Remote Origin &amp; Upstream:</strong> Mendaftarkan URL GitHub (<code>git remote add origin</code>) dan mengunci pelacakan upstream (<code>-u</code>)</li>
+                  <li><strong>Alur Sinkronisasi Cloud:</strong> First Push, Daily Push 1-Langkah, <code>git pull</code>, serta resolusi merge conflict</li>
                 </ul>
               </div>
               <div class="praktikum-col">
-                <h4 class="col-title">&#129489;&#8205;&#128187; Praktikum &#8212; 5 Prompt AI</h4>
+                <h4 class="col-title">&#129489;&#8205;&#128187; Praktikum &#8212; 7 Modul Cloud Push</h4>
                 <p class="prompt-hint">&#128161; Buka <a href="panduan_push_github.html" target="_blank"
-                    style="color:var(--teal);font-weight:bold;">halaman materi lengkap</a> untuk menyalin 5 prompt siap
-                  pakai ini.</p>
+                    style="color:#7C3AED;font-weight:bold;">halaman modul praktikum lengkap</a> untuk menyalin prompt siap pakai ini.</p>
                 <ul class="plain-list">
-                  <li><strong>Prompt 1:</strong> Minta AI buatkan <code>.gitignore</code> lengkap &amp; aman anti-bocor
-                    kredensial</li>
-                  <li><strong>Prompt 2:</strong> Minta AI tulis <code>README.md</code> profesional dari deskripsi proyek
-                  </li>
-                  <li><strong>Prompt 3:</strong> Hubungkan &amp; push ke GitHub pertama kali (cukup berikan URL repo)
-                  </li>
-                  <li><strong>Prompt 4:</strong> Simpan &amp; upload perubahan terbaru (prompt harian singkat)</li>
-                  <li><strong>Prompt 5:</strong> Penyelamat jika push gagal — AI diagnosa &amp; perbaiki otomatis</li>
+                  <li><strong>Standar Wajib:</strong> Pembuatan pesan commit berformat Conventional Commits</li>
+                  <li><strong>Prompt 1 (P6.1):</strong> Generator file <code>README.md</code> portofolio profesional via AI</li>
+                  <li><strong>Prompt 2 (P6.2):</strong> Hubungkan repo lokal ke remote origin &amp; set branch <code>main</code></li>
+                  <li><strong>Prompt 3 (P6.3):</strong> First push unggah perdana (<code>git push -u origin main</code>)</li>
+                  <li><strong>Prompt 4 (P6.4):</strong> Alur push rutin harian 1-langkah (Stage → Commit → Push)</li>
+                  <li><strong>Prompt 5 (P6.5):</strong> Sinkronisasi pembaruan &amp; resolusi Merge Conflict (<code>git pull</code>)</li>
+                  <li><strong>Prompt 6 (P6.6):</strong> Dokter error push (diagnosis otomatis: rejected non-fast-forward, rebase, token)</li>
                 </ul>
               </div>
             </div>
 
             <!-- PROMINENT BUTTON / ACTION CARD KE PANDUAN_PUSH_GITHUB.HTML -->
             <div
-              style="background: linear-gradient(135deg, #EAF6F4 0%, #F0FDF4 100%); border: 2px solid #00A896; border-radius: 12px; padding: 22px 24px; margin: 22px 0; text-align: center; box-shadow: 0 4px 14px rgba(2,128,144,0.08);">
-              <div style="font-size: 26px; margin-bottom: 6px;">🚀</div>
-              <h4 style="color:#01656F; font-size:18px; font-weight:bold; margin-bottom:8px;">
-                Materi Lengkap Modul 6: Panduan Praktikum Push ke GitHub
+              style="background: linear-gradient(135deg, #FAF5FF 0%, #F5F3FF 100%); border: 2px solid #A78BFA; border-radius: 12px; padding: 22px 24px; margin: 22px 0; text-align: center; box-shadow: 0 4px 14px rgba(124,58,237,0.08);">
+              <div style="font-size: 26px; margin-bottom: 6px;">☁️</div>
+              <h4 style="color:#5B21B6; font-size:18px; font-weight:bold; margin-bottom:8px;">
+                Materi Lengkap Modul 6: Praktikum Remote &amp; Push ke GitHub
               </h4>
               <p style="color:#3D474C; font-size:13.5px; max-width:640px; margin:0 auto 16px auto; line-height:1.6;">
-                Di halaman ini Anda akan mendapatkan: <strong>Teori konsep GitHub</strong> (analogi brankas, kamus 4
-                istilah inti) + <strong>5 prompt AI siap salin</strong> untuk membuat <code>.gitignore</code>, menulis
-                <code>README.md</code>, melakukan push pertama kali, menyimpan perubahan harian, dan menyelamatkan diri
-                jika push gagal — <em>tanpa perlu mengetik satu perintah terminal pun!</em>
+                Di halaman ini Anda mendapatkan: <strong>Panduan Conventional Commits</strong> + <strong>Perintah terminal interaktif</strong> + <strong>Prompt AI siap salin</strong> untuk dokumentasi README, remote origin, first push, sinkronisasi pull, dan dokter error push — <em>langsung siap praktik di Antigravity IDE!</em>
               </p>
-              <a href="panduan_push_github.html" class="btn-nav btn-nav-primary"
-                style="background:#028090; border-color:#028090; font-size:14px; font-weight:700; padding:12px 28px; box-shadow:0 4px 12px rgba(2,128,144,0.25); display:inline-flex; align-items:center; gap:8px; border-radius:8px;">
-                <span>📘 Buka Halaman Materi Lengkap: panduan_push_github.html</span>
+              <a href="panduan_push_github.html" target="_blank" class="btn-nav btn-nav-primary"
+                style="background:#7C3AED; border-color:#7C3AED; font-size:14px; font-weight:700; padding:12px 28px; box-shadow:0 4px 12px rgba(124,58,237,0.25); display:inline-flex; align-items:center; gap:8px; border-radius:8px; text-decoration:none;">
+                <span>☁️ Buka Modul Praktikum: panduan_push_github.html</span>
                 <span>→</span>
               </a>
             </div>
@@ -2512,7 +2492,7 @@ Contoh:
               <div class="foot-item foot-output">
                 <span class="foot-label">Output pertemuan</span>
                 <span class="foot-text">Repo GitHub live dengan <code>README.md</code> terisi, <code>.gitignore</code>
-                  aman, dan seluruh commit riwayat proyek terlihat.</span>
+                  aman, dan seluruh commit riwayat proyek berformat Conventional Commits.</span>
               </div>
               <div class="foot-item foot-pitfall">
                 <span class="foot-label">Kesalahan yang sering terjadi</span>
@@ -2523,7 +2503,12 @@ Contoh:
             <div class="nav-step-bar">
               <a href="#p5" class="btn-nav">← Pertemuan 5 (Git Lokal)</a>
               <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <a href="panduan_push_github.html" class="btn-nav btn-nav-primary"
+                <a href="panduan_push_github.html" target="_blank" class="btn-nav btn-nav-primary"
+                  style="background:#7C3AED; border-color:#7C3AED; font-weight:700;">☁️ Buka Modul 6 (Push GitHub) →</a>
+                <a href="#p6" class="btn-nav">Lanjut ke Pertemuan 7 (Halaman Statis) →</a>
+              </div>
+            </div>
+          </article>github.html" class="btn-nav btn-nav-primary"
                   style="background:#028090; border-color:#028090; font-weight:700;">📘 Buka Materi Modul 6
                   (panduan_push_github.html) →</a>
                 <a href="#p6" class="btn-nav">Lanjut ke Pertemuan 7 (Halaman Statis) →</a>
