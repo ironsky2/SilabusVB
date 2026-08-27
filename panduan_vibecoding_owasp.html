@@ -1364,13 +1364,16 @@ if (error) {
     }
 
     // Filter OWASP Categories
-    function filterOwasp(cat) {
+    function filterOwasp(cat, btn) {
       document.querySelectorAll('.cat-pill').forEach(b => {
         b.classList.remove('bg-primary', 'text-primary-foreground', 'active');
         b.classList.add('bg-card', 'text-muted-foreground');
       });
-      event.target.classList.remove('bg-card', 'text-muted-foreground');
-      event.target.classList.add('bg-primary', 'text-primary-foreground', 'active');
+      const activeBtn = btn || (typeof event !== 'undefined' && event ? event.target : null);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-card', 'text-muted-foreground');
+        activeBtn.classList.add('bg-primary', 'text-primary-foreground', 'active');
+      }
 
       document.querySelectorAll('.owasp-item').forEach(item => {
         if (cat === 'all' || item.getAttribute('data-cat') === cat) {
@@ -1383,10 +1386,12 @@ if (error) {
 
     // Search OWASP Cards
     function searchOwasp() {
-      const q = document.getElementById('owaspSearch').value.toLowerCase();
+      const searchEl = document.getElementById('owaspSearch');
+      if (!searchEl) return;
+      const q = searchEl.value.toLowerCase().trim();
       document.querySelectorAll('.owasp-item').forEach(item => {
-        const text = (item.getAttribute('data-tags') + ' ' + item.innerText).toLowerCase();
-        if (text.includes(q)) {
+        const text = ((item.getAttribute('data-tags') || '') + ' ' + (item.innerText || '')).toLowerCase();
+        if (!q || text.includes(q)) {
           item.classList.remove('hidden');
         } else {
           item.classList.add('hidden');
@@ -1394,32 +1399,71 @@ if (error) {
       });
     }
 
+    // Fallback Copy Function
+    function fallbackCopyText(text, successMsg) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast(successMsg || "Teks berhasil disalin ke clipboard!");
+      } catch (e) {
+        console.error("Gagal menyalin: ", e);
+      }
+      document.body.removeChild(textarea);
+    }
+
     // Copy Code Utility
     function copyCode(btn) {
       const container = btn.closest('.rounded-lg, .rounded-xl, .relative');
+      if (!container) return;
       const pre = container.querySelector('pre');
-      navigator.clipboard.writeText(pre.innerText).then(() => {
-        showToast("Teks berhasil disalin ke clipboard!");
-      });
+      if (!pre) return;
+      const text = pre.innerText || pre.textContent || '';
+      const msg = "Teks berhasil disalin ke clipboard!";
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(msg);
+        }).catch(() => {
+          fallbackCopyText(text, msg);
+        });
+      } else {
+        fallbackCopyText(text, msg);
+      }
     }
 
+    let toastTimer = null;
     function showToast(msg) {
       const toast = document.getElementById('toast');
-      document.getElementById('toast-msg').innerText = msg;
+      const toastMsg = document.getElementById('toast-msg');
+      if (!toast) return;
+      if (toastMsg && msg) toastMsg.innerText = msg;
       toast.classList.remove('opacity-0', '-translate-y-3', 'translate-y-3', 'pointer-events-none');
       toast.classList.add('opacity-100');
 
-      setTimeout(() => {
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
         toast.classList.add('opacity-0', 'pointer-events-none');
         toast.classList.remove('opacity-100');
+        toastTimer = null;
       }, 2000);
     }
 
     // Smart Prompt Generator Logic
     function generatePrompt() {
-      const tech = document.getElementById('genTech').value;
-      const db = document.getElementById('genDb').value;
-      const feature = document.getElementById('genFeature').value;
+      const techEl = document.getElementById('genTech');
+      const dbEl = document.getElementById('genDb');
+      const featureEl = document.getElementById('genFeature');
+      const outputEl = document.getElementById('promptOutput');
+      if (!techEl || !dbEl || !featureEl || !outputEl) return;
+
+      const tech = techEl.value;
+      const db = dbEl.value;
+      const feature = featureEl.value;
 
       let prompt = `Buatkan fitur ${feature} menggunakan ${tech} dan ${db} dengan standar keamanan tinggi:\n`;
       prompt += `1. Pertahanan Utama: Kebal dari serangan OWASP Top 10 (SQLi, IDOR, XSS, Brute Force).\n`;
@@ -1434,17 +1478,27 @@ if (error) {
       prompt += `4. Validasi Input: Validasi semua request data menggunakan schema Zod.\n`;
       prompt += `5. Error Handling: Return pesan error umum ke client dan log detail teknis ke server log saja.`;
 
-      document.getElementById('promptOutput').innerText = prompt;
+      outputEl.innerText = prompt;
     }
 
     function copyGeneratedPrompt() {
-      const text = document.getElementById('promptOutput').innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        showToast("Prompt hasil generator berhasil disalin!");
-      });
+      const outputEl = document.getElementById('promptOutput');
+      if (!outputEl) return;
+      const text = outputEl.innerText || outputEl.textContent || '';
+      const msg = "Prompt hasil generator berhasil disalin!";
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(msg);
+        }).catch(() => {
+          fallbackCopyText(text, msg);
+        });
+      } else {
+        fallbackCopyText(text, msg);
+      }
     }
 
-    // Checklist Progress Calculator
+    // Checklist Progress Calculator (with Zero-Division Protection)
     function updateProgress() {
       const checkboxes = document.querySelectorAll('#checklistItems input[type="checkbox"]');
       const total = checkboxes.length;
@@ -1454,10 +1508,13 @@ if (error) {
         if (c.checked) checked++;
       });
 
-      const pct = Math.round((checked / total) * 100);
-      document.getElementById('progressBar').style.width = pct + '%';
-      document.getElementById('scoreText').innerText = pct + '% Selesai';
-      document.getElementById('badgeProgress').innerText = checked + '/' + total;
+      const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+      const bar = document.getElementById('progressBar');
+      if (bar) bar.style.width = pct + '%';
+      const score = document.getElementById('scoreText');
+      if (score) score.innerText = pct + '% Selesai';
+      const badge = document.getElementById('badgeProgress');
+      if (badge) badge.innerText = checked + '/' + total;
     }
 
     function resetChecklist() {

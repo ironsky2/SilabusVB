@@ -1275,17 +1275,37 @@
 
 <!-- INTERACTIVE SCRIPT -->
 <script>
-  // Copy Code Function
-  function copyCode(text) {
-    const temp = document.createElement('textarea');
-    temp.innerHTML = text;
-    const decodedText = temp.value;
+  // Fallback Copy Function
+  function fallbackCopyText(text, successMsg) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      showToast(successMsg || "Berhasil disalin ke clipboard! 🚀");
+    } catch (e) {
+      console.error("Gagal menyalin: ", e);
+    }
+    document.body.removeChild(textarea);
+  }
 
-    navigator.clipboard.writeText(decodedText).then(() => {
-      showToast("Perintah '" + decodedText + "' disalin ke clipboard! 🚀");
-    }).catch(err => {
-      console.error("Gagal menyalin: ", err);
-    });
+  // Copy Code Function (with DOMParser sanitization)
+  function copyCode(text) {
+    const decodedText = new DOMParser().parseFromString(text, 'text/html').body.textContent || text;
+    const msg = "Perintah '" + decodedText + "' disalin ke clipboard! 🚀";
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(decodedText).then(() => {
+        showToast(msg);
+      }).catch(() => {
+        fallbackCopyText(decodedText, msg);
+      });
+    } else {
+      fallbackCopyText(decodedText, msg);
+    }
   }
 
   // Copy Prompt Text Function
@@ -1295,22 +1315,30 @@
     const promptCodeEl = promptBox.querySelector('.prompt-code');
     if (!promptCodeEl) return;
     const promptText = promptCodeEl.innerText.replace(/^"|"$/g, '').trim();
-    navigator.clipboard.writeText(promptText).then(() => {
-      showToast("Prompt AI disalin! Siap di-paste ke Antigravity IDE 🤖");
-    }).catch(err => {
-      console.error("Gagal menyalin: ", err);
-    });
+    const msg = "Prompt AI disalin! Siap di-paste ke Antigravity IDE 🤖";
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(promptText).then(() => {
+        showToast(msg);
+      }).catch(() => {
+        fallbackCopyText(promptText, msg);
+      });
+    } else {
+      fallbackCopyText(promptText, msg);
+    }
   }
 
   // Toast Notification Controller
-  let toastTimer;
+  let toastTimer = null;
   function showToast(message) {
     const toast = document.getElementById('toast');
+    if (!toast) return;
     toast.textContent = message;
     toast.classList.add('show');
-    clearTimeout(toastTimer);
+    if (toastTimer) clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
       toast.classList.remove('show');
+      toastTimer = null;
     }, 2500);
   }
 

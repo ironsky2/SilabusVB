@@ -4456,17 +4456,51 @@ Buatkan custom hook `src/hooks/useTransactions.ts`:
   </footer>
 
   <script>
+    let toastTimer = null;
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+      if (msg) toast.textContent = msg;
+      toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+        toastTimer = null;
+      }, 2400);
+    }
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast("✅ Teks berhasil disalin ke clipboard!");
+      } catch (e) {
+        console.error("Gagal menyalin: ", e);
+      }
+      document.body.removeChild(textarea);
+    }
+
     function copySnippet(elementId) {
       const el = document.getElementById(elementId);
       if (!el) return;
       const text = el.innerText || el.textContent || '';
-      navigator.clipboard.writeText(text).then(() => {
-        const toast = document.getElementById('toast');
-        toast.classList.add('show');
-        setTimeout(() => {
-          toast.classList.remove('show');
-        }, 2400);
-      });
+      if (!text) return;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast("✅ Teks berhasil disalin ke clipboard!");
+        }).catch(() => {
+          fallbackCopy(text);
+        });
+      } else {
+        fallbackCopy(text);
+      }
     }
   </script>
 
