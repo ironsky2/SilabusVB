@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Praktikum Git Lokal Sebelum Coding — Pertemuan 5 | Vibe Coding</title>
-<meta name="description" content="Modul Praktikum Pertemuan 5: Git Lokal & Safety Net untuk Vibe Coder. Dilengkapi 5 modul perintah terminal, analogi 12 tahun, save point checkpoint, emergency recovery, dan prompt AI siap salin.">
+<title>Praktikum Git Lokal Sebelum Coding — Pertemuan 5 | Vibe Coding Masterclass</title>
+<meta name="description" content="Modul Praktikum Lengkap Pertemuan 5: Git Lokal & Safety Net untuk Vibe Coder. Menguasai alur kerja init, status, diff, staging, checkpoint commit, emergency recovery, dan audit riwayat log CCTV.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
@@ -247,6 +247,27 @@
     color: #94A3B8;
   }
 
+  /* HERO STATS */
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 28px 0 10px;
+  }
+  @media (max-width: 840px) {
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 32px; }
+  }
+  .stat-card {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+    backdrop-filter: blur(8px);
+  }
+  .stat-card .num { font-size: 20px; font-weight: 900; color: #6EE7B7; font-family: 'JetBrains Mono', monospace; }
+  .stat-card .lbl { font-size: 12px; color: rgba(255, 255, 255, 0.85); font-weight: 500; }
+
   /* SECTION DIVIDERS */
   .section-divider {
     display: flex;
@@ -468,6 +489,44 @@
     white-space: pre-wrap;
   }
 
+  /* UNDER THE HOOD CLI DETAILS */
+  .cli-hood {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 14px 0 16px;
+  }
+  .cli-hood summary {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cli-hood summary:hover { color: var(--teal); }
+  .cli-hood-content {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #CBD5E1;
+  }
+  .cli-hood-content pre {
+    background: #0F172A;
+    color: #E2E8F0;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    overflow-x: auto;
+    line-height: 1.6;
+  }
+  .cli-hood-content .cli-comment { color: #94A3B8; font-style: italic; }
+  .cli-hood-content .cli-cmd { color: #38BDF8; font-weight: bold; }
+  .cli-hood-content .cli-arg { color: #FCD34D; }
+
   /* CALLOUT BOXES */
   .danger-card {
     background: #FFF1F2;
@@ -600,8 +659,28 @@
     <div class="badge">🌳 Modul Pertemuan 5 &bull; Jaring Pengaman Vibe Coder</div>
     <h1>Mastery Git Lokal dari Nol:<br>Jaring Pengaman &amp; Mesin Waktu Penyelamat</h1>
     <p>
-      Buku saku praktikum offline dan kumpulan prompt AI terlengkap untuk menguasai alur kerja Git di komputer lokal: mulai dari inisialisasi, status diff, save point checkpoint, hingga emergency recovery saat AI merusak kode.
+      Buku saku praktikum offline dan kumpulan prompt AI terlengkap untuk menguasai alur kerja Git di komputer lokal: mulai dari inisialisasi, inspeksi diff, checkpoint commit, hingga emergency recovery saat AI merusak kode.
     </p>
+
+    <!-- Hero Stats -->
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="num">5 Modul</div>
+        <div class="lbl">Siklus Kerja Git Lokal</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">100% Prompt</div>
+        <div class="lbl">Siap Salin ke Antigravity IDE</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">Dual Mode</div>
+        <div class="lbl">Terminal CLI + Prompt AI</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">Safe Restore</div>
+        <div class="lbl">Proteksi Undo Anti-Panik</div>
+      </div>
+    </div>
 
     <!-- Quick Navigation Pills -->
     <nav class="quick-nav" aria-label="Menu Pintas Materi">
@@ -651,9 +730,10 @@
         </div>
 
         <div class="analogy-box">
-          💡 <strong>Analogi 12 Tahun:</strong> Mengubah folder biasa menjadi <em>"Markas Rahasia"</em> yang dijaga kamera pengawas, serta menempel papan peringatan <em>"Dilarang Masuk"</em> untuk file sampah, cache, &amp; password rahasia.
+          💡 <strong>Analogi 12 Tahun:</strong> Mengubah folder biasa menjadi <em>"Markas Rahasia"</em> yang dijaga kamera pengawas, serta menempel papan peringatan <em>"Dilarang Masuk"</em> untuk file sampah &amp; rahasia.
         </div>
 
+        <!-- Command Grid -->
         <div class="command-grid">
           <div class="command-card">
             <div class="command-header">
@@ -672,13 +752,39 @@
             <div class="command-body">git --version</div>
             <div class="command-desc">Memastikan Git sudah terinstal dengan benar di komputermu.</div>
           </div>
+
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Set Identitas Pembuat</span>
+              <button class="copy-btn" onclick="copyCode('git config user.name &quot;Nama Anda&quot;')">Salin</button>
+            </div>
+            <div class="command-body">git config user.name "Nama Anda"</div>
+            <div class="command-desc">Mendaftarkan nama dan email Anda sebagai pemilik commit resmi.</div>
+          </div>
         </div>
 
+        <!-- Prompt Card -->
         <div class="prompt-card">
           <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
           <div class="prompt-text">"Halo AI, tolong inisialisasi repo Git di folder proyek ini dengan branch utama 'main', lalu buatkan file .gitignore standar industri yang aman dari kebocoran file .env dan node_modules."</div>
           <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
         </div>
+
+        <!-- Under the Hood Details -->
+        <details class="cli-hood">
+          <summary>🔍 Klik untuk melihat konfigurasi terminal lengkap di balik layar</summary>
+          <div class="cli-hood-content">
+            <pre><span class="cli-comment"># 1. Inisialisasi repo Git dengan branch 'main'</span>
+<span class="cli-cmd">git init</span> -b main
+
+<span class="cli-comment"># 2. Mengatur identitas author</span>
+<span class="cli-cmd">git config</span> user.name <span class="cli-arg">"Nama Anda"</span>
+<span class="cli-cmd">git config</span> user.email <span class="cli-arg">"email@anda.com"</span>
+
+<span class="cli-comment"># 3. Membuat file .gitignore</span>
+<span class="cli-cmd">echo</span> <span class="cli-arg">"node_modules/&#10;.env&#10;.env.local&#10;.DS_Store&#10;dist/"</span> > .gitignore</pre>
+          </div>
+        </details>
       </section>
 
       <!-- MODUL 2: STATUS & DIFF -->
@@ -695,12 +801,14 @@
           <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">Perintah: git status</span>
           <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">git diff</span>
           <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">git diff --staged</span>
+          <span class="meta-tag" style="background:#DCFCE7; color:#166534;">Audit Perubahan</span>
         </div>
 
         <div class="analogy-box">
           💡 <strong>Analogi 12 Tahun:</strong> <code>git status</code> adalah mengecek barang apa saja yang berserakan di meja, sedangkan <code>git diff</code> adalah kaca pembesar untuk melihat kata apa yang kamu hapus (merah <code>-</code>) dan kamu tambah (hijau <code>+</code>).
         </div>
 
+        <!-- Command Grid -->
         <div class="command-grid">
           <div class="command-card">
             <div class="command-header">
@@ -722,7 +830,7 @@
 
           <div class="command-card">
             <div class="command-header">
-              <span class="command-title">Lihat Diff File yang Sudah di-Add</span>
+              <span class="command-title">Lihat Perbedaan File yang Sudah di-Add</span>
               <button class="copy-btn" onclick="copyCode('git diff --staged')">Salin</button>
             </div>
             <div class="command-body">git diff --staged</div>
@@ -730,6 +838,7 @@
           </div>
         </div>
 
+        <!-- Prompt Card -->
         <div class="prompt-card">
           <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
           <div class="prompt-text">"Tolong periksa status Git saat ini dengan 'git status' dan jelaskan apa saja baris kode yang baru saja kamu ubah dengan bahasa yang sederhana."</div>
@@ -757,6 +866,7 @@
           💡 <strong>Analogi 12 Tahun:</strong> <code>git add</code> adalah menaruh kertas di atas meja foto studio, sedangkan <code>git commit</code> adalah menjepret foto dan menempelkannya ke album harian resmi lengkap dengan judul keterangan.
         </div>
 
+        <!-- Command Grid -->
         <div class="command-grid">
           <div class="command-card">
             <div class="command-header">
@@ -778,14 +888,15 @@
 
           <div class="command-card">
             <div class="command-header">
-              <span class="command-title">Buat Checkpoint Save Point</span>
-              <button class="copy-btn" onclick="copyCode('git commit --allow-empty -m &quot;checkpoint: siap minta AI buat fitur X&quot;')">Salin</button>
+              <span class="command-title">Buat Checkpoint Pengaman Sebelum Minta AI</span>
+              <button class="copy-btn" onclick="copyCode('git commit --allow-empty -m &quot;checkpoint: sebelum AI rombak kode&quot;')">Salin</button>
             </div>
             <div class="command-body">git commit --allow-empty -m "checkpoint: siap minta AI buat fitur X"</div>
             <div class="command-desc">Membuat Save Point kosong di Git sebelum memberikan tugas besar ke AI.</div>
           </div>
         </div>
 
+        <!-- Prompt Card -->
         <div class="prompt-card">
           <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
           <div class="prompt-text">"Saya sudah selesai mengedit fitur ini. Tolong stage semua file dan buatkan commit message profesional berformat Conventional Commits yang ringkas dan deskriptif."</div>
@@ -805,22 +916,24 @@
 
         <div class="meta-tag-row">
           <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">Perintah: git restore .</span>
+          <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">git restore --staged .</span>
           <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">git restore --source</span>
           <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">git reset --hard</span>
         </div>
 
         <div class="analogy-box">
-          💡 <strong>Analogi 12 Tahun:</strong> Tombol <em>Ctrl + Z</em> tingkat dewa. Memanggil versi file di masa lalu saat AI atau kamu tidak sengaja merusak kode.
+          💡 <strong>Analogi 12 Tahun:</strong> Tombol *Ctrl + Z* tingkat dewa. Memanggil versi file di masa lalu saat AI atau kamu tidak sengaja merusak kode.
         </div>
 
         <div class="danger-card">
           <strong>⚠️ Peringatan Penting:</strong> <code>git restore .</code> akan mengembalikan seluruh file uncommitted ke kondisi commit terakhir secara instan.
         </div>
 
+        <!-- Command Grid -->
         <div class="command-grid">
           <div class="command-card">
             <div class="command-header">
-              <span class="command-title">Batalkan File Rusak (Belum Commit)</span>
+              <span class="command-title">Batalkan Perubahan File (Belum Commit)</span>
               <button class="copy-btn" onclick="copyCode('git restore .')">Salin</button>
             </div>
             <div class="command-body">git restore .</div>
@@ -829,7 +942,7 @@
 
           <div class="command-card">
             <div class="command-header">
-              <span class="command-title">Ambil 1 File Masa Lalu (Sudah Commit)</span>
+              <span class="command-title">Ambil 1 File Tertentu dari Masa Lalu (Sudah Terlanjur Commit)</span>
               <button class="copy-btn" onclick="copyCode('git restore --source=HEAD~1 index.html')">Salin</button>
             </div>
             <div class="command-body">git restore --source=&lt;HASH_COMMIT&gt; namafile.html</div>
@@ -838,7 +951,7 @@
 
           <div class="command-card">
             <div class="command-header">
-              <span class="command-title">Batalkan Total Commit Terakhir</span>
+              <span class="command-title">Batalkan Total Commit Terakhir (Reset)</span>
               <button class="copy-btn" onclick="copyCode('git reset --hard HEAD~1')">Salin</button>
             </div>
             <div class="command-body">git reset --hard HEAD~1</div>
@@ -846,6 +959,7 @@
           </div>
         </div>
 
+        <!-- Prompt Card -->
         <div class="prompt-card">
           <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
           <div class="prompt-text">"Kodingan terakhir ini error dan berantakan. Tolong batalkan semua perubahan yang belum di-commit dan kembalikan file ke kondisi commit terakhir yang sehat."</div>
@@ -859,7 +973,7 @@
           <div class="badge-icon" style="background:var(--navy); color:#6EE7B7;">05</div>
           <div class="card-title">
             <h3>Modul 5: Detektif Riwayat (Membaca CCTV Proyek)</h3>
-            <p>Melihat rekaman riwayat snapshot, garis percabangan, dan jejak kelahiran satu file</p>
+            <p>Membuka rekaman jejak digital siapa yang mengubah berkas, kapan waktu perubahannya, dan detail commit hash</p>
           </div>
         </div>
 
@@ -873,6 +987,7 @@
           💡 <strong>Analogi 12 Tahun:</strong> Membuka rekaman CCTV 24 jam untuk mencari tahu siapa yang memindahkan vas bunga dan pada jam berapa. (Tekan <strong>Q</strong> di keyboard untuk keluar dari log panjang).
         </div>
 
+        <!-- Command Grid -->
         <div class="command-grid">
           <div class="command-card">
             <div class="command-header">
@@ -902,6 +1017,7 @@
           </div>
         </div>
 
+        <!-- Prompt Card -->
         <div class="prompt-card">
           <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
           <div class="prompt-text">"Tolong periksa riwayat 5 commit terakhir dengan 'git log --oneline -5' dan buatkan ringkasan laporan pekerjaan apa saja yang sudah saya capai hari ini."</div>
@@ -1008,6 +1124,39 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- RUBRIK KELULUSAN PRAKTIKUM GIT LOKAL                           -->
+    <!-- ============================================================== -->
+    <div class="card" style="background:#F0FDF4; border:1.5px solid #86EFAC;">
+      <div class="card-head" style="border-bottom-color:#BBF7D0;">
+        <div class="badge-icon" style="background:#16A34A; color:#fff;">🏆</div>
+        <div class="card-title">
+          <h3 style="color:#14532D;">Rubrik Kelulusan Praktikum Pertemuan 5 (Git Lokal)</h3>
+          <p style="color:#166534;">Evaluasi mandiri repositori lokal Anda di terminal VS Code / Antigravity IDE:</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin:16px 0;">
+        <div style="background:#fff; border:1px solid #BBF7D0; border-radius:10px; padding:16px;">
+          <h4 style="color:#15803D; font-size:14.5px; margin-bottom:8px;">✅ Indikator Keberhasilan Lokal:</h4>
+          <ul style="padding-left:18px; font-size:13.5px; color:#1E293B; line-height:1.7;">
+            <li>Folder rahasia <code>.git</code> berhasil terinisialisasi dengan branch <code>main</code>.</li>
+            <li>File <code>.gitignore</code> aktif menyaring <code>.env</code> dan file temporary.</li>
+            <li>Memiliki minimal 5 commit bermakna dengan format Conventional Commits.</li>
+            <li>Pernah berhasil mempraktikkan simulasi <code>git restore .</code> saat AI membuat error.</li>
+          </ul>
+        </div>
+        <div style="background:#fff; border:1px solid #BBF7D0; border-radius:10px; padding:16px;">
+          <h4 style="color:#15803D; font-size:14.5px; margin-bottom:8px;">🛡️ Checklist Kebersihan Working Tree:</h4>
+          <ul style="padding-left:18px; font-size:13.5px; color:#1E293B; line-height:1.7;">
+            <li>Mengetik <code>git status</code> menghasilkan <em>"nothing to commit, working tree clean"</em>.</li>
+            <li>Riwayat <code>git log --oneline</code> menampilkan jejak checkpoint yang jelas.</li>
+            <li>Proyek siap untuk dihubungkan ke GitHub Cloud pada Pertemuan 6!</li>
+          </ul>
+        </div>
       </div>
     </div>
 
