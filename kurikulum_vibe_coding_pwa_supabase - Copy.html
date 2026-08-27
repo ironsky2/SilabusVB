@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kurikulum & Panduan Praktikum Vibe Coding: PWA + Supabase (Antigravity IDE)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Menlo', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    code, pre {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    * {
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease, box-shadow 0.2s ease;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .active-tab {
+      background-color: #ffffff !important;
+      color: #4f46e5 !important;
+      border-color: #e2e8f0 !important;
+      box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.07), 0 1px 2px -1px rgb(0 0 0 / 0.05);
+    }
+    .dark .active-tab {
+      background-color: #1e293b !important;
+      color: #818cf8 !important;
+      border-color: #334155 !important;
+    }
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 border border-slate-700/40 dark:border-slate-200">
+      <div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 dark:text-emerald-600 flex items-center justify-center">
+        <i data-lucide="check" class="w-4 h-4"></i>
+      </div>
+      <span id="toast-message" class="text-xs font-semibold">Teks berhasil disalin ke clipboard!</span>
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Title -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
+          <i data-lucide="bot" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-bold tracking-tight text-slate-900 dark:text-white">Vibe Coding Masterclass</h1>
+            <span class="px-2 py-0.5 text-[11px] font-semibold font-mono rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200/70 dark:bg-indigo-950/60 dark:text-indigo-300 dark:border-indigo-800">Antigravity IDE</span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">Panduan Praktikum Lengkap AI Agent: PWA + Supabase</p>
+        </div>
+      </div>
+
+      <!-- Quick Nav Buttons -->
+      <div class="flex items-center gap-2">
+        <nav class="hidden lg:flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-lg border border-slate-200/70 dark:border-slate-700 text-xs font-medium">
+          <button onclick="scrollToId('section-lab')" class="px-3 py-1.5 rounded-md text-indigo-700 dark:text-indigo-300 font-bold bg-white dark:bg-slate-700 shadow-xs">Panduan Praktikum</button>
+          <button onclick="scrollToId('section-curriculum')" class="px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 hover:bg-white/60 dark:text-slate-300 dark:hover:text-white transition">Silabus</button>
+          <button onclick="scrollToId('section-rules')" class="px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 hover:bg-white/60 dark:text-slate-300 dark:hover:text-white transition">7 Aturan Emas</button>
+          <button onclick="scrollToId('section-prompts')" class="px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 hover:bg-white/60 dark:text-slate-300 dark:hover:text-white transition">Template Prompt</button>
+          <button onclick="scrollToId('section-emergency')" class="px-3 py-1.5 rounded-md text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40 transition flex items-center gap-1">
+            <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Darurat
+          </button>
+        </nav>
+
+        <!-- Search -->
+        <button onclick="focusSearch()" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 dark:border-slate-700 transition" title="Cari Panduan">
+          <i data-lucide="search" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Dark/Light Mode Toggle -->
+        <button onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-amber-400 dark:border-slate-700 transition" title="Ganti Tema">
+          <i id="theme-icon" data-lucide="moon" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+    <!-- Hero Banner -->
+    <section class="relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 sm:p-10 shadow-sm">
+      <div class="absolute -right-16 -top-16 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 max-w-3xl space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-semibold">
+          <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+          <span>Official Lab Guide: Google Antigravity Agent &amp; IDE Workflow</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+          Panduan Praktikum Lengkap <br class="hidden sm:block">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-500 dark:from-indigo-400 dark:to-emerald-400">
+            Vibe Coding dengan Antigravity IDE
+          </span>
+        </h2>
+
+        <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+          Dirancang khusus untuk membimbing siswa langkah demi langkah (*step-by-step*) memanfaatkan fitur canggih <strong>Google Antigravity</strong>: Planning Mode (`implementation_plan.md`), Subagents (`research`, `self`), Terminal Tooling, Artifacts Review, dan Slash Commands (`/grill-me`, `/goal`, `/learn`).
+        </p>
+
+        <!-- Badges -->
+        <div class="pt-2 flex flex-wrap items-center gap-2 text-xs font-mono">
+          <span class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 font-medium">
+            <i data-lucide="terminal" class="w-3.5 h-3.5 text-indigo-600"></i> Antigravity Agentic IDE
+          </span>
+          <span class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 font-medium">
+            <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-500"></i> Vite + React 18 (TS)
+          </span>
+          <span class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 font-medium">
+            <i data-lucide="smartphone" class="w-3.5 h-3.5 text-emerald-600"></i> Offline PWA
+          </span>
+          <span class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 font-medium">
+            <i data-lucide="database" class="w-3.5 h-3.5 text-sky-600"></i> Supabase Auth &amp; RLS
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search & Filter Bar -->
+    <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="relative w-full sm:max-w-md">
+        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        <input type="text" id="live-search" placeholder="Cari modul praktikum, command Antigravity, prompt, error..." onkeyup="filterContent()" class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs sm:text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition">
+      </div>
+      <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto text-xs">
+        <span class="text-slate-400 text-xs hidden sm:inline">Filter:</span>
+        <button onclick="filterCategory('all')" class="filter-btn px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-medium shadow-xs">Semua</button>
+        <button onclick="filterCategory('praktikum')" class="filter-btn px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 font-medium">Praktikum Antigravity</button>
+        <button onclick="filterCategory('silabus')" class="filter-btn px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 font-medium">Silabus</button>
+        <button onclick="filterCategory('aturan')" class="filter-btn px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 font-medium">7 Aturan</button>
+        <button onclick="filterCategory('darurat')" class="filter-btn px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 font-medium">Darurat</button>
+      </div>
+    </div>
+
+    <!-- SECTION: PANDUAN PRAKTIKUM LENGKAP ANTIGRAVITY IDE (NEW & EXPANDED) -->
+    <section id="section-lab" class="content-block space-y-6" data-category="praktikum">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <div class="inline-flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400 font-bold text-xs tracking-wider uppercase mb-1">
+            <i data-lucide="flask-conical" class="w-4 h-4"></i> Hands-on Lab Manual
+          </div>
+          <h3 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+            Panduan Praktikum Modul 1 – 5 (Antigravity Agent)
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Petunjuk eksekusi langkah demi langkah di Antigravity IDE: interaksi prompt, command terminal, dan verifikasi artifact.</p>
+        </div>
+        <span class="text-xs font-mono px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 dark:bg-indigo-950 dark:text-indigo-300 dark:border-indigo-800 font-bold self-start sm:self-auto">
+          5 Lab Guides
+        </span>
+      </div>
+
+      <!-- Lab Accordion / Modules -->
+      <div class="space-y-6">
+
+        <!-- LAB 1 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl overflow-hidden shadow-xs hover:border-indigo-300 dark:hover:border-indigo-700 transition">
+          <div class="p-6 bg-slate-50/80 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-black font-mono shadow-md shadow-indigo-600/20">
+                01
+              </div>
+              <div>
+                <span class="text-[11px] font-mono text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider">Praktikum Modul 1</span>
+                <h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Persiapan Workspace Antigravity &amp; Konfigurasi Rules Proyek</h4>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-mono font-medium">Waktu: 45 Menit</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 font-mono font-semibold">Planning Mode</span>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-6 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            
+            <!-- Step List -->
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300 shrink-0 mt-0.5">1</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Buka Workspace di Antigravity IDE &amp; Inisialisasi Git</p>
+                  <p>Buka folder proyek Anda di Antigravity IDE. Pastikan repositori git sudah diinisialisasi melalui terminal terintegrasi Antigravity.</p>
+                  <div class="p-2.5 rounded-lg bg-slate-900 text-slate-200 font-mono text-[11px] flex items-center justify-between">
+                    <span>git init -b main</span>
+                    <button onclick="copyCodeText('git init -b main')" class="text-slate-400 hover:text-white"><i data-lucide="copy" class="w-3.5 h-3.5"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300 shrink-0 mt-0.5">2</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Tanamkan Konfigurasi AI Rules (`GEMINI.md` / System Prompt Antigravity)</p>
+                  <p>Buat file konfigurasi peraturan agar agent Antigravity selalu menghasilkan kode lengkap (*No Lazy Code*) dan type-safe.</p>
+                  
+                  <div class="p-4 rounded-xl bg-slate-900 text-slate-200 font-mono text-[11px] space-y-2 border border-slate-800">
+                    <div class="flex items-center justify-between text-indigo-400 border-b border-slate-800 pb-1.5">
+                      <span>File: GEMINI.md (atau .gemini/rules)</span>
+                      <button onclick="copyCode('code-gemini-rules')" class="text-xs text-slate-300 hover:text-white flex items-center gap-1"><i data-lucide="copy" class="w-3 h-3"></i> Salin Rules</button>
+                    </div>
+                    <pre id="code-gemini-rules" class="whitespace-pre-wrap leading-relaxed text-slate-300"># Antigravity AI Pair Programming Rules
+- Stack: Vite + React 18 (TypeScript) + Tailwind CSS + vite-plugin-pwa + @supabase/supabase-js
+- Architecture: Architect First, Code Second. Always plan before modifying files.
+- Coding Standards: Strict TypeScript (no 'any'). Full code only (never use '// implement here' placeholder).
+- Security: Never expose SUPABASE_SERVICE_ROLE_KEY to frontend. Always enforce Row Level Security (RLS).
+- PWA: Mobile-first responsive UI with notch safe-area support and offline caching.</pre>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300 shrink-0 mt-0.5">3</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Uji Planning Mode dengan Slash Command Antigravity</p>
+                  <p>Ketik perintah di chat Antigravity untuk menyelaraskan desain arsitektur sebelum membuat file:</p>
+                  <div class="p-3 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 font-mono text-indigo-900 dark:text-indigo-200 space-y-1">
+                    <div class="font-bold">Prompt ke Agent Antigravity:</div>
+                    <div class="text-slate-700 dark:text-slate-300">/grill-me "Saya ingin membangun aplikasi PWA Smart Finance terhubung Supabase. Wawancarai saya terkait kebutuhan database, user flow, dan fitur PWA yang wajib ada sebelum membuat implementation_plan.md."</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Checkpoint Box -->
+            <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-1.5">
+              <div class="font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+                <i data-lucide="check-circle" class="w-4 h-4"></i> Checkpoint Kelulusan Lab 1:
+              </div>
+              <p class="text-slate-600 dark:text-slate-300 text-xs">File `GEMINI.md` tersimpan di root workspace, repositori git aktif, dan Antigravity mengerti aturan proyek.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- LAB 2 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl overflow-hidden shadow-xs hover:border-emerald-300 dark:hover:border-emerald-700 transition">
+          <div class="p-6 bg-slate-50/80 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black font-mono shadow-md shadow-emerald-600/20">
+                02
+              </div>
+              <div>
+                <span class="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider">Praktikum Modul 2</span>
+                <h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Scaffolding PWA, Manifest &amp; Mobile Shell dengan Antigravity</h4>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-mono font-medium">Waktu: 60 Menit</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-mono font-semibold">PWA Workbox</span>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-6 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 shrink-0 mt-0.5">1</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Minta Antigravity Scaffold Proyek Vite + Tailwind</p>
+                  <p>Kirim task prompt pertama ke agent Antigravity untuk menjalankan pembuatan file dasar:</p>
+                  <div class="p-3 rounded-lg bg-slate-900 text-slate-200 font-mono text-[11px] space-y-1">
+                    <div class="text-emerald-400">// Prompt di Chat Antigravity:</div>
+                    <div class="text-slate-300">"Tolong scaffold proyek React 18 TypeScript dengan Vite, Tailwind CSS, dan Lucide React icons. Pastikan konfigurasi Tailwind memiliki plugin container dan safe-area support. Jalankan perintah instalasi dependency."</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 shrink-0 mt-0.5">2</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Instalasi &amp; Konfigurasi `vite-plugin-pwa`</p>
+                  <p>Minta Antigravity mengonfigurasi service worker Workbox dan Web App Manifest:</p>
+                  <div class="p-4 rounded-xl bg-slate-900 text-slate-200 font-mono text-[11px] space-y-2 border border-slate-800">
+                    <div class="flex items-center justify-between text-emerald-400 border-b border-slate-800 pb-1.5">
+                      <span>Prompt PWA ke Antigravity</span>
+                      <button onclick="copyCode('prompt-pwa-setup')" class="text-xs text-slate-300 hover:text-white flex items-center gap-1"><i data-lucide="copy" class="w-3 h-3"></i> Salin Prompt</button>
+                    </div>
+                    <div class="text-slate-300">Gunakan Task Prompt Modul 2 pada tab "Template Prompt" di bawah untuk menghasilkan `vite.config.ts` dan `src/components/InstallPrompt.tsx`.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 shrink-0 mt-0.5">3</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Implementasi Mobile Safe Area di `index.html` &amp; CSS</p>
+                  <p>Pastikan Antigravity menambahkan meta tag `viewport-fit=cover` dan kelas padding notch pada layout utama:</p>
+                  <div class="p-2.5 rounded-lg bg-slate-900 text-slate-200 font-mono text-[11px]">
+                    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"&gt;
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 shrink-0 mt-0.5">4</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Verifikasi di Antigravity Browser Preview / DevTools</p>
+                  <p>Buka preview aplikasi di Antigravity IDE atau browser Chrome. Buka <strong>DevTools &rarr; Application &rarr; Manifest</strong> dan verifikasi bahwa nama, icons, dan display `standalone` terdeteksi dengan benar.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-1.5">
+              <div class="font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+                <i data-lucide="check-circle" class="w-4 h-4"></i> Checkpoint Kelulusan Lab 2:
+              </div>
+              <p class="text-slate-600 dark:text-slate-300 text-xs">Service worker terdaftar (*Status: activated and running*), banner install muncul di desktop/mobile, dan lakukan <strong>Git Commit</strong>: `git commit -m "feat: setup pwa and mobile shell"`.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- LAB 3 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl overflow-hidden shadow-xs hover:border-sky-300 dark:hover:border-sky-700 transition">
+          <div class="p-6 bg-slate-50/80 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center font-black font-mono shadow-md shadow-sky-600/20">
+                03
+              </div>
+              <div>
+                <span class="text-[11px] font-mono text-sky-600 dark:text-sky-400 font-bold uppercase tracking-wider">Praktikum Modul 3</span>
+                <h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Integrasi Supabase: Database Schema, RLS, Auth &amp; Realtime Hooks</h4>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-mono font-medium">Waktu: 90 Menit</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300 border border-sky-200 dark:border-sky-800 font-mono font-semibold">Row Level Security</span>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-6 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 shrink-0 mt-0.5">1</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Minta Antigravity Menulis Skema SQL &amp; RLS Policies</p>
+                  <p>Gunakan prompt khusus database Supabase untuk menghasilkan script SQL DDL lengkap dengan trigger dan policy keamanan:</p>
+                  <div class="p-3 rounded-lg bg-slate-900 text-slate-200 font-mono text-[11px]">
+                    Kirim Task Prompt Database (Modul 3) &rarr; Salin hasil SQL ke <strong>Supabase Dashboard &rarr; SQL Editor &rarr; Run</strong>.
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 shrink-0 mt-0.5">2</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Setup `.env.local` &amp; Supabase Client Singleton</p>
+                  <p>Buat file environment di Antigravity IDE (pastikan masuk ke `.gitignore`):</p>
+                  <div class="p-3 rounded-lg bg-slate-900 text-slate-200 font-mono text-[11px] space-y-1">
+                    <div>VITE_SUPABASE_URL=https://xyzcompany.supabase.co</div>
+                    <div>VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</div>
+                  </div>
+                  <p class="mt-1">Minta Antigravity membuat file client singleton di `src/lib/supabase.ts` dan tipe data di `src/types/database.types.ts`.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 shrink-0 mt-0.5">3</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Buat AuthContext, Custom Hook `useAuth`, &amp; Route Guard</p>
+                  <p>Minta Antigravity membuat `src/context/AuthContext.tsx` dan `src/components/ProtectedRoute.tsx`. Uji alur Sign Up, Login, dan Logout pada browser preview.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 shrink-0 mt-0.5">4</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Buat Realtime Subscription Hook dengan Safe Cleanup</p>
+                  <p>Minta Antigravity membuat custom hook data (misal `src/hooks/useTransactions.ts`) yang otomatis men-subscribe perubahan realtime via `supabase.channel()` dan membersihkan channel saat komponen unmount.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800 space-y-1.5">
+              <div class="font-bold text-sky-800 dark:text-sky-300 flex items-center gap-1.5">
+                <i data-lucide="check-circle" class="w-4 h-4"></i> Checkpoint Kelulusan Lab 3:
+              </div>
+              <p class="text-slate-600 dark:text-slate-300 text-xs">User dapat register/login, data CRUD tersimpan di PostgreSQL dengan proteksi RLS (user A tidak bisa melihat data user B), dan data sync realtime tanpa refresh browser.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- LAB 4 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl overflow-hidden shadow-xs hover:border-amber-300 dark:hover:border-amber-700 transition">
+          <div class="p-6 bg-slate-50/80 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center font-black font-mono shadow-md shadow-amber-600/20">
+                04
+              </div>
+              <div>
+                <span class="text-[11px] font-mono text-amber-600 dark:text-amber-400 font-bold uppercase tracking-wider">Praktikum Modul 4</span>
+                <h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Debugging Sistematis &amp; Surgical Refactoring di Antigravity</h4>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-mono font-medium">Waktu: 60 Menit</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-800 font-mono font-semibold">Subagents &amp; Diff</span>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-6 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 shrink-0 mt-0.5">1</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Simulasi Error &amp; Protokol Feedback Loop 3-Pilar</p>
+                  <p>Saat terjadi compiler error atau runtime bug, jangan menulis prompt umum. Kirimkan pesan terstruktur:</p>
+                  <div class="p-3 rounded-lg bg-slate-900 text-slate-200 font-mono text-[11px] space-y-1">
+                    <div class="text-amber-400">// Format Feed ke Antigravity:</div>
+                    <div class="text-slate-300">1. [Raw Error]: TS2339: Property 'user_id' does not exist on type 'Transaction'</div>
+                    <div class="text-slate-300">2. [File]: src/hooks/useTransactions.ts baris 35-50</div>
+                    <div class="text-slate-300">3. [Expected]: Filter transaksi berdasarkan user.id yang sedang aktif.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 shrink-0 mt-0.5">2</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Surgical Refactoring File Monolitik via Antigravity Planning Mode</p>
+                  <p>Jika sebuah komponen melebihi 250 baris kode, mintalah Antigravity membuat rencana pemecahan (*implementation plan*) menjadi:</p>
+                  <ul class="list-disc list-inside pl-2 space-y-1 text-slate-500 dark:text-slate-400">
+                    <li>Custom Logic Hook di `src/hooks/`</li>
+                    <li>Pure UI Subcomponents di `src/components/[Feature]/`</li>
+                    <li>Main Orchestrator Component (< 80 baris)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 shrink-0 mt-0.5">3</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Delegasi Deep Research ke Subagent Antigravity</p>
+                  <p>Gunakan subagent `research` Antigravity untuk menyelidiki skenario rumit seperti Workbox background sync atau offline cache invalidation tanpa mengotori chat utama.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 space-y-1.5">
+              <div class="font-bold text-amber-800 dark:text-amber-300 flex items-center gap-1.5">
+                <i data-lucide="check-circle" class="w-4 h-4"></i> Checkpoint Kelulusan Lab 4:
+              </div>
+              <p class="text-slate-600 dark:text-slate-300 text-xs">Tidak ada file komponen monolitik >250 baris, zero TypeScript errors di terminal Antigravity, dan kode berjalan mulus saat offline mode diaktifkan di DevTools.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- LAB 5 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl overflow-hidden shadow-xs hover:border-violet-300 dark:hover:border-violet-700 transition">
+          <div class="p-6 bg-slate-50/80 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-violet-600 text-white flex items-center justify-center font-black font-mono shadow-md shadow-violet-600/20">
+                05
+              </div>
+              <div>
+                <span class="text-[11px] font-mono text-violet-600 dark:text-violet-400 font-bold uppercase tracking-wider">Praktikum Modul 5</span>
+                <h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Production Build, Deployment &amp; Audit Lighthouse 100/100 PWA</h4>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-mono font-medium">Waktu: 60 Menit</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-violet-50 text-violet-700 dark:bg-violet-950 dark:text-violet-300 border border-violet-200 dark:border-violet-800 font-mono font-semibold">Production Live</span>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-6 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-300 shrink-0 mt-0.5">1</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Jalankan Production Build di Terminal Antigravity</p>
+                  <p>Minta Antigravity memverifikasi build lokal untuk memastikan tidak ada import error atau type mismatches:</p>
+                  <div class="p-2.5 rounded-lg bg-slate-900 text-slate-200 font-mono text-[11px]">
+                    npm run build &amp;&amp; npm run preview
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-300 shrink-0 mt-0.5">2</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Deploy ke Hosting (Vercel / Netlify / Cloudflare Pages)</p>
+                  <p>Hubungkan repositori GitHub ke platform hosting pilihan Anda. Pasang Environment Variables produksi:</p>
+                  <ul class="list-disc list-inside pl-2 space-y-1 text-slate-500 dark:text-slate-400">
+                    <li>`VITE_SUPABASE_URL`</li>
+                    <li>`VITE_SUPABASE_ANON_KEY`</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-300 shrink-0 mt-0.5">3</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Eksekusi Google Lighthouse PWA Audit</p>
+                  <p>Buka Chrome DevTools pada domain production live &rarr; Buka tab <strong>Lighthouse</strong> &rarr; Centang kategori <em>Progressive Web App</em> &rarr; Klik <em>Analyze page load</em>. Pastikan semua indikator PWA berwarna hijau.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="step-badge bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-300 shrink-0 mt-0.5">4</span>
+                <div class="space-y-1 flex-1">
+                  <p class="font-bold text-slate-900 dark:text-white text-xs">Minta Antigravity Menyusun Final `walkthrough.md` Artifact</p>
+                  <p>Instruksikan agent Antigravity untuk membuat dokumentasi ringkasan perubahan dan verifikasi hasil akhir proyek ke dalam artifact `walkthrough.md`.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-1.5">
+              <div class="font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+                <i data-lucide="award" class="w-4 h-4"></i> Capstone Final Project Kelulusan:
+              </div>
+              <p class="text-slate-600 dark:text-slate-300 text-xs">Aplikasi PWA live di URL HTTPS publik, terhubung database Supabase dengan RLS aktif, lolos kriteria PWA installable di Android (WebAPK) dan Safari iOS, serta terdokumentasi lengkap.</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section: 7 Aturan Emas Vibe Coding (Cheat Sheet) -->
+    <section id="section-rules" class="content-block space-y-6" data-category="aturan">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400 flex items-center justify-center text-sm font-black border border-emerald-200 dark:border-emerald-800">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+            </span>
+            Cheat Sheet: 7 Aturan Emas Vibe Coding
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Prinsip fundamental agar AI tidak berhalusinasi, tidak memotong kode, dan menjaga integritas arsitektur.</p>
+        </div>
+        <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800 self-start sm:self-auto font-semibold">
+          Standar Disiplin Siswa
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <!-- Rule 1 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-mono text-xs font-bold flex items-center justify-center border border-indigo-200 dark:border-indigo-800">01</span>
+              <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider">Modular Scope</span>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">One Prompt, One File / One Task</h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              Fokuskan setiap permintaan pada 1 file atau 1 fungsi spesifik. Jangan meminta frontend, database, auth, dan grafik sekaligus dalam 1 prompt karena memicu pemotongan kode dan halusinasi.
+            </p>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200/70 dark:border-slate-800 text-[11px] font-mono space-y-1.5 mt-2">
+            <div class="text-rose-600 dark:text-rose-400 flex items-start gap-1.5"><i data-lucide="x" class="w-3.5 h-3.5 shrink-0 mt-0.5"></i> "Buatkan app finance lengkap dg DB & chart"</div>
+            <div class="text-emerald-600 dark:text-emerald-400 flex items-start gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 shrink-0 mt-0.5"></i> "Buat skema SQL tabel 'transactions' saja"</div>
+          </div>
+        </div>
+
+        <!-- Rule 2 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-mono text-xs font-bold flex items-center justify-center border border-indigo-200 dark:border-indigo-800">02</span>
+              <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider">Context Anchor</span>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">Bawa Konteks, Jangan Berasumsi</h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              AI tidak menyimpan memori antar chat tanpa konteks eksplisit. Pasang selalu anchor tech stack, path file yang sedang dikerjakan, dan interfaces yang sudah ada pada awal prompt.
+            </p>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200/70 dark:border-slate-800 text-[11px] font-mono text-slate-700 dark:text-slate-300">
+            <span class="text-indigo-600 dark:text-indigo-400 font-bold">Context:</span> Vite + React TS + Tailwind. File: <code class="text-slate-900 dark:text-slate-200 bg-slate-200/60 dark:bg-slate-800 px-1 py-0.5 rounded">src/lib/supabase.ts</code>
+          </div>
+        </div>
+
+        <!-- Rule 3 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-mono text-xs font-bold flex items-center justify-center border border-indigo-200 dark:border-indigo-800">03</span>
+              <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider">No Lazy Code</span>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">Prinsip "No Lazy Code" (Anti Placeholder)</h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              Tolak kode dengan komentar malas seperti <code class="text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-1 py-0.5 rounded">// rest of code</code> atau <code class="text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-1 py-0.5 rounded">/* implement here */</code>. Instruksikan secara tegas untuk menulis kode utuh.
+            </p>
+          </div>
+          <div class="p-2.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200/70 dark:border-amber-800 text-[11px] font-mono text-amber-800 dark:text-amber-300">
+            "Tulis seluruh file/komponen secara utuh tanpa komentar placeholder atau pemotongan."
+          </div>
+        </div>
+
+        <!-- Rule 4 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-mono text-xs font-bold flex items-center justify-center border border-indigo-200 dark:border-indigo-800">04</span>
+              <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider">Dependency Guard</span>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">Kunci Stack & Dependensi</h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              Cegah AI menambahkan package baru secara sembarangan (misal mengganti `lucide-react` ke `react-icons` atau menginstal `axios` padahal proyek memakai `@supabase/supabase-js`).
+            </p>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200/70 dark:border-slate-800 text-[11px] font-mono text-slate-700 dark:text-slate-300">
+            "Hanya gunakan library yang sudah ada: lucide-react, tailwindcss, @supabase/supabase-js."
+          </div>
+        </div>
+
+        <!-- Rule 5 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-mono text-xs font-bold flex items-center justify-center border border-indigo-200 dark:border-indigo-800">05</span>
+              <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider">Debug Protocol</span>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">Protokol Debugging 3-Pilar</h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              Jangan hanya menulis "Kodenya error!". Kirimkan 3 informasi wajib: (1) Raw error dari Terminal/DevTools, (2) File sumber masalah, dan (3) Ekspektasi hasil yang diinginkan.
+            </p>
+          </div>
+          <div class="p-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/70 dark:border-emerald-800 text-[11px] font-mono text-emerald-800 dark:text-emerald-300">
+            Feed: [Raw Error] + [Code Snippet] + [Expected Behavior]
+          </div>
+        </div>
+
+        <!-- Rule 6 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-mono text-xs font-bold flex items-center justify-center border border-indigo-200 dark:border-indigo-800">06</span>
+              <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider">Type Contract</span>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">Validasi Schema & Types Sebelum UI</h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              Kunci interface TypeScript (`database.types.ts`) terlebih dahulu. Memulai dari UI tanpa kontrak tipe data memaksa AI mengarang (*hallucinate*) properti database yang tidak pernah ada.
+            </p>
+          </div>
+          <div class="p-2.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200/70 dark:border-indigo-800 text-[11px] font-mono text-indigo-800 dark:text-indigo-300 font-medium">
+            SQL DDL &rarr; Database Types &rarr; React Component
+          </div>
+        </div>
+
+        <!-- Rule 7 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-emerald-400 rounded-xl p-5 shadow-xs space-y-3 md:col-span-2 lg:col-span-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <span class="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-mono text-xs font-bold flex items-center justify-center border border-emerald-300 dark:border-emerald-700">07</span>
+              <h4 class="text-sm font-bold text-slate-900 dark:text-white">Git Atomic Commit Setiap Kali Satu Prompt Berhasil</h4>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
+              Jangan pernah melanjutkan prompt berikutnya sebelum kode dari prompt sebelumnya diuji dan berfungsi. Jalankan <code class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white px-1.5 py-0.5 rounded font-mono">git commit</code> untuk setiap iterasi kecil agar Anda bisa langsung <em>rollback</em> jika prompt berikutnya merusak sistem.
+            </p>
+          </div>
+          <div class="bg-emerald-50 dark:bg-emerald-950/60 p-3 rounded-lg border border-emerald-200 dark:border-emerald-800 font-mono text-xs text-emerald-800 dark:text-emerald-300 shrink-0">
+            git add . &amp;&amp; git commit -m "feat: setup supabase auth"
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section: Silabus & Kurikulum 5 Modul Terstruktur -->
+    <section id="section-curriculum" class="content-block space-y-6" data-category="silabus">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400 flex items-center justify-center text-sm font-black border border-indigo-200 dark:border-indigo-800">
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+            </span>
+            Silabus Pembelajaran Terstruktur (Step-by-Step)
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Alur praktikum terarah dari pondasi logika hingga rilis PWA ke server produksi.</p>
+        </div>
+        <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 font-semibold self-start sm:self-auto">
+          Total 5 Modul Praktik
+        </span>
+      </div>
+
+      <!-- Modules List -->
+      <div class="space-y-4">
+
+        <!-- Modul 1 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-slate-700 transition">
+          <div class="p-5 bg-slate-50/70 dark:bg-slate-900/50 border-b border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-lg bg-indigo-50 dark:bg-indigo-950/80 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                <i data-lucide="brain" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-[11px] font-mono text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider">Modul 01</span>
+                <h4 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Fondasi, Mindset & Framework Prompting R-C-I-C</h4>
+              </div>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono border border-slate-200 dark:border-slate-700 self-start sm:self-auto font-medium">Estimasi: 2 Jam</span>
+          </div>
+          <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-6 text-xs leading-relaxed">
+            <div class="space-y-2.5">
+              <h5 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-xs">
+                <i data-lucide="target" class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400"></i> Tujuan & Konsep Inti
+              </h5>
+              <ul class="space-y-1.5 list-disc list-inside text-slate-600 dark:text-slate-300">
+                <li>Memahami filosofi <em>"Architect First, Code Second"</em> (User merancang struktur data, AI mengeksekusi sintaks).</li>
+                <li>Penerapan formula <strong>R-C-I-C</strong>: Role, Context, Instruction, Constraint.</li>
+              </ul>
+            </div>
+            <div class="space-y-2.5">
+              <h5 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-xs">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i> Output Siswa
+              </h5>
+              <div class="p-3 rounded-lg bg-slate-900 text-slate-200 font-mono text-[11px] space-y-1.5">
+                <div class="text-slate-400"># Workspace Rules Antigravity</div>
+                <div class="text-indigo-300">File: GEMINI.md</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modul 2 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-slate-700 transition">
+          <div class="p-5 bg-slate-50/70 dark:bg-slate-900/50 border-b border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-lg bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                <i data-lucide="smartphone" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider">Modul 02</span>
+                <h4 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Membangun Fondasi PWA & Mobile UI/UX</h4>
+              </div>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono border border-slate-200 dark:border-slate-700 self-start sm:self-auto font-medium">Estimasi: 3 Jam</span>
+          </div>
+          <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-6 text-xs leading-relaxed">
+            <div class="space-y-2.5">
+              <h5 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-xs">
+                <i data-lucide="layers" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i> Materi Pokok
+              </h5>
+              <ul class="space-y-1.5 list-disc list-inside text-slate-600 dark:text-slate-300">
+                <li>Vite + React TS + Tailwind + `vite-plugin-pwa`.</li>
+                <li>Manifest, Service Worker Caching, Safe Area Notch.</li>
+              </ul>
+            </div>
+            <div class="space-y-2.5">
+              <h5 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-xs">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i> Checklist Kelulusan
+              </h5>
+              <p class="text-slate-600 dark:text-slate-300">Aplikasi installable dan dapat dimuat saat offline.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modul 3 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-slate-700 transition">
+          <div class="p-5 bg-slate-50/70 dark:bg-slate-900/50 border-b border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-lg bg-sky-50 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800 flex items-center justify-center text-sky-600 dark:text-sky-400">
+                <i data-lucide="database" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-[11px] font-mono text-sky-600 dark:text-sky-400 font-bold uppercase tracking-wider">Modul 03</span>
+                <h4 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Integrasi Supabase: Database Schema, RLS, Auth & Realtime</h4>
+              </div>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono border border-slate-200 dark:border-slate-700 self-start sm:self-auto font-medium">Estimasi: 4 Jam</span>
+          </div>
+          <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-6 text-xs leading-relaxed">
+            <div class="space-y-2.5">
+              <h5 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-xs">
+                <i data-lucide="shield" class="w-3.5 h-3.5 text-sky-600 dark:text-sky-400"></i> Materi Pokok
+              </h5>
+              <ul class="space-y-1.5 list-disc list-inside text-slate-600 dark:text-slate-300">
+                <li>Database DDL, RLS Policies, Auth Provider, Realtime Hooks.</li>
+              </ul>
+            </div>
+            <div class="space-y-2.5">
+              <h5 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-xs">
+                <i data-lucide="folder-tree" class="w-3.5 h-3.5 text-sky-600 dark:text-sky-400"></i> Output
+              </h5>
+              <p class="text-slate-600 dark:text-slate-300 font-mono text-[11px]">Database types + Protected Routes + Realtime Hook.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modul 4 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-slate-700 transition">
+          <div class="p-5 bg-slate-50/70 dark:bg-slate-900/50 border-b border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-lg bg-amber-50 dark:bg-amber-950/80 border border-amber-200 dark:border-amber-800 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                <i data-lucide="wrench" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-[11px] font-mono text-amber-600 dark:text-amber-400 font-bold uppercase tracking-wider">Modul 04</span>
+                <h4 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Debugging Sistematis & Refactoring Modular</h4>
+              </div>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono border border-slate-200 dark:border-slate-700 self-start sm:self-auto font-medium">Estimasi: 2.5 Jam</span>
+          </div>
+          <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-6 text-xs leading-relaxed">
+            <div class="space-y-2.5">
+              <h5 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-xs">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400"></i> Materi Pokok
+              </h5>
+              <ul class="space-y-1.5 list-disc list-inside text-slate-600 dark:text-slate-300">
+                <li>Error feedback loop, pemecahan komponen monolitik, offline queue sync.</li>
+              </ul>
+            </div>
+            <div class="space-y-2.5">
+              <h5 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-xs">
+                <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400"></i> Golden Rule
+              </h5>
+              <p class="text-slate-600 dark:text-slate-300">Raw Error + File Snippet + Expected Behavior.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modul 5 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-slate-700 transition">
+          <div class="p-5 bg-slate-50/70 dark:bg-slate-900/50 border-b border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-lg bg-violet-50 dark:bg-violet-950/80 border border-violet-200 dark:border-violet-800 flex items-center justify-center text-violet-600 dark:text-violet-400">
+                <i data-lucide="rocket" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-[11px] font-mono text-violet-600 dark:text-violet-400 font-bold uppercase tracking-wider">Modul 05</span>
+                <h4 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Deployment, Production Hardening & PWA Audit</h4>
+              </div>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono border border-slate-200 dark:border-slate-700 self-start sm:self-auto font-medium">Estimasi: 2 Jam</span>
+          </div>
+          <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-6 text-xs leading-relaxed">
+            <div class="space-y-2.5">
+              <h5 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-xs">
+                <i data-lucide="cloud" class="w-3.5 h-3.5 text-violet-600 dark:text-violet-400"></i> Materi Pokok
+              </h5>
+              <ul class="space-y-1.5 list-disc list-inside text-slate-600 dark:text-slate-300">
+                <li>Deploy ke Vercel/Netlify, Environment variables hardening, Lighthouse audit 100/100.</li>
+              </ul>
+            </div>
+            <div class="space-y-2.5">
+              <h5 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-xs">
+                <i data-lucide="award" class="w-3.5 h-3.5 text-violet-600 dark:text-violet-400"></i> Hasil
+              </h5>
+              <p class="text-slate-600 dark:text-slate-300">Production Live PWA App.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section: Koleksi Template Prompt Siap Pakai -->
+    <section id="section-prompts" class="content-block space-y-6" data-category="prompt">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400 flex items-center justify-center text-sm font-black border border-indigo-200 dark:border-indigo-800">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+            </span>
+            Koleksi Template Prompt Siap Pakai (R-C-I-C)
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Salin prompt teruji ini langsung ke AI Assistant (Antigravity / Cursor / ChatGPT / Claude).</p>
+        </div>
+      </div>
+
+      <!-- Tab Switchers -->
+      <div class="flex overflow-x-auto gap-2 p-1 bg-slate-100 dark:bg-slate-900/80 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-semibold">
+        <button onclick="switchPromptTab('tab-system')" id="btn-tab-system" class="prompt-tab-btn active-tab px-4 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="cpu" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i> System Prompt Induk
+        </button>
+        <button onclick="switchPromptTab('tab-pwa')" id="btn-tab-pwa" class="prompt-tab-btn px-4 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="smartphone" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i> Modul 2: PWA & UI
+        </button>
+        <button onclick="switchPromptTab('tab-supabase')" id="btn-tab-supabase" class="prompt-tab-btn px-4 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="database" class="w-4 h-4 text-sky-600 dark:text-sky-400"></i> Modul 3: Schema & RLS
+        </button>
+        <button onclick="switchPromptTab('tab-auth')" id="btn-tab-auth" class="prompt-tab-btn px-4 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="lock" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i> Modul 3: Auth Provider
+        </button>
+      </div>
+
+      <!-- Tab Panes -->
+      <div id="tab-system" class="prompt-pane bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-5 shadow-xs space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 text-xs font-mono font-bold">System Rules</span>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">Master Instruction / GEMINI.md</h4>
+          </div>
+          <button onclick="copyCode('prompt-system-master')" class="text-xs px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center gap-1.5 transition shadow-xs">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin System Prompt
+          </button>
+        </div>
+        <pre id="prompt-system-master" class="p-4 rounded-xl bg-slate-900 text-slate-100 text-xs leading-relaxed font-mono overflow-x-auto whitespace-pre-wrap">Anda adalah Senior Fullstack Engineer & PWA Specialist di Google Antigravity IDE. Anda bertindak sebagai AI Pair Programmer dengan standar kode industri, performa tinggi, dan keamanan ketat.
+
+Tech Stack Proyek:
+- Framework: Vite + React 18 (TypeScript)
+- Styling: Tailwind CSS & Lucide React icons
+- PWA Engine: vite-plugin-pwa (Workbox StaleWhileRevalidate strategy)
+- Backend & Auth: Supabase (@supabase/supabase-js) + PostgreSQL with Row Level Security (RLS)
+
+Aturan Kerja Wajib:
+1. ARCHITECT FIRST: Kerjakan satu task / satu file dalam satu waktu. Jangan melompat ke UI sebelum data types dan schema database disepakati.
+2. NO LAZY CODE: Tulis kode secara utuh dan lengkap. Dilarang menggunakan placeholder seperti "// implement logic here" atau "// rest of code".
+3. STRICT TYPES: Wajib gunakan TypeScript interfaces/types yang ketat. Hindari tipe data 'any'.
+4. STACK INTEGRITY: Dilarang mengganti atau menambah library eksternal tanpa instruksi eksplisit.
+5. PWA COMPLIANCE: Pastikan setiap UI mobile-friendly, mendukung safe-area notch iOS/Android, dan menangani state loading/offline secara elegan.</pre>
+      </div>
+
+      <div id="tab-pwa" class="prompt-pane hidden bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-5 shadow-xs space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 text-xs font-mono font-bold">Modul 2</span>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">Task Prompt: PWA Manifest & Workbox Setup</h4>
+          </div>
+          <button onclick="copyCode('prompt-pwa-setup')" class="text-xs px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium flex items-center gap-1.5 transition shadow-xs">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt PWA
+          </button>
+        </div>
+        <pre id="prompt-pwa-setup" class="p-4 rounded-xl bg-slate-900 text-slate-100 text-xs leading-relaxed font-mono overflow-x-auto whitespace-pre-wrap">[ROLE]: Senior Frontend & PWA Architect
+[CONTEXT]: Proyek Vite + React TypeScript dengan Tailwind CSS di Antigravity IDE. Kita ingin mengaktifkan PWA dengan dukungan offline penuh dan install banner.
+[INSTRUCTION]:
+1. Buat konfigurasi 'vite.config.ts' yang mengintegrasikan 'vite-plugin-pwa' (VitePWA).
+2. Konfigurasikan Web App Manifest:
+   - name: "Smart Finance PWA"
+   - short_name: "SmartFinance"
+   - display: "standalone"
+   - theme_color: "#09090b"
+   - background_color: "#09090b"
+   - orientation: "portrait"
+   - icons: icon-192x192.png, icon-512x512.png (termasuk purpose: "any maskable")
+3. Buat Workbox runtime caching untuk Google Fonts dan aset statis.
+4. Buat komponen React 'src/components/InstallPrompt.tsx' yang menangani event 'beforeinstallprompt' untuk Android/Desktop serta mendeteksi Safari iOS untuk instruksi manual ("Add to Home Screen").
+[CONSTRAINT]: Tulis seluruh isi file secara lengkap. Pastikan TypeScript types untuk event PWA ditangani dengan rapi tanpa error 'Property beforeinstallprompt does not exist'.</pre>
+      </div>
+
+      <div id="tab-supabase" class="prompt-pane hidden bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-5 shadow-xs space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300 border border-sky-200 dark:border-sky-800 text-xs font-mono font-bold">Modul 3</span>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">Task Prompt: Skema PostgreSQL & Row Level Security</h4>
+          </div>
+          <button onclick="copyCode('prompt-supabase-schema')" class="text-xs px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-medium flex items-center gap-1.5 transition shadow-xs">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt Schema
+          </button>
+        </div>
+        <pre id="prompt-supabase-schema" class="p-4 rounded-xl bg-slate-900 text-slate-100 text-xs leading-relaxed font-mono overflow-x-auto whitespace-pre-wrap">[ROLE]: Supabase Database Architect & Security Specialist
+[CONTEXT]: Aplikasi Manajemen Catatan & Keuangan Pribadi multi-user di Supabase PostgreSQL.
+[INSTRUCTION]:
+1. Buat script SQL DDL lengkap untuk:
+   - Tabel 'profiles' (id UUID references auth.users on delete cascade, full_name TEXT, avatar_url TEXT, updated_at TIMESTAMPTZ).
+   - Tabel 'transactions' (id UUID primary key default gen_random_uuid(), user_id UUID references auth.users on delete cascade not null, title TEXT not null, amount NUMERIC(12,2) not null, type TEXT check (type in ('income', 'expense')), category TEXT, created_at TIMESTAMPTZ default now()).
+2. Buat PostgreSQL Trigger agar saat user baru sign up di auth.users, otomatis dibuat baris data di tabel 'public.profiles'.
+3. Aktifkan Row Level Security (RLS) pada tabel 'profiles' dan 'transactions'.
+4. Tulis RLS Policies granular (SELECT, INSERT, UPDATE, DELETE) dengan kondisi keamanan ketat: user hanya boleh melihat dan mengelola data miliknya sendiri (auth.uid() = user_id).
+5. Buat index performa pada kolom 'user_id' dan 'created_at'.
+[CONSTRAINT]: Hanya berikan script SQL siap eksekusi di Supabase SQL Editor. Berikan komentar singkat pada setiap policy.</pre>
+      </div>
+
+      <div id="tab-auth" class="prompt-pane hidden bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-5 shadow-xs space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-800 text-xs font-mono font-bold">Modul 3</span>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">Task Prompt: Auth Context & Protected Route</h4>
+          </div>
+          <button onclick="copyCode('prompt-supabase-auth')" class="text-xs px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-medium flex items-center gap-1.5 transition shadow-xs">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt Auth
+          </button>
+        </div>
+        <pre id="prompt-supabase-auth" class="p-4 rounded-xl bg-slate-900 text-slate-100 text-xs leading-relaxed font-mono overflow-x-auto whitespace-pre-wrap">[ROLE]: Senior React & Supabase Developer
+[CONTEXT]: Proyek Vite + React (TypeScript) dengan @supabase/supabase-js dan react-router-dom di Antigravity IDE. File client sudah tersedia di 'src/lib/supabase.ts'.
+[INSTRUCTION]:
+1. Buat 'src/context/AuthContext.tsx' yang membungkus aplikasi:
+   - State: user, session, loading (boolean).
+   - Menggunakan 'supabase.auth.onAuthStateChange' untuk auto-sync session.
+   - Fungsi helper: signInWithEmail, signUpWithEmail, signInWithOAuth, signOut.
+2. Buat Custom Hook 'src/hooks/useAuth.ts' untuk konsumsi AuthContext dengan aman.
+3. Buat komponen 'src/components/ProtectedRoute.tsx' yang memvalidasi session:
+   - Jika loading = true, tampilkan skeleton/spinner minimalis bergaya Tailwind.
+   - Jika user = null, redirect ke '/login' dengan state URL asal.
+   - Jika user aktif, render children / Outlet.
+[CONSTRAINT]: Tulis seluruh implementasi TypeScript secara lengkap tanpa any. Tangani error auth dengan return type yang jelas.</pre>
+      </div>
+
+    </section>
+
+    <!-- Section: Skenario Darurat & Prompt Pendek Siap Pakai -->
+    <section id="section-emergency" class="content-block space-y-6" data-category="darurat">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <div class="inline-flex items-center gap-1.5 text-rose-600 dark:text-rose-400 font-bold text-xs tracking-wider uppercase mb-1">
+            <i data-lucide="siren" class="w-4 h-4"></i> Emergency Rescue Protocol
+          </div>
+          <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Skenario Darurat & Prompt Pendek Siap Pakai
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Prompt ringkas berakurasi tinggi untuk mengatasi krisis coding umum dalam hitungan detik.</p>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-full bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-800 font-mono font-bold self-start sm:self-auto">
+          8 Quick-Fix Prompts
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+        <!-- Emergency 1 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 hover:border-rose-300 dark:border-slate-800 dark:hover:border-rose-800 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 text-xs font-mono font-bold">Darurat 01</span>
+              <button onclick="copyCode('em-prompt-1')" class="text-xs px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1 font-medium transition">
+                <i data-lucide="copy" class="w-3 h-3"></i> Salin
+              </button>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="scissors" class="w-4 h-4 text-rose-500"></i> Memecah File Terlalu Panjang (>300 Baris)
+            </h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Gunakan saat komponen monolitik sulit di-maintain dan AI mulai sering memotong kode.</p>
+          </div>
+          <pre id="em-prompt-1" class="p-3 rounded-lg bg-slate-900 text-slate-200 text-[11px] font-mono whitespace-pre-wrap leading-relaxed">File [NAMA_FILE.tsx] saat ini terlalu panjang dan monolitik. Tolong lakukan surgical refactoring:
+1. Ekstrak logic state dan handler ke custom hook di 'src/hooks/use[NamaFeature].ts'.
+2. Pecah sub-komponen UI menjadi komponen atomik di folder 'src/components/[Feature]/'.
+3. Jadikan [NAMA_FILE.tsx] hanya sebagai orchestrator yang bersih (< 80 baris).
+Berikan kode file-per-file secara lengkap tanpa mengubah flow logic yang sudah berjalan.</pre>
+        </div>
+
+        <!-- Emergency 2 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 hover:border-rose-300 dark:border-slate-800 dark:hover:border-rose-800 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 text-xs font-mono font-bold">Darurat 02</span>
+              <button onclick="copyCode('em-prompt-2')" class="text-xs px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1 font-medium transition">
+                <i data-lucide="copy" class="w-3 h-3"></i> Salin
+              </button>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i> Membersihkan Unused Imports & Ghost Variables
+            </h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Gunakan saat linter TypeScript / ESLint memunculkan banyak warning import mati.</p>
+          </div>
+          <pre id="em-prompt-2" class="p-3 rounded-lg bg-slate-900 text-slate-200 text-[11px] font-mono whitespace-pre-wrap leading-relaxed">Periksa kode berikut pada file [NAMA_FILE.tsx]. Hapus semua unused imports, ghost variables, dan redundant console.log. Urutkan import secara rapi: (1) React/Core, (2) Third-party libs, (3) Internal modules/hooks, (4) Types/interfaces. Tuliskan kembali file secara utuh dan clean.</pre>
+        </div>
+
+        <!-- Emergency 3 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 hover:border-rose-300 dark:border-slate-800 dark:hover:border-rose-800 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 text-xs font-mono font-bold">Darurat 03</span>
+              <button onclick="copyCode('em-prompt-3')" class="text-xs px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1 font-medium transition">
+                <i data-lucide="copy" class="w-3 h-3"></i> Salin
+              </button>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="alert-octagon" class="w-4 h-4 text-rose-500"></i> Memperbaiki Halusinasi Tipe Data TypeScript
+            </h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Gunakan saat AI mengarang nama field atau property objek yang tidak ada di database.</p>
+          </div>
+          <pre id="em-prompt-3" class="p-3 rounded-lg bg-slate-900 text-slate-200 text-[11px] font-mono whitespace-pre-wrap leading-relaxed">TypeScript Error: Property '[NAMA_FIELD]' does not exist on type '[NAMA_TYPE]'.
+Berikut adalah kontrak interface sebenarnya di 'database.types.ts':
+```typescript
+[PASTE_INTERFACE_ASLI]
+```
+Sesuaikan seluruh akses property pada [NAMA_FILE.tsx] agar 100% strictly type-safe sesuai interface asli di atas tanpa menggunakan casting 'as any'.</pre>
+        </div>
+
+        <!-- Emergency 4 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 hover:border-rose-300 dark:border-slate-800 dark:hover:border-rose-800 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 text-xs font-mono font-bold">Darurat 04</span>
+              <button onclick="copyCode('em-prompt-4')" class="text-xs px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1 font-medium transition">
+                <i data-lucide="copy" class="w-3 h-3"></i> Salin
+              </button>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="repeat" class="w-4 h-4 text-rose-500"></i> Mengatasi Infinite Re-render Loop di React
+            </h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Gunakan saat browser membeku dengan error "Maximum update depth exceeded".</p>
+          </div>
+          <pre id="em-prompt-4" class="p-3 rounded-lg bg-slate-900 text-slate-200 text-[11px] font-mono whitespace-pre-wrap leading-relaxed">Browser mendeteksi error: 'Too many re-renders. React limits the number of renders to prevent an infinite loop'.
+Berikut kode komponen saya:
+```tsx
+[PASTE_KODE_KOMPONEN]
+```
+Analisis dependency array pada useEffect/useCallback/useMemo dan state setter yang terpanggil secara synchronous saat render. Perbaiki dependency loop dan kembalikan kode yang sudah aman.</pre>
+        </div>
+
+        <!-- Emergency 5 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 hover:border-rose-300 dark:border-slate-800 dark:hover:border-rose-800 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 text-xs font-mono font-bold">Darurat 05</span>
+              <button onclick="copyCode('em-prompt-5')" class="text-xs px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1 font-medium transition">
+                <i data-lucide="copy" class="w-3 h-3"></i> Salin
+              </button>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="shield-alert" class="w-4 h-4 text-rose-500"></i> Supabase RLS Error 42501 (Permission Denied)
+            </h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Gunakan saat query Supabase menghasilkan empty array atau permission denied.</p>
+          </div>
+          <pre id="em-prompt-5" class="p-3 rounded-lg bg-slate-900 text-slate-200 text-[11px] font-mono whitespace-pre-wrap leading-relaxed">Query Supabase gagal dengan error: 'new row violates row-level security policy for table [NAMA_TABEL]' (code 42501).
+Operasi yang dijalankan: [INSERT / SELECT / UPDATE / DELETE].
+Payload data: [CONTOH_JSON_DATA].
+Tolong tuliskan ulang script SQL RLS Policy yang tepat untuk tabel ini agar mengizinkan authenticated user yang sedang login (auth.uid()) melakukan operasi ini dengan aman.</pre>
+        </div>
+
+        <!-- Emergency 6 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 hover:border-rose-300 dark:border-slate-800 dark:hover:border-rose-800 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 text-xs font-mono font-bold">Darurat 06</span>
+              <button onclick="copyCode('em-prompt-6')" class="text-xs px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1 font-medium transition">
+                <i data-lucide="copy" class="w-3 h-3"></i> Salin
+              </button>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="refresh-cw" class="w-4 h-4 text-rose-500"></i> PWA Service Worker Terjebak Cache Lama
+            </h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Gunakan saat update fitur frontend tidak muncul di user karena cache service worker agresif.</p>
+          </div>
+          <pre id="em-prompt-6" class="p-3 rounded-lg bg-slate-900 text-slate-200 text-[11px] font-mono whitespace-pre-wrap leading-relaxed">Aplikasi PWA mengalami masalah 'stale cache', perubahan kode baru tidak otomatis ter-refresh pada browser client.
+Tolong konfigurasi 'registerType: "autoUpdate"' atau buat komponen 'ReloadPrompt.tsx' menggunakan hook 'useRegisterSW' dari 'virtual:pwa-register/react' yang memunculkan toast banner 'Versi baru tersedia. [Update Sekarang]' dan memicu 'updateServiceWorker(true)'.</pre>
+        </div>
+
+        <!-- Emergency 7 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 hover:border-rose-300 dark:border-slate-800 dark:hover:border-rose-800 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 text-xs font-mono font-bold">Darurat 07</span>
+              <button onclick="copyCode('em-prompt-7')" class="text-xs px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1 font-medium transition">
+                <i data-lucide="copy" class="w-3 h-3"></i> Salin
+              </button>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="activity" class="w-4 h-4 text-rose-500"></i> Realtime Listener Duplikat / Memory Leak
+            </h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Gunakan saat event Realtime Supabase ter-trigger berkali-kali secara eksponensial.</p>
+          </div>
+          <pre id="em-prompt-7" class="p-3 rounded-lg bg-slate-900 text-slate-200 text-[11px] font-mono whitespace-pre-wrap leading-relaxed">Supabase channel realtime saya menerima pesan berulang (duplikat).
+Berikut hook saya:
+```tsx
+[PASTE_HOOK_REALTIME]
+```
+Pastikan channel subscription memiliki 'supabase.removeChannel(channel)' pada return cleanup function di useEffect agar tidak terjadi memory leak dan duplicate listener saat re-mount.</pre>
+        </div>
+
+        <!-- Emergency 8 -->
+        <div class="searchable-card bg-white dark:bg-slate-900 border border-slate-200/80 hover:border-rose-300 dark:border-slate-800 dark:hover:border-rose-800 rounded-xl p-5 shadow-xs space-y-3 flex flex-col justify-between">
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 text-xs font-mono font-bold">Darurat 08</span>
+              <button onclick="copyCode('em-prompt-8')" class="text-xs px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1 font-medium transition">
+                <i data-lucide="copy" class="w-3 h-3"></i> Salin
+              </button>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="git-commit" class="w-4 h-4 text-rose-500"></i> Surgical Diff Fix (Tanpa Merusak Kode Lain)
+            </h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Gunakan saat AI merombak baris kode yang sudah benar saat memperbaiki bug kecil.</p>
+          </div>
+          <pre id="em-prompt-8" class="p-3 rounded-lg bg-slate-900 text-slate-200 text-[11px] font-mono whitespace-pre-wrap leading-relaxed">PERINGATAN: Jangan merombak ulang struktur file [NAMA_FILE.tsx]. Kode lainnya sudah bekerja sempurna.
+Hanya lakukan perbaikan spesifik pada fungsi '[NAMA_FUNGSI]' untuk menyelesaikan bug:
+Bug: [DESKRIPSI BUG].
+Tampilkan HANYA fungsi tersebut atau seluruh file dengan perubahan minimal yang presisi.</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Interactive Prompt Builder Tool -->
+    <section class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-xs font-semibold mb-2">
+          <i data-lucide="wand-2" class="w-3.5 h-3.5"></i> Live Generator Tool
+        </div>
+        <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Interactive Vibe Prompt Builder (Formula R-C-I-C)</h3>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Rakit prompt terstruktur secara instan untuk tugas apapun di Antigravity IDE tanpa takut salah format.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Role / Persona AI</label>
+            <select id="gen-role" onchange="generateCustomPrompt()" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
+              <option value="Senior Fullstack & PWA Specialist di Google Antigravity">Senior Fullstack & PWA Specialist di Google Antigravity</option>
+              <option value="Supabase Database Architect & Security Specialist">Supabase Database Architect & Security Specialist</option>
+              <option value="React TypeScript Performance Engineer">React TypeScript Performance Engineer</option>
+              <option value="Mobile UI/UX & Tailwind CSS Developer">Mobile UI/UX & Tailwind CSS Developer</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Target File / Lokasi</label>
+            <input type="text" id="gen-file" value="src/components/TransactionList.tsx" onkeyup="generateCustomPrompt()" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Instruksi Tugas (Task Spesifik)</label>
+            <textarea id="gen-instruction" rows="3" onkeyup="generateCustomPrompt()" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">Buat komponen daftar transaksi dengan filter kategori, format mata uang IDR (Rupiah), empty state ilustrasi, dan tombol delete dengan konfirmasi dialog.</textarea>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Batasan / Constraint</label>
+            <input type="text" id="gen-constraint" value="Tulis kode utuh. Gunakan Lucide React icon. Gunakan TypeScript types yang ketat." onkeyup="generateCustomPrompt()" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
+          </div>
+        </div>
+
+        <div class="space-y-2 flex flex-col">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">Live Preview Output</span>
+            <button onclick="copyCode('generated-prompt-output')" class="text-xs px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center gap-1.5 transition shadow-xs">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt Hasil
+            </button>
+          </div>
+          <pre id="generated-prompt-output" class="flex-1 p-4 rounded-xl bg-slate-900 text-emerald-400 text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap">Memuat prompt...</pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 mt-16 py-8 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p class="font-bold text-slate-700 dark:text-slate-400">Kurikulum &amp; Panduan Praktikum Antigravity IDE &copy; 2026</p>
+      <p>Mengedepankan prinsip Human-Centered AI Collaboration, Type Safety, dan High-Quality Engineering.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    lucide.createIcons();
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.contains('dark');
+      const themeIcon = document.getElementById('theme-icon');
+
+      if (isDark) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        localStorage.setItem('theme', 'light');
+        themeIcon.setAttribute('data-lucide', 'moon');
+      } else {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        themeIcon.setAttribute('data-lucide', 'sun');
+      }
+      lucide.createIcons();
+      showToast(isDark ? 'Beralih ke Tema Terang (Light Mode)' : 'Beralih ke Tema Gelap (Dark Mode)');
+    }
+
+    function scrollToId(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function focusSearch() {
+      const input = document.getElementById('live-search');
+      if (input) {
+        input.focus();
+        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function switchPromptTab(tabId) {
+      document.querySelectorAll('.prompt-pane').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.prompt-tab-btn').forEach(btn => btn.classList.remove('active-tab'));
+
+      const pane = document.getElementById(tabId);
+      if (pane) pane.classList.remove('hidden');
+
+      const btn = document.getElementById('btn-' + tabId);
+      if (btn) btn.classList.add('active-tab');
+    }
+
+    function copyCode(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Prompt berhasil disalin ke clipboard!');
+      }).catch(err => {
+        console.error('Copy failed: ', err);
+      });
+    }
+
+    function copyCodeText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Teks berhasil disalin ke clipboard!');
+      }).catch(err => {
+        console.error('Copy failed: ', err);
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.innerText = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+
+    function generateCustomPrompt() {
+      const role = document.getElementById('gen-role').value;
+      const file = document.getElementById('gen-file').value;
+      const instruction = document.getElementById('gen-instruction').value;
+      const constraint = document.getElementById('gen-constraint').value;
+
+      const output = `[ROLE]: ${role}
+[CONTEXT]: Stack: Vite + React 18 (TypeScript) + Tailwind CSS + PWA + Supabase.
+Target File: ${file}
+
+[INSTRUCTION]:
+${instruction}
+
+[CONSTRAINT]:
+${constraint}
+Tulis seluruh blok kode/komponen secara utuh tanpa komentar placeholder atau pemotongan.`;
+
+      document.getElementById('generated-prompt-output').innerText = output;
+    }
+
+    function filterContent() {
+      const query = document.getElementById('live-search').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.searchable-card');
+
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (text.includes(query)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function filterCategory(cat) {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-600', 'text-white');
+        btn.classList.add('bg-slate-100', 'text-slate-600', 'dark:bg-slate-800', 'dark:text-slate-300');
+      });
+      event.target.classList.remove('bg-slate-100', 'text-slate-600', 'dark:bg-slate-800', 'dark:text-slate-300');
+      event.target.classList.add('bg-indigo-600', 'text-white');
+
+      const blocks = document.querySelectorAll('.content-block');
+      blocks.forEach(block => {
+        if (cat === 'all' || block.getAttribute('data-category') === cat) {
+          block.style.display = '';
+        } else {
+          block.style.display = 'none';
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      generateCustomPrompt();
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+        const themeIcon = document.getElementById('theme-icon');
+        if (themeIcon) themeIcon.setAttribute('data-lucide', 'sun');
+      }
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

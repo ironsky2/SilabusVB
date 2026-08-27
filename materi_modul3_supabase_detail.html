@@ -1,0 +1,1498 @@
+﻿<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Materi Detail Modul 3: Supabase Integration (SQL, RLS, Auth, Realtime)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Menlo', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    * { transition: background-color 0.2s ease, border-color 0.2s ease; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    /* Syntax Highlighting Classes */
+    .code-keyword { color: #c084fc; }
+    .code-string  { color: #86efac; }
+    .code-comment { color: #64748b; font-style: italic; }
+    .code-type    { color: #67e8f9; }
+    .code-fn      { color: #fde68a; }
+    .code-num     { color: #fb923c; }
+    /* Tab system */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    /* Progress dots */
+    .step-line::after { content: ''; position: absolute; left: 11px; top: 28px; width: 2px; bottom: -20px; background: linear-gradient(to bottom, #e2e8f0, transparent); }
+    .step-item { position: relative; padding-left: 32px; }
+    .step-dot { position: absolute; left: 0; top: 4px; width: 22px; height: 22px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen antialiased">
+  <!-- ===== SHARED SITE NAV — Vibe Coding Masterclass ===== -->
+  <div id="site-topbar" style="position:sticky;top:0;z-index:9999;background:#ffffff;border-bottom:1.5px solid #e2e8f0;padding:9px 18px;display:flex;align-items:center;gap:10px;font-family:Inter,'Segoe UI',system-ui,sans-serif;box-shadow:0 2px 8px rgba(79,70,229,.07);flex-wrap:wrap;">
+    <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;">
+      <span style="width:30px;height:30px;background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;box-shadow:0 2px 6px rgba(79,70,229,.35);">&#9889;</span>
+      <span style="font-weight:800;font-size:13px;color:#4f46e5;letter-spacing:-.2px;">Hub</span>
+    </a>
+    <span style="color:#cbd5e1;font-size:18px;line-height:1;flex-shrink:0;">|</span>
+    <nav style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:11.5px;font-weight:600;">
+      <a href="silabus-vibe-coding-16-pertemuan.html" style="padding:5px 11px;border-radius:8px;background:#f8fafc;border:1px solid #e2e8f0;color:#374151;text-decoration:none;white-space:nowrap;">Silabus 16</a>
+      <a href="panduan_push_github.html" style="padding:5px 11px;border-radius:8px;background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;text-decoration:none;white-space:nowrap;">Push GitHub</a>
+      <a href="materi_modul3_supabase_detail.html" style="padding:5px 11px;border-radius:8px;background:#f0f9ff;border:1px solid #bae6fd;color:#075985;text-decoration:none;white-space:nowrap;">Supabase</a>
+      <a href="panduan_vibecoding_owasp.html" style="padding:5px 11px;border-radius:8px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;text-decoration:none;white-space:nowrap;">OWASP</a>
+    </nav>
+  </div>
+  <!-- ===== END SHARED SITE NAV ===== -->
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 border border-slate-700">
+      <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+      <span id="toast-msg" class="text-xs font-semibold">Kode disalin!</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow">
+          <i data-lucide="database" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-base font-bold text-slate-900 dark:text-white">Modul 3 — Supabase Integration</span>
+            <span class="px-2 py-0.5 text-[11px] font-bold font-mono rounded-full bg-sky-50 text-sky-700 border border-sky-200 dark:bg-sky-950 dark:text-sky-300 dark:border-sky-800">Antigravity Lab</span>
+          </div>
+          <p class="text-xs text-slate-400 hidden sm:block">SQL DDL · RLS Policies · Auth Context · Realtime Hooks</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 dark:bg-slate-800 dark:text-amber-400 dark:border-slate-700 transition">
+          <i id="theme-icon" data-lucide="moon" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-8 space-y-10">
+
+    <!-- Hero Strip -->
+    <div class="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 shadow-sm">
+      <div class="absolute -right-10 -top-10 w-52 h-52 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-10 -bottom-10 w-52 h-52 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 max-w-3xl">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 dark:bg-sky-950 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 text-xs font-bold mb-3">
+          <i data-lucide="flask-conical" class="w-3.5 h-3.5"></i> Panduan Praktikum Lengkap · Antigravity IDE
+        </span>
+        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-3 leading-tight">
+          Modul 3: Integrasi Supabase<br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-indigo-600">Database, RLS, Auth & Realtime</span>
+        </h1>
+        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">
+          Panduan hands-on terperinci untuk membangun backend PostgreSQL yang aman dengan Row Level Security (RLS) per baris data, autentikasi multi-provider (Email/Magic Link), dan sinkronisasi state realtime menggunakan <strong>Antigravity AI Agent</strong> sebagai pair programmer.
+        </p>
+        <!-- Progress flow -->
+        <div class="flex flex-wrap items-center gap-1.5 text-xs font-mono">
+          <button onclick="scrollToSection('part1')" class="px-3 py-1 rounded-lg bg-slate-100 hover:bg-sky-100 dark:bg-slate-800 dark:hover:bg-sky-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition">01 · SQL Schema & DDL</button>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+          <button onclick="scrollToSection('part2')" class="px-3 py-1 rounded-lg bg-slate-100 hover:bg-sky-100 dark:bg-slate-800 dark:hover:bg-sky-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition">02 · RLS Policies</button>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+          <button onclick="scrollToSection('part3')" class="px-3 py-1 rounded-lg bg-slate-100 hover:bg-sky-100 dark:bg-slate-800 dark:hover:bg-sky-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition">03 · .env & Client</button>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+          <button onclick="scrollToSection('part4')" class="px-3 py-1 rounded-lg bg-slate-100 hover:bg-sky-100 dark:bg-slate-800 dark:hover:bg-sky-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition">04 · AuthContext & Hook</button>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+          <button onclick="scrollToSection('part5')" class="px-3 py-1 rounded-lg bg-slate-100 hover:bg-sky-100 dark:bg-slate-800 dark:hover:bg-sky-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition">05 · Realtime Hook</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PART 1: SQL SCHEMA & DDL ===== -->
+    <section id="part1" class="space-y-5">
+      <div class="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-black text-sm shadow">01</div>
+        <div>
+          <h2 class="text-lg font-black text-slate-900 dark:text-white">Menulis Skema SQL & RLS Policies di Supabase</h2>
+          <p class="text-xs text-slate-400">DDL Tables · Foreign Keys · Triggers · Row Level Security</p>
+        </div>
+      </div>
+
+      <!-- Konsep Teoritis -->
+      <div class="bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800 rounded-xl p-5 space-y-3">
+        <h3 class="font-bold text-indigo-800 dark:text-indigo-300 flex items-center gap-2 text-sm">
+          <i data-lucide="book-marked" class="w-4 h-4"></i> Konsep: Apa itu DDL & Mengapa RLS Sangat Penting?
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+          <div class="space-y-1.5">
+            <p class="font-semibold text-slate-800 dark:text-slate-200">📋 DDL (Data Definition Language):</p>
+            <p>DDL adalah sekumpulan perintah SQL untuk mendefinisikan <em>struktur database</em> — bukan mengisi data. Meliputi: <code class="bg-slate-200 dark:bg-slate-800 px-1 rounded">CREATE TABLE</code>, <code class="bg-slate-200 dark:bg-slate-800 px-1 rounded">ALTER TABLE</code>, <code class="bg-slate-200 dark:bg-slate-800 px-1 rounded">DROP TABLE</code>. Kita mendefinisikan kolom, tipe data, relasi (Foreign Key), dan batasan (Constraints) di sini.</p>
+          </div>
+          <div class="space-y-1.5">
+            <p class="font-semibold text-slate-800 dark:text-slate-200">🔐 Row Level Security (RLS):</p>
+            <p>RLS adalah fitur PostgreSQL yang memungkinkan Anda mendefinisikan aturan <em>per baris data</em>. Artinya, user A secara mutlak tidak bisa membaca data milik user B — meski keduanya menggunakan anon key yang sama. Ini adalah garis pertahanan utama di backend Supabase.</p>
+          </div>
+        </div>
+        <!-- PENJELASAN RLS VISUAL — diperluas agar mudah dipahami pemula -->
+        <div class="space-y-3 text-xs">
+
+          <!-- Label pengantar -->
+          <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+            Kedua perintah SQL di bawah ini <strong>ditulis identik</strong>. Yang berbeda adalah
+            <strong>apa yang PostgreSQL kembalikan</strong> — tergantung apakah RLS aktif atau tidak.
+          </p>
+
+          <!-- Grid dua kolom: Tanpa RLS vs Dengan RLS -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+            <!-- TANPA RLS -->
+            <div class="rounded-xl border-2 border-rose-300 dark:border-rose-700 overflow-hidden">
+              <div class="bg-rose-100 dark:bg-rose-950 px-3 py-2 flex items-center gap-2">
+                <span class="text-rose-600 dark:text-rose-400 text-lg">🔴</span>
+                <span class="font-bold text-rose-700 dark:text-rose-300">TANPA RLS (Berbahaya!)</span>
+              </div>
+              <div class="p-3 bg-white dark:bg-slate-900 space-y-2">
+                <div class="font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">
+                  <span class="text-sky-600 dark:text-sky-400">SELECT</span> * <span class="text-sky-600 dark:text-sky-400">FROM</span> transactions;
+                </div>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                  PostgreSQL mengeksekusi query <em>apa adanya</em> — <strong>tanpa filter kepemilikan</strong>. Hasilnya:
+                </p>
+                <!-- Tabel simulasi hasil query tanpa RLS -->
+                <table class="w-full border border-rose-200 dark:border-rose-800 rounded overflow-hidden text-[10px]">
+                  <thead class="bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-300">
+                    <tr>
+                      <th class="text-left px-2 py-1.5 border-b border-rose-200 dark:border-rose-800">user_id</th>
+                      <th class="text-left px-2 py-1.5 border-b border-rose-200 dark:border-rose-800">title</th>
+                      <th class="text-right px-2 py-1.5 border-b border-rose-200 dark:border-rose-800">amount</th>
+                    </tr>
+                  </thead>
+                  <tbody class="font-mono divide-y divide-rose-100 dark:divide-rose-900">
+                    <tr class="bg-emerald-50 dark:bg-emerald-950/30">
+                      <td class="px-2 py-1">user-A <span class="text-emerald-600">(kamu)</span></td>
+                      <td class="px-2 py-1">Gaji Maret</td>
+                      <td class="text-right px-2 py-1">5.000.000</td>
+                    </tr>
+                    <tr class="bg-rose-50 dark:bg-rose-950/30">
+                      <td class="px-2 py-1">user-B <span class="text-rose-600">(orang lain!)</span></td>
+                      <td class="px-2 py-1">Bonus Tahunan</td>
+                      <td class="text-right px-2 py-1">20.000.000</td>
+                    </tr>
+                    <tr class="bg-rose-50 dark:bg-rose-950/30">
+                      <td class="px-2 py-1">user-C <span class="text-rose-600">(orang lain!)</span></td>
+                      <td class="px-2 py-1">Beli Saham</td>
+                      <td class="text-right px-2 py-1">15.000.000</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p class="text-rose-600 dark:text-rose-400 font-semibold flex items-center gap-1">
+                  ⚠️ User A bisa membaca data finansial user B & C!
+                </p>
+              </div>
+            </div>
+
+            <!-- DENGAN RLS -->
+            <div class="rounded-xl border-2 border-emerald-300 dark:border-emerald-700 overflow-hidden">
+              <div class="bg-emerald-100 dark:bg-emerald-950 px-3 py-2 flex items-center gap-2">
+                <span class="text-emerald-600 dark:text-emerald-400 text-lg">🟢</span>
+                <span class="font-bold text-emerald-700 dark:text-emerald-300">DENGAN RLS (Aman!)</span>
+              </div>
+              <div class="p-3 bg-white dark:bg-slate-900 space-y-2">
+                <div class="space-y-1">
+                  <div class="font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">
+                    <span class="text-sky-600 dark:text-sky-400">SELECT</span> * <span class="text-sky-600 dark:text-sky-400">FROM</span> transactions;
+                  </div>
+                  <div class="text-center text-slate-400 text-[10px]">↓ PostgreSQL <em>otomatis</em> menambahkan filter ini ↓</div>
+                  <div class="font-mono text-slate-400 dark:text-slate-500 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 p-2 rounded-lg">
+                    <span class="text-sky-600 dark:text-sky-400">WHERE</span> user_id = <span class="text-amber-600 dark:text-amber-400">auth.uid()</span>
+                    <span class="text-slate-400 ml-1 text-[9px">— ID user yang login</span>
+                  </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                  PostgreSQL <strong>menambahkan kondisi <code>WHERE user_id = auth.uid()</code> secara otomatis</strong> di belakang layar. Hasilnya:
+                </p>
+                <!-- Tabel simulasi hasil query dengan RLS -->
+                <table class="w-full border border-emerald-200 dark:border-emerald-800 rounded overflow-hidden text-[10px]">
+                  <thead class="bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
+                    <tr>
+                      <th class="text-left px-2 py-1.5 border-b border-emerald-200 dark:border-emerald-800">user_id</th>
+                      <th class="text-left px-2 py-1.5 border-b border-emerald-200 dark:border-emerald-800">title</th>
+                      <th class="text-right px-2 py-1.5 border-b border-emerald-200 dark:border-emerald-800">amount</th>
+                    </tr>
+                  </thead>
+                  <tbody class="font-mono divide-y divide-emerald-100 dark:divide-emerald-900">
+                    <tr class="bg-emerald-50 dark:bg-emerald-950/30">
+                      <td class="px-2 py-1">user-A <span class="text-emerald-600">(kamu)</span></td>
+                      <td class="px-2 py-1">Gaji Maret</td>
+                      <td class="text-right px-2 py-1">5.000.000</td>
+                    </tr>
+                    <tr class="bg-slate-50 dark:bg-slate-950/50 text-slate-400 line-through opacity-40">
+                      <td class="px-2 py-1">user-B</td>
+                      <td class="px-2 py-1">Bonus Tahunan</td>
+                      <td class="text-right px-2 py-1">20.000.000</td>
+                    </tr>
+                    <tr class="bg-slate-50 dark:bg-slate-950/50 text-slate-400 line-through opacity-40">
+                      <td class="px-2 py-1">user-C</td>
+                      <td class="px-2 py-1">Beli Saham</td>
+                      <td class="text-right px-2 py-1">15.000.000</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p class="text-slate-400 text-[10px] italic">Baris dicoret = tidak pernah dikirim ke browser, tersaring di level database.</p>
+                <p class="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                  ✅ Hanya data milik user A yang dikembalikan.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inti perbedaan -->
+          <div class="p-3 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 leading-relaxed text-slate-600 dark:text-slate-300">
+            <span class="font-bold text-indigo-700 dark:text-indigo-300">💡 Inti perbedaannya:</span>
+            Query SQL yang <em>Anda tulis</em> memang sama persis.
+            Namun saat RLS aktif, PostgreSQL <strong>menyelipkan filter <code>WHERE user_id = auth.uid()</code> secara otomatis</strong>
+            sebelum data diambil — tanpa perlu Anda tulis di kode frontend.
+            Filter ini ada di <strong>level database</strong>, sehingga tidak bisa dimanipulasi dari sisi browser.
+          </div>
+        </div>
+        <!-- END PENJELASAN RLS VISUAL -->
+      </div>
+
+      <!-- Prompt ke Antigravity -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+          <div class="flex items-center gap-2">
+            <i data-lucide="bot" class="w-4 h-4 text-indigo-500"></i>
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Prompt ke Antigravity Agent (Salin & Kirim)</span>
+          </div>
+          <button onclick="copyById('prompt-sql-ddl')" class="text-xs px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center gap-1.5 transition">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt
+          </button>
+        </div>
+        <pre id="prompt-sql-ddl" class="p-4 bg-slate-900 text-slate-100 text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap">[ROLE]: Supabase Database Architect & PostgreSQL Security Specialist
+[CONTEXT]: Stack: Vite + React 18 (TypeScript) + @supabase/supabase-js. Aplikasi manajemen keuangan pribadi multi-user. Belum ada file database sama sekali.
+[INSTRUCTION]:
+Buatkan script SQL DDL lengkap untuk Supabase dengan ketentuan berikut:
+
+1. TABEL: profiles
+   - id: UUID (references auth.users(id) ON DELETE CASCADE) – PRIMARY KEY
+   - full_name: TEXT
+   - avatar_url: TEXT
+   - updated_at: TIMESTAMPTZ DEFAULT now()
+
+2. TABEL: categories
+   - id: UUID (gen_random_uuid()) – PRIMARY KEY
+   - user_id: UUID (references auth.users(id) ON DELETE CASCADE) NOT NULL
+   - name: TEXT NOT NULL
+   - color: TEXT DEFAULT '#6366f1'
+   - icon: TEXT DEFAULT 'tag'
+   - created_at: TIMESTAMPTZ DEFAULT now()
+
+3. TABEL: transactions
+   - id: UUID (gen_random_uuid()) – PRIMARY KEY
+   - user_id: UUID (references auth.users(id) ON DELETE CASCADE) NOT NULL
+   - category_id: UUID (references categories(id) ON DELETE SET NULL)
+   - title: TEXT NOT NULL
+   - amount: NUMERIC(15,2) NOT NULL
+   - type: TEXT CHECK (type IN ('income', 'expense')) NOT NULL
+   - note: TEXT
+   - date: DATE DEFAULT CURRENT_DATE
+   - created_at: TIMESTAMPTZ DEFAULT now()
+
+4. TRIGGER: auto-create profile baris baru di public.profiles setiap kali auth.users mendapat record baru (on INSERT ke auth.users).
+
+5. FUNCTION: update_updated_at_column() untuk trigger updated_at otomatis pada tabel profiles.
+
+6. INDEX performa pada: transactions.user_id, transactions.date, categories.user_id.
+
+[CONSTRAINT]:
+- Berikan satu script SQL yang lengkap dan siap di-run di Supabase SQL Editor.
+- Sertakan komentar penjelasan singkat pada setiap blok penting.
+- Jangan tambahkan RLS di sini, saya akan minta terpisah.</pre>
+      </div>
+
+      <!-- Hasil SQL Expected -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+          <div class="flex items-center gap-2">
+            <i data-lucide="code-2" class="w-4 h-4 text-sky-500"></i>
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Output SQL DDL — Penjelasan Baris per Baris</span>
+          </div>
+          <button onclick="copyById('code-sql-ddl')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium flex items-center gap-1.5 transition">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin SQL
+          </button>
+        </div>
+        <pre id="code-sql-ddl" class="p-4 bg-slate-900 text-slate-200 text-[11px] font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap"><span class="code-comment">-- ==============================================================
+-- SUPABASE DATABASE SCHEMA — Smart Finance PWA
+-- Eksekusi di: Supabase Dashboard → SQL Editor → Run
+-- ==============================================================</span>
+
+<span class="code-comment">-- 1. FUNCTION: Auto-update timestamp saat row di-update</span>
+<span class="code-keyword">CREATE OR REPLACE FUNCTION</span> <span class="code-fn">update_updated_at_column</span>()
+<span class="code-keyword">RETURNS TRIGGER AS</span> $$
+<span class="code-keyword">BEGIN</span>
+  NEW.updated_at = now();
+  <span class="code-keyword">RETURN</span> NEW;
+<span class="code-keyword">END</span>;
+$$ <span class="code-keyword">LANGUAGE</span> plpgsql;
+
+<span class="code-comment">-- 2. TABEL: profiles (satu baris per user, relasi ke auth.users)</span>
+<span class="code-keyword">CREATE TABLE IF NOT EXISTS</span> public.profiles (
+  id          UUID <span class="code-keyword">REFERENCES</span> auth.users(id) <span class="code-keyword">ON DELETE CASCADE PRIMARY KEY</span>,
+  full_name   TEXT,
+  avatar_url  TEXT,
+  updated_at  TIMESTAMPTZ <span class="code-keyword">DEFAULT</span> now()
+);
+
+<span class="code-comment">-- Trigger: update timestamp otomatis di profiles</span>
+<span class="code-keyword">CREATE OR REPLACE TRIGGER</span> profiles_updated_at
+  <span class="code-keyword">BEFORE UPDATE ON</span> public.profiles
+  <span class="code-keyword">FOR EACH ROW EXECUTE FUNCTION</span> <span class="code-fn">update_updated_at_column</span>();
+
+<span class="code-comment">-- 3. TABEL: categories (tiap user bisa punya kategori sendiri)</span>
+<span class="code-keyword">CREATE TABLE IF NOT EXISTS</span> public.categories (
+  id          UUID <span class="code-keyword">PRIMARY KEY DEFAULT</span> gen_random_uuid(),
+  user_id     UUID <span class="code-keyword">NOT NULL REFERENCES</span> auth.users(id) <span class="code-keyword">ON DELETE CASCADE</span>,
+  name        TEXT <span class="code-keyword">NOT NULL</span>,
+  color       TEXT <span class="code-keyword">DEFAULT</span> <span class="code-string">'#6366f1'</span>,
+  icon        TEXT <span class="code-keyword">DEFAULT</span> <span class="code-string">'tag'</span>,
+  created_at  TIMESTAMPTZ <span class="code-keyword">DEFAULT</span> now()
+);
+
+<span class="code-comment">-- 4. TABEL: transactions (data utama catatan keuangan)</span>
+<span class="code-keyword">CREATE TABLE IF NOT EXISTS</span> public.transactions (
+  id          UUID <span class="code-keyword">PRIMARY KEY DEFAULT</span> gen_random_uuid(),
+  user_id     UUID <span class="code-keyword">NOT NULL REFERENCES</span> auth.users(id) <span class="code-keyword">ON DELETE CASCADE</span>,
+  category_id UUID <span class="code-keyword">REFERENCES</span> public.categories(id) <span class="code-keyword">ON DELETE SET NULL</span>,
+  title       TEXT <span class="code-keyword">NOT NULL</span>,
+  amount      NUMERIC(<span class="code-num">15</span>,<span class="code-num">2</span>) <span class="code-keyword">NOT NULL</span>,
+  type        TEXT <span class="code-keyword">NOT NULL CHECK</span> (type <span class="code-keyword">IN</span> (<span class="code-string">'income'</span>, <span class="code-string">'expense'</span>)),
+  note        TEXT,
+  date        DATE <span class="code-keyword">DEFAULT</span> CURRENT_DATE,
+  created_at  TIMESTAMPTZ <span class="code-keyword">DEFAULT</span> now()
+);
+
+<span class="code-comment">-- 5. FUNCTION + TRIGGER: Auto-buat profile saat user sign up</span>
+<span class="code-keyword">CREATE OR REPLACE FUNCTION</span> <span class="code-fn">handle_new_user</span>()
+<span class="code-keyword">RETURNS TRIGGER AS</span> $$
+<span class="code-keyword">BEGIN</span>
+  <span class="code-keyword">INSERT INTO</span> public.profiles (id, full_name, avatar_url)
+  <span class="code-keyword">VALUES</span> (
+    NEW.id,
+    NEW.raw_user_meta_data ->> <span class="code-string">'full_name'</span>,
+    NEW.raw_user_meta_data ->> <span class="code-string">'avatar_url'</span>
+  );
+  <span class="code-keyword">RETURN</span> NEW;
+<span class="code-keyword">END</span>;
+$$ <span class="code-keyword">LANGUAGE</span> plpgsql SECURITY DEFINER;
+
+<span class="code-keyword">CREATE OR REPLACE TRIGGER</span> on_auth_user_created
+  <span class="code-keyword">AFTER INSERT ON</span> auth.users
+  <span class="code-keyword">FOR EACH ROW EXECUTE FUNCTION</span> <span class="code-fn">handle_new_user</span>();
+
+<span class="code-comment">-- 6. INDEX performa (mempercepat query filter by user_id & date)</span>
+<span class="code-keyword">CREATE INDEX IF NOT EXISTS</span> idx_transactions_user_id <span class="code-keyword">ON</span> public.transactions(user_id);
+<span class="code-keyword">CREATE INDEX IF NOT EXISTS</span> idx_transactions_date     <span class="code-keyword">ON</span> public.transactions(date DESC);
+<span class="code-keyword">CREATE INDEX IF NOT EXISTS</span> idx_categories_user_id    <span class="code-keyword">ON</span> public.categories(user_id);</pre>
+      </div>
+
+      <!-- Penjelasan Teknis -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 space-y-2 shadow-xs">
+          <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5"><i data-lucide="link" class="w-3.5 h-3.5 text-indigo-500"></i> ON DELETE CASCADE</div>
+          <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Saat user dihapus dari <code>auth.users</code>, semua data terkait (profiles, categories, transactions) ikut terhapus otomatis. Tidak ada data orphan yang menggantung.</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 space-y-2 shadow-xs">
+          <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5"><i data-lucide="zap" class="w-3.5 h-3.5 text-amber-500"></i> SECURITY DEFINER</div>
+          <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Function <code>handle_new_user</code> dijalankan dengan hak akses owner function (superuser), bukan hak akses user biasa, sehingga bisa menginsert ke <code>public.profiles</code> tanpa hambatan RLS.</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 space-y-2 shadow-xs">
+          <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5"><i data-lucide="gauge" class="w-3.5 h-3.5 text-emerald-500"></i> INDEX Performa</div>
+          <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Index pada <code>user_id</code> dan <code>date</code> mempercepat query filter seperti <code>WHERE user_id = ? AND date &gt;= ?</code> dari O(n) full-scan menjadi O(log n) B-tree lookup.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PART 2: RLS POLICIES ===== -->
+    <section id="part2" class="space-y-5">
+      <div class="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div class="w-9 h-9 rounded-xl bg-rose-600 flex items-center justify-center text-white font-black text-sm shadow">02</div>
+        <div>
+          <h2 class="text-lg font-black text-slate-900 dark:text-white">Row Level Security (RLS) Policies</h2>
+          <p class="text-xs text-slate-400">Enable RLS · Granular Policies per Operation · Verifikasi</p>
+        </div>
+      </div>
+
+      <div class="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 rounded-xl p-5 space-y-3">
+        <h3 class="font-bold text-rose-800 dark:text-rose-300 flex items-center gap-2 text-sm">
+          <i data-lucide="shield" class="w-4 h-4"></i> Mengapa RLS Harus Diaktifkan Sebelum Aplikasi Digunakan?
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+          <div>
+            <p>Supabase menggunakan <strong>PostgreSQL RLS</strong> sebagai firewall database tingkat baris. Tanpa RLS aktif, seluruh data tabel bisa diakses siapapun yang memiliki <code>anon_key</code> — termasuk pengguna yang belum login.</p>
+          </div>
+          <div>
+            <p>Policy RLS dievaluasi secara otomatis oleh PostgreSQL <em>sebelum</em> query mencapai data. Ini berarti proteksi terjadi di level database, bukan di kode aplikasi — jauh lebih aman karena tidak bisa di-bypass oleh bug frontend.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prompt RLS -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+          <div class="flex items-center gap-2">
+            <i data-lucide="bot" class="w-4 h-4 text-rose-500"></i>
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Prompt ke Antigravity Agent — RLS Policies</span>
+          </div>
+          <button onclick="copyById('prompt-rls')" class="text-xs px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-medium flex items-center gap-1.5 transition">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt
+          </button>
+        </div>
+        <pre id="prompt-rls" class="p-4 bg-slate-900 text-slate-100 text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap">[ROLE]: Supabase Database Security Specialist
+[CONTEXT]: Tabel 'profiles', 'categories', dan 'transactions' sudah dibuat di public schema Supabase. Belum ada RLS yang aktif.
+[INSTRUCTION]:
+Aktifkan Row Level Security dan buat policies granular untuk ketiga tabel:
+
+Untuk tiap tabel, buat 4 policies terpisah (SELECT, INSERT, UPDATE, DELETE):
+- Kondisi keamanan WAJIB: auth.uid() = user_id (atau auth.uid() = id untuk profiles)
+- Hanya authenticated users yang boleh beroperasi (using (auth.role() = 'authenticated'))
+
+Sertakan juga policy khusus untuk profiles:
+- User boleh melihat profil sendiri
+- User boleh mengupdate profil sendiri
+- INSERT profile dihandle trigger (tidak perlu policy INSERT manual)
+
+[CONSTRAINT]:
+- Aktifkan RLS dengan ALTER TABLE ... ENABLE ROW LEVEL SECURITY
+- Beri komentar singkat penjelasan setiap policy
+- Output harus berupa SQL murni siap dijalankan di Supabase SQL Editor</pre>
+      </div>
+
+      <!-- Kode RLS -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+          <div class="flex items-center gap-2">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i>
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Output SQL — RLS Policies Lengkap</span>
+          </div>
+          <button onclick="copyById('code-rls')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium flex items-center gap-1.5 transition">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin SQL
+          </button>
+        </div>
+        <pre id="code-rls" class="p-4 bg-slate-900 text-slate-200 text-[11px] font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap"><span class="code-comment">-- ==============================================================
+-- ROW LEVEL SECURITY POLICIES — Smart Finance PWA
+-- ==============================================================</span>
+
+<span class="code-comment">-- ---- PROFILES TABLE ----</span>
+<span class="code-keyword">ALTER TABLE</span> public.profiles <span class="code-keyword">ENABLE ROW LEVEL SECURITY</span>;
+
+<span class="code-comment">-- User hanya bisa melihat profil milik dirinya sendiri</span>
+<span class="code-keyword">CREATE POLICY</span> <span class="code-string">"profiles: user can view own profile"</span>
+  <span class="code-keyword">ON</span> public.profiles <span class="code-keyword">FOR SELECT</span>
+  <span class="code-keyword">USING</span> (auth.<span class="code-fn">uid</span>() = id);
+
+<span class="code-comment">-- User hanya bisa mengubah profil milik dirinya sendiri</span>
+<span class="code-keyword">CREATE POLICY</span> <span class="code-string">"profiles: user can update own profile"</span>
+  <span class="code-keyword">ON</span> public.profiles <span class="code-keyword">FOR UPDATE</span>
+  <span class="code-keyword">USING</span> (auth.<span class="code-fn">uid</span>() = id)
+  <span class="code-keyword">WITH CHECK</span> (auth.<span class="code-fn">uid</span>() = id);
+
+<span class="code-comment">-- INSERT profile dilakukan oleh trigger (SECURITY DEFINER), tidak perlu policy manual</span>
+
+
+<span class="code-comment">-- ---- CATEGORIES TABLE ----</span>
+<span class="code-keyword">ALTER TABLE</span> public.categories <span class="code-keyword">ENABLE ROW LEVEL SECURITY</span>;
+
+<span class="code-comment">-- Hanya bisa melihat kategori milik sendiri</span>
+<span class="code-keyword">CREATE POLICY</span> <span class="code-string">"categories: select own"</span>
+  <span class="code-keyword">ON</span> public.categories <span class="code-keyword">FOR SELECT</span>
+  <span class="code-keyword">USING</span> (auth.<span class="code-fn">uid</span>() = user_id);
+
+<span class="code-comment">-- Hanya bisa membuat kategori untuk diri sendiri</span>
+<span class="code-keyword">CREATE POLICY</span> <span class="code-string">"categories: insert own"</span>
+  <span class="code-keyword">ON</span> public.categories <span class="code-keyword">FOR INSERT</span>
+  <span class="code-keyword">WITH CHECK</span> (auth.<span class="code-fn">uid</span>() = user_id);
+
+<span class="code-comment">-- Hanya bisa mengubah kategori milik sendiri</span>
+<span class="code-keyword">CREATE POLICY</span> <span class="code-string">"categories: update own"</span>
+  <span class="code-keyword">ON</span> public.categories <span class="code-keyword">FOR UPDATE</span>
+  <span class="code-keyword">USING</span> (auth.<span class="code-fn">uid</span>() = user_id)
+  <span class="code-keyword">WITH CHECK</span> (auth.<span class="code-fn">uid</span>() = user_id);
+
+<span class="code-comment">-- Hanya bisa menghapus kategori milik sendiri</span>
+<span class="code-keyword">CREATE POLICY</span> <span class="code-string">"categories: delete own"</span>
+  <span class="code-keyword">ON</span> public.categories <span class="code-keyword">FOR DELETE</span>
+  <span class="code-keyword">USING</span> (auth.<span class="code-fn">uid</span>() = user_id);
+
+
+<span class="code-comment">-- ---- TRANSACTIONS TABLE ----</span>
+<span class="code-keyword">ALTER TABLE</span> public.transactions <span class="code-keyword">ENABLE ROW LEVEL SECURITY</span>;
+
+<span class="code-comment">-- Hanya bisa melihat transaksi milik sendiri</span>
+<span class="code-keyword">CREATE POLICY</span> <span class="code-string">"transactions: select own"</span>
+  <span class="code-keyword">ON</span> public.transactions <span class="code-keyword">FOR SELECT</span>
+  <span class="code-keyword">USING</span> (auth.<span class="code-fn">uid</span>() = user_id);
+
+<span class="code-comment">-- Hanya bisa membuat transaksi untuk diri sendiri</span>
+<span class="code-keyword">CREATE POLICY</span> <span class="code-string">"transactions: insert own"</span>
+  <span class="code-keyword">ON</span> public.transactions <span class="code-keyword">FOR INSERT</span>
+  <span class="code-keyword">WITH CHECK</span> (auth.<span class="code-fn">uid</span>() = user_id);
+
+<span class="code-comment">-- Hanya bisa mengubah transaksi milik sendiri</span>
+<span class="code-keyword">CREATE POLICY</span> <span class="code-string">"transactions: update own"</span>
+  <span class="code-keyword">ON</span> public.transactions <span class="code-keyword">FOR UPDATE</span>
+  <span class="code-keyword">USING</span> (auth.<span class="code-fn">uid</span>() = user_id)
+  <span class="code-keyword">WITH CHECK</span> (auth.<span class="code-fn">uid</span>() = user_id);
+
+<span class="code-comment">-- Hanya bisa menghapus transaksi milik sendiri</span>
+<span class="code-keyword">CREATE POLICY</span> <span class="code-string">"transactions: delete own"</span>
+  <span class="code-keyword">ON</span> public.transactions <span class="code-keyword">FOR DELETE</span>
+  <span class="code-keyword">USING</span> (auth.<span class="code-fn">uid</span>() = user_id);</pre>
+      </div>
+
+      <!-- Cara Verifikasi RLS -->
+      <div class="bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-800 rounded-xl p-5 space-y-3">
+        <h3 class="font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-2 text-sm">
+          <i data-lucide="test-tube" class="w-4 h-4"></i> Cara Memverifikasi RLS Berfungsi (Tanpa Kode Frontend)
+        </h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Buka Supabase Dashboard → Table Editor, pastikan kolom <strong>RLS Enabled</strong> bernilai <code>Yes</code> pada ketiga tabel. Lalu uji dengan query SQL:</p>
+        <pre class="p-3 rounded-lg bg-slate-900 text-slate-200 text-[11px] font-mono overflow-x-auto whitespace-pre-wrap"><span class="code-comment">-- Test RLS: Jalankan tanpa JWT header (sebagai anonymous role)</span>
+<span class="code-comment">-- Harusnya mengembalikan 0 baris, bukan semua data</span>
+<span class="code-keyword">SELECT</span> * <span class="code-keyword">FROM</span> public.transactions <span class="code-keyword">LIMIT</span> <span class="code-num">5</span>;</pre>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Jika hasilnya <strong>0 rows</strong> → RLS berhasil! Jika masih menampilkan data → RLS belum aktif, ulangi langkah Enable Row Level Security.</p>
+      </div>
+    </section>
+
+    <!-- ===== PART 3: .ENV & CLIENT SINGLETON ===== -->
+    <section id="part3" class="space-y-5">
+      <div class="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black text-sm shadow">03</div>
+        <div>
+          <h2 class="text-lg font-black text-slate-900 dark:text-white">Setup `.env.local` & Supabase Client Singleton</h2>
+          <p class="text-xs text-slate-400">Environment Variables · .gitignore · TypeScript Singleton · Database Types</p>
+        </div>
+      </div>
+
+      <!-- Step-by-step setup env -->
+      <div class="space-y-4">
+        <!-- Step 1: Ambil credentials -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 space-y-3 shadow-xs">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center justify-center border border-emerald-300 dark:border-emerald-700">1</span>
+            <h3 class="font-bold text-slate-800 dark:text-white text-sm">Ambil Credentials dari Supabase Dashboard</h3>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Buka <strong>Supabase Dashboard → Project Settings → API</strong>. Salin dua nilai:
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs space-y-1">
+              <div class="font-bold text-slate-700 dark:text-slate-300">Project URL</div>
+              <div class="font-mono text-emerald-600 dark:text-emerald-400 text-[11px] break-all">https://xyzcompany.supabase.co</div>
+              <div class="text-slate-400 text-[11px]">Gunakan sebagai VITE_SUPABASE_URL</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs space-y-1">
+              <div class="font-bold text-slate-700 dark:text-slate-300">anon / public key (BUKAN service_role!)</div>
+              <div class="font-mono text-emerald-600 dark:text-emerald-400 text-[11px] break-all">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</div>
+              <div class="text-slate-400 text-[11px]">Gunakan sebagai VITE_SUPABASE_ANON_KEY</div>
+            </div>
+          </div>
+          <div class="p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-300 flex items-start gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0 mt-0.5"></i>
+            <div><strong>JANGAN PERNAH</strong> menggunakan <code>service_role</code> key di frontend! Key ini memiliki hak akses penuh dan dapat mem-bypass seluruh RLS yang sudah dibangun. Gunakan <strong>hanya</strong> <code>anon</code> key.</div>
+          </div>
+        </div>
+
+        <!-- Step 2: Buat .env.local -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+          <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center justify-center border border-emerald-300 dark:border-emerald-700">2</span>
+              <span class="text-xs font-bold text-slate-700 dark:text-slate-300">File: <code>.env.local</code> (root project)</span>
+            </div>
+            <button onclick="copyById('code-env')" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium flex items-center gap-1 transition">
+              <i data-lucide="copy" class="w-3 h-3"></i> Salin
+            </button>
+          </div>
+          <pre id="code-env" class="p-4 bg-slate-900 text-slate-200 text-[11px] font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap"><span class="code-comment"># .env.local — JANGAN di-commit ke Git!</span>
+<span class="code-comment"># Ganti nilai berikut dengan credentials Supabase Anda</span>
+
+VITE_SUPABASE_URL=https://xyzcompany.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.your_anon_key_here</pre>
+        </div>
+
+        <!-- Step 3: .gitignore -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+          <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center justify-center border border-emerald-300 dark:border-emerald-700">3</span>
+              <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Tambahkan ke <code>.gitignore</code></span>
+            </div>
+            <button onclick="copyById('code-gitignore')" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium flex items-center gap-1 transition">
+              <i data-lucide="copy" class="w-3 h-3"></i> Salin
+            </button>
+          </div>
+          <pre id="code-gitignore" class="p-4 bg-slate-900 text-slate-200 text-[11px] font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap"># Environment Variables — jangan commit secrets!
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/</pre>
+        </div>
+
+        <!-- Step 4: Prompt buat types & client -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+          <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+            <div class="flex items-center gap-2">
+              <i data-lucide="bot" class="w-4 h-4 text-emerald-500"></i>
+              <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Prompt ke Antigravity — Buat Database Types & Client Singleton</span>
+            </div>
+            <button onclick="copyById('prompt-client')" class="text-xs px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium flex items-center gap-1.5 transition">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt
+            </button>
+          </div>
+          <pre id="prompt-client" class="p-4 bg-slate-900 text-slate-100 text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap">[ROLE]: Senior TypeScript & Supabase Developer
+[CONTEXT]: Stack: Vite + React 18 (TS). Tabel database: profiles, categories, transactions (sudah dibuat). File .env.local sudah ada berisi VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY.
+[INSTRUCTION]:
+1. Buat file 'src/types/database.types.ts' yang berisi:
+   - TypeScript interface lengkap untuk Row, Insert, dan Update tiap tabel (profiles, categories, transactions)
+   - Gunakan naming convention: Tables dengan key tabel sebagai nama
+   - Jangan gunakan 'any', gunakan union type untuk kolom yang memiliki CHECK constraint (type: 'income' | 'expense')
+
+2. Buat file 'src/lib/supabase.ts' berisi:
+   - Import createClient dari @supabase/supabase-js
+   - Import DatabaseTypes dari '../types/database.types'
+   - Baca environment variable dengan import.meta.env.VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY
+   - Validasi bahwa env variables tidak kosong (throw error deskriptif jika kosong)
+   - Export singleton 'supabase' sebagai typed SupabaseClient<Database>
+
+[CONSTRAINT]: Tulis kedua file secara penuh dan lengkap. Strict TypeScript tanpa any.</pre>
+        </div>
+
+        <!-- Kode Database Types -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+          <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+            <div class="flex items-center gap-2">
+              <i data-lucide="file-code-2" class="w-4 h-4 text-sky-500"></i>
+              <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Output: <code>src/types/database.types.ts</code></span>
+            </div>
+            <button onclick="copyById('code-db-types')" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium flex items-center gap-1 transition">
+              <i data-lucide="copy" class="w-3 h-3"></i> Salin
+            </button>
+          </div>
+          <pre id="code-db-types" class="p-4 bg-slate-900 text-slate-200 text-[11px] font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap"><span class="code-comment">// src/types/database.types.ts
+// TypeScript contracts for Supabase database schema</span>
+
+<span class="code-keyword">export type</span> <span class="code-type">TransactionType</span> = <span class="code-string">'income'</span> | <span class="code-string">'expense'</span>;
+
+<span class="code-keyword">export interface</span> <span class="code-type">Profile</span> {
+  id:          string;
+  full_name:   string | null;
+  avatar_url:  string | null;
+  updated_at:  string | null;
+}
+
+<span class="code-keyword">export interface</span> <span class="code-type">ProfileInsert</span> {
+  id:          string;
+  full_name?:  string | null;
+  avatar_url?: string | null;
+  updated_at?: string | null;
+}
+
+<span class="code-keyword">export interface</span> <span class="code-type">ProfileUpdate</span> {
+  full_name?:  string | null;
+  avatar_url?: string | null;
+  updated_at?: string | null;
+}
+
+<span class="code-keyword">export interface</span> <span class="code-type">Category</span> {
+  id:         string;
+  user_id:    string;
+  name:       string;
+  color:      string;
+  icon:       string;
+  created_at: string;
+}
+
+<span class="code-keyword">export interface</span> <span class="code-type">CategoryInsert</span> {
+  user_id:  string;
+  name:     string;
+  color?:   string;
+  icon?:    string;
+}
+
+<span class="code-keyword">export interface</span> <span class="code-type">Transaction</span> {
+  id:          string;
+  user_id:     string;
+  category_id: string | null;
+  title:       string;
+  amount:      number;
+  type:        <span class="code-type">TransactionType</span>;
+  note:        string | null;
+  date:        string;
+  created_at:  string;
+}
+
+<span class="code-keyword">export interface</span> <span class="code-type">TransactionInsert</span> {
+  user_id:     string;
+  category_id?: string | null;
+  title:       string;
+  amount:      number;
+  type:        <span class="code-type">TransactionType</span>;
+  note?:       string | null;
+  date?:       string;
+}
+
+<span class="code-keyword">export interface</span> <span class="code-type">TransactionUpdate</span> {
+  category_id?: string | null;
+  title?:       string;
+  amount?:      number;
+  type?:        <span class="code-type">TransactionType</span>;
+  note?:        string | null;
+  date?:        string;
+}
+
+<span class="code-comment">// Composite type: Transaction enriched with joined Category data</span>
+<span class="code-keyword">export interface</span> <span class="code-type">TransactionWithCategory</span> <span class="code-keyword">extends</span> <span class="code-type">Transaction</span> {
+  categories: <span class="code-type">Category</span> | null;
+}
+
+<span class="code-comment">// Database root type for createClient generic parameter</span>
+<span class="code-keyword">export interface</span> <span class="code-type">Database</span> {
+  public: {
+    Tables: {
+      profiles:     { Row: <span class="code-type">Profile</span>;     Insert: <span class="code-type">ProfileInsert</span>;     Update: <span class="code-type">ProfileUpdate</span> };
+      categories:   { Row: <span class="code-type">Category</span>;    Insert: <span class="code-type">CategoryInsert</span>;    Update: <span class="code-type">Partial</span>&lt;<span class="code-type">CategoryInsert</span>&gt; };
+      transactions: { Row: <span class="code-type">Transaction</span>; Insert: <span class="code-type">TransactionInsert</span>; Update: <span class="code-type">TransactionUpdate</span> };
+    };
+  };
+}</pre>
+        </div>
+
+        <!-- Kode Supabase Client -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+          <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+            <div class="flex items-center gap-2">
+              <i data-lucide="file-code-2" class="w-4 h-4 text-emerald-500"></i>
+              <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Output: <code>src/lib/supabase.ts</code></span>
+            </div>
+            <button onclick="copyById('code-client')" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium flex items-center gap-1 transition">
+              <i data-lucide="copy" class="w-3 h-3"></i> Salin
+            </button>
+          </div>
+          <pre id="code-client" class="p-4 bg-slate-900 text-slate-200 text-[11px] font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap"><span class="code-comment">// src/lib/supabase.ts
+// Singleton Supabase client — import ini di seluruh aplikasi</span>
+
+<span class="code-keyword">import</span> { createClient } <span class="code-keyword">from</span> <span class="code-string">'@supabase/supabase-js'</span>;
+<span class="code-keyword">import type</span> { <span class="code-type">Database</span> } <span class="code-keyword">from</span> <span class="code-string">'../types/database.types'</span>;
+
+<span class="code-keyword">const</span> supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+<span class="code-keyword">const</span> supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+
+<span class="code-comment">// Validasi environment variable — fail-fast saat startup</span>
+<span class="code-keyword">if</span> (!supabaseUrl || !supabaseAnonKey) {
+  <span class="code-keyword">throw new</span> <span class="code-fn">Error</span>(
+    <span class="code-string">'[supabase.ts] Missing environment variables!\n'</span> +
+    <span class="code-string">'Pastikan VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY tersedia di file .env.local'</span>
+  );
+}
+
+<span class="code-comment">// Export singleton client — typed dengan Database schema</span>
+<span class="code-keyword">export const</span> supabase = <span class="code-fn">createClient</span>&lt;<span class="code-type">Database</span>&gt;(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession:    true,        <span class="code-comment">// Session disimpan di localStorage</span>
+    autoRefreshToken:  true,        <span class="code-comment">// Token refresh otomatis sebelum expired</span>
+    detectSessionInUrl: true,       <span class="code-comment">// Tangkap Magic Link dari URL hash</span>
+  },
+});</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PART 4: AUTH CONTEXT & HOOKS ===== -->
+    <section id="part4" class="space-y-5">
+      <div class="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center text-white font-black text-sm shadow">04</div>
+        <div>
+          <h2 class="text-lg font-black text-slate-900 dark:text-white">AuthContext, Custom Hook `useAuth` & Route Guard</h2>
+          <p class="text-xs text-slate-400">React Context API · onAuthStateChange · Protected Routes · Session State</p>
+        </div>
+      </div>
+
+      <!-- Arsitektur Auth -->
+      <div class="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl p-5 space-y-3">
+        <h3 class="font-bold text-amber-800 dark:text-amber-300 flex items-center gap-2 text-sm">
+          <i data-lucide="layers" class="w-4 h-4"></i> Arsitektur Auth React: 3 Lapisan
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-amber-200/60 dark:border-amber-800 space-y-1">
+            <div class="font-bold text-slate-800 dark:text-slate-200">Layer 1: Context Provider</div>
+            <div class="text-slate-500 dark:text-slate-400"><code>AuthContext.tsx</code> — menyimpan state global (user, session, loading) dan subscribe perubahan auth dari Supabase via <code>onAuthStateChange</code>.</div>
+          </div>
+          <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-amber-200/60 dark:border-amber-800 space-y-1">
+            <div class="font-bold text-slate-800 dark:text-slate-200">Layer 2: Custom Hook</div>
+            <div class="text-slate-500 dark:text-slate-400"><code>useAuth.ts</code> — antarmuka bersih untuk komponen mengonsumsi AuthContext tanpa perlu tahu detail implementasi Provider.</div>
+          </div>
+          <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-amber-200/60 dark:border-amber-800 space-y-1">
+            <div class="font-bold text-slate-800 dark:text-slate-200">Layer 3: Route Guard</div>
+            <div class="text-slate-500 dark:text-slate-400"><code>ProtectedRoute.tsx</code> — komponen wrapper yang mengecek status auth sebelum merender halaman. Redirect ke /login jika user tidak aktif.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prompt Auth -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+          <div class="flex items-center gap-2">
+            <i data-lucide="bot" class="w-4 h-4 text-amber-500"></i>
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Prompt ke Antigravity Agent — AuthContext & Route Guard</span>
+          </div>
+          <button onclick="copyById('prompt-auth')" class="text-xs px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-medium flex items-center gap-1.5 transition">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt
+          </button>
+        </div>
+        <pre id="prompt-auth" class="p-4 bg-slate-900 text-slate-100 text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap">[ROLE]: Senior React & Supabase Authentication Engineer
+[CONTEXT]:
+- Stack: Vite + React 18 (TypeScript) + react-router-dom v6 + @supabase/supabase-js
+- File sudah ada: src/lib/supabase.ts (singleton client), src/types/database.types.ts
+- Belum ada sistem auth sama sekali
+
+[INSTRUCTION]:
+1. Buat 'src/context/AuthContext.tsx':
+   - AuthContextType interface: { user, session, profile, loading, signUpWithEmail, signInWithEmail, signInWithGoogle, signOut }
+   - Gunakan supabase.auth.onAuthStateChange untuk reactive session sync
+   - Cleanup listener di useEffect return
+   - Saat user login, fetch data profile dari public.profiles
+   - Sediakan fungsi: signUpWithEmail(email, password, fullName), signInWithEmail(email, password), signInWithGoogle() via OAuth, signOut()
+   - Export AuthProvider dan useAuth hook
+
+2. Buat 'src/components/ProtectedRoute.tsx':
+   - Jika loading = true → tampilkan full-screen loading spinner bergaya Tailwind (bg-slate-50, indigo spinner)
+   - Jika user null → redirect ke '/login' dengan state { from: location.pathname }
+   - Jika user aktif → render <Outlet />
+
+[CONSTRAINT]:
+- Tulis seluruh file secara PENUH dan LENGKAP tanpa pemotongan
+- Strict TypeScript tanpa any
+- Tangani error dari Supabase dengan cara mengembalikan { error: AuthError | null }
+- Jangan gunakan library state management eksternal (Zustand/Redux), cukup React Context</pre>
+      </div>
+
+      <!-- Kode AuthContext -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+          <div class="flex items-center gap-2">
+            <i data-lucide="file-code-2" class="w-4 h-4 text-amber-500"></i>
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Output: <code>src/context/AuthContext.tsx</code></span>
+          </div>
+          <button onclick="copyById('code-auth-context')" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium flex items-center gap-1 transition">
+            <i data-lucide="copy" class="w-3 h-3"></i> Salin
+          </button>
+        </div>
+        <pre id="code-auth-context" class="p-4 bg-slate-900 text-slate-200 text-[11px] font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap"><span class="code-comment">// src/context/AuthContext.tsx</span>
+<span class="code-keyword">import</span> {
+  createContext, useContext, useEffect, useState, useCallback
+} <span class="code-keyword">from</span> <span class="code-string">'react'</span>;
+<span class="code-keyword">import type</span> { ReactNode } <span class="code-keyword">from</span> <span class="code-string">'react'</span>;
+<span class="code-keyword">import type</span> { <span class="code-type">AuthError</span>, <span class="code-type">Session</span>, <span class="code-type">User</span> } <span class="code-keyword">from</span> <span class="code-string">'@supabase/supabase-js'</span>;
+<span class="code-keyword">import</span> { supabase } <span class="code-keyword">from</span> <span class="code-string">'../lib/supabase'</span>;
+<span class="code-keyword">import type</span> { <span class="code-type">Profile</span> } <span class="code-keyword">from</span> <span class="code-string">'../types/database.types'</span>;
+
+<span class="code-keyword">interface</span> <span class="code-type">AuthResult</span> {
+  error: <span class="code-type">AuthError</span> | null;
+}
+
+<span class="code-keyword">interface</span> <span class="code-type">AuthContextType</span> {
+  user:              <span class="code-type">User</span> | null;
+  session:           <span class="code-type">Session</span> | null;
+  profile:           <span class="code-type">Profile</span> | null;
+  loading:           boolean;
+  <span class="code-fn">signUpWithEmail</span>:   (email: string, password: string, fullName: string) => <span class="code-type">Promise</span>&lt;<span class="code-type">AuthResult</span>&gt;;
+  <span class="code-fn">signInWithEmail</span>:   (email: string, password: string) => <span class="code-type">Promise</span>&lt;<span class="code-type">AuthResult</span>&gt;;
+  <span class="code-fn">signInWithGoogle</span>:  () => <span class="code-type">Promise</span>&lt;<span class="code-type">AuthResult</span>&gt;;
+  <span class="code-fn">signOut</span>:           () => <span class="code-type">Promise</span>&lt;void&gt;;
+}
+
+<span class="code-keyword">const</span> <span class="code-type">AuthContext</span> = <span class="code-fn">createContext</span>&lt;<span class="code-type">AuthContextType</span> | undefined&gt;(undefined);
+
+<span class="code-keyword">export function</span> <span class="code-fn">AuthProvider</span>({ children }: { children: <span class="code-type">ReactNode</span> }) {
+  <span class="code-keyword">const</span> [user,    <span class="code-fn">setUser</span>]    = <span class="code-fn">useState</span>&lt;<span class="code-type">User</span>    | null&gt;(null);
+  <span class="code-keyword">const</span> [session, <span class="code-fn">setSession</span>] = <span class="code-fn">useState</span>&lt;<span class="code-type">Session</span> | null&gt;(null);
+  <span class="code-keyword">const</span> [profile, <span class="code-fn">setProfile</span>] = <span class="code-fn">useState</span>&lt;<span class="code-type">Profile</span> | null&gt;(null);
+  <span class="code-keyword">const</span> [loading, <span class="code-fn">setLoading</span>] = <span class="code-fn">useState</span>&lt;boolean&gt;(true);
+
+  <span class="code-comment">// Fetch profile dari public.profiles saat user berubah</span>
+  <span class="code-keyword">const</span> <span class="code-fn">fetchProfile</span> = <span class="code-fn">useCallback</span>(async (userId: string) => {
+    <span class="code-keyword">const</span> { data } = await supabase
+      .from(<span class="code-string">'profiles'</span>)
+      .select(<span class="code-string">'*'</span>)
+      .eq(<span class="code-string">'id'</span>, userId)
+      .single();
+    <span class="code-fn">setProfile</span>(data);
+  }, []);
+
+  <span class="code-fn">useEffect</span>(() => {
+    <span class="code-comment">// 1. Cek session yang sudah tersimpan di localStorage saat pertama kali mount</span>
+    supabase.auth.<span class="code-fn">getSession</span>().then(({ data: { session } }) => {
+      <span class="code-fn">setSession</span>(session);
+      <span class="code-fn">setUser</span>(session?.user ?? null);
+      <span class="code-keyword">if</span> (session?.user) <span class="code-fn">fetchProfile</span>(session.user.id);
+      <span class="code-fn">setLoading</span>(false);
+    });
+
+    <span class="code-comment">// 2. Subscribe perubahan auth state secara realtime</span>
+    <span class="code-keyword">const</span> { data: { subscription } } = supabase.auth.<span class="code-fn">onAuthStateChange</span>(
+      (event, session) => {
+        <span class="code-fn">setSession</span>(session);
+        <span class="code-fn">setUser</span>(session?.user ?? null);
+        <span class="code-keyword">if</span> (session?.user) {
+          <span class="code-fn">fetchProfile</span>(session.user.id);
+        } <span class="code-keyword">else</span> {
+          <span class="code-fn">setProfile</span>(null);
+        }
+        <span class="code-fn">setLoading</span>(false);
+      }
+    );
+
+    <span class="code-comment">// 3. Cleanup — lepas listener saat AuthProvider unmount</span>
+    <span class="code-keyword">return</span> () => subscription.<span class="code-fn">unsubscribe</span>();
+  }, [fetchProfile]);
+
+  <span class="code-keyword">const</span> <span class="code-fn">signUpWithEmail</span> = async (
+    email: string, password: string, fullName: string
+  ): <span class="code-type">Promise</span>&lt;<span class="code-type">AuthResult</span>&gt; => {
+    <span class="code-keyword">const</span> { error } = await supabase.auth.<span class="code-fn">signUp</span>({
+      email,
+      password,
+      options: { data: { full_name: fullName } },
+    });
+    <span class="code-keyword">return</span> { error };
+  };
+
+  <span class="code-keyword">const</span> <span class="code-fn">signInWithEmail</span> = async (
+    email: string, password: string
+  ): <span class="code-type">Promise</span>&lt;<span class="code-type">AuthResult</span>&gt; => {
+    <span class="code-keyword">const</span> { error } = await supabase.auth.<span class="code-fn">signInWithPassword</span>({ email, password });
+    <span class="code-keyword">return</span> { error };
+  };
+
+  <span class="code-keyword">const</span> <span class="code-fn">signInWithGoogle</span> = async (): <span class="code-type">Promise</span>&lt;<span class="code-type">AuthResult</span>&gt; => {
+    <span class="code-keyword">const</span> { error } = await supabase.auth.<span class="code-fn">signInWithOAuth</span>({
+      provider: <span class="code-string">'google'</span>,
+      options: { redirectTo: `${window.location.origin}/dashboard` },
+    });
+    <span class="code-keyword">return</span> { error };
+  };
+
+  <span class="code-keyword">const</span> <span class="code-fn">signOut</span> = async (): <span class="code-type">Promise</span>&lt;void&gt; => {
+    await supabase.auth.<span class="code-fn">signOut</span>();
+  };
+
+  <span class="code-keyword">return</span> (
+    &lt;<span class="code-type">AuthContext</span>.Provider value={{ user, session, profile, loading, signUpWithEmail, signInWithEmail, signInWithGoogle, signOut }}&gt;
+      {children}
+    &lt;/<span class="code-type">AuthContext</span>.Provider&gt;
+  );
+}
+
+<span class="code-comment">// Custom hook — safe consumer dengan error jika dipakai di luar Provider</span>
+<span class="code-keyword">export function</span> <span class="code-fn">useAuth</span>(): <span class="code-type">AuthContextType</span> {
+  <span class="code-keyword">const</span> context = <span class="code-fn">useContext</span>(<span class="code-type">AuthContext</span>);
+  <span class="code-keyword">if</span> (!context) {
+    <span class="code-keyword">throw new</span> <span class="code-fn">Error</span>(<span class="code-string">'useAuth harus digunakan di dalam &lt;AuthProvider&gt;'</span>);
+  }
+  <span class="code-keyword">return</span> context;
+}</pre>
+      </div>
+
+      <!-- Kode ProtectedRoute -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+          <div class="flex items-center gap-2">
+            <i data-lucide="file-code-2" class="w-4 h-4 text-amber-500"></i>
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Output: <code>src/components/ProtectedRoute.tsx</code></span>
+          </div>
+          <button onclick="copyById('code-protected-route')" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium flex items-center gap-1 transition">
+            <i data-lucide="copy" class="w-3 h-3"></i> Salin
+          </button>
+        </div>
+        <pre id="code-protected-route" class="p-4 bg-slate-900 text-slate-200 text-[11px] font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap"><span class="code-comment">// src/components/ProtectedRoute.tsx</span>
+<span class="code-keyword">import</span> { Navigate, Outlet, useLocation } <span class="code-keyword">from</span> <span class="code-string">'react-router-dom'</span>;
+<span class="code-keyword">import</span> { useAuth } <span class="code-keyword">from</span> <span class="code-string">'../context/AuthContext'</span>;
+
+<span class="code-keyword">export function</span> <span class="code-fn">ProtectedRoute</span>() {
+  <span class="code-keyword">const</span> { user, loading } = <span class="code-fn">useAuth</span>();
+  <span class="code-keyword">const</span> location = <span class="code-fn">useLocation</span>();
+
+  <span class="code-comment">// 1. Tampilkan loading spinner saat session masih diperiksa</span>
+  <span class="code-keyword">if</span> (loading) {
+    <span class="code-keyword">return</span> (
+      &lt;div className=<span class="code-string">"min-h-screen bg-slate-50 flex items-center justify-center"</span>&gt;
+        &lt;div className=<span class="code-string">"flex flex-col items-center gap-3"</span>&gt;
+          &lt;div className=<span class="code-string">"w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"</span> /&gt;
+          &lt;p className=<span class="code-string">"text-xs text-slate-400 font-medium"</span>&gt;Memeriksa sesi...&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  <span class="code-comment">// 2. Redirect ke /login jika tidak ada user aktif</span>
+  <span class="code-comment">// state.from menyimpan halaman asal untuk redirect balik setelah login</span>
+  <span class="code-keyword">if</span> (!user) {
+    <span class="code-keyword">return</span> &lt;<span class="code-type">Navigate</span> to=<span class="code-string">"/login"</span> state={{ from: location.pathname }} replace /&gt;;
+  }
+
+  <span class="code-comment">// 3. Render halaman tujuan (nested routes via Outlet)</span>
+  <span class="code-keyword">return</span> &lt;<span class="code-type">Outlet</span> /&gt;;
+}</pre>
+      </div>
+
+      <!-- Kode App.tsx Router integration -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+          <div class="flex items-center gap-2">
+            <i data-lucide="git-branch" class="w-4 h-4 text-indigo-500"></i>
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Integrasi ke <code>src/main.tsx</code> & Router</span>
+          </div>
+          <button onclick="copyById('code-router')" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium flex items-center gap-1 transition">
+            <i data-lucide="copy" class="w-3 h-3"></i> Salin
+          </button>
+        </div>
+        <pre id="code-router" class="p-4 bg-slate-900 text-slate-200 text-[11px] font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap"><span class="code-comment">// src/main.tsx — wrap aplikasi dengan AuthProvider & BrowserRouter</span>
+<span class="code-keyword">import</span> React <span class="code-keyword">from</span> <span class="code-string">'react'</span>;
+<span class="code-keyword">import</span> ReactDOM <span class="code-keyword">from</span> <span class="code-string">'react-dom/client'</span>;
+<span class="code-keyword">import</span> { BrowserRouter, Routes, Route } <span class="code-keyword">from</span> <span class="code-string">'react-router-dom'</span>;
+<span class="code-keyword">import</span> { AuthProvider } <span class="code-keyword">from</span> <span class="code-string">'./context/AuthContext'</span>;
+<span class="code-keyword">import</span> { ProtectedRoute } <span class="code-keyword">from</span> <span class="code-string">'./components/ProtectedRoute'</span>;
+<span class="code-keyword">import</span> LoginPage <span class="code-keyword">from</span> <span class="code-string">'./pages/LoginPage'</span>;
+<span class="code-keyword">import</span> DashboardPage <span class="code-keyword">from</span> <span class="code-string">'./pages/DashboardPage'</span>;
+<span class="code-keyword">import</span> <span class="code-string">'./index.css'</span>;
+
+ReactDOM.<span class="code-fn">createRoot</span>(document.<span class="code-fn">getElementById</span>(<span class="code-string">'root'</span>)!).<span class="code-fn">render</span>(
+  &lt;React.StrictMode&gt;
+    &lt;BrowserRouter&gt;
+      &lt;AuthProvider&gt;             {<span class="code-comment">/* Wrap di sini agar useAuth bisa dipakai di mana saja */</span>}
+        &lt;Routes&gt;
+          &lt;Route path=<span class="code-string">"/login"</span>    element={&lt;LoginPage /&gt;} /&gt;
+
+          {<span class="code-comment">/* Semua route di dalam ProtectedRoute otomatis ter-guard */</span>}
+          &lt;Route element={&lt;ProtectedRoute /&gt;}&gt;
+            &lt;Route path=<span class="code-string">"/dashboard"</span>  element={&lt;DashboardPage /&gt;} /&gt;
+            &lt;Route path=<span class="code-string">"/"</span>           element={&lt;DashboardPage /&gt;} /&gt;
+          &lt;/Route&gt;
+        &lt;/Routes&gt;
+      &lt;/AuthProvider&gt;
+    &lt;/BrowserRouter&gt;
+  &lt;/React.StrictMode&gt;
+);</pre>
+      </div>
+
+      <!-- Testing checklist -->
+      <div class="bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-800 rounded-xl p-5 space-y-3">
+        <h3 class="font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-2 text-sm">
+          <i data-lucide="clipboard-check" class="w-4 h-4"></i> Checklist Uji Alur Auth di Browser
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="space-y-1.5">
+            <div class="font-bold text-slate-700 dark:text-slate-300">Skenario Sign Up:</div>
+            <ul class="space-y-1 text-slate-500 dark:text-slate-400">
+              <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Form sign up berhasil mengirim data</li>
+              <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Cek Supabase Dashboard → Authentication → Users: user baru muncul</li>
+              <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Cek Table Editor → profiles: baris profile otomatis terbuat via trigger</li>
+            </ul>
+          </div>
+          <div class="space-y-1.5">
+            <div class="font-bold text-slate-700 dark:text-slate-300">Skenario Route Guard:</div>
+            <ul class="space-y-1 text-slate-500 dark:text-slate-400">
+              <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Akses <code>/dashboard</code> tanpa login → redirect ke <code>/login</code></li>
+              <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Setelah login → otomatis diarahkan ke halaman sebelumnya</li>
+              <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Setelah logout → tidak bisa akses dashboard, redirect ke login</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PART 5: REALTIME HOOK ===== -->
+    <section id="part5" class="space-y-5">
+      <div class="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div class="w-9 h-9 rounded-xl bg-violet-600 flex items-center justify-center text-white font-black text-sm shadow">05</div>
+        <div>
+          <h2 class="text-lg font-black text-slate-900 dark:text-white">Realtime Subscription Hook dengan Safe Cleanup</h2>
+          <p class="text-xs text-slate-400">supabase.channel() · CRUD Operations · Memory Leak Prevention · Optimistic Updates</p>
+        </div>
+      </div>
+
+      <!-- Konsep Realtime -->
+      <div class="bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800 rounded-xl p-5 space-y-3">
+        <h3 class="font-bold text-violet-800 dark:text-violet-300 flex items-center gap-2 text-sm">
+          <i data-lucide="radio" class="w-4 h-4"></i> Konsep: Bagaimana Supabase Realtime Bekerja?
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+          <div class="space-y-1.5">
+            <p><strong>WebSocket Channel:</strong> Supabase membuka koneksi WebSocket persisten antara browser dan server. Setiap perubahan database (INSERT, UPDATE, DELETE) diteruskan ke semua subscriber yang aktif dalam milidetik.</p>
+          </div>
+          <div class="space-y-1.5">
+            <p><strong>Memory Leak Risk:</strong> Jika listener WebSocket tidak dibersihkan saat komponen React di-unmount, listener akan terus aktif di background — menimbulkan duplicate events dan konsumsi memori yang bocor setiap kali komponen re-mount.</p>
+          </div>
+        </div>
+        <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-violet-200/60 dark:border-violet-800 text-xs font-mono">
+          <div class="text-violet-600 dark:text-violet-400 font-bold">Pattern yang BENAR (dengan cleanup):</div>
+          <div class="text-slate-300 mt-1">useEffect(() =&gt; {'{'}</div>
+          <div class="text-slate-300 pl-4">const channel = supabase.channel('...').on(...).subscribe();</div>
+          <div class="text-emerald-400 pl-4">return () =&gt; supabase.removeChannel(channel); // ← WAJIB!</div>
+          <div class="text-slate-300">{'}'}, [user?.id]);</div>
+        </div>
+      </div>
+
+      <!-- Prompt Realtime Hook -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+          <div class="flex items-center gap-2">
+            <i data-lucide="bot" class="w-4 h-4 text-violet-500"></i>
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Prompt ke Antigravity Agent — Realtime Hook</span>
+          </div>
+          <button onclick="copyById('prompt-realtime')" class="text-xs px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-700 text-white font-medium flex items-center gap-1.5 transition">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt
+          </button>
+        </div>
+        <pre id="prompt-realtime" class="p-4 bg-slate-900 text-slate-100 text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap">[ROLE]: Senior React & Supabase Realtime Engineer
+[CONTEXT]:
+- Stack: Vite + React 18 (TypeScript) + @supabase/supabase-js
+- File yang sudah ada: src/lib/supabase.ts, src/types/database.types.ts, src/context/AuthContext.tsx
+- Tabel target: transactions (dengan join ke categories)
+
+[INSTRUCTION]:
+Buat file 'src/hooks/useTransactions.ts' yang merupakan custom hook lengkap:
+
+State yang dikelola: { transactions, loading, error }
+
+Fungsi CRUD yang harus ada:
+- fetchTransactions(): ambil semua transaksi milik user yang login, dengan join ke categories (select: '*, categories(*)')
+- addTransaction(data: TransactionInsert): insert transaksi baru
+- updateTransaction(id: string, data: TransactionUpdate): update transaksi
+- deleteTransaction(id: string): hapus transaksi
+
+Realtime subscription:
+- Subscribe ke perubahan tabel transactions menggunakan supabase.channel() dengan filter user_id = auth.uid()
+- Handle event INSERT, UPDATE, DELETE untuk update state lokal tanpa refetch full data
+- Sertakan cleanup function supabase.removeChannel() yang dipanggil saat hook unmount
+
+State management:
+- Gunakan optimistic update pada DELETE (hapus dari state dahulu, rollback jika server error)
+- Loading state per-operasi: isLoading (initial fetch), isSubmitting (CUD operations)
+
+[CONSTRAINT]:
+- Tulis seluruh file secara PENUH dan LENGKAP tanpa pemotongan
+- Strict TypeScript menggunakan types dari database.types.ts
+- Gunakan useAuth() untuk mendapatkan user.id
+- Tangani semua error dengan try/catch dan return error state yang jelas</pre>
+      </div>
+
+      <!-- Kode Realtime Hook -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+          <div class="flex items-center gap-2">
+            <i data-lucide="file-code-2" class="w-4 h-4 text-violet-500"></i>
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Output: <code>src/hooks/useTransactions.ts</code> (Lengkap)</span>
+          </div>
+          <button onclick="copyById('code-realtime-hook')" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium flex items-center gap-1 transition">
+            <i data-lucide="copy" class="w-3 h-3"></i> Salin
+          </button>
+        </div>
+        <pre id="code-realtime-hook" class="p-4 bg-slate-900 text-slate-200 text-[11px] font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap"><span class="code-comment">// src/hooks/useTransactions.ts</span>
+<span class="code-keyword">import</span> { useState, useEffect, useCallback } <span class="code-keyword">from</span> <span class="code-string">'react'</span>;
+<span class="code-keyword">import</span> { supabase } <span class="code-keyword">from</span> <span class="code-string">'../lib/supabase'</span>;
+<span class="code-keyword">import</span> { useAuth } <span class="code-keyword">from</span> <span class="code-string">'../context/AuthContext'</span>;
+<span class="code-keyword">import type</span> {
+  <span class="code-type">Transaction</span>, <span class="code-type">TransactionInsert</span>, <span class="code-type">TransactionUpdate</span>, <span class="code-type">TransactionWithCategory</span>
+} <span class="code-keyword">from</span> <span class="code-string">'../types/database.types'</span>;
+
+<span class="code-keyword">interface</span> <span class="code-type">UseTransactionsReturn</span> {
+  transactions:   <span class="code-type">TransactionWithCategory</span>[];
+  isLoading:      boolean;
+  isSubmitting:   boolean;
+  error:          string | null;
+  <span class="code-fn">addTransaction</span>:    (data: <span class="code-type">TransactionInsert</span>) => <span class="code-type">Promise</span>&lt;{ error: string | null }&gt;;
+  <span class="code-fn">updateTransaction</span>: (id: string, data: <span class="code-type">TransactionUpdate</span>) => <span class="code-type">Promise</span>&lt;{ error: string | null }&gt;;
+  <span class="code-fn">deleteTransaction</span>: (id: string) => <span class="code-type">Promise</span>&lt;{ error: string | null }&gt;;
+  <span class="code-fn">refetch</span>:            () => <span class="code-type">Promise</span>&lt;void&gt;;
+}
+
+<span class="code-keyword">export function</span> <span class="code-fn">useTransactions</span>(): <span class="code-type">UseTransactionsReturn</span> {
+  <span class="code-keyword">const</span> { user } = <span class="code-fn">useAuth</span>();
+
+  <span class="code-keyword">const</span> [transactions, <span class="code-fn">setTransactions</span>] = <span class="code-fn">useState</span>&lt;<span class="code-type">TransactionWithCategory</span>[]&gt;([]);
+  <span class="code-keyword">const</span> [isLoading,     <span class="code-fn">setIsLoading</span>]     = <span class="code-fn">useState</span>&lt;boolean&gt;(true);
+  <span class="code-keyword">const</span> [isSubmitting,  <span class="code-fn">setIsSubmitting</span>]  = <span class="code-fn">useState</span>&lt;boolean&gt;(false);
+  <span class="code-keyword">const</span> [error,         <span class="code-fn">setError</span>]         = <span class="code-fn">useState</span>&lt;string | null&gt;(null);
+
+  <span class="code-comment">// -------- FETCH (Initial + Manual Refetch) --------</span>
+  <span class="code-keyword">const</span> <span class="code-fn">fetchTransactions</span> = <span class="code-fn">useCallback</span>(async () => {
+    <span class="code-keyword">if</span> (!user) { <span class="code-fn">setTransactions</span>([]); <span class="code-fn">setIsLoading</span>(false); <span class="code-keyword">return</span>; }
+
+    <span class="code-fn">setIsLoading</span>(true);
+    <span class="code-fn">setError</span>(null);
+
+    <span class="code-keyword">const</span> { data, error: fetchError } = await supabase
+      .from(<span class="code-string">'transactions'</span>)
+      .select(<span class="code-string">'*, categories(*)'</span>)           <span class="code-comment">// Join ke tabel categories</span>
+      .eq(<span class="code-string">'user_id'</span>, user.id)
+      .order(<span class="code-string">'date'</span>, { ascending: false });
+
+    <span class="code-keyword">if</span> (fetchError) {
+      <span class="code-fn">setError</span>(fetchError.message);
+    } <span class="code-keyword">else</span> {
+      <span class="code-fn">setTransactions</span>((data as <span class="code-type">TransactionWithCategory</span>[]) ?? []);
+    }
+    <span class="code-fn">setIsLoading</span>(false);
+  }, [user]);
+
+  <span class="code-comment">// -------- REALTIME SUBSCRIPTION --------</span>
+  <span class="code-fn">useEffect</span>(() => {
+    <span class="code-fn">fetchTransactions</span>();
+
+    <span class="code-keyword">if</span> (!user) <span class="code-keyword">return</span>;
+
+    <span class="code-comment">// Subscribe hanya ke perubahan transaksi milik user yang sedang login</span>
+    <span class="code-keyword">const</span> channel = supabase
+      .<span class="code-fn">channel</span>(`transactions_${user.id}`)
+      .on(
+        <span class="code-string">'postgres_changes'</span>,
+        {
+          event:  <span class="code-string">'*'</span>,                   <span class="code-comment">// INSERT | UPDATE | DELETE</span>
+          schema: <span class="code-string">'public'</span>,
+          table:  <span class="code-string">'transactions'</span>,
+          filter: `user_id=eq.${user.id}`, <span class="code-comment">// Filter server-side per user</span>
+        },
+        (payload) => {
+          <span class="code-keyword">const</span> { eventType, new: newRow, old: oldRow } = payload;
+
+          <span class="code-keyword">if</span> (eventType === <span class="code-string">'INSERT'</span>) {
+            <span class="code-comment">// Refetch untuk mendapatkan join data (categories)</span>
+            <span class="code-fn">fetchTransactions</span>();
+          } <span class="code-keyword">else if</span> (eventType === <span class="code-string">'UPDATE'</span>) {
+            <span class="code-fn">setTransactions</span>(prev =>
+              prev.map(t => t.id === (newRow as <span class="code-type">Transaction</span>).id
+                ? { ...t, ...(newRow as <span class="code-type">Transaction</span>) }
+                : t
+              )
+            );
+          } <span class="code-keyword">else if</span> (eventType === <span class="code-string">'DELETE'</span>) {
+            <span class="code-fn">setTransactions</span>(prev =>
+              prev.filter(t => t.id !== (oldRow as <span class="code-type">Transaction</span>).id)
+            );
+          }
+        }
+      )
+      .<span class="code-fn">subscribe</span>();
+
+    <span class="code-comment">// ← CLEANUP WAJIB: lepas channel saat komponen unmount atau user berubah</span>
+    <span class="code-keyword">return</span> () => {
+      supabase.<span class="code-fn">removeChannel</span>(channel);
+    };
+  }, [user, fetchTransactions]);
+
+  <span class="code-comment">// -------- ADD --------</span>
+  <span class="code-keyword">const</span> <span class="code-fn">addTransaction</span> = async (data: <span class="code-type">TransactionInsert</span>) => {
+    <span class="code-keyword">if</span> (!user) <span class="code-keyword">return</span> { error: <span class="code-string">'User tidak login'</span> };
+    <span class="code-fn">setIsSubmitting</span>(true);
+
+    <span class="code-keyword">const</span> { error: insertError } = await supabase
+      .from(<span class="code-string">'transactions'</span>)
+      .insert({ ...data, user_id: user.id });
+
+    <span class="code-fn">setIsSubmitting</span>(false);
+    <span class="code-keyword">return</span> { error: insertError?.message ?? null };
+  };
+
+  <span class="code-comment">// -------- UPDATE --------</span>
+  <span class="code-keyword">const</span> <span class="code-fn">updateTransaction</span> = async (id: string, data: <span class="code-type">TransactionUpdate</span>) => {
+    <span class="code-fn">setIsSubmitting</span>(true);
+
+    <span class="code-keyword">const</span> { error: updateError } = await supabase
+      .from(<span class="code-string">'transactions'</span>)
+      .update(data)
+      .eq(<span class="code-string">'id'</span>, id)
+      .eq(<span class="code-string">'user_id'</span>, user?.id ?? <span class="code-string">''</span>); <span class="code-comment">// Double-check ownership</span>
+
+    <span class="code-fn">setIsSubmitting</span>(false);
+    <span class="code-keyword">return</span> { error: updateError?.message ?? null };
+  };
+
+  <span class="code-comment">// -------- DELETE (Optimistic) --------</span>
+  <span class="code-keyword">const</span> <span class="code-fn">deleteTransaction</span> = async (id: string) => {
+    <span class="code-comment">// Optimistic update: hapus dari state dulu sebelum konfirmasi server</span>
+    <span class="code-keyword">const</span> snapshot = [...transactions];
+    <span class="code-fn">setTransactions</span>(prev => prev.filter(t => t.id !== id));
+
+    <span class="code-keyword">const</span> { error: deleteError } = await supabase
+      .from(<span class="code-string">'transactions'</span>)
+      .delete()
+      .eq(<span class="code-string">'id'</span>, id)
+      .eq(<span class="code-string">'user_id'</span>, user?.id ?? <span class="code-string">''</span>);
+
+    <span class="code-keyword">if</span> (deleteError) {
+      <span class="code-comment">// Rollback ke snapshot sebelumnya jika server error</span>
+      <span class="code-fn">setTransactions</span>(snapshot);
+      <span class="code-keyword">return</span> { error: deleteError.message };
+    }
+
+    <span class="code-keyword">return</span> { error: null };
+  };
+
+  <span class="code-keyword">return</span> {
+    transactions,
+    isLoading,
+    isSubmitting,
+    error,
+    addTransaction,
+    updateTransaction,
+    deleteTransaction,
+    refetch: fetchTransactions,
+  };
+}</pre>
+      </div>
+
+      <!-- Contoh penggunaan hook -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900">
+          <div class="flex items-center gap-2">
+            <i data-lucide="play-circle" class="w-4 h-4 text-violet-500"></i>
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Contoh Penggunaan Hook di Komponen React</span>
+          </div>
+          <button onclick="copyById('code-hook-usage')" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium flex items-center gap-1 transition">
+            <i data-lucide="copy" class="w-3 h-3"></i> Salin
+          </button>
+        </div>
+        <pre id="code-hook-usage" class="p-4 bg-slate-900 text-slate-200 text-[11px] font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap"><span class="code-comment">// src/pages/DashboardPage.tsx — Contoh konsumsi useTransactions</span>
+<span class="code-keyword">import</span> { useTransactions } <span class="code-keyword">from</span> <span class="code-string">'../hooks/useTransactions'</span>;
+
+<span class="code-keyword">export default function</span> <span class="code-fn">DashboardPage</span>() {
+  <span class="code-keyword">const</span> {
+    transactions,
+    isLoading,
+    isSubmitting,
+    error,
+    addTransaction,
+    deleteTransaction,
+  } = <span class="code-fn">useTransactions</span>();
+
+  <span class="code-keyword">const</span> <span class="code-fn">handleAdd</span> = async () => {
+    <span class="code-keyword">const</span> { error } = await <span class="code-fn">addTransaction</span>({
+      user_id: <span class="code-string">''</span>,       <span class="code-comment">// Hook akan mengisi user_id otomatis</span>
+      title:  <span class="code-string">'Belanja Groceries'</span>,
+      amount: <span class="code-num">150000</span>,
+      type:   <span class="code-string">'expense'</span>,
+    });
+    <span class="code-keyword">if</span> (error) console.<span class="code-fn">error</span>(<span class="code-string">'Gagal menambah:'</span>, error);
+  };
+
+  <span class="code-keyword">if</span> (isLoading) <span class="code-keyword">return</span> &lt;div&gt;Memuat data...&lt;/div&gt;;
+  <span class="code-keyword">if</span> (error) <span class="code-keyword">return</span> &lt;div className=<span class="code-string">"text-rose-500"</span>&gt;Error: {error}&lt;/div&gt;;
+
+  <span class="code-keyword">return</span> (
+    &lt;ul&gt;
+      {transactions.map(trx => (
+        &lt;li key={trx.id} className=<span class="code-string">"flex justify-between"</span>&gt;
+          &lt;span&gt;{trx.title} — Rp {trx.amount.toLocaleString(<span class="code-string">'id-ID'</span>)}&lt;/span&gt;
+          &lt;button
+            onClick={() => <span class="code-fn">deleteTransaction</span>(trx.id)}
+            disabled={isSubmitting}
+          &gt;
+            Hapus
+          &lt;/button&gt;
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}</pre>
+      </div>
+
+      <!-- Checkpoint Final -->
+      <div class="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl p-5 space-y-3">
+        <h3 class="font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-2 text-sm">
+          <i data-lucide="award" class="w-4 h-4"></i> Checkpoint Kelulusan Modul 3 — Buat Git Commit!
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <ul class="space-y-1.5 text-slate-600 dark:text-slate-300">
+            <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 shrink-0"></i> SQL DDL berhasil dieksekusi di Supabase (cek 3 tabel di Table Editor)</li>
+            <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 shrink-0"></i> RLS aktif: test query tanpa auth mengembalikan 0 baris</li>
+            <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 shrink-0"></i> .env.local tersimpan dan masuk ke .gitignore</li>
+          </ul>
+          <ul class="space-y-1.5 text-slate-600 dark:text-slate-300">
+            <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 shrink-0"></i> Sign Up → profile otomatis terbuat via trigger</li>
+            <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 shrink-0"></i> Realtime: tambah transaksi di tab 1, muncul di tab 2 tanpa refresh</li>
+            <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 shrink-0"></i> Tidak ada TypeScript errors di terminal Antigravity</li>
+          </ul>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-900 text-emerald-400 font-mono text-xs">
+          git add . &amp;&amp; git commit -m "feat(db): add schema, rls, auth context, and realtime hook"
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 mt-12 py-6 text-center text-xs text-slate-400">
+    <p class="font-semibold text-slate-600 dark:text-slate-400">Materi Detail Modul 3 — Panduan Praktikum Antigravity IDE &copy; 2026</p>
+    <p class="mt-1">SQL DDL · RLS Policies · AuthContext · Realtime Subscription Hook</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.contains('dark');
+      const icon = document.getElementById('theme-icon');
+      isDark ? html.classList.remove('dark') : html.classList.add('dark');
+      icon.setAttribute('data-lucide', isDark ? 'moon' : 'sun');
+      lucide.createIcons();
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function copyById(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      navigator.clipboard.writeText(el.innerText || el.textContent || '').then(() => {
+        const toast = document.getElementById('toast');
+        const msg = document.getElementById('toast-msg');
+        msg.innerText = 'Kode berhasil disalin!';
+        toast.classList.remove('translate-y-20', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+        setTimeout(() => {
+          toast.classList.remove('translate-y-0', 'opacity-100');
+          toast.classList.add('translate-y-20', 'opacity-0');
+        }, 2500);
+      });
+    }
+  </script>
+</body>
+</html>
