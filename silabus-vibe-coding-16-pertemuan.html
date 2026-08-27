@@ -1461,7 +1461,7 @@
       margin-top: 3px;
     }
 
-    .theory-analogy-box strong {
+    .theory-analogy-box > div > strong:first-child {
       display: block;
       font-size: 14.5px;
       color: var(--ink);
@@ -1472,6 +1472,12 @@
       font-size: 14px;
       color: var(--ink-mid);
       line-height: 1.6;
+    }
+
+    .theory-analogy-box p strong {
+      display: inline;
+      font-weight: 700;
+      color: var(--ink);
     }
 
     /* Concept Row (grid of items) */
@@ -1510,7 +1516,7 @@
       font-size: 13px;
     }
 
-    .theory-concept-item strong {
+    .theory-concept-item > div > strong:first-child {
       display: block;
       font-size: 14px;
       color: var(--ink);
@@ -1521,6 +1527,12 @@
       font-size: 13px;
       color: var(--ink-soft);
       margin: 0;
+    }
+
+    .theory-concept-item p strong {
+      display: inline;
+      font-weight: 700;
+      color: var(--ink);
     }
 
     /* Key Insight Box */
