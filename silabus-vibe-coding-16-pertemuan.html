@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -1830,6 +1830,7 @@
       </a>
       <div class="nav-modules">
         <a href="silabus-vibe-coding-16-pertemuan.html" class="nav-tab active">📋 Silabus 16 Pertemuan</a>
+        <a href="praktikum_git_sebelum_coding.html" class="nav-tab">🌳 Praktikum Git (P5)</a>
         <a href="panduan_push_github.html" class="nav-tab">🚀 Panduan Push GitHub</a>
         <a href="panduan_vibecoding_owasp.html" class="nav-tab">🛡️ Panduan OWASP</a>
       </div>
@@ -1960,11 +1961,15 @@
                 <td class="ov-out">File <code>tasks.md</code> berisi daftar tugas berurutan; tugas pertama sudah
                   tercentang.</td>
               </tr>
-              <tr>
+              <tr style="background:#EAF6F4; border-left: 3px solid #00A896;">
                 <td class="ov-num"><span style="background:#00A896;">5</span></td>
-                <td class="ov-title"><a href="#p5">Git Sebelum Coding</a></td>
-                <td class="ov-block">Bangun Halaman Pertama</td>
-                <td class="ov-out">Repo Git dengan minimal 5 commit, termasuk satu commit yang sengaja di-revert.</td>
+                <td class="ov-title"><a href="#p5" style="color:#01656F; font-weight:bold;">Modul 5: Git Sebelum
+                    Coding — Jaring Pengaman Wajib Vibe Coder</a></td>
+                <td class="ov-block"><b>Blok 2 · Modul Praktikum</b></td>
+                <td class="ov-out"><b>Repo Git dengan minimal 5 commit, termasuk satu commit pemulihan dari simulasi kerusakan AI.</b>
+                  <br><a href="praktikum_git_sebelum_coding.html" target="_blank"
+                    style="display:inline-flex; align-items:center; gap:5px; margin-top:4px; padding:3px 10px; background:#00A896; color:#fff; border-radius:6px; font-size:11.5px; font-weight:bold; text-decoration:none;">🌳
+                    Buka Modul 5 (praktikum_git_sebelum_coding.html) →</a></td>
               </tr>
               <tr style="background:#EAF6F4; border-left: 3px solid #028090;">
                 <td class="ov-num"><span style="background:#028090;">6</span></td>
@@ -2337,223 +2342,70 @@ Contoh:
           <!-- ═══════════════════════════════════════════════════════ -->
           <!-- PERTEMUAN 5 — GIT SEBELUM CODING (MATERI LENGKAP)      -->
           <!-- ═══════════════════════════════════════════════════════ -->
-          <article class="session" id="p5" data-block="bangun" style="border-left:4px solid #00A896; background:#f8fffe;">
-
-            <!-- HEADER SESI -->
+          <article class="session" id="p5" data-block="bangun"
+            style="border-left:4px solid #00A896; background:#fbfefe;">
             <div class="session-head">
               <div class="session-badge" style="background:linear-gradient(135deg,#00A896,#02C39A);">5</div>
               <div class="session-headtext">
-                <h3>Git Sebelum Coding — Jaring Pengaman Wajib Vibe Coder</h3>
+                <h3>Modul 5: Git Sebelum Coding — Jaring Pengaman Wajib Vibe Coder</h3>
                 <div class="session-meta">
                   <span class="meta-chip">Bangun Halaman Pertama</span>
                   <span class="meta-chip">90 menit</span>
-                  <span class="meta-chip" style="background:#EAF6F4;color:#01656F;border-color:#A7D8D4;font-weight:bold;">Modul Lengkap + 5 Prompt</span>
+                  <span class="meta-chip"
+                    style="background:#EAF6F4; color:#01656F; border-color:#A7D8D4; font-weight:bold;">Modul Praktikum
+                    Lengkap</span>
                 </div>
               </div>
             </div>
-
-            <p class="session-goal">
-              <b>Tujuan:</b> Peserta memahami <em>mengapa</em> Git adalah keharusan sebelum mengizinkan AI menyentuh kode, lalu mempraktikkannya langsung menggunakan <strong>Antigravity AI IDE</strong> — mulai dari inisialisasi repo hingga pemulihan kode yang dirusak AI.
-            </p>
-
-            <!-- ─────── BLOK TEORI LENGKAP ─────── -->
-            <div class="theory-wrapper" style="margin-top:20px;">
-
-              <!-- Judul Teori -->
-              <div class="theory-section-head" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);">
-                <div class="theory-section-icon">🌳</div>
-                <div>
-                  <h3 class="theory-section-title">Materi Teori: Mengapa Git Adalah Nyawa Proyek Kamu</h3>
-                  <p class="theory-section-sub">Sebelum kamu menyuruh AI mengubah apapun, kamu wajib punya <em>titik aman untuk kembali</em>. Git adalah titik itu. Tanpa Git, satu prompt AI yang salah bisa membuat proyekmu tidak bisa dijalankan lagi.</p>
-                </div>
+            <p class="session-goal"><b>Tujuan:</b> Peserta memahami <em>mengapa</em> Git adalah keharusan sebelum mengizinkan AI menyentuh kode, punya jaring pengaman, dan menguasai alur kerja commit hingga pemulihan kode yang dirusak AI.</p>
+            
+            <div class="session-two-col">
+              <div class="teori-col">
+                <h4 class="col-title">&#128218; Teori</h4>
+                <ul class="plain-list">
+                  <li><strong>Git = Mesin Waktu Proyek:</strong> Analogi foto snapshot di kamera polaroid sebelum merenovasi ruangan</li>
+                  <li><strong>Bahaya Tanpa Git:</strong> AI tidak punya tombol "undo" — satu prompt yang salah bisa merusak file tanpa titik kembali</li>
+                  <li><strong>Kamus 5 Istilah Git:</strong> <code>Repository</code> (gudang), <code>Commit</code> (snapshot simpan), <code>Staging</code> (pilih file foto), <code>Branch</code> (cabang), <code>Checkout</code> (kembali ke aman)</li>
+                  <li><strong>Aturan Emas Vibe Coder:</strong> <em>"Commit sebelum minta AI melakukan perubahan besar"</em> — jadikan ini refleks wajib</li>
+                  <li><strong>Siklus Kerja Aman:</strong> Mulai sesi → Kerjakan fitur kecil → 📸 <strong>COMMIT</strong> → Minta AI bantu → Cek hasil di browser</li>
+                </ul>
               </div>
-
-              <!-- TEORI 1: Analogi -->
-              <div class="theory-card">
-                <div class="theory-card-header" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);">
-                  <div class="theory-icon-badge" style="background:#15803D;">📸</div>
-                  <div>
-                    <span class="theory-eyebrow">Konsep Dasar — Apa itu Git?</span>
-                    <h4 class="theory-card-title">Git = Mesin Waktu untuk Kode Kamu</h4>
-                  </div>
-                </div>
-                <div class="theory-card-body">
-                  <div class="theory-analogy-box" style="border-color:#86EFAC; background:#F0FDF4;">
-                    <div class="theory-analogy-icon">📷</div>
-                    <div>
-                      <strong>Analogi: Foto Snapshot di Kamera Polaroid</strong>
-                      <p>Bayangkan kamu sedang merenovasi rumah. Setiap hari sebelum tukang mulai bekerja, kamu ambil <strong>foto seluruh ruangan</strong>. Kalau esoknya tukang malah merobohkan tembok yang salah, kamu bisa lihat foto kemarin untuk tahu persis kondisi sebelumnya.</p>
-                      <p style="margin-top:8px;">Git melakukan hal yang sama untuk kode. Setiap kali kamu menyimpan (<strong>commit</strong>), Git mengambil "foto" seluruh proyek kamu. Kamu bisa kembali ke foto manapun kapan saja — bahkan jika AI baru saja "merobohkan tembok yang salah".</p>
-                    </div>
-                  </div>
-
-                  <!-- Kamus 5 Istilah -->
-                  <div class="theory-steps-box" style="border-color:#86EFAC; background:#F0FDF4;">
-                    <div class="theory-steps-title" style="color:#15803D;">📖 Kamus 5 Istilah Git untuk Pemula (Tidak Perlu Hafal, Cukup Pahami)</div>
-                    <div class="theory-step-item">
-                      <span class="theory-step-badge" style="background:#DCFCE7;color:#15803D;min-width:80px;">Repository</span>
-                      <span><strong>Gudang proyek</strong> — folder tersembunyi bernama <code>.git</code> yang menyimpan semua snapshot kode. Dibuat sekali dengan perintah <code>git init</code>.</span>
-                    </div>
-                    <div class="theory-step-item">
-                      <span class="theory-step-badge" style="background:#DCFCE7;color:#15803D;min-width:80px;">Commit</span>
-                      <span><strong>Menyimpan snapshot</strong> — seperti menekan tombol kamera. Setiap commit punya "judul foto" (<em>commit message</em>) agar kamu tahu apa yang berubah di snapshot itu.</span>
-                    </div>
-                    <div class="theory-step-item">
-                      <span class="theory-step-badge" style="background:#DCFCE7;color:#15803D;min-width:80px;">Staging</span>
-                      <span><strong>Memilih apa yang difoto</strong> — sebelum commit, kamu pilih file mana yang masuk snapshot. Dilakukan dengan <code>git add</code>. Seperti memilih sudut ruangan mana yang mau difoto.</span>
-                    </div>
-                    <div class="theory-step-item">
-                      <span class="theory-step-badge" style="background:#DCFCE7;color:#15803D;min-width:80px;">Branch</span>
-                      <span><strong>Jalur alternatif</strong> — seperti fotokopi dokumen sebelum kamu coret-coret. Kamu bisa bekerja di cabang baru tanpa merusak versi utama.</span>
-                    </div>
-                    <div class="theory-step-item">
-                      <span class="theory-step-badge" style="background:#DCFCE7;color:#15803D;min-width:80px;">Checkout</span>
-                      <span><strong>Berpindah waktu</strong> — kembali ke snapshot tertentu. Jika AI merusak kode, <code>git checkout</code> membawa kamu pulang ke kondisi aman terakhir.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- TEORI 2: Mengapa Git WAJIB saat pakai AI -->
-              <div class="theory-card">
-                <div class="theory-card-header" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
-                  <div class="theory-icon-badge" style="background:#C2410C;">🤖</div>
-                  <div>
-                    <span class="theory-eyebrow">Bahaya Nyata — Kenapa AI Bisa Merusak Kodemu</span>
-                    <h4 class="theory-card-title">AI Tidak Punya "Tombol Undo" — Kamu Harus Buatkan Sendiri</h4>
-                  </div>
-                </div>
-                <div class="theory-card-body">
-                  <div class="theory-analogy-box" style="border-color:#FED7AA; background:#FFF7ED;">
-                    <div class="theory-analogy-icon">⚠️</div>
-                    <div>
-                      <strong>Skenario Nyata yang Sering Terjadi</strong>
-                      <p>Kamu meminta AI: <em>"Tolong tambahkan fitur dark mode ke website saya."</em> AI menjalankan perubahan di 7 file sekaligus. Setelah selesai, kamu cek — navbar hilang, warna salah semua, dan tombol tidak bisa diklik lagi. Kamu panik dan bertanya ke AI <em>"kembalikan seperti tadi!"</em> — AI menjawab <em>"Maaf, saya tidak bisa mengingat versi sebelumnya."</em></p>
-                      <p style="margin-top:8px;">Jika tidak ada Git, kamu harus menulis ulang segalanya dari awal. Jika ada Git? Satu perintah — semua kembali seperti semula.</p>
-                    </div>
-                  </div>
-
-                  <div class="theory-comparison-box">
-                    <div class="theory-comp-side theory-comp-bad">
-                      <div class="theory-comp-head">😱 Tanpa Git — Mimpi Buruk</div>
-                      <div class="theory-comp-body">
-                        <p>AI mengubah 7 file sekaligus</p>
-                        <p style="margin-top:6px;">Layout rusak total</p>
-                        <p style="margin-top:6px;">Tidak ada cara kembali</p>
-                        <p style="margin-top:6px;">Harus tulis ulang dari awal</p>
-                        <div class="theory-comp-result bad">⏰ Kehilangan 3–10 jam kerja</div>
-                      </div>
-                    </div>
-                    <div class="theory-comp-side theory-comp-good">
-                      <div class="theory-comp-head">😌 Dengan Git — Tenang</div>
-                      <div class="theory-comp-body">
-                        <p>AI mengubah 7 file sekaligus</p>
-                        <p style="margin-top:6px;">Layout rusak total</p>
-                        <p style="margin-top:6px;">Jalankan: <code>git checkout .</code></p>
-                        <p style="margin-top:6px;">Semua file kembali ke versi aman</p>
-                        <div class="theory-comp-result good">✅ Kembali normal dalam 5 detik</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="theory-key-insight" style="background:#FFF7ED; border-color:#FED7AA; border-left-color:#C2410C;">
-                    <span class="theory-insight-label" style="color:#C2410C;">⚠️ Aturan Emas Vibe Coder</span>
-                    <p><strong>Selalu commit sebelum minta AI melakukan perubahan besar.</strong> Jadikan ini refleks. Setiap kali kamu hendak mengetik prompt ke AI: berhenti sebentar → buka terminal → ketik <code>git add .</code> dan <code>git commit -m "checkpoint sebelum fitur X"</code> → baru minta AI bekerja.</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- TEORI 3: Alur Kerja Visual -->
-              <div class="theory-card">
-                <div class="theory-card-header" style="background:linear-gradient(135deg,#EEF2FF,#C7D2FE);">
-                  <div class="theory-icon-badge" style="background:#4338CA;">🔄</div>
-                  <div>
-                    <span class="theory-eyebrow">Alur Kerja — Rutinitas Harian Vibe Coder</span>
-                    <h4 class="theory-card-title">Siklus Aman: Buat → Simpan → AI → Cek → Simpan Lagi</h4>
-                  </div>
-                </div>
-                <div class="theory-card-body">
-                  <div class="theory-flow-box" style="border-color:#C7D2FE; background:#EEF2FF;">
-                    <div class="theory-flow-title" style="color:#4338CA;">🔄 Alur Kerja Harian yang Wajib Diikuti</div>
-                    <div class="theory-flow-steps">
-                      <div class="theory-flow-step" style="border-color:#C7D2FE;">
-                        <div class="theory-flow-num" style="background:#4338CA;">1</div>
-                        <div class="theory-flow-text">
-                          <strong>Mulai Sesi</strong>
-                          <p>Buka proyek. Cek status dengan prompt AI.</p>
-                        </div>
-                      </div>
-                      <div class="theory-flow-arrow" style="color:#4338CA;">→</div>
-                      <div class="theory-flow-step" style="border-color:#C7D2FE;">
-                        <div class="theory-flow-num" style="background:#4338CA;">2</div>
-                        <div class="theory-flow-text">
-                          <strong>Kerjakan Tugas</strong>
-                          <p>Buat / edit kode sampai satu fitur kecil selesai.</p>
-                        </div>
-                      </div>
-                      <div class="theory-flow-arrow" style="color:#4338CA;">→</div>
-                      <div class="theory-flow-step" style="border-color:#C7D2FE; background:#DCFCE7;">
-                        <div class="theory-flow-num" style="background:#15803D;">3</div>
-                        <div class="theory-flow-text">
-                          <strong>📸 COMMIT!</strong>
-                          <p><em>"Sebelum minta AI, simpan dulu!"</em></p>
-                        </div>
-                      </div>
-                      <div class="theory-flow-arrow" style="color:#4338CA;">→</div>
-                      <div class="theory-flow-step" style="border-color:#C7D2FE;">
-                        <div class="theory-flow-num" style="background:#4338CA;">4</div>
-                        <div class="theory-flow-text">
-                          <strong>Minta AI Bantu</strong>
-                          <p>Paste prompt ke Antigravity IDE.</p>
-                        </div>
-                      </div>
-                      <div class="theory-flow-arrow" style="color:#4338CA;">→</div>
-                      <div class="theory-flow-step" style="border-color:#C7D2FE;">
-                        <div class="theory-flow-num" style="background:#4338CA;">5</div>
-                        <div class="theory-flow-text">
-                          <strong>Cek Hasilnya</strong>
-                          <p>Tes di browser. Rusak? Checkout. Oke? Commit lagi.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div><!-- end theory-wrapper -->
-
-            <!-- ─────── CTA: MODUL PRAKTIKUM TERPISAH ─────── -->
-            <div style="background:linear-gradient(135deg,#01373D,#028090); border-radius:14px; padding:28px 28px; margin:24px 0 20px; display:flex; gap:20px; align-items:center; flex-wrap:wrap;">
-              <div style="flex:1; min-width:220px;">
-                <div style="font-size:26px; margin-bottom:6px;">🛠️</div>
-                <h4 style="color:#fff; font-size:17px; font-weight:800; margin-bottom:8px;">Modul Praktikum: 5 Langkah Git</h4>
-                <p style="font-size:13.5px; color:rgba(255,255,255,0.8); line-height:1.65; margin-bottom:0;">
-                  Berisi <strong style="color:#7FFFD4;">5 prompt siap-salin</strong> untuk Antigravity AI IDE — dari <em>git init</em> hingga recovery kode yang dirusak AI. Tersedia dalam halaman terpisah agar lebih mudah digunakan saat praktikum berlangsung.
-                </p>
-                <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;">
-                  <span style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.85); font-size:12px; padding:4px 12px; border-radius:100px;">P5.1 git init &amp; .gitignore</span>
-                  <span style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.85); font-size:12px; padding:4px 12px; border-radius:100px;">P5.2 Edit → Commit</span>
-                  <span style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.85); font-size:12px; padding:4px 12px; border-radius:100px;">P5.3 ⭐ Recovery Darurat</span>
-                  <span style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.85); font-size:12px; padding:4px 12px; border-radius:100px;">P5.4 Strategi Commit</span>
-                  <span style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.85); font-size:12px; padding:4px 12px; border-radius:100px;">P5.5 Git Log &amp; Audit</span>
-                </div>
-              </div>
-              <div style="display:flex; flex-direction:column; gap:10px; min-width:190px;">
-                <a href="praktikum_git_sebelum_coding.html" target="_blank"
-                   style="display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:13px 22px; border-radius:10px; background:#fff; color:#01656F; font-size:14px; font-weight:800; text-decoration:none; transition:.15s; white-space:nowrap;"
-                   onmouseover="this.style.background='#E0F7F4'" onmouseout="this.style.background='#fff'">
-                  🛠️ Buka Modul Praktikum →
-                </a>
-                <p style="text-align:center; font-size:11px; color:rgba(255,255,255,0.5); margin:0;">Terbuka di tab baru</p>
+              <div class="praktikum-col">
+                <h4 class="col-title">&#129489;&#8205;&#128187; Praktikum &#8212; 5 Prompt AI</h4>
+                <p class="prompt-hint">&#128161; Buka <a href="praktikum_git_sebelum_coding.html" target="_blank"
+                    style="color:var(--teal);font-weight:bold;">halaman modul praktikum lengkap</a> untuk menyalin 5 prompt siap
+                  pakai ini.</p>
+                <ul class="plain-list">
+                  <li><strong>Prompt 1 (P5.1):</strong> Inisialisasi repo Git, buat <code>.gitignore</code> aman, <code>README.md</code>, dan commit pertama</li>
+                  <li><strong>Prompt 2 (P5.2):</strong> Kuasai siklus harian <code>git status</code>, <code>git diff</code>, <code>git add</code>, dan commit message profesional</li>
+                  <li><strong>Prompt 3 (P5.3) ⭐:</strong> Simulasi AI rusak kode &amp; pemulihan darurat dalam 5 detik (<code>git checkout</code>, <code>git restore</code>)</li>
+                  <li><strong>Prompt 4 (P5.4):</strong> Strategi Atomic Commit, 5 trigger wajib commit, dan checklist video game save point</li>
+                  <li><strong>Prompt 5 (P5.5):</strong> Membaca riwayat <code>git log --oneline</code>, inspeksi perubahan AI, dan audit trail</li>
+                </ul>
               </div>
             </div>
 
+            <!-- PROMINENT BUTTON / ACTION CARD KE PRAKTIKUM_GIT_SEBELUM_CODING.HTML -->
+            <div
+              style="background: linear-gradient(135deg, #EAF6F4 0%, #F0FDF4 100%); border: 2px solid #00A896; border-radius: 12px; padding: 22px 24px; margin: 22px 0; text-align: center; box-shadow: 0 4px 14px rgba(0,168,150,0.08);">
+              <div style="font-size: 26px; margin-bottom: 6px;">🌳</div>
+              <h4 style="color:#01656F; font-size:18px; font-weight:bold; margin-bottom:8px;">
+                Materi Lengkap Modul 5: Praktikum Git Sebelum Coding
+              </h4>
+              <p style="color:#3D474C; font-size:13.5px; max-width:640px; margin:0 auto 16px auto; line-height:1.6;">
+                Di halaman modul praktikum terpisah ini Anda mendapatkan: <strong>5 prompt AI terstruktur siap salin</strong> untuk Antigravity AI IDE, kamus istilah visual, simulasi recovery kerusakan AI, tabel perintah ringkas, dan checklist kelulusan sesi — <em>langsung siap praktik di IDE kamu!</em>
+              </p>
+              <a href="praktikum_git_sebelum_coding.html" target="_blank" class="btn-nav btn-nav-primary"
+                style="background:#00A896; border-color:#00A896; font-size:14px; font-weight:700; padding:12px 28px; box-shadow:0 4px 12px rgba(0,168,150,0.25); display:inline-flex; align-items:center; gap:8px; border-radius:8px; text-decoration:none;">
+                <span>🌳 Buka Halaman Modul Praktikum: praktikum_git_sebelum_coding.html</span>
+                <span>→</span>
+              </a>
+            </div>
 
-            <div class="warn-box" style="margin-top:16px;">
+            <div class="warn-box">
               <div class="warn-mark">!</div>
-              <p><b>Ingat:</b> Latihan pemulihan (Prompt P5.3) menghapus perubahan yang belum di-commit secara permanen. Pastikan kamu sudah commit semua pekerjaan penting sebelum menjalankan skenario pemulihan tersebut.</p>
+              <p><b>Peringatan Pemulihan:</b> Latihan pemulihan Git (<code>git checkout .</code> atau <code>git restore .</code>) menghapus perubahan yang belum di-commit secara permanen. Pastikan commit snapshot aman terlebih dahulu sebelum mencoba perintah revert.</p>
             </div>
-
             <div class="session-foot">
               <div class="foot-item foot-output">
                 <span class="foot-label">Output pertemuan</span>
@@ -2566,7 +2418,12 @@ Contoh:
             </div>
             <div class="nav-step-bar">
               <a href="#p4" class="btn-nav">← Pertemuan 4 (Chunking)</a>
-              <a href="#modul-6-github" class="btn-nav btn-nav-primary">Lanjut ke Modul 6 (Push GitHub) →</a>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a href="praktikum_git_sebelum_coding.html" target="_blank" class="btn-nav btn-nav-primary"
+                  style="background:#00A896; border-color:#00A896; font-weight:700;">🌳 Buka Praktikum Git (P5) →</a>
+                <a href="#modul-6-github" class="btn-nav btn-nav-primary"
+                  style="background:#028090; border-color:#028090; font-weight:700;">Lanjut ke Modul 6 (Push GitHub) →</a>
+              </div>
             </div>
           </article>
 
