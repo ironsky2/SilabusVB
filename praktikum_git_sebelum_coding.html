@@ -1,1192 +1,1108 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Praktikum Git Sebelum Coding — Pertemuan 5 | Vibe Coding</title>
-  <meta name="description" content="Modul praktikum lengkap Git untuk pemula Vibe Coding. 5 prompt siap-salin untuk Antigravity AI IDE — dari git init hingga recovery kode yang dirusak AI.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Praktikum Git Lokal Sebelum Coding — Pertemuan 5 | Vibe Coding</title>
+<meta name="description" content="Modul Praktikum Pertemuan 5: Git Lokal & Safety Net untuk Vibe Coder. Dilengkapi 5 modul perintah terminal, analogi 12 tahun, save point checkpoint, emergency recovery, dan prompt AI siap salin.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #028090;
+    --seafoam: #00A896;
+    --mint: #02C39A;
+    --deep: #01656F;
+    --navy: #0F172A;
+    --amber: #D97706;
+    --rose: #E11D48;
+    --purple: #7C3AED;
+    --blue: #2563EB;
+    --emerald: #059669;
+    
+    --ink: #0F172A;
+    --ink-mid: #334155;
+    --ink-soft: #64748B;
+    --line: #E2E8F0;
+    --line-soft: #F1F5F9;
+    --bg: #FFFFFF;
+    --bg-soft: #F8FAFC;
+    --bg-tint: #F0FDFA;
+    
+    --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+    --card-shadow-hover: 0 12px 28px -4px rgba(15, 23, 42, 0.12);
+  }
 
-  <style>
-    /* ─── Design Tokens ─────────────────────────── */
-    :root {
-      --teal:       #028090;
-      --seafoam:    #00A896;
-      --mint:       #02C39A;
-      --deep:       #01656F;
-      --green:      #15803D;
-      --green-bg:   #F0FDF4;
-      --green-mid:  #DCFCE7;
-      --blue:       #0284C7;
-      --blue-bg:    #EFF6FF;
-      --blue-mid:   #BAE6FD;
-      --purple:     #9333EA;
-      --purple-bg:  #FAF5FF;
-      --purple-mid: #E9D5FF;
-      --amber:      #B45309;
-      --amber-bg:   #FFFBEB;
-      --amber-mid:  #FDE68A;
-      --orange:     #C2410C;
-      --orange-bg:  #FFF7ED;
-      --cyan:       #0E7490;
-      --cyan-bg:    #ECFEFF;
-      --cyan-mid:   #A5F3FC;
-      --indigo:     #4338CA;
-      --indigo-bg:  #EEF2FF;
-      --indigo-mid: #C7D2FE;
-      --ink:        #151A1D;
-      --ink-mid:    #3D474C;
-      --ink-soft:   #5B676D;
-      --line:       #E3E9EA;
-      --line-soft:  #EFF3F4;
-      --bg:         #FFFFFF;
-      --bg-soft:    #F6F9F9;
-    }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    background: var(--bg-soft);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  a { color: var(--teal); text-decoration: none; transition: color 0.15s; }
+  a:hover { color: var(--deep); text-decoration: underline; }
+  
+  code {
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    font-size: 0.88em;
+    background: #E6FFFA;
+    color: #007A78;
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-weight: 600;
+  }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+  ::selection { background: #99F6E4; color: #042F2E; }
 
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 80px;
-    }
+  /* HEADER & NAV */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .brand {
+    font-weight: 800;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+    text-decoration: none;
+  }
+  .brand .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--mint);
+    box-shadow: 0 0 0 3px rgba(2, 195, 154, 0.25);
+  }
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .nav-btn {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-mid);
+    padding: 7px 13px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+  }
+  .nav-btn:hover {
+    color: var(--teal);
+    border-color: var(--seafoam);
+    background: var(--bg-tint);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .nav-btn.primary {
+    background: var(--teal);
+    color: #fff;
+    border-color: var(--teal);
+  }
+  .nav-btn.primary:hover {
+    background: var(--deep);
+    color: #fff;
+  }
 
-    body {
-      font-family: 'Inter', 'Segoe UI', sans-serif;
-      color: var(--ink);
-      background: var(--bg-soft);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-    }
+  /* LAYOUT */
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 
-    a { color: var(--teal); text-decoration: none; }
-    a:hover { color: var(--deep); text-decoration: underline; }
-    code {
-      font-family: 'JetBrains Mono', monospace;
-      background: #F1F5F9;
-      color: #0F4C75;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.875em;
-    }
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #014F57 0%, #01656F 35%, #028090 70%, #00A896 100%);
+    color: #fff;
+    padding: 60px 24px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(2, 195, 154, 0.18) 0%, rgba(2, 195, 154, 0) 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1160px; margin: 0 auto; position: relative; z-index: 2; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 24px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 40px;
+    line-height: 1.18;
+    margin-bottom: 14px;
+    font-weight: 700;
+    max-width: 900px;
+    letter-spacing: -0.5px;
+  }
+  .hero p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.94);
+    max-width: 860px;
+    line-height: 1.68;
+    margin-bottom: 24px;
+  }
 
-    /* ─── Top Nav ──────────────────────────────── */
-    .top-nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--line);
-      padding: 0 24px;
-      height: 62px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-    .nav-brand-badge {
-      width: 34px; height: 34px;
-      background: linear-gradient(135deg, #00A896, #028090);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 17px;
-    }
-    .nav-brand-text { font-weight: 700; font-size: 15px; color: var(--ink); line-height: 1.2; }
-    .nav-brand-sub  { font-size: 11px; color: var(--ink-soft); font-weight: 400; }
-    .nav-links { display: flex; align-items: center; gap: 6px; }
-    .nav-link {
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink-mid);
-      background: transparent;
-      transition: .15s;
-    }
-    .nav-link:hover { background: var(--bg-soft); color: var(--ink); text-decoration: none; }
-    .nav-link.active { background: var(--bg-soft); color: var(--teal); }
-    .nav-back {
-      padding: 7px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--deep);
-      background: #EAF6F4;
-      border: 1px solid #B2DFDB;
-      transition: .15s;
-    }
-    .nav-back:hover { background: #D0EFEC; text-decoration: none; }
+  /* QUICK NAV PILLS */
+  .quick-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 18px 0 24px;
+  }
+  .nav-pill {
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-pill:hover {
+    background: #fff;
+    color: var(--deep);
+    text-decoration: none;
+    transform: translateY(-2px);
+  }
 
-    /* ─── Hero ─────────────────────────────────── */
-    .hero {
-      background: linear-gradient(135deg, #01373D 0%, #028090 50%, #00A896 100%);
-      padding: 56px 24px 48px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-    .hero-inner { position: relative; max-width: 780px; margin: 0 auto; }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: rgba(255,255,255,0.85);
-      font-size: 12px; font-weight: 600; letter-spacing: .06em;
-      padding: 5px 14px; border-radius: 100px;
-      text-transform: uppercase; margin-bottom: 20px;
-    }
-    .hero h1 {
-      font-size: clamp(26px, 5vw, 42px);
-      font-weight: 900;
-      color: #fff;
-      line-height: 1.18;
-      margin-bottom: 16px;
-      letter-spacing: -.02em;
-    }
-    .hero h1 span { color: #7FFFD4; }
-    .hero-desc {
-      font-size: 16px;
-      color: rgba(255,255,255,0.8);
-      max-width: 580px;
-      margin: 0 auto 28px;
-      line-height: 1.7;
-    }
-    .hero-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-    .hero-pill {
-      display: flex; align-items: center; gap: 6px;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.18);
-      color: rgba(255,255,255,0.9);
-      font-size: 13px; font-weight: 500;
-      padding: 7px 16px; border-radius: 100px;
-    }
+  /* SEARCH BOX */
+  .search-container {
+    position: relative;
+    max-width: 720px;
+    margin-top: 18px;
+  }
+  .search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #64748B;
+    pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    padding: 14px 20px 14px 50px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    background: #FFFFFF;
+    color: var(--navy);
+    font-size: 15px;
+    font-family: inherit;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    transition: all 0.2s;
+    outline: none;
+  }
+  .search-input:focus {
+    border-color: var(--mint);
+    box-shadow: 0 0 0 4px rgba(2, 195, 154, 0.35);
+  }
+  .search-input::placeholder {
+    color: #94A3B8;
+  }
 
-    /* ─── Module TOC ────────────────────────────── */
-    .toc-bar {
-      background: #fff;
-      border-bottom: 1px solid var(--line);
-      padding: 0 24px;
-      overflow-x: auto;
-    }
-    .toc-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      gap: 4px;
-      padding: 10px 0;
-    }
-    .toc-item {
-      display: flex; align-items: center; gap: 7px;
-      padding: 7px 14px;
-      border-radius: 8px;
-      font-size: 12.5px;
-      font-weight: 600;
-      white-space: nowrap;
-      color: var(--ink-mid);
-      border: 1px solid transparent;
-      transition: .15s;
-      text-decoration: none;
-    }
-    .toc-item:hover { background: var(--bg-soft); color: var(--ink); text-decoration: none; }
-    .toc-dot {
-      width: 22px; height: 22px;
-      border-radius: 6px;
-      font-size: 10px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff;
-    }
+  /* SECTION DIVIDERS */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 44px 0 20px;
+  }
+  .divider-badge {
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .divider-line { flex: 1; height: 2px; background: var(--line); }
 
-    /* ─── Layout ────────────────────────────────── */
-    .page-wrap {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 36px 20px 80px;
-    }
+  /* INSTRUCTOR BOX */
+  .instructor-box {
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-left: 6px solid var(--teal);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin: 28px 0;
+    box-shadow: var(--card-shadow);
+  }
+  .instructor-box h3 {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .instructor-box p {
+    font-size: 14.5px;
+    color: var(--ink-mid);
+    line-height: 1.65;
+  }
 
-    /* ─── Section Intro Banner ──────────────────── */
-    .section-intro {
-      background: linear-gradient(135deg, #F0FDF4, #ECFDF5);
-      border: 2px solid #00A896;
-      border-radius: 14px;
-      padding: 24px 28px;
-      margin-bottom: 28px;
-      display: flex;
-      gap: 18px;
-      align-items: flex-start;
-    }
-    .section-intro-icon { font-size: 32px; flex-shrink: 0; margin-top: 2px; }
-    .section-intro h2 { font-size: 19px; font-weight: 800; color: #01656F; margin-bottom: 6px; }
-    .section-intro p  { font-size: 13.5px; color: var(--ink-mid); line-height: 1.7; }
+  /* ANALOGI BOX (12 TAHUN) */
+  .analogy-box {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    border-left: 5px solid var(--amber);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 16px 0 18px;
+    font-size: 13.5px;
+    color: #78350F;
+    line-height: 1.6;
+  }
 
-    /* ─── Module Card (Prompt Container) ────────── */
-    .module-card {
-      background: #fff;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-      overflow: hidden;
-      margin-bottom: 24px;
-      transition: box-shadow .2s;
-    }
-    .module-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.09); }
+  /* GUIDE SECTION & CARDS */
+  .guide-section {
+    scroll-margin-top: 90px;
+    margin-bottom: 28px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.2s;
+  }
+  .card:hover {
+    box-shadow: var(--card-shadow-hover);
+  }
+  .card-head {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .badge-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 800;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  }
+  .card-title h3 { font-size: 19px; font-weight: 800; color: var(--navy); margin-bottom: 4px; letter-spacing: -0.3px; }
+  .card-title p { font-size: 13.5px; color: var(--ink-soft); }
 
-    .module-head {
-      padding: 20px 24px 16px;
-      border-bottom: 1px solid var(--line-soft);
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-    .module-num {
-      flex-shrink: 0;
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      font-size: 12px; font-weight: 800;
-      color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      letter-spacing: .04em;
-    }
-    .module-head-text h3 {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-    .module-head-text p {
-      font-size: 12.5px;
-      color: var(--ink-soft);
-    }
-    .module-body { padding: 20px 24px; }
+  /* META TAGS */
+  .meta-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 16px;
+  }
+  .meta-tag {
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
 
-    /* ─── Context Box ───────────────────────────── */
-    .ctx-box {
-      background: var(--bg-soft);
-      border-left: 3px solid var(--line);
-      border-radius: 0 8px 8px 0;
-      padding: 12px 16px;
-      margin-bottom: 16px;
-      font-size: 13.5px;
-      color: var(--ink-mid);
-      line-height: 1.65;
-    }
-    .ctx-box strong { color: var(--ink); }
+  /* COMMAND GRID */
+  .command-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .command-card {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.2s;
+  }
+  .command-card:hover {
+    border-color: var(--teal);
+    background: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+  }
+  .command-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .command-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .command-body {
+    background: #0F172A;
+    color: #38BDF8;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    word-break: break-all;
+    user-select: all;
+  }
+  .command-desc {
+    font-size: 12.5px;
+    color: var(--ink-mid);
+    line-height: 1.5;
+  }
+  .copy-btn {
+    background: var(--teal);
+    color: #fff;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .copy-btn:hover {
+    background: var(--mint);
+    color: #042F2E;
+    transform: translateY(-1px);
+  }
 
-    /* ─── Prompt Box ─────────────────────────────── */
-    .prompt-wrap {
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      margin-bottom: 16px;
-    }
-    .prompt-bar {
-      background: #1E293B;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .prompt-bar-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      color: #94A3B8;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-    }
-    .btn-copy {
-      padding: 5px 14px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      background: #334155;
-      color: #E2E8F0;
-      border: 1px solid #475569;
-      cursor: pointer;
-      transition: .15s;
-      display: flex; align-items: center; gap: 5px;
-    }
-    .btn-copy:hover { background: #00A896; color: #fff; border-color: #00A896; }
-    .btn-copy.copied { background: #15803D; color: #fff; border-color: #15803D; }
-    .prompt-body {
-      background: #0F172A;
-      padding: 20px;
-      overflow-x: auto;
-    }
-    .prompt-body pre {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12.5px;
-      line-height: 1.75;
-      color: #E2E8F0;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-    /* Syntax highlight inside prompt */
-    .prompt-body pre .role  { color: #7DD3FC; }
-    .prompt-body pre .key   { color: #86EFAC; }
-    .prompt-body pre .num   { color: #FCD34D; }
-    .prompt-body pre .dash  { color: #94A3B8; }
+  /* PROMPT CARD */
+  .prompt-card {
+    background: #0B131B;
+    border: 1px solid #1E2D3D;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin: 18px 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    position: relative;
+  }
+  .prompt-card .prompt-tag {
+    color: #34D399;
+    font-weight: 800;
+    font-size: 11.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .prompt-card .prompt-text {
+    color: #E2E8F0;
+    font-size: 13.5px;
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    line-height: 1.65;
+    margin-bottom: 14px;
+    white-space: pre-wrap;
+  }
 
-    /* ─── Insight / Tip Box ─────────────────────── */
-    .insight-box {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      padding: 14px 16px;
-      border-radius: 10px;
-      border: 1px solid;
-      font-size: 13px;
-      line-height: 1.65;
-      margin-bottom: 12px;
-    }
-    .insight-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
-    .insight-box.green  { background: #F0FDF4; border-color: #86EFAC; color: #14532D; }
-    .insight-box.blue   { background: #EFF6FF; border-color: #BAE6FD; color: #1E3A5F; }
-    .insight-box.orange { background: #FFF7ED; border-color: #FED7AA; color: #7C2D12; }
-    .insight-box.amber  { background: #FFFBEB; border-color: #FDE68A; color: #78350F; }
-    .insight-box.red    { background: #FEF2F2; border-color: #FECACA; color: #7F1D1D; }
+  /* CALLOUT BOXES */
+  .danger-card {
+    background: #FFF1F2;
+    border: 1px solid #FECDD3;
+    border-left: 5px solid #E11D48;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 13.5px;
+    color: #881337;
+    margin: 16px 0;
+  }
 
-    /* ─── Checklist ──────────────────────────────── */
-    .checklist {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin: 0;
-    }
-    .checklist li {
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: 13.5px; color: var(--ink-mid);
-    }
-    .check-box {
-      flex-shrink: 0;
-      width: 20px; height: 20px;
-      border: 2px solid var(--line);
-      border-radius: 5px;
-      margin-top: 1px;
-      display: flex; align-items: center; justify-content: center;
-    }
+  /* COMPARISON & CHEATSHEET TABLE */
+  .table-responsive {
+    overflow-x: auto;
+    margin: 20px 0;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+  }
+  table.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    text-align: left;
+  }
+  table.custom-table th {
+    background: #F1F5F9;
+    color: var(--navy);
+    font-weight: 800;
+    padding: 12px 16px;
+    border-bottom: 2px solid #CBD5E1;
+    white-space: nowrap;
+  }
+  table.custom-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #E2E8F0;
+    color: var(--ink-mid);
+    vertical-align: middle;
+  }
+  table.custom-table tr:hover td {
+    background: #F8FAFC;
+  }
 
-    /* ─── Scenario Tags ─────────────────────────── */
-    .scenario-tag {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 100px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
+  /* NO SEARCH RESULT */
+  #noResults {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+    background: #fff;
+    border: 1px dashed var(--line);
+    border-radius: 16px;
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin: 20px 0;
+  }
 
-    /* ─── Warn Box ───────────────────────────────── */
-    .warn-box {
-      display: flex; align-items: flex-start; gap: 12px;
-      background: #FEF2F2;
-      border: 1px solid #FECACA;
-      border-radius: 10px;
-      padding: 14px 16px;
-      font-size: 13px;
-      color: #7F1D1D;
-      margin-top: 14px;
-    }
-    .warn-icon { font-size: 20px; flex-shrink: 0; }
+  /* TOAST FEEDBACK */
+  #toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    background: #0F172A;
+    color: #fff;
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    border: 1px solid #334155;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
 
-    /* ─── Summary Card ───────────────────────────── */
-    .summary-card {
-      background: linear-gradient(135deg, #01373D, #028090);
-      border-radius: 16px;
-      padding: 32px 28px;
-      color: #fff;
-      margin-top: 36px;
-    }
-    .summary-card h2 {
-      font-size: 22px; font-weight: 800;
-      margin-bottom: 6px;
-    }
-    .summary-card .sub {
-      color: rgba(255,255,255,0.75);
-      font-size: 14px;
-      margin-bottom: 24px;
-    }
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
-      margin-bottom: 24px;
-    }
-    .summary-item {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 10px;
-      padding: 12px 16px;
-      font-size: 13px;
-      color: rgba(255,255,255,0.9);
-      display: flex; align-items: center; gap: 10px;
-    }
-    .summary-item-icon { font-size: 18px; }
-    .summary-cta {
-      display: flex; gap: 12px; flex-wrap: wrap;
-    }
-    .btn-primary {
-      padding: 11px 22px;
-      border-radius: 10px;
-      font-size: 14px; font-weight: 700;
-      background: #fff;
-      color: var(--deep);
-      border: none; cursor: pointer;
-      text-decoration: none;
-      display: inline-flex; align-items: center; gap: 7px;
-      transition: .2s;
-    }
-    .btn-primary:hover { background: #E0F7F4; text-decoration: none; color: var(--deep); }
-    .btn-outline-white {
-      padding: 11px 22px;
-      border-radius: 10px;
-      font-size: 14px; font-weight: 600;
-      background: transparent;
-      color: rgba(255,255,255,0.9);
-      border: 1px solid rgba(255,255,255,0.3);
-      text-decoration: none;
-      display: inline-flex; align-items: center; gap: 7px;
-      transition: .2s;
-    }
-    .btn-outline-white:hover { background: rgba(255,255,255,0.1); text-decoration: none; color: #fff; }
-
-    /* ─── Footer ─────────────────────────────────── */
-    .page-footer {
-      text-align: center;
-      padding: 28px 20px;
-      font-size: 12.5px;
-      color: var(--ink-soft);
-      border-top: 1px solid var(--line);
-    }
-
-    /* ─── Separator Label ─────────────────────────── */
-    .sep-label {
-      text-align: center;
-      margin: 28px 0;
-      display: flex; align-items: center; gap: 14px;
-      font-size: 12px; font-weight: 700;
-      color: var(--ink-soft); letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-    .sep-label::before, .sep-label::after {
-      content: ''; flex: 1;
-      height: 1px; background: var(--line);
-    }
-
-    /* ─── Progress Steps (Alur) ──────────────────── */
-    .flow-steps {
-      display: flex;
-      align-items: stretch;
-      gap: 0;
-      flex-wrap: wrap;
-      margin: 12px 0;
-    }
-    .flow-step {
-      flex: 1;
-      min-width: 100px;
-      background: var(--bg-soft);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 12px 10px;
-      text-align: center;
-      font-size: 12px;
-      position: relative;
-    }
-    .flow-step.highlight { background: #F0FDF4; border-color: #86EFAC; }
-    .flow-num {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      background: var(--teal);
-      color: #fff;
-      font-size: 12px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 6px;
-    }
-    .flow-step.highlight .flow-num { background: var(--green); }
-    .flow-arrow {
-      display: flex; align-items: center;
-      padding: 0 6px;
-      color: var(--line);
-      font-size: 18px;
-    }
-
-    /* ─── Table: Perintah Git ─────────────────────── */
-    .cmd-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      margin: 12px 0;
-    }
-    .cmd-table th {
-      background: var(--bg-soft);
-      padding: 9px 14px;
-      text-align: left;
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--ink-soft);
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      border-bottom: 1px solid var(--line);
-    }
-    .cmd-table td {
-      padding: 9px 14px;
-      border-bottom: 1px solid var(--line-soft);
-      color: var(--ink-mid);
-      vertical-align: top;
-    }
-    .cmd-table tr:last-child td { border-bottom: none; }
-    .cmd-table td:first-child code {
-      background: #1E293B;
-      color: #7DD3FC;
-      padding: 3px 8px;
-    }
-
-    /* ─── Responsive ─────────────────────────────── */
-    @media (max-width: 640px) {
-      .module-head { flex-direction: column; gap: 10px; }
-      .nav-links { display: none; }
-      .flow-steps { flex-direction: column; gap: 8px; }
-      .flow-arrow { display: none; }
-      .summary-cta { flex-direction: column; }
-    }
-  </style>
+  /* FOOTER */
+  footer {
+    background: #0F172A;
+    color: #94A3B8;
+    padding: 44px 24px;
+    margin-top: 70px;
+    border-top: 1px solid #1E293B;
+  }
+  .footer-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 13.5px;
+  }
+  .footer-inner b { color: #fff; }
+</style>
 </head>
-
 <body>
 
-  <!-- ═══════════════════════════ TOP NAV ═══════════════════════════ -->
-  <nav class="top-nav">
-    <a href="silabus-vibe-coding-16-pertemuan.html#p5" class="nav-brand">
-      <div class="nav-brand-badge">🌳</div>
-      <div>
-        <div class="nav-brand-text">Vibe Coding</div>
-        <div class="nav-brand-sub">Pertemuan 5 — Git Sebelum Coding</div>
-      </div>
+<!-- Toast Feedback -->
+<div id="toast">✅ Berhasil disalin ke clipboard! 📋</div>
+
+<!-- NAV HEADER -->
+<header>
+  <div class="nav-inner">
+    <a href="silabus-vibe-coding-16-pertemuan.html" class="brand">
+      <span class="dot"></span>
+      <span>Praktikum Git Lokal <span style="font-size:12px;font-weight:500;color:var(--ink-soft);">(Pertemuan 5)</span></span>
     </a>
-    <div class="nav-links">
-      <a href="#modul-1" class="nav-link">P5.1 Init</a>
-      <a href="#modul-2" class="nav-link">P5.2 Commit</a>
-      <a href="#modul-3" class="nav-link">P5.3 Recovery</a>
-      <a href="#modul-4" class="nav-link">P5.4 Strategi</a>
-      <a href="#modul-5" class="nav-link">P5.5 Log</a>
-    </div>
-    <a href="silabus-vibe-coding-16-pertemuan.html" class="nav-back">← Kembali ke Silabus</a>
-  </nav>
-
-  <!-- ═══════════════════════════ HERO ══════════════════════════════ -->
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-eyebrow">
-        <span>🌳</span>
-        Pertemuan 5 · Blok Bangun Halaman Pertama
-      </div>
-      <h1>Praktikum <span>Git Sebelum Coding</span></h1>
-      <p class="hero-desc">
-        5 modul prompt siap-salin untuk <strong style="color:#fff;">Antigravity AI IDE</strong>. Dari nol hingga punya repo Git yang berfungsi penuh — dengan jaring pengaman untuk menghadapi AI yang merusak kode.
-      </p>
-      <div class="hero-pills">
-        <div class="hero-pill">🛠️ 5 Prompt Praktis</div>
-        <div class="hero-pill">⏱️ 90 Menit</div>
-        <div class="hero-pill">🎯 Zero Knowledge Welcome</div>
-        <div class="hero-pill">🤖 Antigravity AI IDE</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════ TOC BAR ═══════════════════════════ -->
-  <div class="toc-bar">
-    <div class="toc-inner">
-      <a href="#modul-1" class="toc-item">
-        <div class="toc-dot" style="background:#15803D;">1</div>
-        Inisialisasi Repo
-      </a>
-      <a href="#modul-2" class="toc-item">
-        <div class="toc-dot" style="background:#0284C7;">2</div>
-        Edit → Commit
-      </a>
-      <a href="#modul-3" class="toc-item">
-        <div class="toc-dot" style="background:#9333EA;">3</div>
-        Recovery Darurat
-      </a>
-      <a href="#modul-4" class="toc-item">
-        <div class="toc-dot" style="background:#B45309;">4</div>
-        Strategi Commit
-      </a>
-      <a href="#modul-5" class="toc-item">
-        <div class="toc-dot" style="background:#0E7490;">5</div>
-        Git Log &amp; Audit
-      </a>
+    <div class="nav-menu">
+      <a href="silabus-vibe-coding-16-pertemuan.html" class="nav-btn">📋 Silabus 16 Pertemuan</a>
+      <a href="#init" class="nav-pill" style="color:var(--deep); font-weight:700;">1. Init &amp; Ignore</a>
+      <a href="#status-diff" class="nav-pill">2. Status &amp; Diff</a>
+      <a href="#add-commit" class="nav-pill">3. Add &amp; Commit</a>
+      <a href="#restore" class="nav-pill">4. Emergency Recovery</a>
+      <a href="#log" class="nav-pill">5. Detektif CCTV</a>
+      <a href="panduan_push_github.html" class="nav-btn primary">☁️ Lanjut ke P6 (Push GitHub) →</a>
     </div>
   </div>
+</header>
 
-  <!-- ═══════════════════════════ MAIN CONTENT ══════════════════════ -->
-  <main class="page-wrap">
+<!-- HERO SECTION -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="badge">🌳 Modul Pertemuan 5 &bull; Jaring Pengaman Vibe Coder</div>
+    <h1>Mastery Git Lokal dari Nol:<br>Jaring Pengaman &amp; Mesin Waktu Penyelamat</h1>
+    <p>
+      Buku saku praktikum offline dan kumpulan prompt AI terlengkap untuk menguasai alur kerja Git di komputer lokal: mulai dari inisialisasi, status diff, save point checkpoint, hingga emergency recovery saat AI merusak kode.
+    </p>
 
-    <!-- Intro Banner -->
-    <div class="section-intro">
-      <div class="section-intro-icon">🛠️</div>
-      <div>
-        <h2>Cara Menggunakan Modul Ini</h2>
-        <p>Jalankan prompt secara <strong>berurutan dari P5.1 → P5.5</strong>. Setiap prompt dirancang untuk langsung dieksekusi di <strong>Antigravity AI IDE</strong> — cukup klik <em>Salin Prompt</em>, paste ke chat AI, dan ikuti instruksi yang diberikan AI. Kamu tidak perlu menghafal perintah terminal; AI yang akan membimbing setiap langkahnya.</p>
-      </div>
+    <!-- Quick Navigation Pills -->
+    <nav class="quick-nav" aria-label="Menu Pintas Materi">
+      <a href="#init" class="nav-pill">1. Init &amp; Ignore</a>
+      <a href="#status-diff" class="nav-pill">2. Status &amp; Diff</a>
+      <a href="#add-commit" class="nav-pill">3. Add &amp; Commit</a>
+      <a href="#restore" class="nav-pill">4. Emergency Recovery (Undo)</a>
+      <a href="#log" class="nav-pill">5. Detektif Riwayat (CCTV)</a>
+      <a href="#cheatsheet" class="nav-pill">📊 Cheatsheet Perintah</a>
+    </nav>
+
+    <!-- Interactive Search Box -->
+    <div class="search-container">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="commandSearch" class="search-input" placeholder="Cari perintah Git lokal (misal: restore, commit, diff, status, log, gitignore)...">
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+
+    <!-- PESAN INSTRUKTUR -->
+    <div class="instructor-box">
+      <h3>👨‍🏫 Pesan Pengajar: Mengapa Git Lokal Wajib Sebelum Coding?</h3>
+      <p>
+        AI adalah asisten programmer yang super cepat namun tidak memiliki tombol "Ctrl+Z bawaan" yang aman saat membuat kesalahan. <strong>Git Lokal adalah Jaring Pengaman (Safety Net) Anda</strong>. Dengan membiasakan membuat *checkpoint* simpanan sebelum meminta AI merombak kode, Anda memiliki kekuatan memutar balik waktu kapan pun tanpa takut kehilangan pekerjaan Anda!
+      </p>
     </div>
 
-    <!-- Alur Singkat -->
-    <div class="flow-steps" style="margin-bottom:32px;">
-      <div class="flow-step">
-        <div class="flow-num">1</div>
-        <strong style="font-size:12px;">P5.1</strong><br>
-        <span style="color:#5B676D;font-size:11.5px;">git init & setup</span>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step">
-        <div class="flow-num">2</div>
-        <strong style="font-size:12px;">P5.2</strong><br>
-        <span style="color:#5B676D;font-size:11.5px;">edit & commit</span>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step highlight">
-        <div class="flow-num" style="background:#15803D;">3</div>
-        <strong style="font-size:12px;color:#15803D;">P5.3 ⭐</strong><br>
-        <span style="color:#5B676D;font-size:11.5px;">recovery kode</span>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step">
-        <div class="flow-num">4</div>
-        <strong style="font-size:12px;">P5.4</strong><br>
-        <span style="color:#5B676D;font-size:11.5px;">strategi commit</span>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step">
-        <div class="flow-num">5</div>
-        <strong style="font-size:12px;">P5.5</strong><br>
-        <span style="color:#5B676D;font-size:11.5px;">baca git log</span>
-      </div>
+    <div id="guideContent">
+
+      <!-- MODUL 1: INIT & GITIGNORE -->
+      <section id="init" class="guide-section card">
+        <div class="card-head">
+          <div class="badge-icon" style="background:var(--deep);">01</div>
+          <div class="card-title">
+            <h3>Modul 1: Inisialisasi Repositori &amp; Proteksi File (.gitignore)</h3>
+            <p>Mengubah folder proyek menjadi repositori Git berizin dan memblokir file rahasia &amp; sampah</p>
+          </div>
+        </div>
+
+        <div class="meta-tag-row">
+          <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">Perintah: git init -b main</span>
+          <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">git --version</span>
+          <span class="meta-tag" style="background:#FEF3C7; color:#92400E;">Keamanan: .gitignore (.env, node_modules)</span>
+        </div>
+
+        <div class="analogy-box">
+          💡 <strong>Analogi 12 Tahun:</strong> Mengubah folder biasa menjadi <em>"Markas Rahasia"</em> yang dijaga kamera pengawas, serta menempel papan peringatan <em>"Dilarang Masuk"</em> untuk file sampah, cache, &amp; password rahasia.
+        </div>
+
+        <div class="command-grid">
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Inisialisasi Repo Baru</span>
+              <button class="copy-btn" onclick="copyCode('git init -b main')">Salin</button>
+            </div>
+            <div class="command-body">git init -b main</div>
+            <div class="command-desc">Membuat folder rahasia <code>.git</code> dan menetapkan branch utama bernama <code>main</code>.</div>
+          </div>
+
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Cek Versi Git</span>
+              <button class="copy-btn" onclick="copyCode('git --version')">Salin</button>
+            </div>
+            <div class="command-body">git --version</div>
+            <div class="command-desc">Memastikan Git sudah terinstal dengan benar di komputermu.</div>
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
+          <div class="prompt-text">"Halo AI, tolong inisialisasi repo Git di folder proyek ini dengan branch utama 'main', lalu buatkan file .gitignore standar industri yang aman dari kebocoran file .env dan node_modules."</div>
+          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
+        </div>
+      </section>
+
+      <!-- MODUL 2: STATUS & DIFF -->
+      <section id="status-diff" class="guide-section card">
+        <div class="card-head">
+          <div class="badge-icon" style="background:var(--teal);">02</div>
+          <div class="card-title">
+            <h3>Modul 2: Inspeksi Perubahan (git status &amp; git diff)</h3>
+            <p>Melihat apa saja yang berubah di proyek dan memeriksa detail perbedaan baris kode</p>
+          </div>
+        </div>
+
+        <div class="meta-tag-row">
+          <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">Perintah: git status</span>
+          <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">git diff</span>
+          <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">git diff --staged</span>
+        </div>
+
+        <div class="analogy-box">
+          💡 <strong>Analogi 12 Tahun:</strong> <code>git status</code> adalah mengecek barang apa saja yang berserakan di meja, sedangkan <code>git diff</code> adalah kaca pembesar untuk melihat kata apa yang kamu hapus (merah <code>-</code>) dan kamu tambah (hijau <code>+</code>).
+        </div>
+
+        <div class="command-grid">
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Cek Status File</span>
+              <button class="copy-btn" onclick="copyCode('git status')">Salin</button>
+            </div>
+            <div class="command-body">git status</div>
+            <div class="command-desc">Melihat file yang <em>Untracked</em> (merah), <em>Modified</em> (merah), atau <em>Staged</em> (hijau).</div>
+          </div>
+
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Lihat Perbedaan Kode</span>
+              <button class="copy-btn" onclick="copyCode('git diff')">Salin</button>
+            </div>
+            <div class="command-body">git diff</div>
+            <div class="command-desc">Membandingkan baris kode sebelum vs sesudah diedit sebelum masuk ke meja foto.</div>
+          </div>
+
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Lihat Diff File yang Sudah di-Add</span>
+              <button class="copy-btn" onclick="copyCode('git diff --staged')">Salin</button>
+            </div>
+            <div class="command-body">git diff --staged</div>
+            <div class="command-desc">Memeriksa perubahan file yang sudah siap di atas meja foto (*staging area*).</div>
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
+          <div class="prompt-text">"Tolong periksa status Git saat ini dengan 'git status' dan jelaskan apa saja baris kode yang baru saja kamu ubah dengan bahasa yang sederhana."</div>
+          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
+        </div>
+      </section>
+
+      <!-- MODUL 3: ADD & COMMIT -->
+      <section id="add-commit" class="guide-section card">
+        <div class="card-head">
+          <div class="badge-icon" style="background:var(--seafoam); color:#042F2E;">03</div>
+          <div class="card-title">
+            <h3>Modul 3: Staging &amp; Commit (Save Point Game)</h3>
+            <p>Memasukkan berkas ke antrean foto dan membekukan snapshot simpanan permanen</p>
+          </div>
+        </div>
+
+        <div class="meta-tag-row">
+          <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">Perintah: git add .</span>
+          <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">git commit -m</span>
+          <span class="meta-tag" style="background:#DCFCE7; color:#166534;">Checkpoint: --allow-empty</span>
+        </div>
+
+        <div class="analogy-box">
+          💡 <strong>Analogi 12 Tahun:</strong> <code>git add</code> adalah menaruh kertas di atas meja foto studio, sedangkan <code>git commit</code> adalah menjepret foto dan menempelkannya ke album harian resmi lengkap dengan judul keterangan.
+        </div>
+
+        <div class="command-grid">
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Pilih Semua File (Staging)</span>
+              <button class="copy-btn" onclick="copyCode('git add .')">Salin</button>
+            </div>
+            <div class="command-body">git add .</div>
+            <div class="command-desc">Menaruh seluruh perubahan file ke meja foto (*Staging Area*).</div>
+          </div>
+
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Simpan Rekaman (Commit)</span>
+              <button class="copy-btn" onclick="copyCode('git commit -m &quot;feat: tambah fitur baru&quot;')">Salin</button>
+            </div>
+            <div class="command-body">git commit -m "feat: [deskripsi perubahan]"</div>
+            <div class="command-desc">Menyimpan snapshot permanen dengan pesan standar Conventional Commits.</div>
+          </div>
+
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Buat Checkpoint Save Point</span>
+              <button class="copy-btn" onclick="copyCode('git commit --allow-empty -m &quot;checkpoint: siap minta AI buat fitur X&quot;')">Salin</button>
+            </div>
+            <div class="command-body">git commit --allow-empty -m "checkpoint: siap minta AI buat fitur X"</div>
+            <div class="command-desc">Membuat Save Point kosong di Git sebelum memberikan tugas besar ke AI.</div>
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
+          <div class="prompt-text">"Saya sudah selesai mengedit fitur ini. Tolong stage semua file dan buatkan commit message profesional berformat Conventional Commits yang ringkas dan deskriptif."</div>
+          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
+        </div>
+      </section>
+
+      <!-- MODUL 4: RESTORE & EMERGENCY RECOVERY -->
+      <section id="restore" class="guide-section card" style="border-color:#FBCFE8;">
+        <div class="card-head">
+          <div class="badge-icon" style="background:var(--rose);">04</div>
+          <div class="card-title">
+            <h3>Modul 4: Emergency Recovery (Undo &amp; Penyelamatan Kode)</h3>
+            <p>Membatalkan perubahan error, membuang kode rusak buatan AI, atau mengembalikan snapshot masa lalu</p>
+          </div>
+        </div>
+
+        <div class="meta-tag-row">
+          <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">Perintah: git restore .</span>
+          <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">git restore --source</span>
+          <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">git reset --hard</span>
+        </div>
+
+        <div class="analogy-box">
+          💡 <strong>Analogi 12 Tahun:</strong> Tombol <em>Ctrl + Z</em> tingkat dewa. Memanggil versi file di masa lalu saat AI atau kamu tidak sengaja merusak kode.
+        </div>
+
+        <div class="danger-card">
+          <strong>⚠️ Peringatan Penting:</strong> <code>git restore .</code> akan mengembalikan seluruh file uncommitted ke kondisi commit terakhir secara instan.
+        </div>
+
+        <div class="command-grid">
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Batalkan File Rusak (Belum Commit)</span>
+              <button class="copy-btn" onclick="copyCode('git restore .')">Salin</button>
+            </div>
+            <div class="command-body">git restore .</div>
+            <div class="command-desc">Mengembalikan seluruh file rusak di meja kerja ke kondisi commit terakhir secara instan.</div>
+          </div>
+
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Ambil 1 File Masa Lalu (Sudah Commit)</span>
+              <button class="copy-btn" onclick="copyCode('git restore --source=HEAD~1 index.html')">Salin</button>
+            </div>
+            <div class="command-body">git restore --source=&lt;HASH_COMMIT&gt; namafile.html</div>
+            <div class="command-desc">Mengambil kembali versi sehat dari satu file tertentu pada commit masa lalu.</div>
+          </div>
+
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Batalkan Total Commit Terakhir</span>
+              <button class="copy-btn" onclick="copyCode('git reset --hard HEAD~1')">Salin</button>
+            </div>
+            <div class="command-body">git reset --hard HEAD~1</div>
+            <div class="command-desc">⚠️ Menghapus 1 commit terakhir beserta seluruh perubahannya dan memundurkan waktu.</div>
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
+          <div class="prompt-text">"Kodingan terakhir ini error dan berantakan. Tolong batalkan semua perubahan yang belum di-commit dan kembalikan file ke kondisi commit terakhir yang sehat."</div>
+          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
+        </div>
+      </section>
+
+      <!-- MODUL 5: LOG & DETEKTIF RIWAYAT -->
+      <section id="log" class="guide-section card">
+        <div class="card-head">
+          <div class="badge-icon" style="background:var(--navy); color:#6EE7B7;">05</div>
+          <div class="card-title">
+            <h3>Modul 5: Detektif Riwayat (Membaca CCTV Proyek)</h3>
+            <p>Melihat rekaman riwayat snapshot, garis percabangan, dan jejak kelahiran satu file</p>
+          </div>
+        </div>
+
+        <div class="meta-tag-row">
+          <span class="meta-tag" style="background:#F1F5F9; color:#334155;">Perintah: git log --oneline</span>
+          <span class="meta-tag" style="background:#F1F5F9; color:#334155;">git log --graph</span>
+          <span class="meta-tag" style="background:#F1F5F9; color:#334155;">git log --follow -p</span>
+        </div>
+
+        <div class="analogy-box">
+          💡 <strong>Analogi 12 Tahun:</strong> Membuka rekaman CCTV 24 jam untuk mencari tahu siapa yang memindahkan vas bunga dan pada jam berapa. (Tekan <strong>Q</strong> di keyboard untuk keluar dari log panjang).
+        </div>
+
+        <div class="command-grid">
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Riwayat Ringkas Satu Baris</span>
+              <button class="copy-btn" onclick="copyCode('git log --oneline')">Salin</button>
+            </div>
+            <div class="command-body">git log --oneline</div>
+            <div class="command-desc">Menampilkan daftar commit: 7 huruf kode hash + judul pesan commit.</div>
+          </div>
+
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Tampilan Pohon Visual</span>
+              <button class="copy-btn" onclick="copyCode('git log --oneline --graph')">Salin</button>
+            </div>
+            <div class="command-body">git log --oneline --graph</div>
+            <div class="command-desc">Melihat visualisasi garis percabangan (*branch*) dan titik commit.</div>
+          </div>
+
+          <div class="command-card">
+            <div class="command-header">
+              <span class="command-title">Lacak Riwayat Satu File Khusus</span>
+              <button class="copy-btn" onclick="copyCode('git log --follow -p index.html')">Salin</button>
+            </div>
+            <div class="command-body">git log --follow -p index.html</div>
+            <div class="command-desc">Melihat seluruh jejak perubahan yang pernah dialami oleh satu file sejak awal lahir.</div>
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
+          <div class="prompt-text">"Tolong periksa riwayat 5 commit terakhir dengan 'git log --oneline -5' dan buatkan ringkasan laporan pekerjaan apa saja yang sudah saya capai hari ini."</div>
+          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
+        </div>
+      </section>
+
     </div>
 
-    <!-- ───────────────── MODUL P5.1 ───────────────── -->
-    <div class="module-card" id="modul-1">
-      <div class="module-head" style="border-left: 5px solid #15803D;">
-        <div class="module-num" style="background:linear-gradient(135deg,#15803D,#16A34A);">P5.1</div>
-        <div class="module-head-text">
-          <h3>Inisialisasi Repo Git + Struktur Proyek Awal</h3>
-          <p>git init · .gitignore · README.md · Commit Pertama · Verifikasi Status</p>
+    <!-- NOT FOUND MESSAGE -->
+    <div id="noResults">
+      <div style="font-size:32px; margin-bottom:10px;">🔍</div>
+      <strong>Tidak ditemukan modul atau perintah yang cocok dengan pencarian Anda.</strong>
+      <p style="font-size:13px; margin-top:6px;">Coba gunakan kata kunci lain seperti: <em>restore, commit, diff, status, log, gitignore</em></p>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- CHEATSHEET TABEL KOMPARASI LENGKAP                             -->
+    <!-- ============================================================== -->
+    <div class="section-divider" id="cheatsheet">
+      <span class="divider-badge" style="background:var(--navy);">CHEATSHEET PERINTAH GIT LOKAL</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="badge-icon" style="background:var(--navy); color:#fff;">📊</div>
+        <div class="card-title">
+          <h3>Tabel Master Perintah Git Lokal</h3>
+          <p>Rangkuman komparatif perintah terminal, analogi bahasa manusia, dan padanan prompt AI</p>
         </div>
       </div>
-      <div class="module-body">
 
-        <div class="ctx-box">
-          <strong>📍 Konteks:</strong> Ini adalah langkah pertama yang <em>wajib</em> dilakukan sebelum menulis satu baris kode pun. Git harus sudah aktif dari detik pertama proyek dibuat — bukan di akhir setelah banyak perubahan terjadi.
-        </div>
-
-        <div class="insight-box green">
-          <div class="insight-icon">🎯</div>
-          <div><strong>Yang akan kamu pelajari:</strong> Cara mengecek apakah Git sudah terinstal, cara memulai repo baru, membuat pelindung file rahasia (.gitignore), dan melakukan commit pertama kamu.</div>
-        </div>
-
-        <div class="prompt-wrap">
-          <div class="prompt-bar">
-            <span class="prompt-bar-label">📋 Prompt P5.1 — Paste ke Antigravity AI IDE</span>
-            <button class="btn-copy" id="btn-p51" onclick="copyPrompt('prompt-p51', 'btn-p51')">
-              📋 Salin Prompt
-            </button>
-          </div>
-          <div class="prompt-body">
-            <pre id="prompt-p51">[ROLE]: Senior Developer yang mengajarkan Git kepada pemula absolute
-[CONTEXT]: Aku baru saja membuat folder proyek kosong bernama "proyek-web-ku" di laptop Windows-ku. Aku belum pernah menggunakan Git sama sekali. Aku menggunakan Antigravity AI IDE.
-[INSTRUCTION]:
-Bantu aku menyiapkan Git dari nol dengan langkah berikut:
-1. Cek apakah Git sudah terinstal (berikan perintah terminalnya + apa artinya output yang muncul).
-2. Jika Git belum terinstal, berikan instruksi cara menginstalnya di Windows (step by step, sertakan link download resmi).
-3. Inisialisasi repo Git di folder "proyek-web-ku" — jalankan perintahnya, jelaskan apa yang terjadi di balik layar.
-4. Buat file .gitignore dasar yang aman untuk proyek web (node_modules, .env, .DS_Store, dist/, .vscode/, dll). Jelaskan fungsi setiap baris.
-5. Buat file README.md sederhana berisi nama proyek "proyek-web-ku" dan deskripsi singkat 2-3 kalimat.
-6. Lakukan commit pertama dengan pesan "inisialisasi proyek" dan verifikasi hasilnya.
-7. Tampilkan output `git log --oneline` dan bantu aku membacanya.
-[CONSTRAINT]:
-- Jelaskan setiap perintah terminal dengan analogi sederhana, seolah aku berusia 12 tahun.
-- Gunakan bahasa Indonesia yang ramah dan tidak teknikal.
-- Tampilkan perintah terminal dalam blok kode yang jelas dan bisa langsung disalin.
-- Jangan lewatkan langkah apapun — anggap aku zero knowledge.</pre>
-          </div>
-        </div>
-
-        <div class="insight-box green">
-          <div class="insight-icon">✅</div>
-          <div>
-            <strong>Verifikasi Keberhasilan</strong><br>
-            Setelah prompt selesai, ketik <code>git log --oneline</code> di terminal. Jika muncul 1 baris dengan teks <em>"inisialisasi proyek"</em>, kamu berhasil! Folder proyekmu kini punya "mesin waktu" yang aktif.
-          </div>
-        </div>
-
-        <table class="cmd-table" style="margin-top:12px;">
+      <div class="table-responsive">
+        <table class="custom-table">
           <thead>
-            <tr><th>Perintah</th><th>Analogi Sederhana</th></tr>
+            <tr>
+              <th>Perintah Terminal (CLI)</th>
+              <th>Zona Kerja</th>
+              <th>Analogi Bahasa Manusia</th>
+              <th>Tindakan Prompt AI</th>
+            </tr>
           </thead>
           <tbody>
-            <tr><td><code>git init</code></td><td>Pasang kamera pengintai di proyek kamu</td></tr>
-            <tr><td><code>git status</code></td><td>Lihat kondisi ruangan sekarang (ada yang berubah?)</td></tr>
-            <tr><td><code>git add .</code></td><td>Pilih semua barang yang mau difoto</td></tr>
-            <tr><td><code>git commit -m "..."</code></td><td>Ambil foto dan beri judul</td></tr>
-            <tr><td><code>git log --oneline</code></td><td>Lihat album foto dari yang paling baru</td></tr>
+            <tr>
+              <td><code>git init -b main</code></td>
+              <td>Lokal</td>
+              <td>Mendirikan markas/brankas baru di folder proyek</td>
+              <td>"Inisialisasi Git di proyek ini dengan branch main"</td>
+            </tr>
+            <tr>
+              <td><code>git --version</code></td>
+              <td>Sistem</td>
+              <td>Memastikan kamera CCTV Git sudah terpasang</td>
+              <td>"Periksa apakah Git sudah aktif"</td>
+            </tr>
+            <tr>
+              <td><code>.gitignore</code></td>
+              <td>Proteksi</td>
+              <td>Papan dilarang masuk untuk file rahasia (.env, cache)</td>
+              <td>"Buatkan .gitignore standar aman"</td>
+            </tr>
+            <tr>
+              <td><code>git status</code></td>
+              <td>Working Tree</td>
+              <td>Mengecek barang apa saja yang berserakan di meja</td>
+              <td>"Periksa status berkas saat ini"</td>
+            </tr>
+            <tr>
+              <td><code>git diff</code></td>
+              <td>Working Tree</td>
+              <td>Kaca pembesar untuk melihat kata yang dihapus/ditambah</td>
+              <td>"Jelaskan apa saja baris kode yang diubah"</td>
+            </tr>
+            <tr>
+              <td><code>git add .</code></td>
+              <td>Staging Area</td>
+              <td>Menata barang ke atas meja sebelum difoto</td>
+              <td>"Masukkan semua file ke staging area"</td>
+            </tr>
+            <tr>
+              <td><code>git commit -m "..."</code></td>
+              <td>Local Repo</td>
+              <td>Memotret foto album harian resmi berlabel keterangan</td>
+              <td>"Simpan snapshot dengan Conventional Commits"</td>
+            </tr>
+            <tr>
+              <td><code>git restore .</code></td>
+              <td>Working Tree</td>
+              <td>Membakar coretan rusak, kembali ke kondisi commit terakhir</td>
+              <td>"Batalkan semua perubahan dan kembalikan kode"</td>
+            </tr>
+            <tr>
+              <td><code>git restore --source=&lt;H&gt; f</code></td>
+              <td>Working Tree</td>
+              <td>Mengambil kembali satu file sehat dari masa lalu</td>
+              <td>"Pulihkan file ini dari commit masa lalu"</td>
+            </tr>
+            <tr>
+              <td><code>git log --oneline</code></td>
+              <td>Local Repo</td>
+              <td>Membuka rekaman CCTV / album foto masa lalu</td>
+              <td>"Tunjukkan riwayat 5 commit terakhir"</td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- ───────────────── MODUL P5.2 ───────────────── -->
-    <div class="module-card" id="modul-2">
-      <div class="module-head" style="border-left: 5px solid #0284C7;">
-        <div class="module-num" style="background:linear-gradient(135deg,#0284C7,#0EA5E9);">P5.2</div>
-        <div class="module-head-text">
-          <h3>Memahami Siklus Kerja: Edit → Stage → Commit</h3>
-          <p>git status · git add · git diff · Commit Message yang Baik &amp; Buruk</p>
-        </div>
-      </div>
-      <div class="module-body">
-
-        <div class="ctx-box">
-          <strong>📍 Konteks:</strong> Setelah repo siap, kamu perlu menguasai ritme kerja harian: edit kode → pilih file yang mau disimpan → simpan snapshot. Ritme ini akan kamu lakukan puluhan kali setiap hari. Semakin terbiasa, semakin aman proyekmu.
-        </div>
-
-        <div class="insight-box blue">
-          <div class="insight-icon">💡</div>
-          <div><strong>Analogi Staging Area:</strong> Bayangkan kamu punya meja kerja (file yang sudah diedit), keranjang foto (staging area / git add), dan album foto (commit). Kamu bisa pilih mana yang masuk keranjang sebelum difoto — tidak semua harus masuk sekaligus.</div>
-        </div>
-
-        <div class="prompt-wrap">
-          <div class="prompt-bar">
-            <span class="prompt-bar-label">📋 Prompt P5.2 — Paste ke Antigravity AI IDE</span>
-            <button class="btn-copy" id="btn-p52" onclick="copyPrompt('prompt-p52', 'btn-p52')">
-              📋 Salin Prompt
-            </button>
-          </div>
-          <div class="prompt-body">
-            <pre id="prompt-p52">[ROLE]: Git Coach yang mengajarkan workflow harian kepada pemula
-[CONTEXT]: Aku sudah berhasil membuat repo Git pertamaku dan punya 1 commit. Sekarang aku ingin belajar siklus kerja sehari-hari — cara menyimpan perubahan kode dengan benar. Aku sudah membuat file index.html sederhana berisi teks "Hello World".
-[INSTRUCTION]:
-Ajarkan aku siklus kerja Git harian dengan praktik langsung, langkah demi langkah:
-
-Langkah 1: EDIT FILE
-- Buka file index.html dan tambahkan satu paragraf baru (berikan contoh HTML yang harus aku ketik).
-- Simpan file-nya.
-
-Langkah 2: LIHAT PERUBAHAN
-- Jalankan `git status` — jelaskan dengan detail apa artinya warna merah dan hijau yang muncul.
-- Jalankan `git diff` — ajarkan cara membacanya (apa arti tanda + berwarna hijau dan - berwarna merah).
-
-Langkah 3: STAGING
-- Jalankan `git add index.html` — jelaskan apa perbedaannya dengan `git add .`.
-- Jalankan `git status` lagi — tunjukkan perbedaan kondisi sebelum dan sesudah `git add`.
-
-Langkah 4: COMMIT
-- Lakukan commit dengan pesan yang baik.
-- Jelaskan format commit message profesional yang bisa aku ikuti.
-- Berikan 5 contoh commit message yang BAIK dan 5 yang BURUK.
-
-Langkah 5: VERIFIKASI
-- Jalankan `git log --oneline` — ajarkan cara membaca riwayat commit.
-- Sekarang kita punya 2 commit! Jelaskan artinya.
-
-[CONSTRAINT]:
-- Gunakan analogi "buku catatan harian" untuk menjelaskan staging area.
-- Jelaskan kenapa commit message yang jelas itu penting saat debugging di masa depan.</pre>
-          </div>
-        </div>
-
-        <div class="insight-box blue">
-          <div class="insight-icon">📌</div>
-          <div>
-            <strong>Commit Message: Baik vs Buruk</strong><br>
-            <span style="color:#DC2626;">❌ Buruk:</span> <code>"update"</code>, <code>"fix"</code>, <code>"asdf"</code>, <code>"coba lagi"</code><br>
-            <span style="color:#15803D;">✅ Baik:</span> <code>"tambah navbar dengan logo dan 3 menu utama"</code>, <code>"perbaiki bug tombol submit tidak responsif di mobile"</code>
-          </div>
-        </div>
+    <!-- NAVIGASI FOOTER MODUL -->
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:40px; padding-top:24px; border-top:1px solid var(--line); flex-wrap:wrap;">
+      <a href="silabus-vibe-coding-16-pertemuan.html" class="nav-btn">← Kembali ke Silabus 16 Pertemuan</a>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a href="silabus-vibe-coding-16-pertemuan.html#p5" class="nav-btn" style="background:var(--bg-tint); color:var(--deep); border-color:var(--mint); font-weight:bold;">📋 Modul 5 di Silabus</a>
+        <a href="panduan_push_github.html" class="nav-btn" style="background:var(--purple); color:#fff; font-weight:bold;">Lanjut ke Pertemuan 6: Publikasi &amp; Push ke GitHub →</a>
       </div>
     </div>
 
-    <!-- ───────────────── MODUL P5.3 ───────────────── -->
-    <div class="module-card" id="modul-3" style="border: 2px solid #E9D5FF;">
-      <div class="module-head" style="border-left: 5px solid #9333EA; background: linear-gradient(135deg,#FAF5FF,#fff);">
-        <div class="module-num" style="background:linear-gradient(135deg,#9333EA,#A855F7);">P5.3</div>
-        <div class="module-head-text">
-          <h3>⭐ Simulasi: AI Merusak Kode → Pemulihan Darurat dengan Git</h3>
-          <p>git checkout · git restore · git revert · Undo AI Damage · 3 Skenario Nyata</p>
-        </div>
-      </div>
-      <div class="module-body">
+  </div>
+</main>
 
-        <div class="ctx-box" style="border-left-color:#A855F7;">
-          <strong>📍 Konteks:</strong> Ini adalah latihan <strong>paling penting</strong> di seluruh pertemuan ini! Kamu akan <em>sengaja merusak kode</em> (mensimulasikan apa yang dilakukan AI yang bermasalah), lalu memulihkannya dalam hitungan detik. Setelah ini, kamu tidak akan panik lagi saat AI mengacak-acak proyekmu.
-        </div>
-
-        <div style="background:#FFF7ED; border:1px solid #FED7AA; border-radius:10px; padding:14px 16px; margin-bottom:16px;">
-          <div style="font-weight:700; color:#C2410C; font-size:13px; margin-bottom:10px;">⚠️ 3 Skenario yang Akan Dipraktikkan</div>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <div style="flex:1; min-width:160px; background:#fff; border:1px solid #FED7AA; border-radius:8px; padding:10px 12px;">
-              <div class="scenario-tag" style="background:#FEF2F2;color:#DC2626;">Skenario A</div><br>
-              <strong style="font-size:13px;">Batalkan perubahan</strong><br>
-              <span style="font-size:12px;color:#5B676D;">yang BELUM di-commit</span>
-            </div>
-            <div style="flex:1; min-width:160px; background:#fff; border:1px solid #FED7AA; border-radius:8px; padding:10px 12px;">
-              <div class="scenario-tag" style="background:#FFF7ED;color:#C2410C;">Skenario B</div><br>
-              <strong style="font-size:13px;">Kembali ke commit</strong><br>
-              <span style="font-size:12px;color:#5B676D;">tanpa hapus riwayat</span>
-            </div>
-            <div style="flex:1; min-width:160px; background:#fff; border:1px solid #FED7AA; border-radius:8px; padding:10px 12px;">
-              <div class="scenario-tag" style="background:#EFF6FF;color:#1D4ED8;">Skenario C</div><br>
-              <strong style="font-size:13px;">Investigasi perubahan</strong><br>
-              <span style="font-size:12px;color:#5B676D;">tanpa memulihkan</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="prompt-wrap">
-          <div class="prompt-bar">
-            <span class="prompt-bar-label">📋 Prompt P5.3 — Paste ke Antigravity AI IDE</span>
-            <button class="btn-copy" id="btn-p53" onclick="copyPrompt('prompt-p53', 'btn-p53')">
-              📋 Salin Prompt
-            </button>
-          </div>
-          <div class="prompt-body">
-            <pre id="prompt-p53">[ROLE]: Git Recovery Specialist yang mengajarkan pemulihan kode darurat
-[CONTEXT]: Aku sudah punya 2 commit di repo-ku. Aku ingin berlatih memulihkan kode yang rusak karena AI salah mengubah file. Ini simulasi emergency recovery — aku perlu tahu cara kembali ke kondisi aman dalam hitungan detik.
-[INSTRUCTION]:
-Pandu aku melalui 3 skenario pemulihan Git yang paling sering dibutuhkan:
-
-═══ SKENARIO A — Batalkan perubahan yang BELUM di-commit ═══
-Situasi: AI baru saja mengubah file-fileku tapi hasilnya buruk, dan aku belum commit.
-1. Instruksikan aku untuk merusak file index.html secara manual (hapus semua isinya, ganti dengan teks acak "RUSAK RUSAK RUSAK").
-2. Tampilkan kondisi rusaknya dengan `git status` dan `git diff`.
-3. Berikan perintah yang tepat untuk memulihkan file ke kondisi sebelumnya.
-4. Verifikasi file kembali normal dengan membuka isinya.
-5. Jelaskan kapan harus pakai `git checkout .` vs `git restore .`
-
-═══ SKENARIO B — Kembali ke versi commit tertentu (tanpa hapus riwayat) ═══
-Situasi: AI sudah melakukan banyak perubahan, dan aku sudah commit hasilnya, tapi sekarang menyesal.
-1. Tampilkan daftar semua commit dengan `git log --oneline`.
-2. Jelaskan cara membaca HASH commit (kode unik 7 karakter di sebelah kiri).
-3. Gunakan `git checkout <hash> -- index.html` untuk mengambil versi file dari commit pertama.
-4. Commit ulang perubahan pemulihan tersebut dengan pesan "recovery: kembali ke versi awal index.html".
-5. Jelaskan perbedaan `git checkout`, `git revert`, dan `git reset` — kapan masing-masing dipakai.
-
-═══ SKENARIO C — Investigasi: Cek apa yang berubah tanpa memulihkan ═══
-Situasi: Aku curiga ada yang berubah tapi tidak yakin. Aku ingin lihat dulu sebelum memutuskan.
-1. Bandingkan kondisi file sekarang vs commit pertama dengan `git diff <hash> index.html`.
-2. Tampilkan perbedaannya baris per baris dan ajarkan cara membacanya.
-3. Tampilkan seluruh isi file dari commit tertentu tanpa mengubah apapun.
-
-[CONSTRAINT]:
-- Gunakan analogi "tombol undo di dokumen Word" untuk menjelaskan perbedaan metode recovery.
-- Sertakan peringatan jelas untuk tindakan yang TIDAK bisa di-undo.
-- Ingatkan aku untuk selalu commit sebelum meminta AI melakukan perubahan besar.</pre>
-          </div>
-        </div>
-
-        <div class="warn-box">
-          <div class="warn-icon">⚠️</div>
-          <div>
-            <strong>Peringatan Penting:</strong> Perintah <code>git checkout .</code> atau <code>git restore .</code> akan <strong>menghapus permanen</strong> semua perubahan yang belum di-commit. Tindakan ini <strong>TIDAK BISA di-undo</strong>! Pastikan kamu benar-benar ingin membuang semua perubahan tersebut sebelum menjalankannya.
-          </div>
-        </div>
-
-        <div class="insight-box orange" style="margin-top:14px;">
-          <div class="insight-icon">🔑</div>
-          <div>
-            <strong>Aturan Emas setelah P5.3:</strong> Setiap kali kamu hendak mengetik prompt ke AI, berhenti sebentar → buka terminal → ketik <code>git add .</code> dan <code>git commit -m "checkpoint sebelum fitur X"</code> → baru minta AI bekerja. Jadikan ini refleks!
-          </div>
-        </div>
-      </div>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <b>Praktikum Git Lokal Sebelum Coding &bull; Vibe Coding Curriculum</b><br>
+      <span style="font-size:12.5px; color:#94A3B8;">Modul Praktikum Pertemuan 5 · Pendekatan Berbasis Prompting AI &amp; CLI Standar Industri</span>
     </div>
-
-    <!-- ───────────────── MODUL P5.4 ───────────────── -->
-    <div class="module-card" id="modul-4">
-      <div class="module-head" style="border-left: 5px solid #B45309;">
-        <div class="module-num" style="background:linear-gradient(135deg,#B45309,#D97706);">P5.4</div>
-        <div class="module-head-text">
-          <h3>Strategi Commit Cerdas: Kapan &amp; Seberapa Sering Commit?</h3>
-          <p>Atomic Commit · Checkpoint Strategy · AI Safety Protocol · Alias Terminal</p>
-        </div>
-      </div>
-      <div class="module-body">
-
-        <div class="ctx-box">
-          <strong>📍 Konteks:</strong> Banyak pemula commit terlalu jarang (hanya sekali di akhir hari) atau tidak tahu kapan waktu yang tepat. Prompt ini mengajarkan strategi commit yang tepat khusus untuk <strong>Vibe Coder</strong> — pengguna yang bekerja bersama AI IDE.
-        </div>
-
-        <div class="insight-box amber">
-          <div class="insight-icon">🎮</div>
-          <div><strong>Analogi Video Game:</strong> Commit adalah "titik simpan" (save point). Bayangkan kamu bermain RPG dan tidak pernah klik simpan — satu mati dan kamu mulai dari awal! Vibe Coder yang baik commit sesering pemain game yang menekan tombol simpan.</div>
-        </div>
-
-        <div class="prompt-wrap">
-          <div class="prompt-bar">
-            <span class="prompt-bar-label">📋 Prompt P5.4 — Paste ke Antigravity AI IDE</span>
-            <button class="btn-copy" id="btn-p54" onclick="copyPrompt('prompt-p54', 'btn-p54')">
-              📋 Salin Prompt
-            </button>
-          </div>
-          <div class="prompt-body">
-            <pre id="prompt-p54">[ROLE]: Vibe Coding Mentor dengan keahlian Git Workflow untuk pengguna AI IDE
-[CONTEXT]: Aku sudah bisa melakukan commit Git. Sekarang aku bingung kapan waktu yang tepat untuk commit. Aku sering lupa commit dan baru ingat setelah mengerjakan banyak hal sekaligus. Aku bekerja menggunakan Antigravity AI IDE.
-[INSTRUCTION]:
-Ajarkan aku strategi commit yang tepat untuk Vibe Coder:
-
-1. 5 TRIGGER WAJIB COMMIT — kapan harus commit tanpa tanya:
-   - Sebelum meminta AI melakukan perubahan besar atau multi-file
-   - Setelah satu fitur kecil berhasil berfungsi di browser
-   - Sebelum mencoba eksperimen baru yang belum pernah dilakukan
-   - Setelah memperbaiki satu bug
-   - Di akhir setiap sesi kerja (sebelum menutup laptop)
-
-2. ATOMIC COMMIT — jelaskan konsep "satu commit = satu perubahan logis" dengan:
-   - Contoh BENAR: commit terpisah untuk navbar, commit terpisah untuk form, commit terpisah untuk CSS.
-   - Contoh SALAH: satu commit berisi perubahan navbar + form + CSS + database sekaligus.
-   - Mengapa atomic commit memudahkan debugging?
-
-3. PRAKTIK LANGSUNG — pandu aku membuat 3 commit terpisah:
-   a) "tambah struktur HTML dasar halaman utama"
-   b) "tambah style CSS dasar untuk layout"
-   c) "checkpoint: siap minta AI tambah fitur form kontak"
-
-4. FORMAT COMMIT MESSAGE PROFESIONAL:
-   - Berikan template: [kata kerja] + [objek yang diubah] + [konteks opsional]
-   - Berikan 10 contoh commit message yang baik untuk proyek web pemula.
-   - Berikan contoh commit message untuk "checkpoint sebelum minta AI".
-
-5. BUAT ALIAS SHORTCUT:
-   - Ajarkan cara membuat alias `git add . && git commit -m ""` menjadi lebih singkat.
-   - Berikan perintah cara membuat alias di Windows (Git Bash atau PowerShell).
-
-[CONSTRAINT]:
-- Gunakan analogi "titik simpan di video game" untuk atomic commit.
-- Berikan template checklist singkat yang bisa aku tempel di meja sebagai pengingat.
-- Tekankan pentingnya commit SEBELUM meminta AI bekerja (bukan sesudah).</pre>
-          </div>
-        </div>
-
-        <!-- Checklist Printable -->
-        <div style="background:linear-gradient(135deg,#FFFBEB,#FEF3C7); border:2px dashed #FCD34D; border-radius:12px; padding:18px 20px; margin-top:12px;">
-          <div style="font-weight:700; color:#78350F; font-size:14px; margin-bottom:12px;">🖨️ Template Checklist — Print &amp; Tempel di Meja!</div>
-          <ul class="checklist">
-            <li><div class="check-box"></div><span>Satu fitur kecil berhasil? → <strong>COMMIT!</strong></span></li>
-            <li><div class="check-box"></div><span>Mau minta AI ubah banyak file? → <strong>COMMIT dulu!</strong></span></li>
-            <li><div class="check-box"></div><span>Mau coba sesuatu yang berisiko? → <strong>COMMIT dulu!</strong></span></li>
-            <li><div class="check-box"></div><span>Baru saja perbaiki bug? → <strong>COMMIT!</strong></span></li>
-            <li><div class="check-box"></div><span>Mau tutup laptop? → <strong>COMMIT!</strong></span></li>
-          </ul>
-          <p style="font-size:11.5px;color:#92400E;margin-top:12px;">⚡ Perintah cepat: <code style="background:#FEF3C7;color:#78350F;">git add . && git commit -m "pesan kamu"</code></p>
-        </div>
-      </div>
+    <div style="text-align:right;">
+      <span style="font-size:12px; color:#64748B;">&copy; 2026 Antigravity IDE Instructional Suite</span>
     </div>
+  </div>
+</footer>
 
-    <!-- ───────────────── MODUL P5.5 ───────────────── -->
-    <div class="module-card" id="modul-5">
-      <div class="module-head" style="border-left: 5px solid #0E7490;">
-        <div class="module-num" style="background:linear-gradient(135deg,#0E7490,#06B6D4);">P5.5</div>
-        <div class="module-head-text">
-          <h3>Git Log: Membaca Riwayat &amp; Investigasi Perubahan AI</h3>
-          <p>git log · git show · git diff antara commit · Audit Trail AI Changes · git bisect</p>
-        </div>
-      </div>
-      <div class="module-body">
+<!-- Interactive JavaScript -->
+<script>
+  // Copy Code Function (for terminal command body)
+  function copyCode(text) {
+    const temp = document.createElement('textarea');
+    temp.innerHTML = text;
+    const decodedText = temp.value;
 
-        <div class="ctx-box">
-          <strong>📍 Konteks:</strong> Setelah punya banyak commit, kamu perlu bisa "membaca peta" riwayatmu. Kemampuan ini sangat berguna saat debugging — kamu bisa lacak kapan tepatnya bug pertama kali muncul, dan perubahan apa yang AI lakukan saat itu.
-        </div>
+    navigator.clipboard.writeText(decodedText).then(() => {
+      showToast("Perintah '" + decodedText + "' berhasil disalin! 🚀");
+    }).catch(err => {
+      console.error("Gagal menyalin: ", err);
+    });
+  }
 
-        <div class="insight-box" style="background:#ECFEFF; border-color:#A5F3FC; color:#164E63;">
-          <div class="insight-icon">📹</div>
-          <div><strong>Analogi CCTV:</strong> Git log adalah rekaman CCTV proyekmu. Setiap commit adalah satu frame rekaman. Kamu bisa rewind, play, dan zoom in ke moment tertentu untuk melihat persis apa yang terjadi dan siapa yang mengubah apa.</div>
-        </div>
+  // Copy Prompt Text from Button in Prompt Card
+  function copyText(buttonElement) {
+    const promptCard = buttonElement.closest('.prompt-card');
+    if (!promptCard) return;
+    const promptTextEl = promptCard.querySelector('.prompt-text');
+    if (!promptTextEl) return;
+    const promptText = promptTextEl.innerText.replace(/^"|"$/g, '').trim();
+    navigator.clipboard.writeText(promptText).then(() => {
+      showToast("Prompt AI berhasil disalin! Siap di-paste ke Antigravity IDE 🤖");
+    }).catch(err => {
+      console.error("Gagal menyalin: ", err);
+    });
+  }
 
-        <div class="prompt-wrap">
-          <div class="prompt-bar">
-            <span class="prompt-bar-label">📋 Prompt P5.5 — Paste ke Antigravity AI IDE</span>
-            <button class="btn-copy" id="btn-p55" onclick="copyPrompt('prompt-p55', 'btn-p55')">
-              📋 Salin Prompt
-            </button>
-          </div>
-          <div class="prompt-body">
-            <pre id="prompt-p55">[ROLE]: Git Detective yang mengajarkan investigasi riwayat kode
-[CONTEXT]: Aku sudah punya minimal 5 commit di repo-ku dari latihan tadi. Aku ingin belajar cara membaca riwayat Git untuk keperluan debugging dan audit perubahan yang dilakukan AI. Selama ini aku hanya bisa commit tapi tidak tahu cara "membaca" riwayatnya.
-[INSTRUCTION]:
-Ajarkan aku cara membaca dan menggunakan riwayat Git secara efektif:
+  // Toast Notification Controller
+  let toastTimer;
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2500);
+  }
 
-1. BERBAGAI FORMAT LOG — praktikkan satu per satu dan jelaskan outputnya:
-   - `git log` → format lengkap, jelaskan setiap bagian (hash, author, date, message)
-   - `git log --oneline` → format ringkas, bagus untuk overview cepat
-   - `git log --oneline --graph` → tampilan pohon visual, jelaskan simbolnya (*, |, \)
-   - `git log --oneline -5` → tampilkan hanya 5 commit terakhir
+  // Real-time Search Filter
+  const searchInput = document.getElementById('commandSearch');
+  const sections = document.querySelectorAll('#guideContent .guide-section');
+  const noResults = document.getElementById('noResults');
 
-2. INSPEKSI DETAIL SATU COMMIT:
-   - Ambil hash salah satu commitku dari `git log --oneline`
-   - `git show <hash>` → tampilkan semua perubahan di commit itu, ajarkan cara membacanya
-   - `git diff <hash1> <hash2>` → bandingkan dua commit berbeda
-   - Praktikkan dengan commit-commitku yang nyata
+  if (searchInput) {
+    searchInput.addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase().trim();
+      let matchCount = 0;
 
-3. LACAK RIWAYAT FILE SPESIFIK:
-   - `git log --follow -p index.html` → lihat seluruh riwayat perubahan satu file
-   - Jelaskan kapan perintah ini berguna (debug, audit perubahan AI)
-   - Cara menghentikan output panjang (tekan Q)
-
-4. TEMUKAN KAPAN BUG MASUK — Konsep git bisect:
-   - Jelaskan konsep git bisect dengan analogi "tebak berapa" (binary search di antara commit)
-   - Berikan skenario contoh kasusnya: "website jadi lambat setelah 10 commit terakhir"
-   - Tidak perlu praktik, cukup konsep yang mudah dipahami
-
-5. LAPORAN HARIAN DENGAN AI:
-   - Tampilkan output `git log --oneline` dari sesi kita hari ini
-   - Minta AI membuat ringkasan narasi: "Apa saja yang sudah aku kerjakan hari ini berdasarkan commit log ini?"
-
-[CONSTRAINT]:
-- Gunakan analogi CCTV untuk menjelaskan git log.
-- Ajarkan cara menghentikan tampilan log panjang (tekan Q di terminal).
-- Berikan tips cara membaca output `git log` yang terlihat menakutkan bagi pemula.</pre>
-          </div>
-        </div>
-
-        <div class="insight-box" style="background:#ECFEFF; border-color:#A5F3FC; color:#164E63; margin-top:12px;">
-          <div class="insight-icon">🔍</div>
-          <div>
-            <strong>Tips: Membaca Git Log yang "Menakutkan"</strong><br>
-            Output <code>git log</code> penuh teks? Jangan panik! Tekan <kbd style="background:#E2E8F0;color:#334155;padding:1px 6px;border-radius:4px;font-size:12px;">Q</kbd> untuk keluar. Gunakan <code>git log --oneline</code> untuk tampilan yang lebih ramah. Setiap baris = satu commit = satu "titik aman" yang bisa kamu kembali ke sana.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══════ SUMMARY CARD ═══════ -->
-    <div class="summary-card">
-      <div style="font-size:28px;margin-bottom:10px;">🏁</div>
-      <h2>Checklist Kelulusan Pertemuan 5</h2>
-      <p class="sub">Pastikan semua poin berikut sudah tercapai sebelum lanjut ke Modul 6 (Push ke GitHub)</p>
-      <div class="summary-grid">
-        <div class="summary-item">
-          <div class="summary-item-icon">✅</div>
-          Repo Git lokal sudah diinisialisasi
-        </div>
-        <div class="summary-item">
-          <div class="summary-item-icon">✅</div>
-          File .gitignore &amp; README.md sudah dibuat
-        </div>
-        <div class="summary-item">
-          <div class="summary-item-icon">✅</div>
-          Minimal 5 commit dengan pesan yang jelas
-        </div>
-        <div class="summary-item">
-          <div class="summary-item-icon">✅</div>
-          Berhasil recovery kode yang sengaja dirusak
-        </div>
-        <div class="summary-item">
-          <div class="summary-item-icon">✅</div>
-          Bisa membaca <code style="color:#7DD3FC;">git log --oneline</code>
-        </div>
-        <div class="summary-item">
-          <div class="summary-item-icon">✅</div>
-          Paham kapan harus commit sebelum minta AI
-        </div>
-      </div>
-      <p style="font-size:14px; color:rgba(255,255,255,0.8); margin-bottom:20px; line-height:1.6;">
-        🎉 Selamat! Kamu sekarang punya <strong>jaring pengaman Git</strong> yang sesungguhnya. Langkah selanjutnya: simpan proyek ini ke cloud GitHub agar aman dari kerusakan laptop dan bisa diakses dari mana saja.
-      </p>
-      <div class="summary-cta">
-        <a href="panduan_push_github.html" class="btn-primary">
-          🚀 Lanjut: Modul 6 Push ke GitHub →
-        </a>
-        <a href="silabus-vibe-coding-16-pertemuan.html" class="btn-outline-white">
-          ← Kembali ke Silabus Utama
-        </a>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
-  <footer class="page-footer">
-    <p>Vibe Coding 2026 · Pertemuan 5: Git Sebelum Coding · Materi Laboratorium Praktikum</p>
-    <p style="margin-top:4px;">Dibuat menggunakan <strong>Antigravity AI IDE</strong> · <a href="silabus-vibe-coding-16-pertemuan.html">Silabus Lengkap 16 Pertemuan</a></p>
-  </footer>
-
-  <!-- ═══════════════════════════ SCRIPT ═══════════════════════════ -->
-  <script>
-    // Copy Prompt Function
-    function copyPrompt(elementId, btnId) {
-      const el = document.getElementById(elementId);
-      const btn = document.getElementById(btnId);
-      if (!el || !btn) return;
-
-      const text = el.innerText || el.textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        const original = btn.innerHTML;
-        btn.innerHTML = '✅ Disalin!';
-        btn.classList.add('copied');
-        setTimeout(() => {
-          btn.innerHTML = original;
-          btn.classList.remove('copied');
-        }, 2000);
-      }).catch(() => {
-        // Fallback
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        const original = btn.innerHTML;
-        btn.innerHTML = '✅ Disalin!';
-        btn.classList.add('copied');
-        setTimeout(() => {
-          btn.innerHTML = original;
-          btn.classList.remove('copied');
-        }, 2000);
-      });
-    }
-
-    // Active TOC highlight on scroll
-    const sections = document.querySelectorAll('.module-card[id]');
-    const tocItems = document.querySelectorAll('.toc-item');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          tocItems.forEach(item => item.classList.remove('active'));
-          const activeLink = document.querySelector(`.toc-item[href="#${entry.target.id}"]`);
-          if (activeLink) activeLink.classList.add('active');
+      sections.forEach(section => {
+        const text = section.innerText.toLowerCase();
+        if (!query || text.includes(query)) {
+          section.style.display = 'block';
+          matchCount++;
+        } else {
+          section.style.display = 'none';
         }
       });
-    }, { rootMargin: '-20% 0px -70% 0px' });
 
-    sections.forEach(sec => observer.observe(sec));
-
-    // Active nav links style
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', function() {
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        this.classList.add('active');
-      });
+      if (noResults) {
+        noResults.style.display = (matchCount === 0 && query !== '') ? 'block' : 'none';
+      }
     });
-  </script>
+  }
+</script>
+
 </body>
 </html>
