@@ -47,22 +47,6 @@
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen antialiased">
-  <!-- ===== SHARED SITE NAV — Vibe Coding Masterclass ===== -->
-  <div id="site-topbar" style="position:sticky;top:0;z-index:9999;background:#ffffff;border-bottom:1.5px solid #e2e8f0;padding:9px 18px;display:flex;align-items:center;gap:10px;font-family:Inter,'Segoe UI',system-ui,sans-serif;box-shadow:0 2px 8px rgba(79,70,229,.07);flex-wrap:wrap;">
-    <a href="silabus-vibe-coding-16-pertemuan.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;">
-      <span style="width:30px;height:30px;background:linear-gradient(135deg,#028090 0%,#00A896 100%);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;box-shadow:0 2px 6px rgba(2,128,144,.35);">&#9889;</span>
-      <span style="font-weight:800;font-size:13px;color:#028090;letter-spacing:-.2px;">Silabus Vibe Coding</span>
-    </a>
-    <span style="color:#cbd5e1;font-size:18px;line-height:1;flex-shrink:0;">|</span>
-    <nav style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:11.5px;font-weight:600;">
-      <a href="silabus-vibe-coding-16-pertemuan.html" style="padding:5px 11px;border-radius:8px;background:#f8fafc;border:1px solid #e2e8f0;color:#374151;text-decoration:none;white-space:nowrap;">Silabus 16</a>
-      <a href="panduan_push_github.html" style="padding:5px 11px;border-radius:8px;background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;text-decoration:none;white-space:nowrap;">Modul 6: Push GitHub</a>
-      <a href="materi_modul3_supabase_detail.html" style="padding:5px 11px;border-radius:8px;background:#e0f2fe;border:1px solid #0284c7;color:#0369a1;font-weight:700;text-decoration:none;white-space:nowrap;">Supabase ★</a>
-      <a href="panduan_vibecoding_owasp.html" style="padding:5px 11px;border-radius:8px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;text-decoration:none;white-space:nowrap;">OWASP</a>
-    </nav>
-  </div>
-  <!-- ===== END SHARED SITE NAV ===== -->
-
   <!-- Toast -->
   <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
     <div class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 border border-slate-700">
@@ -73,21 +57,31 @@
 
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow">
-          <i data-lucide="database" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="text-base font-bold text-slate-900 dark:text-white">Modul 3 — Supabase Integration</span>
-            <span class="px-2 py-0.5 text-[11px] font-bold font-mono rounded-full bg-sky-50 text-sky-700 border border-sky-200 dark:bg-sky-950 dark:text-sky-300 dark:border-sky-800">Antigravity Lab</span>
+        <a href="silabus-vibe-coding-16-pertemuan.html" class="flex items-center gap-2.5" style="text-decoration:none;">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow">
+            <i data-lucide="database" class="w-5 h-5"></i>
           </div>
-          <p class="text-xs text-slate-400 hidden sm:block">SQL DDL · RLS Policies · Auth Context · Realtime Hooks</p>
-        </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Modul 3 · Supabase Lab</span>
+              <span class="px-2 py-0.5 text-[11px] font-bold font-mono rounded-full bg-sky-50 text-sky-700 border border-sky-200 dark:bg-sky-950 dark:text-sky-300 dark:border-sky-800">Antigravity</span>
+            </div>
+            <p class="text-[11px] text-slate-400 hidden sm:block">SQL DDL · RLS · Auth · Realtime Hooks</p>
+          </div>
+        </a>
       </div>
       <div class="flex items-center gap-2">
+        <a href="silabus-vibe-coding-16-pertemuan.html" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition" style="text-decoration:none;">📋 Silabus 16</a>
+        <a href="panduan_push_github.html" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 transition" style="text-decoration:none;">🚀 Push GitHub</a>
+        <a href="panduan_vibecoding_owasp.html" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition" style="text-decoration:none;">🛡️ OWASP</a>
         <button onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 dark:bg-slate-800 dark:text-amber-400 dark:border-slate-700 transition">
+          <i id="theme-icon" data-lucide="moon" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
           <i id="theme-icon" data-lucide="moon" class="w-4 h-4"></i>
         </button>
       </div>
