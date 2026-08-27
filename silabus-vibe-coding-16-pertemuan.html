@@ -1650,6 +1650,28 @@ $$ <span class="c-kw">LANGUAGE</span> plpgsql SECURITY DEFINER;
           </div>
         </div>
 
+        <!-- Prompt Card Part 2 -->
+        <div class="prompt-card">
+          <div class="prompt-card-bar">
+            <span>PROMPT 2 KE ANTIGRAVITY AGENT: BUAT RLS POLICIES KEAMANAN</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-rls')">Salin Prompt RLS</button>
+          </div>
+          <pre id="prompt-rls">[ROLE]: Supabase Security Specialist & PostgreSQL Administrator
+[CONTEXT]: Aplikasi React + Supabase dengan tabel `profiles`, `categories`, dan `transactions`.
+[INSTRUCTION]:
+Buatkan script SQL lengkap untuk mengamankan seluruh tabel menggunakan Row Level Security (RLS):
+1. Aktifkan RLS di public.profiles, public.categories, dan public.transactions.
+2. Aturan PROFILES:
+   - SELECT: Hanya data profil miliknya sendiri (auth.uid() = id).
+   - UPDATE: Hanya bisa update profil miliknya sendiri (auth.uid() = id).
+3. Aturan CATEGORIES:
+   - SELECT, INSERT, UPDATE, DELETE: Hanya kategori miliknya sendiri (auth.uid() = user_id).
+4. Aturan TRANSACTIONS:
+   - SELECT, INSERT, UPDATE, DELETE: Hanya transaksi miliknya sendiri (auth.uid() = user_id).
+[CONSTRAINT]:
+- Script SQL harus aman, idempotent, dan siap dieksekusi di Supabase SQL Editor.</pre>
+        </div>
+
         <!-- SQL RLS Policies -->
         <div class="code-card">
           <div class="code-card-bar">
@@ -1695,6 +1717,23 @@ $$ <span class="c-kw">LANGUAGE</span> plpgsql SECURITY DEFINER;
               <p>Variabel Lingkungan · Strict TypeScript Database Types · Client Instance</p>
             </div>
           </div>
+        </div>
+
+        <!-- Prompt Card Part 3 -->
+        <div class="prompt-card">
+          <div class="prompt-card-bar">
+            <span>PROMPT 3 KE ANTIGRAVITY AGENT: SETUP .ENV & CLIENT SINGLETON</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-client')">Salin Prompt Client</button>
+          </div>
+          <pre id="prompt-client">[ROLE]: Senior Fullstack React & TypeScript Developer
+[CONTEXT]: Project Vite + React 18 + Supabase.
+[TASK]:
+1. Buatkan contoh file `.env.local` berisi:
+   VITE_SUPABASE_URL=https://xyzcompany.supabase.co
+   VITE_SUPABASE_ANON_KEY=your_anon_key_here
+2. Buatkan file client singleton `src/lib/supabase.ts` menggunakan `@supabase/supabase-js`.
+3. Tambahkan validasi error: Jika env url/anon_key belum diisi di `.env.local`, lemparkan Error dengan pesan instruksi yang jelas.
+4. Aktifkan opsi auth: `persistSession: true`, `autoRefreshToken: true`, `detectSessionInUrl: true`.</pre>
         </div>
 
         <!-- File .env.local -->
@@ -1752,6 +1791,26 @@ VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.your_anon_key_here</
         <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
           Sistem autentikasi multi-halaman dengan session tracking reaktif dan proteksi rute halaman privat:
         </p>
+
+        <!-- Prompt Card Part 4 -->
+        <div class="prompt-card">
+          <div class="prompt-card-bar">
+            <span>PROMPT 4 KE ANTIGRAVITY AGENT: BUAT AUTHPROVIDER & PROTECTED ROUTE</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-auth')">Salin Prompt Auth</button>
+          </div>
+          <pre id="prompt-auth">[ROLE]: React State & Authentication Architect
+[CONTEXT]: Supabase Client tersedia di `src/lib/supabase.ts`.
+[TASK]:
+1. Buatkan `src/context/AuthContext.tsx`:
+   - State `user`, `session`, `profile`, dan `loading`.
+   - Sinkronisasi sesi otomatis via `supabase.auth.onAuthStateChange` dengan listener cleanup `subscription.unsubscribe()`.
+   - Method: `signUpWithEmail(email, password, fullName)`, `signInWithEmail(email, password)`, dan `signOut()`.
+2. Buatkan custom hook `useAuth()` yang mengecek apakah dipanggil di dalam `<AuthProvider>`.
+3. Buatkan komponen pelindung `src/components/ProtectedRoute.tsx` menggunakan React Router DOM:
+   - Tampilkan status loading jika `loading` masih true.
+   - Redirect ke `/login` jika user belum login.
+   - Render `<Outlet />` jika user sudah terautentikasi.</pre>
+        </div>
 
         <!-- AuthContext Code -->
         <div class="code-card">
@@ -1880,6 +1939,24 @@ VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.your_anon_key_here</
         <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
           Custom Hook <code>useTransactions</code> yang otomatis menyinkronkan data antar-perangkat secara realtime dan membersihkan koneksi WebSocket saat komponen di-unmount:
         </p>
+
+        <!-- Prompt Card Part 5 -->
+        <div class="prompt-card">
+          <div class="prompt-card-bar">
+            <span>PROMPT 5 KE ANTIGRAVITY AGENT: BUAT REALTIME SYNC HOOK</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-realtime')">Salin Prompt Realtime</button>
+          </div>
+          <pre id="prompt-realtime">[ROLE]: Senior Frontend Engineer (Realtime Systems)
+[CONTEXT]: Supabase Client di `src/lib/supabase.ts` dan user login dari `useAuth()`.
+[TASK]:
+Buatkan custom hook `src/hooks/useTransactions.ts`:
+1. Fetch data transaksi awal terurut berdasarkan tanggal terbaru untuk user yang sedang login (`user_id = user.id`).
+2. Buat Realtime WebSocket Channel `supabase.channel('transactions_' + user.id)`:
+   - Dengarkan event `postgres_changes` untuk tabel `transactions` dengan filter `user_id=eq.${user.id}`.
+   - Otomatis sinkronkan state transaksi setiap kali ada penambahan, perubahan, atau penghapusan data.
+3. Wajib tambahkan fungsi pembersihan (`supabase.removeChannel(channel)`) pada return `useEffect` agar tidak terjadi memory leak.
+4. Sediakan helper method `addTransaction(data)` dan `deleteTransaction(id)` dengan optimistic UI update.</pre>
+        </div>
 
         <!-- Realtime Hook Code -->
         <div class="code-card">
