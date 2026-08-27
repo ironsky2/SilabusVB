@@ -85,97 +85,165 @@
       color: #fff;
     }
 
-    /* ---------- NAV ---------- */
+    /* ---------- NOTION SINGLE-ROW NAV ---------- */
     header.nav {
       position: sticky;
       top: 0;
-      z-index: 90;
-      background: rgba(255, 255, 255, 0.96);
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--line);
-      box-shadow: 0 1px 4px rgba(20, 30, 30, 0.04);
+      height: 56px;
+      display: flex;
+      align-items: center;
     }
 
     .nav-inner {
       max-width: 1160px;
+      width: 100%;
       margin: 0 auto;
-      padding: 10px 24px;
+      padding: 0 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      flex-wrap: wrap;
     }
 
     .brand {
-      font-family: Cambria, Georgia, serif;
-      font-weight: bold;
-      font-size: 17.5px;
       display: flex;
       align-items: center;
-      gap: 9px;
-      white-space: nowrap;
-      color: var(--ink);
+      gap: 10px;
       text-decoration: none;
+      color: var(--ink);
     }
 
     .brand .dot {
-      width: 10px;
-      height: 10px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
-      background: var(--mint);
+      background: #00A896;
+      box-shadow: 0 0 0 3px rgba(0, 168, 150, 0.2);
     }
 
-    .nav-modules {
+    .brand-title {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 700;
+      font-size: 17.5px;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-pill {
+      font-size: 11.5px;
+      font-weight: 600;
+      background: #F1F0ED;
+      color: #787774;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .nav-tab {
-      font-size: 12px;
-      font-weight: 600;
-      padding: 6px 12px;
-      border-radius: 8px;
-      background: var(--bg-soft);
+    /* Popover Dropdown */
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-dropdown-btn {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #37352F;
+      background: #FFFFFF;
       border: 1px solid var(--line);
-      color: var(--ink-mid);
-      text-decoration: none;
-      transition: .15s;
-      white-space: nowrap;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
     }
 
-    .nav-tab:hover {
-      color: var(--teal);
-      border-color: var(--mint);
-      background: var(--bg-tint);
-      text-decoration: none;
+    .nav-dropdown-btn:hover {
+      background: #F7F6F3;
+      border-color: #D3D1CB;
     }
 
-    .nav-tab.active {
-      background: var(--bg-tint);
-      color: var(--deep);
-      border-color: var(--seafoam);
-      font-weight: 700;
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      background: #FFFFFF;
+      min-width: 250px;
+      box-shadow: 0 10px 28px rgba(15, 15, 15, 0.12), 0 0 0 1px rgba(15, 15, 15, 0.05);
+      border-radius: 10px;
+      padding: 6px;
+      z-index: 110;
+      animation: dropFade 0.15s ease;
     }
 
-    .nav-sections {
+    .nav-dropdown:hover .dropdown-content,
+    .nav-dropdown:focus-within .dropdown-content {
+      display: block;
+    }
+
+    @keyframes dropFade {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dropdown-item {
       display: flex;
       align-items: center;
-      gap: 14px;
-      font-size: 12.5px;
-      font-weight: 600;
+      gap: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #37352F;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.15s;
     }
 
-    .nav-sections a {
-      color: var(--ink-soft);
+    .dropdown-item:hover {
+      background: #F1F0ED;
+      color: #028090;
       text-decoration: none;
-      padding: 4px 2px;
-      transition: .15s;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 4px 6px;
+    }
+
+    .nav-cta-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: #028090;
+      border: 1px solid #028090;
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-cta-btn:hover {
+      background: #01656F;
+      color: #FFFFFF;
+      text-decoration: none;
     }
 
     .nav-sections a:hover {
@@ -1833,22 +1901,63 @@
     <div class="nav-inner">
       <a href="silabus-vibe-coding-16-pertemuan.html" class="brand">
         <span class="dot"></span>
-        <span>Silabus Vibe Coding</span>
+        <span class="brand-title">Silabus Vibe Coding</span>
+        <span class="brand-pill">16 Pertemuan</span>
       </a>
-      <div class="nav-modules">
-        <a href="silabus-vibe-coding-16-pertemuan.html" class="nav-tab active">📋 Silabus 16 Pertemuan</a>
-        <a href="praktikum_git_sebelum_coding.html" class="nav-tab">🌳 Git Lokal (P5)</a>
-        <a href="panduan_push_github.html" class="nav-tab">☁️ Push GitHub (P6)</a>
-        <a href="panduan_vibecoding_owasp.html" class="nav-tab">🛡️ Panduan OWASP</a>
+
+      <div class="nav-actions">
+        <!-- Dropdown 1: Lompat ke Blok -->
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">
+            <span>📑 Lompat ke Blok</span>
+            <span style="font-size:10px; color:#787774;">▾</span>
+          </button>
+          <div class="dropdown-content">
+            <a href="#ringkasan" class="dropdown-item">📊 Ringkasan 16 Pertemuan</a>
+            <div class="dropdown-divider"></div>
+            <a href="#fondasi" class="dropdown-item">🏢 Blok 1: Fondasi &amp; Prompting (P1–P4)</a>
+            <a href="#bangun" class="dropdown-item">🌳 Blok 2: Bangun Web &amp; Git (P5–P8)</a>
+            <a href="#interaktif" class="dropdown-item">⚡ Blok 3: JS &amp; Data Interaktif (P9–P12)</a>
+            <a href="#produksi" class="dropdown-item">🚀 Blok 4: Supabase &amp; Deploy (P13–P16)</a>
+            <div class="dropdown-divider"></div>
+            <a href="#penilaian" class="dropdown-item">🏆 Rubrik Penilaian Proyek Akhir</a>
+          </div>
+        </div>
+
+        <!-- Dropdown 2: Materi Praktikum Terkait -->
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">
+            <span>📚 Materi Terkait</span>
+            <span style="font-size:10px; color:#787774;">▾</span>
+          </button>
+          <div class="dropdown-content">
+            <a href="praktikum_git_sebelum_coding.html" class="dropdown-item">
+              <span>🌳</span>
+              <div>
+                <strong>Git Lokal (P5)</strong>
+                <div style="font-size:11px; color:#787774;">Safety Net &amp; Recovery</div>
+              </div>
+            </a>
+            <a href="panduan_push_github.html" class="dropdown-item">
+              <span>☁️</span>
+              <div>
+                <strong>Push GitHub (P6)</strong>
+                <div style="font-size:11px; color:#787774;">Remote, Branch &amp; Cloud</div>
+              </div>
+            </a>
+            <a href="panduan_vibecoding_owasp.html" class="dropdown-item">
+              <span>🛡️</span>
+              <div>
+                <strong>Panduan OWASP</strong>
+                <div style="font-size:11px; color:#787774;">Standar Keamanan AI Code</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- CTA Action -->
+        <a href="#ringkasan" class="nav-cta-btn">⭐ Mulai Belajar</a>
       </div>
-      <nav class="nav-sections">
-        <a href="#ringkasan">Ringkasan</a>
-        <a href="#fondasi">Blok 1</a>
-        <a href="#bangun">Blok 2</a>
-        <a href="#interaktif">Blok 3</a>
-        <a href="#produksi">Blok 4</a>
-        <a href="#penilaian">Penilaian</a>
-      </nav>
     </div>
   </header>
 
