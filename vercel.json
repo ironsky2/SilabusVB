@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/silabus-vibe-coding-16-pertemuan.html"
+    }
+  ]
+}
