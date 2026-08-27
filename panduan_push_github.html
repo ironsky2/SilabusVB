@@ -3,1224 +3,1300 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panduan Push &amp; Remote GitHub: Kurikulum Vibe Coding Pertemuan 6</title>
-<meta name="description" content="Modul Praktikum Pertemuan 6: Publikasi Proyek ke GitHub Cloud. Dilengkapi panduan Conventional Commits, generator README.md, remote origin, first push, sync pull, dan dokter troubleshooting error.">
+<title>Panduan Push &amp; Remote GitHub — Pertemuan 6 | Vibe Coding Masterclass</title>
+<meta name="description" content="Modul Praktikum Pertemuan 6 bergaya Notion minimalis: Publikasi Proyek ke GitHub Cloud. Dilengkapi Conventional Commits, README generator, remote origin, first push, pull conflict, dan dokter error push.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --teal: #028090;
-    --seafoam: #00A896;
-    --mint: #02C39A;
-    --deep: #01656F;
-    --navy: #0F172A;
-    --amber: #D97706;
-    --rose: #E11D48;
-    --purple: #7C3AED;
-    --blue: #2563EB;
-    --emerald: #059669;
+    --notion-bg: #FFFFFF;
+    --notion-sidebar: #F7F6F3;
+    --notion-card: #FFFFFF;
+    --notion-line: #EDECE9;
+    --notion-line-subtle: #F1F0ED;
+    --notion-text: #37352F;
+    --notion-text-mid: #5A5852;
+    --notion-text-muted: #787774;
+    --notion-text-light: #9B9A97;
     
-    --ink: #0F172A;
-    --ink-mid: #334155;
-    --ink-soft: #64748B;
-    --line: #E2E8F0;
-    --line-soft: #F1F5F9;
-    --bg: #FFFFFF;
-    --bg-soft: #F8FAFC;
-    --bg-tint: #F0FDFA;
+    /* Pastel Palette */
+    --pastel-green-bg: #EBF5EE;
+    --pastel-green-text: #1E6B37;
+    --pastel-green-border: #D3ECDC;
     
-    --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
-    --card-shadow-hover: 0 12px 28px -4px rgba(15, 23, 42, 0.12);
+    --pastel-yellow-bg: #FDF5E6;
+    --pastel-yellow-text: #8F5B1E;
+    --pastel-yellow-border: #FBE4BF;
+    
+    --pastel-red-bg: #FDEBEC;
+    --pastel-red-text: #A82B35;
+    --pastel-red-border: #F8CDD1;
+    
+    --pastel-blue-bg: #EDF3F8;
+    --pastel-blue-text: #2B5D88;
+    --pastel-blue-border: #D1E3F0;
+    
+    --pastel-purple-bg: #F6F3F9;
+    --pastel-purple-text: #6940A5;
+    --pastel-purple-border: #E8DFF3;
+    
+    --pastel-teal-bg: #EAF6F4;
+    --pastel-teal-text: #028090;
+    --pastel-teal-border: #C8E8E4;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    
+    --shadow-subtle: 0 1px 3px rgba(15, 15, 15, 0.05), 0 0 0 1px rgba(15, 15, 15, 0.03);
+    --shadow-hover: 0 4px 12px rgba(15, 15, 15, 0.08), 0 0 0 1px rgba(15, 15, 15, 0.05);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  html { scroll-behavior: smooth; scroll-padding-top: 70px; }
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    color: var(--ink);
-    background: var(--bg-soft);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--notion-text);
+    background: var(--notion-bg);
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
   }
   
-  a { color: var(--teal); text-decoration: none; transition: color 0.15s; }
-  a:hover { color: var(--deep); text-decoration: underline; }
+  a { color: var(--notion-text); text-decoration: underline; text-decoration-color: #D3D1CB; text-underline-offset: 3px; transition: all 0.15s; }
+  a:hover { color: var(--pastel-purple-text); text-decoration-color: var(--pastel-purple-text); }
   
   code {
-    font-family: 'JetBrains Mono', Consolas, monospace;
-    font-size: 0.88em;
-    background: #E6FFFA;
-    color: #007A78;
-    padding: 2px 7px;
-    border-radius: 5px;
-    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.86em;
+    background: #F2F1EE;
+    color: #EB5757;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
   }
 
-  ::selection { background: #99F6E4; color: #042F2E; }
+  ::selection { background: #E8DFF3; color: #3B1768; }
 
-  /* HEADER & NAV */
-  header {
+  /* TOP BREADCRUMBS BAR */
+  .top-bar {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--notion-line);
+    padding: 10px 24px;
   }
-  .nav-inner {
-    max-width: 1160px;
+  .top-bar-inner {
+    max-width: 960px;
     margin: 0 auto;
-    padding: 12px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
+    flex-wrap: wrap;
   }
-  .brand {
-    font-weight: 800;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--navy);
-    letter-spacing: -0.3px;
-    text-decoration: none;
-  }
-  .brand .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--purple);
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
-  }
-  .nav-menu {
+  
+  .breadcrumbs {
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-wrap: wrap;
-  }
-  .nav-btn {
     font-size: 13px;
-    font-weight: 600;
-    color: var(--ink-mid);
-    padding: 7px 13px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: #fff;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--notion-text-muted);
+  }
+  .breadcrumb-item {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    color: var(--notion-text-mid);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s;
+  }
+  .breadcrumb-item:hover {
+    background: #EFEFED;
+    text-decoration: none;
+    color: var(--notion-text);
+  }
+  .breadcrumb-item.active {
+    color: var(--notion-text);
+    font-weight: 600;
+    background: #F1F0ED;
+  }
+  .breadcrumb-sep {
+    color: var(--notion-text-light);
+    font-size: 12px;
+  }
+
+  .top-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .notion-btn {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--notion-text-mid);
+    background: #FFFFFF;
+    border: 1px solid var(--notion-line);
+    padding: 5px 12px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    transition: all 0.15s;
+  }
+  .notion-btn:hover {
+    background: #F7F6F3;
+    color: var(--notion-text);
+    border-color: #D3D1CB;
     text-decoration: none;
   }
-  .nav-btn:hover {
-    color: var(--teal);
-    border-color: var(--seafoam);
-    background: var(--bg-tint);
-    text-decoration: none;
-    transform: translateY(-1px);
+  .notion-btn.primary {
+    background: #7C3AED;
+    color: #FFFFFF;
+    border-color: #7C3AED;
+    font-weight: 600;
   }
-  .nav-btn.primary {
-    background: var(--purple);
-    color: #fff;
-    border-color: var(--purple);
-  }
-  .nav-btn.primary:hover {
+  .notion-btn.primary:hover {
     background: #6D28D9;
-    color: #fff;
+    color: #FFFFFF;
   }
 
   /* LAYOUT */
-  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+  .page-container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
 
-  /* HERO */
-  .hero {
-    background: linear-gradient(135deg, #1E1B4B 0%, #312E81 35%, #4338CA 70%, #6366F1 100%);
-    color: #fff;
-    padding: 60px 24px 50px;
-    position: relative;
-    overflow: hidden;
+  /* NOTION PAGE HEADER */
+  .page-header {
+    margin-bottom: 36px;
   }
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 600px;
-    height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(167, 139, 250, 0.2) 0%, rgba(167, 139, 250, 0) 70%);
-    pointer-events: none;
-  }
-  .hero-inner { max-width: 1160px; margin: 0 auto; position: relative; z-index: 2; }
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.16);
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 6px 14px;
-    border-radius: 24px;
+  .page-icon {
+    font-size: 54px;
+    line-height: 1;
     margin-bottom: 16px;
+    display: inline-block;
   }
-  .hero h1 {
+  .page-title {
     font-family: 'Newsreader', Georgia, serif;
-    font-size: 40px;
-    line-height: 1.18;
-    margin-bottom: 14px;
+    font-size: 38px;
     font-weight: 700;
-    max-width: 900px;
+    color: var(--notion-text);
     letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 12px;
   }
-  .hero p {
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.94);
-    max-width: 860px;
-    line-height: 1.68;
+  .page-subtitle {
+    font-size: 15.5px;
+    color: var(--notion-text-muted);
+    line-height: 1.65;
     margin-bottom: 24px;
   }
 
-  /* QUICK NAV PILLS */
-  .quick-nav {
+  /* NOTION PROPERTIES LIST */
+  .notion-properties {
+    border-top: 1px solid var(--notion-line);
+    border-bottom: 1px solid var(--notion-line);
+    padding: 14px 0;
+    margin-bottom: 28px;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    row-gap: 10px;
+    font-size: 13px;
+  }
+  .prop-label {
+    color: var(--notion-text-muted);
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+  .prop-value {
+    color: var(--notion-text);
+    display: flex;
+    align-items: center;
     gap: 8px;
-    margin: 18px 0 24px;
-  }
-  .nav-pill {
-    background: rgba(255, 255, 255, 0.16);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    font-size: 12.5px;
-    font-weight: 600;
-    padding: 6px 14px;
-    border-radius: 20px;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .nav-pill:hover {
-    background: #fff;
-    color: var(--purple);
-    text-decoration: none;
-    transform: translateY(-2px);
+    flex-wrap: wrap;
   }
 
-  /* SEARCH BOX */
-  .search-container {
-    position: relative;
-    max-width: 720px;
-    margin-top: 18px;
+  /* PASTEL BADGES */
+  .badge-pastel {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    line-height: 1.3;
+    border: 1px solid transparent;
   }
-  .search-icon {
-    position: absolute;
-    left: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    color: #64748B;
-    pointer-events: none;
+  .badge-green { background: var(--pastel-green-bg); color: var(--pastel-green-text); border-color: var(--pastel-green-border); }
+  .badge-yellow { background: var(--pastel-yellow-bg); color: var(--pastel-yellow-text); border-color: var(--pastel-yellow-border); }
+  .badge-red { background: var(--pastel-red-bg); color: var(--pastel-red-text); border-color: var(--pastel-red-border); }
+  .badge-blue { background: var(--pastel-blue-bg); color: var(--pastel-blue-text); border-color: var(--pastel-blue-border); }
+  .badge-purple { background: var(--pastel-purple-bg); color: var(--pastel-purple-text); border-color: var(--pastel-purple-border); }
+  .badge-teal { background: var(--pastel-teal-bg); color: var(--pastel-teal-text); border-color: var(--pastel-teal-border); }
+
+  /* SEARCH & NAV PILLS */
+  .search-section {
+    position: relative;
+    margin: 24px 0 32px;
+  }
+  .search-box {
+    position: relative;
+    width: 100%;
   }
   .search-input {
     width: 100%;
-    padding: 14px 20px 14px 50px;
-    border-radius: 12px;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    background: #FFFFFF;
-    color: var(--navy);
-    font-size: 15px;
+    padding: 12px 16px 12px 42px;
+    background: #F7F6F3;
+    border: 1px solid var(--notion-line);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    color: var(--notion-text);
     font-family: inherit;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-    transition: all 0.2s;
     outline: none;
+    transition: all 0.15s;
   }
   .search-input:focus {
-    border-color: #A78BFA;
-    box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.35);
+    background: #FFFFFF;
+    border-color: #7C3AED;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
   }
-  .search-input::placeholder {
-    color: #94A3B8;
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: var(--notion-text-muted);
+    pointer-events: none;
   }
 
-  /* PREREQUISITE BANNER */
-  .prereq-banner {
-    background: #F8FAFC;
-    border: 1.5px solid #CBD5E1;
-    border-left: 6px solid var(--teal);
-    border-radius: 14px;
-    padding: 20px 24px;
-    margin: 28px 0;
+  .quick-pills {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     flex-wrap: wrap;
-    gap: 16px;
-    box-shadow: var(--card-shadow);
+    gap: 6px;
+    margin-top: 12px;
   }
-  .prereq-content h4 { font-size: 16px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
-  .prereq-content p { font-size: 13.5px; color: var(--ink-mid); margin: 0; }
+  .pill-link {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--notion-text-mid);
+    background: #F7F6F3;
+    border: 1px solid var(--notion-line);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .pill-link:hover {
+    background: #EFEFED;
+    color: var(--notion-text);
+    text-decoration: none;
+  }
 
-  /* SECTION DIVIDERS */
-  .section-divider {
+  /* NOTION CALLOUT */
+  .notion-callout {
+    background: #F7F6F3;
+    border: 1px solid var(--notion-line);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
     display: flex;
-    align-items: center;
-    gap: 16px;
-    margin: 44px 0 20px;
-  }
-  .divider-badge {
-    font-size: 12.5px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #fff;
-    padding: 6px 16px;
-    border-radius: 20px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-  .divider-line { flex: 1; height: 2px; background: var(--line); }
-
-  /* ANALOGI BOX (12 TAHUN) */
-  .analogy-box {
-    background: #FFFBEB;
-    border: 1px solid #FDE68A;
-    border-left: 5px solid var(--amber);
-    border-radius: 10px;
-    padding: 14px 18px;
-    margin: 16px 0 18px;
-    font-size: 13.5px;
-    color: #78350F;
+    gap: 14px;
+    align-items: flex-start;
+    margin: 20px 0;
+    font-size: 14px;
+    color: var(--notion-text);
     line-height: 1.6;
   }
-
-  /* GUIDE SECTION & CARDS */
-  .guide-section {
-    scroll-margin-top: 90px;
-    margin-bottom: 28px;
+  .notion-callout.purple {
+    background: #F6F3F9;
+    border-color: #E8DFF3;
+    color: #4C1D95;
   }
-  .card {
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 28px;
-    margin-bottom: 24px;
-    box-shadow: var(--card-shadow);
+  .notion-callout.warning {
+    background: #FDF5E6;
+    border-color: #FBE4BF;
+    color: #784510;
+  }
+  .notion-callout.danger {
+    background: #FDEBEC;
+    border-color: #F8CDD1;
+    color: #8C202B;
+  }
+  .notion-callout.success {
+    background: #EBF5EE;
+    border-color: #D3ECDC;
+    color: #17542B;
+  }
+  .callout-icon {
+    font-size: 20px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .callout-body { flex: 1; }
+
+  /* NOTION SECTION CARD */
+  .notion-module {
+    margin-bottom: 36px;
+    border: 1px solid var(--notion-line);
+    border-radius: var(--radius-lg);
+    background: var(--notion-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-subtle);
     transition: box-shadow 0.2s;
   }
-  .card:hover {
-    box-shadow: var(--card-shadow-hover);
+  .notion-module:hover {
+    box-shadow: var(--shadow-hover);
   }
-  .card-head {
+  .module-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--notion-line);
     display: flex;
-    gap: 16px;
+    justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 16px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--line);
-  }
-  .badge-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    color: #fff;
-    font-weight: 800;
-    font-size: 17px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-family: 'JetBrains Mono', monospace;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-  }
-  .card-title h3 { font-size: 19px; font-weight: 800; color: var(--navy); margin-bottom: 4px; letter-spacing: -0.3px; }
-  .card-title p { font-size: 13.5px; color: var(--ink-soft); }
-
-  /* META TAGS */
-  .meta-tag-row {
-    display: flex;
+    gap: 16px;
     flex-wrap: wrap;
-    gap: 8px;
-    margin: 12px 0 16px;
+    background: #FAFAFA;
   }
-  .meta-tag {
+  .module-title-wrap {
+    flex: 1;
+  }
+  .module-eyebrow {
     font-size: 11.5px;
     font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 6px;
-    display: inline-flex;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--notion-text-muted);
+    margin-bottom: 4px;
+    display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+  }
+  .module-heading {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--notion-text);
+    line-height: 1.3;
+  }
+  .module-body {
+    padding: 24px;
   }
 
-  /* COMMAND GRID */
+  /* NOTION ACCORDION TOGGLE */
+  .notion-toggle {
+    margin-bottom: 14px;
+    border: 1px solid var(--notion-line);
+    border-radius: var(--radius-md);
+    background: #FFFFFF;
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .notion-toggle[open] {
+    border-color: #D3D1CB;
+  }
+  .notion-toggle summary {
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--notion-text);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FAFAFA;
+    transition: background 0.15s;
+    list-style: none;
+  }
+  .notion-toggle summary::-webkit-details-marker { display: none; }
+  .notion-toggle summary:hover {
+    background: #F1F0ED;
+  }
+  .toggle-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .toggle-chevron {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--notion-text-muted);
+    transition: transform 0.2s ease;
+  }
+  .notion-toggle[open] .toggle-chevron {
+    transform: rotate(90deg);
+  }
+  .toggle-content {
+    padding: 18px;
+    border-top: 1px solid var(--notion-line);
+    background: #FFFFFF;
+    font-size: 13.5px;
+    color: var(--notion-text);
+    line-height: 1.65;
+  }
+
+  /* COMMAND GRID INSIDE TOGGLE */
   .command-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 14px;
-    margin: 18px 0;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    margin-top: 8px;
   }
   .command-card {
-    background: #F8FAFC;
-    border: 1px solid #E2E8F0;
-    border-radius: 12px;
-    padding: 16px;
+    background: #F7F6F3;
+    border: 1px solid var(--notion-line);
+    border-radius: var(--radius-md);
+    padding: 14px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.2s;
   }
-  .command-card:hover {
-    border-color: var(--purple);
+  .command-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .command-name {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--notion-text-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .cmd-code {
+    background: #2F3437;
+    color: #C084FC;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    word-break: break-all;
+  }
+  .cmd-desc {
+    font-size: 12px;
+    color: var(--notion-text-muted);
+    line-height: 1.5;
+  }
+
+  /* COPY BUTTONS */
+  .btn-copy {
     background: #FFFFFF;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    border: 1px solid #D3D1CB;
+    color: var(--notion-text);
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s;
   }
-  .command-header {
+  .btn-copy:hover {
+    background: #EFEFED;
+    border-color: #A4A29E;
+  }
+
+  /* PROMPT BOX IN TOGGLE */
+  .notion-prompt-box {
+    background: #191919;
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    color: #E6E6E6;
+    margin-top: 10px;
+  }
+  .prompt-box-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2E2E2E;
   }
-  .command-title {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--navy);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .command-body {
-    background: #0F172A;
-    color: #38BDF8;
-    padding: 10px 12px;
-    border-radius: 8px;
+  .prompt-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12.5px;
+    font-size: 11px;
     font-weight: 700;
-    margin-bottom: 10px;
-    word-break: break-all;
-    user-select: all;
-  }
-  .command-desc {
-    font-size: 12.5px;
-    color: var(--ink-mid);
-    line-height: 1.5;
-  }
-  .copy-btn {
-    background: var(--purple);
-    color: #fff;
-    border: none;
-    padding: 5px 12px;
-    border-radius: 6px;
-    font-size: 11.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    display: inline-flex;
+    color: #A78BFA;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
   }
-  .copy-btn:hover {
-    background: #6D28D9;
-    transform: translateY(-1px);
-  }
-
-  /* PROMPT CARD */
-  .prompt-card {
-    background: #0B131B;
-    border: 1px solid #1E2D3D;
-    border-radius: 14px;
-    padding: 18px 20px;
-    margin: 18px 0;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-    position: relative;
-  }
-  .prompt-card .prompt-tag {
-    color: #34D399;
-    font-weight: 800;
-    font-size: 11.5px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 10px;
+  .prompt-code {
     font-family: 'JetBrains Mono', monospace;
-  }
-  .prompt-card .prompt-text {
-    color: #E2E8F0;
-    font-size: 13.5px;
-    font-family: 'JetBrains Mono', Consolas, monospace;
+    font-size: 13px;
     line-height: 1.65;
-    margin-bottom: 14px;
+    color: #F0F0F0;
     white-space: pre-wrap;
   }
-
-  /* CALLOUT BOXES */
-  .tip-card {
-    background: #F0FDF4;
-    border: 1px solid #BBF7D0;
-    border-left: 5px solid #16A34A;
-    border-radius: 10px;
-    padding: 16px 20px;
-    font-size: 13.5px;
-    color: #14532D;
-    margin: 16px 0;
+  .btn-copy-prompt {
+    background: #2D2D2D;
+    color: #FFFFFF;
+    border: 1px solid #444444;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
   }
-  .warn-card {
-    background: #FFFBEB;
-    border: 1px solid #FDE68A;
-    border-left: 5px solid #D97706;
-    border-radius: 10px;
-    padding: 16px 20px;
-    font-size: 13.5px;
-    color: #78350F;
-    margin: 16px 0;
-  }
-  .danger-card {
-    background: #FFF1F2;
-    border: 1px solid #FECDD3;
-    border-left: 5px solid #E11D48;
-    border-radius: 10px;
-    padding: 16px 20px;
-    font-size: 13.5px;
-    color: #881337;
-    margin: 16px 0;
+  .btn-copy-prompt:hover {
+    background: #3D3D3D;
+    border-color: #666666;
   }
 
-  /* CONVENTIONAL COMMITS GRID */
+  /* CONVENTIONAL COMMITS TABLE */
   .cc-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 14px;
-    margin: 16px 0;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin: 12px 0;
   }
-  .cc-card {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: 10px;
-    padding: 14px 16px;
-    border-left: 4px solid var(--purple);
+  .cc-item {
+    background: #F7F6F3;
+    border: 1px solid var(--notion-line);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    font-size: 12.5px;
   }
-  .cc-card.feat { border-left-color: #059669; }
-  .cc-card.fix { border-left-color: #E11D48; }
-  .cc-card.docs { border-left-color: #2563EB; }
-  .cc-card.style { border-left-color: #7C3AED; }
-  .cc-card.refactor { border-left-color: #D97706; }
-
   .cc-tag {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
     font-weight: 700;
-    color: var(--navy);
     display: inline-block;
-    margin-bottom: 6px;
-  }
-  .cc-desc { font-size: 12.5px; color: var(--ink-mid); line-height: 1.5; }
-  .cc-example {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11.5px;
-    background: #F1F5F9;
-    padding: 4px 8px;
-    border-radius: 6px;
-    margin-top: 8px;
-    color: var(--navy);
-    display: block;
+    margin-bottom: 4px;
   }
 
-  /* COMPARISON & CHEATSHEET TABLE */
-  .table-responsive {
+  /* NOTION CHEATSHEET TABLE */
+  .table-scroll {
     overflow-x: auto;
-    margin: 20px 0;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: #fff;
+    margin: 24px 0;
+    border: 1px solid var(--notion-line);
+    border-radius: var(--radius-md);
   }
-  table.custom-table {
+  table.notion-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 13.5px;
+    font-size: 13px;
     text-align: left;
   }
-  table.custom-table th {
-    background: #F1F5F9;
-    color: var(--navy);
-    font-weight: 800;
-    padding: 12px 16px;
-    border-bottom: 2px solid #CBD5E1;
+  table.notion-table th {
+    background: #F7F6F3;
+    padding: 10px 14px;
+    font-weight: 600;
+    color: var(--notion-text-mid);
+    border-bottom: 1px solid var(--notion-line);
     white-space: nowrap;
   }
-  table.custom-table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid #E2E8F0;
-    color: var(--ink-mid);
-    vertical-align: middle;
+  table.notion-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--notion-line-subtle);
+    color: var(--notion-text);
   }
-  table.custom-table tr:hover td {
-    background: #F8FAFC;
+  table.notion-table tr:hover td {
+    background: #FAFAFA;
   }
+
+  /* TOAST NOTIFICATION */
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    background: #191919;
+    color: #FFFFFF;
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+  #toast.show { opacity: 1; transform: translateY(0); }
 
   /* NO SEARCH RESULT */
   #noResults {
     display: none;
     text-align: center;
     padding: 40px 20px;
-    background: #fff;
-    border: 1px dashed var(--line);
-    border-radius: 16px;
-    color: var(--ink-soft);
-    font-size: 15px;
+    background: #F7F6F3;
+    border: 1px dashed var(--notion-line);
+    border-radius: var(--radius-md);
+    color: var(--notion-text-muted);
+    font-size: 14px;
     margin: 20px 0;
   }
 
-  /* TOAST FEEDBACK */
-  #toast {
-    position: fixed;
-    bottom: 28px;
-    right: 28px;
-    z-index: 9999;
-    background: #0F172A;
-    color: #fff;
-    padding: 14px 24px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-    border: 1px solid #334155;
-    transform: translateY(100px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    pointer-events: none;
-  }
-  #toast.show { transform: translateY(0); opacity: 1; }
-
   /* FOOTER */
   footer {
-    background: #0F172A;
-    color: #94A3B8;
-    padding: 44px 24px;
-    margin-top: 70px;
-    border-top: 1px solid #1E293B;
+    border-top: 1px solid var(--notion-line);
+    padding: 36px 24px;
+    margin-top: 60px;
+    background: #FAFAFA;
   }
   .footer-inner {
-    max-width: 1160px;
+    max-width: 920px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
-    font-size: 13.5px;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--notion-text-muted);
   }
-  .footer-inner b { color: #fff; }
 </style>
 </head>
 <body>
 
-<!-- Toast Feedback -->
-<div id="toast">✅ Berhasil disalin ke clipboard! 📋</div>
+<!-- Toast Notification -->
+<div id="toast">✅ Disalin ke clipboard!</div>
 
-<!-- NAV HEADER -->
-<header>
-  <div class="nav-inner">
-    <a href="silabus-vibe-coding-16-pertemuan.html" class="brand">
-      <span class="dot"></span>
-      <span>Praktikum Push &amp; Remote GitHub <span style="font-size:12px;font-weight:500;color:var(--ink-soft);">(Pertemuan 6)</span></span>
-    </a>
-    <div class="nav-menu">
-      <a href="silabus-vibe-coding-16-pertemuan.html" class="nav-btn">📋 Silabus 16 Pertemuan</a>
-      <a href="praktikum_git_sebelum_coding.html" class="nav-btn" style="color:var(--teal); font-weight:700;">🌳 Modul P5: Git Lokal</a>
-      <a href="#conventional-commits" class="nav-btn">🏷️ Conventional Commits</a>
-      <a href="#guideContent" class="nav-btn primary">☁️ 7 Modul Cloud Push</a>
-      <a href="#rubrik" class="nav-btn">🏆 Rubrik Kelulusan</a>
-    </div>
-  </div>
-</header>
-
-<!-- HERO SECTION -->
-<div class="hero">
-  <div class="hero-inner">
-    <div class="badge">☁️ Modul Pertemuan 6 &bull; Publikasi Cloud</div>
-    <h1>Mastery Remote &amp; Push GitHub:<br>Publikasikan Karya Vibe Coding ke Dunia</h1>
-    <p>
-      Panduan langkah-demi-langkah membawa repositori lokal ke <strong>GitHub Cloud</strong>: mulai dari standar pesan commit profesional, pembuatan etalase portofolio README.md, First Push, alur sinkronisasi pull tim, hingga penyelesaian masalah error push.
-    </p>
-
-    <!-- Quick Navigation Pills -->
-    <nav class="quick-nav" aria-label="Menu Pintas Materi">
-      <a href="#conventional-commits" class="nav-pill">🏷️ Conventional Commits</a>
-      <a href="#modul-1" class="nav-pill">1. README.md Generator</a>
-      <a href="#modul-2" class="nav-pill">2. Remote &amp; Branch Main</a>
-      <a href="#modul-3" class="nav-pill">3. First Push Upstream</a>
-      <a href="#modul-4" class="nav-pill">4. Daily Push Sync</a>
-      <a href="#modul-5" class="nav-pill">5. Pull &amp; Conflict</a>
-      <a href="#modul-6" class="nav-pill">6. Dokter Error Push</a>
-      <a href="#modul-7" class="nav-pill">✨ Super Prompt AI</a>
+<!-- TOP BREADCRUMBS BAR -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <nav class="breadcrumbs" aria-label="Breadcrumb Navigation">
+      <a href="silabus-vibe-coding-16-pertemuan.html" class="breadcrumb-item">
+        <span>📋</span>
+        <span>Silabus 16 Pertemuan</span>
+      </a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="praktikum_git_sebelum_coding.html" class="breadcrumb-item">
+        <span>🌳</span>
+        <span>P5: Git Lokal</span>
+      </a>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-item active">
+        <span>☁️</span>
+        <span>Pertemuan 6: Push GitHub</span>
+      </span>
     </nav>
 
-    <!-- Interactive Search Box -->
-    <div class="search-container">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="commandSearch" class="search-input" placeholder="Cari perintah GitHub Cloud (misal: push, pull, remote, readme, conflict, rejected)...">
+    <div class="top-actions">
+      <a href="praktikum_git_sebelum_coding.html" class="notion-btn">← P5: Git Lokal</a>
+      <a href="silabus-vibe-coding-16-pertemuan.html#modul-6-github" class="notion-btn primary">📋 Silabus Modul 6</a>
     </div>
   </div>
 </div>
 
-<main>
-  <div class="wrap">
+<!-- PAGE CONTENT -->
+<div class="page-container">
 
-    <!-- PREREQUISITE BOX -->
-    <div class="prereq-banner">
-      <div class="prereq-content">
-        <h4>📌 Prasyarat Pembelajaran (Pre-requisite):</h4>
-        <p>Pastikan Anda telah menyelesaikan <strong>Praktikum Git Lokal di Pertemuan 5</strong> (sudah paham <code>git init</code>, <code>.gitignore</code>, <code>git add</code>, dan <code>git commit</code> di komputer sendiri).</p>
-      </div>
-      <a href="praktikum_git_sebelum_coding.html" class="nav-btn" style="background:var(--teal); color:#fff; font-weight:700; white-space:nowrap;">
-        ← Buka Modul P5 (Git Lokal)
-      </a>
-    </div>
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-icon">☁️</div>
+    <h1 class="page-title">Panduan Push &amp; Remote GitHub</h1>
+    <p class="page-subtitle">
+      Publikasi proyek, etalase portofolio publik, dan sinkronisasi kolaborasi cloud untuk praktisi <em>Vibe Coding</em>. Kuasai standar Conventional Commits, generator README.md, remote origin, first push, sync pull, dan dokter error push.
+    </p>
 
-    <!-- ============================================================== -->
-    <!-- STANDAR KHUSUS: CONVENTIONAL COMMITS SEBELUM PUSH              -->
-    <!-- ============================================================== -->
-    <div class="section-divider" id="conventional-commits">
-      <span class="divider-badge" style="background:var(--purple);">STANDAR WAJIB SEBELUM PUSH: CONVENTIONAL COMMITS</span>
-      <div class="divider-line"></div>
-    </div>
-
-    <div class="card" style="border: 1.5px solid var(--purple);">
-      <div class="card-head">
-        <div class="badge-icon" style="background:var(--purple);">🏷️</div>
-        <div class="card-title">
-          <h3>Standar Pesan Commit Profesional (Conventional Commits)</h3>
-          <p>Wajib dipatuhi sebelum mengeksekusi push agar riwayat repositori terbaca rapi oleh tim, klien, &amp; recruiter</p>
-        </div>
+    <!-- NOTION PROPERTIES -->
+    <div class="notion-properties">
+      <div class="prop-label"><span>🎯</span> Pertemuan</div>
+      <div class="prop-value">
+        <span class="badge-pastel badge-purple">Pertemuan 6 (Blok 2)</span>
+        <span class="badge-pastel badge-blue">Durasi: 90 Menit</span>
       </div>
 
-      <div class="analogy-box">
-        💡 <strong>Analogi 12 Tahun:</strong> Seperti memberi judul label kardus pindahan rumah: jangan tulis <em>"barang"</em> (terlalu ambigu), tapi tulis <em>"dapur: piring keramik &amp; sendok"</em> agar semua orang tahu persis isinya tanpa harus membuka kardusnya!
+      <div class="prop-label"><span>🌐</span> Ruang Lingkup</div>
+      <div class="prop-value">
+        <span class="badge-pastel badge-teal">GitHub Cloud &amp; Remote Upstream</span>
+        <span class="badge-pastel badge-green">Portofolio Publik</span>
       </div>
 
-      <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
-        Format standar industri memiliki struktur: <code>&lt;tipe&gt;: &lt;deskripsi ringkas dalam kalimat aktif&gt;</code>
-      </p>
-
-      <div class="cc-grid">
-        <div class="cc-card feat">
-          <span class="cc-tag">✨ feat: (Fitur Baru)</span>
-          <div class="cc-desc">Menambahkan fitur atau komponen baru ke aplikasi.</div>
-          <code class="cc-example">feat: tambah validasi form registrasi</code>
-        </div>
-        <div class="cc-card fix">
-          <span class="cc-tag">🐛 fix: (Perbaikan Bug)</span>
-          <div class="cc-desc">Memperbaiki bug atau kesalahan fungsi pada kode.</div>
-          <code class="cc-example">fix: perbaiki tombol hitung total harga</code>
-        </div>
-        <div class="cc-card docs">
-          <span class="cc-tag">📝 docs: (Dokumentasi)</span>
-          <div class="cc-desc">Perubahan pada file dokumentasi seperti README.md.</div>
-          <code class="cc-example">docs: perbarui panduan instalasi lokal</code>
-        </div>
-        <div class="cc-card style">
-          <span class="cc-tag">🎨 style: (Tampilan/Styling)</span>
-          <div class="cc-desc">Perubahan CSS, tata letak, atau format tanpa ubah logika.</div>
-          <code class="cc-example">style: perbaiki warna navbar mode gelap</code>
-        </div>
-        <div class="cc-card refactor">
-          <span class="cc-tag">♻️ refactor: (Struktur Kode)</span>
-          <div class="cc-desc">Merapikan struktur kode tanpa mengubah fungsi luarnya.</div>
-          <code class="cc-example">refactor: pisahkan fungsi kalkulasi ke helper</code>
-        </div>
-      </div>
-
-      <div class="prompt-card" style="margin-top:16px;">
-        <span class="prompt-tag">🤖 PROMPT AI: GENERATOR CONVENTIONAL COMMITS OTOMATIS</span>
-        <div class="prompt-text">"Tolong periksa seluruh file di Staging Area saat ini. Analisis perubahannya dan buatkan pesan commit profesional berformat Conventional Commits yang ringkas dan deskriptif (misal 'feat: ...' atau 'fix: ...'). Setelah itu, jalankan git commit dan tampilkan hasilnya."</div>
-        <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
+      <div class="prop-label"><span>📦</span> Prasyarat</div>
+      <div class="prop-value">
+        <span>Akun GitHub aktif &bull; Personal Access Token (PAT) / SSH &bull; Selesai Praktikum P5</span>
       </div>
     </div>
-
-    <!-- ============================================================== -->
-    <!-- MODUL PRAKTIKUM GITHUB CLOUD                                   -->
-    <!-- ============================================================== -->
-    <div class="section-divider">
-      <span class="divider-badge" style="background:var(--navy);">7 MODUL PRAKTIKUM GITHUB CLOUD</span>
-      <div class="divider-line"></div>
-    </div>
-
-    <div id="guideContent">
-
-      <!-- MODUL 1: README.MD -->
-      <section id="modul-1" class="guide-section card">
-        <div class="card-head">
-          <div class="badge-icon" style="background:var(--blue);">01</div>
-          <div class="card-title">
-            <h3>Modul 1: Dokumentasi Portofolio Proyek (README.md Standar Industri)</h3>
-            <p>Mempersiapkan etalase GitHub dengan visualisasi badge, arsitektur, panduan instalasi, dan tech stack</p>
-          </div>
-        </div>
-
-        <div class="meta-tag-row">
-          <span class="meta-tag" style="background:#EFF6FF; color:#1E40AF;">Dokumentasi: README.md</span>
-          <span class="meta-tag" style="background:#EFF6FF; color:#1E40AF;">Portofolio &amp; Showcasing</span>
-        </div>
-
-        <div class="analogy-box">
-          💡 <strong>Analogi 12 Tahun:</strong> Repositori tanpa README.md bagaikan etalase toko tanpa plang nama dan buku menu. Pembeli (recruiter/klien) akan bingung apa fungsi toko Anda!
-        </div>
-
-        <div class="command-grid">
-          <div class="command-card">
-            <div class="command-header">
-              <span class="command-title">Commit File README.md</span>
-              <button class="copy-btn" onclick="copyCode('git add README.md; git commit -m &quot;docs: perbarui dokumentasi README.md&quot;')">Salin</button>
-            </div>
-            <div class="command-body">git add README.md && git commit -m "docs: ..."</div>
-            <div class="command-desc">Menyimpan snapshot dokumentasi resmi ke repositori lokal sebelum di-push.</div>
-          </div>
-        </div>
-
-        <div class="prompt-card">
-          <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
-          <div class="prompt-text">"Tolong buatkan file README.md yang komprehensif, menarik secara visual, dan berstandar profesional untuk proyek ini dalam Bahasa Indonesia. Jelaskan tujuan proyek, fitur-fitur utama, teknologi yang dipakai, struktur folder, dan panduan cara menjalankannya."</div>
-          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
-        </div>
-      </section>
-
-      <!-- MODUL 2: REMOTE ORIGIN & BRANCH MAIN -->
-      <section id="modul-2" class="guide-section card">
-        <div class="card-head">
-          <div class="badge-icon" style="background:var(--purple);">02</div>
-          <div class="card-title">
-            <h3>Modul 2: Menghubungkan ke GitHub Remote &amp; Menetapkan Branch Main</h3>
-            <p>Mendaftarkan URL tujuan di GitHub Cloud dan menyelaraskan nama branch utama lokal</p>
-          </div>
-        </div>
-
-        <div class="meta-tag-row">
-          <span class="meta-tag" style="background:#FAF5FF; color:#6B21A8;">Perintah: git remote add origin</span>
-          <span class="meta-tag" style="background:#FAF5FF; color:#6B21A8;">git branch -M main</span>
-          <span class="meta-tag" style="background:#FAF5FF; color:#6B21A8;">git remote -v</span>
-        </div>
-
-        <div class="analogy-box">
-          💡 <strong>Analogi 12 Tahun:</strong> Mendaftarkan alamat pos brankas awan di internet (GitHub Cloud) ke dalam buku telepon laptopmu dengan nama panggilan <code>origin</code>.
-        </div>
-
-        <div class="warn-card">
-          <strong>📌 Langkah Persiapan di Browser (Hanya 1 Menit):</strong><br>
-          1. Buka <a href="https://github.com/new" target="_blank" style="font-weight:bold;">github.com/new</a> di browser.<br>
-          2. Masukkan <strong>Repository name</strong> (contoh: <code>aplikasi-kasir-vibe</code>).<br>
-          3. Pilih <strong>Public</strong>. Biarkan pilihan README &amp; .gitignore <strong>KOSONG (Jangan dicentang)</strong>.<br>
-          4. Klik tombol hijau <strong>Create repository</strong>, lalu salin URL HTTPS (contoh: <code>https://github.com/username/repo.git</code>).
-        </div>
-
-        <div class="command-grid">
-          <div class="command-card">
-            <div class="command-header">
-              <span class="command-title">1. Hubungkan ke GitHub</span>
-              <button class="copy-btn" onclick="copyCode('git remote add origin https://github.com/USERNAME/REPO.git')">Salin</button>
-            </div>
-            <div class="command-body">git remote add origin https://github.com/&lt;USER&gt;/&lt;REPO&gt;.git</div>
-            <div class="command-desc">Mendaftarkan tautan repo GitHub sebagai tujuan pengiriman bernama <code>origin</code>.</div>
-          </div>
-
-          <div class="command-card">
-            <div class="command-header">
-              <span class="command-title">2. Tetapkan Branch Main</span>
-              <button class="copy-btn" onclick="copyCode('git branch -M main')">Salin</button>
-            </div>
-            <div class="command-body">git branch -M main</div>
-            <div class="command-desc">Memastikan nama branch utama lokal selaras dengan standar GitHub modern (<code>main</code>).</div>
-          </div>
-
-          <div class="command-card">
-            <div class="command-header">
-              <span class="command-title">3. Cek Status Koneksi Remote</span>
-              <button class="copy-btn" onclick="copyCode('git remote -v')">Salin</button>
-            </div>
-            <div class="command-body">git remote -v</div>
-            <div class="command-desc">Memastikan alamat fetch dan push sudah terhubung dengan benar ke GitHub.</div>
-          </div>
-        </div>
-
-        <div class="prompt-card">
-          <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
-          <div class="prompt-text">"Saya sudah membuat repo kosong di GitHub dengan link https://github.com/USERNAME/REPO.git. Tolong ubah branch utama menjadi 'main' dan daftarkan link tersebut sebagai remote origin."</div>
-          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
-        </div>
-      </section>
-
-      <!-- MODUL 3: FIRST PUSH (UPSTREAM) -->
-      <section id="modul-3" class="guide-section card">
-        <div class="card-head">
-          <div class="badge-icon" style="background:var(--emerald);">03</div>
-          <div class="card-title">
-            <h3>Modul 3: Unggah Perdana ke GitHub (First Push Upstream)</h3>
-            <p>Mengirim seluruh riwayat snapshot lokal ke GitHub dan mengaktifkan pelacakan otomatis (-u)</p>
-          </div>
-        </div>
-
-        <div class="meta-tag-row">
-          <span class="meta-tag" style="background:#ECFDF5; color:#065F46;">Perintah: git push -u origin main</span>
-          <span class="meta-tag" style="background:#ECFDF5; color:#065F46;">Koneksi Awan</span>
-        </div>
-
-        <div class="analogy-box">
-          💡 <strong>Analogi 12 Tahun:</strong> Mengirim truk kargo pertama yang memindahkan salinan seluruh album foto dari memori laptopmu ke brankas awan GitHub agar bisa dilihat oleh seluruh dunia.
-        </div>
-
-        <div class="command-grid">
-          <div class="command-card">
-            <div class="command-header">
-              <span class="command-title">Unggah Perdana (First Push)</span>
-              <button class="copy-btn" onclick="copyCode('git push -u origin main')">Salin</button>
-            </div>
-            <div class="command-body">git push -u origin main</div>
-            <div class="command-desc">Mengunggah seluruh commit dan mengunci pelacakan upstream antara branch <code>main</code> lokal dan remote.</div>
-          </div>
-        </div>
-
-        <div class="prompt-card">
-          <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
-          <div class="prompt-text">"Tolong lakukan first push ke branch main di GitHub dengan 'git push -u origin main'. Konfirmasikan kepada saya jika proses upload sudah berhasil 100%."</div>
-          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
-        </div>
-      </section>
-
-      <!-- MODUL 4: DAILY PUSH SYNC -->
-      <section id="modul-4" class="guide-section card">
-        <div class="card-head">
-          <div class="badge-icon" style="background:var(--teal);">04</div>
-          <div class="card-title">
-            <h3>Modul 4: Alur Push Rutin Harian (Daily Push Workflow)</h3>
-            <p>Siklus 1-langkah efisien setiap kali Anda selesai menambah fitur atau mengedit kode bersama AI</p>
-          </div>
-        </div>
-
-        <div class="meta-tag-row">
-          <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">Alur: Stage → Commit → Push</span>
-          <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">Harian / Sesi Selesai</span>
-        </div>
-
-        <div class="analogy-box">
-          💡 <strong>Analogi 12 Tahun:</strong> Setelah kargo pertama terhubung di Modul 3, di hari-hari selanjutnya kamu cukup menekan 1 tombol <code>git push</code> saja untuk mengirim update harian!
-        </div>
-
-        <div class="command-grid">
-          <div class="command-card">
-            <div class="command-header">
-              <span class="command-title">Push Rutin Harian</span>
-              <button class="copy-btn" onclick="copyCode('git push')">Salin</button>
-            </div>
-            <div class="command-body">git push</div>
-            <div class="command-desc">Cukup ketik <code>git push</code> saja untuk pengunggahan di sesi-sesi selanjutnya!</div>
-          </div>
-        </div>
-
-        <div class="prompt-card">
-          <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
-          <div class="prompt-text">"Saya telah selesai memperbarui fitur ini. Tolong stage semua file, buatkan commit berformat Conventional Commits yang deskriptif, dan lakukan 'git push' ke GitHub."</div>
-          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
-        </div>
-      </section>
-
-      <!-- MODUL 5: SINKRONISASI PULL & MERGE CONFLICT -->
-      <section id="modul-5" class="guide-section card">
-        <div class="card-head">
-          <div class="badge-icon" style="background:var(--navy); color:#38BDF8;">05</div>
-          <div class="card-title">
-            <h3>Modul 5: Sinkronisasi Tim &amp; Resolusi Konflik (git pull &amp; merge)</h3>
-            <p>Menarik pembaharuan kode terbaru dari cloud GitHub dan mengatasi benturan kode antar rekan tim</p>
-          </div>
-        </div>
-
-        <div class="meta-tag-row">
-          <span class="meta-tag" style="background:#F1F5F9; color:#334155;">Perintah: git pull origin main</span>
-          <span class="meta-tag" style="background:#F1F5F9; color:#334155;">git fetch</span>
-          <span class="meta-tag" style="background:#FEF3C7; color:#92400E;">Solusi: Merge Conflict</span>
-        </div>
-
-        <div class="analogy-box">
-          💡 <strong>Analogi 12 Tahun:</strong> Mengunduh lembar jawaban terbaru dari teman sekelompok di awan. Jika ada baris tulisan yang bertabrakan di halaman yang sama, kita diskusikan mana versi yang paling benar!
-        </div>
-
-        <div class="command-grid">
-          <div class="command-card">
-            <div class="command-header">
-              <span class="command-title">Tarik Update dari GitHub</span>
-              <button class="copy-btn" onclick="copyCode('git pull origin main')">Salin</button>
-            </div>
-            <div class="command-body">git pull origin main</div>
-            <div class="command-desc">Mengunduh pembaruan terbaru di GitHub dan menggabungkannya ke repo lokal.</div>
-          </div>
-
-          <div class="command-card">
-            <div class="command-header">
-              <span class="command-title">Cek Status Konflik</span>
-              <button class="copy-btn" onclick="copyCode('git status')">Salin</button>
-            </div>
-            <div class="command-body">git status</div>
-            <div class="command-desc">Mendeteksi file mana saja yang mengalami <em>both modified</em> (konflik baris kode).</div>
-          </div>
-        </div>
-
-        <div class="prompt-card">
-          <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
-          <div class="prompt-text">"Tolong sinkronkan proyek lokal saya dengan 'git pull origin main'. Jika terjadi Merge Conflict (benturan baris kode), tolong jelaskan letak konfliknya dan bantu selesaikan secara aman agar tidak ada fitur yang hilang."</div>
-          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
-        </div>
-      </section>
-
-      <!-- MODUL 6: DOKTER MASALAH PUSH (TROUBLESHOOTING) -->
-      <section id="modul-6" class="guide-section card" style="border-color:#FCA5A5;">
-        <div class="card-head">
-          <div class="badge-icon" style="background:var(--rose);">06</div>
-          <div class="card-title">
-            <h3>Modul 6: Dokter Masalah Push (Troubleshooting &amp; Perbaikan Error)</h3>
-            <p>Solusi otomatis saat push ditolak (non-fast-forward, remote rejected, salah URL, atau otentikasi)</p>
-          </div>
-        </div>
-
-        <div class="meta-tag-row">
-          <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">Updates were rejected (non-fast-forward)</span>
-          <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">Permission denied (token/auth)</span>
-          <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">Remote URL Mismatch</span>
-        </div>
-
-        <div class="danger-card">
-          <strong>🩺 Jangan Panik Jika Terminal Merah:</strong> Kesalahan umum seperti lupa pull, repository remote berisi README bawaan yang bentrok, atau salah ketik URL GitHub dapat diperbaiki otomatis.
-        </div>
-
-        <div class="command-grid">
-          <div class="command-card">
-            <div class="command-header">
-              <span class="command-title">Atasi Push Ditolak (Rebase)</span>
-              <button class="copy-btn" onclick="copyCode('git pull --rebase origin main')">Salin</button>
-            </div>
-            <div class="command-body">git pull --rebase origin main</div>
-            <div class="command-desc">Menyelaraskan commit lokal di atas commit terbaru server GitHub sebelum push ulang.</div>
-          </div>
-
-          <div class="command-card">
-            <div class="command-header">
-              <span class="command-title">Perbaiki URL Remote</span>
-              <button class="copy-btn" onclick="copyCode('git remote set-url origin https://github.com/USER/REPO.git')">Salin</button>
-            </div>
-            <div class="command-body">git remote set-url origin &lt;URL_BARU&gt;</div>
-            <div class="command-desc">Mengubah alamat URL GitHub jika sebelumnya terjadi saltik (typo) atau ganti akun.</div>
-          </div>
-        </div>
-
-        <div class="prompt-card">
-          <span class="prompt-tag">🤖 PROMPT AI KE ASISTEN IDE</span>
-          <div class="prompt-text">"Proses git push saya mengalami kegagalan / muncul error merah di terminal. Tolong diagnosis penyebab error dengan 'git status', 'git remote -v', dan 'git log -n 3', jelaskan penyebabnya secara sederhana, lalu jalankan solusinya hingga sukses push 100%."</div>
-          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
-        </div>
-      </section>
-
-      <!-- MODUL 7: KOLEKSI SUPER PROMPT AI CLOUD -->
-      <section id="modul-7" class="guide-section card" style="background: linear-gradient(180deg, #FFFFFF 0%, #F5F3FF 100%); border: 1.5px solid #A78BFA;">
-        <div class="card-head">
-          <div class="badge-icon" style="background:var(--purple);">✨</div>
-          <div class="card-title">
-            <h3>Modul 7: Koleksi Super Prompt AI untuk GitHub &amp; Cloud</h3>
-            <p>Prompt pilihan paling sering dipakai untuk audit keamanan, generator README, dan otomasi sinkronisasi cloud</p>
-          </div>
-        </div>
-
-        <div class="prompt-card">
-          <span class="prompt-tag">🔥 Prompt 1: Audit Keamanan Sebelum Push</span>
-          <div class="prompt-text">"Tolong periksa seluruh file di proyek ini sebelum saya push ke GitHub. Pastikan tidak ada API Key, password, token rahasia, atau file konfigurasi .env yang belum masuk ke .gitignore."</div>
-          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
-        </div>
-
-        <div class="prompt-card">
-          <span class="prompt-tag">🔥 Prompt 2: Pembuatan Dokumentasi README.md Portofolio</span>
-          <div class="prompt-text">"Tolong buatkan file README.md yang menarik dan profesional untuk proyek ini dalam Bahasa Indonesia. Jelaskan tujuan proyek, fitur-fitur utama, teknologi yang dipakai, dan panduan cara menjalankannya."</div>
-          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
-        </div>
-
-        <div class="prompt-card">
-          <span class="prompt-tag">🔥 Prompt 3: Alur Push Rutin 1-Langkah</span>
-          <div class="prompt-text">"Saya telah selesai memperbarui fitur ini. Tolong stage semua file, buatkan commit berformat Conventional Commits yang deskriptif, dan lakukan 'git push' ke GitHub."</div>
-          <button class="copy-btn" onclick="copyText(this)">Salin Prompt</button>
-        </div>
-      </section>
-
-    </div>
-
-    <!-- NOT FOUND MESSAGE -->
-    <div id="noResults">
-      <div style="font-size:32px; margin-bottom:10px;">🔍</div>
-      <strong>Tidak ditemukan modul atau perintah yang cocok dengan pencarian Anda.</strong>
-      <p style="font-size:13px; margin-top:6px;">Coba gunakan kata kunci lain seperti: <em>push, pull, remote, readme, conflict, rebase, branch</em></p>
-    </div>
-
-    <!-- ============================================================== -->
-    <!-- CHEATSHEET TABEL KOMPARASI LENGKAP                             -->
-    <!-- ============================================================== -->
-    <div class="section-divider">
-      <span class="divider-badge" style="background:var(--navy);">CHEATSHEET PERINTAH GITHUB CLOUD</span>
-      <div class="divider-line"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-head">
-        <div class="badge-icon" style="background:var(--navy); color:#fff;">📊</div>
-        <div class="card-title">
-          <h3>Tabel Master Perintah GitHub Cloud</h3>
-          <p>Rangkuman komparatif perintah terminal, fungsi, dan padanan prompt AI</p>
-        </div>
-      </div>
-
-      <div class="table-responsive">
-        <table class="custom-table">
-          <thead>
-            <tr>
-              <th>Perintah Terminal (CLI)</th>
-              <th>Zona Kerja</th>
-              <th>Analogi Bahasa Manusia</th>
-              <th>Tindakan Prompt AI</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>git remote add origin &lt;url&gt;</code></td>
-              <td>Koneksi Cloud</td>
-              <td>Mendaftarkan alamat gudang online di GitHub</td>
-              <td>"Hubungkan repo lokal ini ke URL GitHub saya"</td>
-            </tr>
-            <tr>
-              <td><code>git branch -M main</code></td>
-              <td>Branching</td>
-              <td>Menamai jalur utama resmi menjadi 'main'</td>
-              <td>"Pastikan nama branch utama adalah main"</td>
-            </tr>
-            <tr>
-              <td><code>git push -u origin main</code></td>
-              <td>GitHub Cloud</td>
-              <td>Mengirim kargo snapshot perdana ke awan</td>
-              <td>"Push perdana semua commit saya ke GitHub"</td>
-            </tr>
-            <tr>
-              <td><code>git push</code></td>
-              <td>GitHub Cloud</td>
-              <td>Mengirim kiriman paket harian ke awan</td>
-              <td>"Push pembaruan terbaru ke GitHub"</td>
-            </tr>
-            <tr>
-              <td><code>git pull origin main</code></td>
-              <td>Sinkronisasi</td>
-              <td>Mengunduh update terbaru dari rekan di awan</td>
-              <td>"Tarik dan gabungkan update dari GitHub"</td>
-            </tr>
-            <tr>
-              <td><code>git pull --rebase origin main</code></td>
-              <td>Penyelarasan</td>
-              <td>Menata rapi commit lokal di atas commit awan</td>
-              <td>"Atasi push rejected dengan rebase sinkron"</td>
-            </tr>
-            <tr>
-              <td><code>git remote -v</code></td>
-              <td>Inspeksi</td>
-              <td>Mengecek alamat tujuan pengiriman online</td>
-              <td>"Periksa alamat remote GitHub saya"</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ============================================================== -->
-    <!-- RUBRIK KELULUSAN & CHECKLIST REPOSITORI                        -->
-    <!-- ============================================================== -->
-    <div class="card" id="rubrik" style="background:#F0FDF4; border:1.5px solid #86EFAC;">
-      <div class="card-head" style="border-bottom-color:#BBF7D0;">
-        <div class="badge-icon" style="background:#16A34A; color:#fff;">🏆</div>
-        <div class="card-title">
-          <h3 style="color:#14532D;">Rubrik Kelulusan Praktikum Pertemuan 6 (GitHub Cloud)</h3>
-          <p style="color:#166534;">Buka repositori GitHub Anda di browser (tekan F5). Evaluasi mandiri checklist berikut:</p>
-        </div>
-      </div>
-
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin:16px 0;">
-        <div style="background:#fff; border:1px solid #BBF7D0; border-radius:10px; padding:16px;">
-          <h4 style="color:#15803D; font-size:14.5px; margin-bottom:8px;">✅ Indikator Keberhasilan Repositori:</h4>
-          <ul style="padding-left:18px; font-size:13.5px; color:#1E293B; line-height:1.7;">
-            <li>Semua berkas proyek muncul lengkap di GitHub.</li>
-            <li>Halaman <code>README.md</code> tampil rapi dan informatif di beranda repo.</li>
-            <li>Riwayat commit berformat Conventional Commits (misal: <code>feat:</code>, <code>fix:</code>, <code>docs:</code>).</li>
-            <li>Branch utama resmi bernama <code>main</code>.</li>
-          </ul>
-        </div>
-        <div style="background:#fff; border:1px solid #BBF7D0; border-radius:10px; padding:16px;">
-          <h4 style="color:#15803D; font-size:14.5px; margin-bottom:8px;">🛡️ Audit Keamanan &amp; Integritas:</h4>
-          <ul style="padding-left:18px; font-size:13.5px; color:#1E293B; line-height:1.7;">
-            <li>File <code>.env</code> / <code>.env.local</code> <strong>TIDAK ADA</strong> di GitHub (terlindungi .gitignore).</li>
-            <li>Folder <code>node_modules/</code> berukuran raksasa tidak ikut ter-upload.</li>
-            <li>Status lokal bersih (clean working tree) saat mengetik <code>git status</code>.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- NAVIGASI FOOTER MODUL -->
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:40px; padding-top:24px; border-top:1px solid var(--line); flex-wrap:wrap;">
-      <a href="praktikum_git_sebelum_coding.html" class="nav-btn">← Kembali ke Modul P5: Git Lokal</a>
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <a href="silabus-vibe-coding-16-pertemuan.html#modul-6-github" class="nav-btn" style="background:var(--bg-tint); color:var(--deep); border-color:var(--mint); font-weight:bold;">📋 Modul 6 di Silabus</a>
-        <a href="silabus-vibe-coding-16-pertemuan.html#p7" class="nav-btn" style="background:var(--purple); color:#fff; font-weight:bold;">Lanjut ke Pertemuan 7: Halaman Statis →</a>
-      </div>
-    </div>
-
   </div>
-</main>
+
+  <!-- PREREQUISITE CALLOUT -->
+  <div class="notion-callout purple">
+    <span class="callout-icon">📌</span>
+    <div class="callout-body">
+      <strong>Prasyarat Wajib Git Lokal (Pertemuan 5):</strong> Pastikan proyek lokal Anda sudah diinisialisasi (<code>git init</code>), memiliki file <code>.gitignore</code>, dan minimal memiliki 1 commit lokal sebelum melakukan push ke GitHub Cloud.
+      <div style="margin-top:8px;">
+        <a href="praktikum_git_sebelum_coding.html" class="badge-pastel badge-teal" style="text-decoration:none;">🌳 Buka Praktikum Git Lokal (P5) →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH & QUICK PILLS -->
+  <div class="search-section">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="commandSearch" class="search-input" placeholder="Cari perintah GitHub remote atau kata kunci (misal: push, remote, pull, token, origin, conflict)...">
+    </div>
+
+    <div class="quick-pills">
+      <span style="font-size:12px; color:var(--notion-text-muted); align-self:center; margin-right:4px;">Pintas:</span>
+      <a href="#modul-cc" class="pill-link">1. Conventional Commits</a>
+      <a href="#modul-readme" class="pill-link">2. README Generator</a>
+      <a href="#modul-origin" class="pill-link">3. Remote Origin &amp; Main</a>
+      <a href="#modul-first-push" class="pill-link">4. First Push (-u)</a>
+      <a href="#modul-daily-push" class="pill-link">5. Daily Push Sync</a>
+      <a href="#modul-pull" class="pill-link">6. Pull &amp; Conflict</a>
+      <a href="#modul-doctor" class="pill-link">7. Dokter Error Push</a>
+      <a href="#cheatsheet" class="pill-link">📊 Cheatsheet</a>
+    </div>
+  </div>
+
+  <!-- 7 MODUL DENGAN ACCORDION TOGGLE -->
+  <main id="guideContent">
+
+    <!-- MODUL 1: CONVENTIONAL COMMITS -->
+    <article class="notion-module guide-section" id="modul-cc">
+      <div class="module-header">
+        <div class="module-title-wrap">
+          <div class="module-eyebrow">
+            <span>MODUL 01</span>
+            <span>&bull;</span>
+            <span class="badge-pastel badge-purple">Standar Industri</span>
+          </div>
+          <h2 class="module-heading">Standar Pesan Commit: Conventional Commits</h2>
+        </div>
+      </div>
+
+      <div class="module-body">
+        <p style="font-size:14px; color:var(--notion-text-mid); margin-bottom:16px;">
+          Pesan commit adalah dokumentasi perjalanan proyek Anda yang akan dibaca oleh tim, klien, atau perekrut di GitHub.
+        </p>
+
+        <!-- Toggle 1: Format Standar -->
+        <details class="notion-toggle" open>
+          <summary>
+            <span class="toggle-left">
+              <span class="toggle-chevron">▶</span>
+              <span>📋 Format Standar: <code>&lt;tipe&gt;(&lt;cakupan&gt;): &lt;deskripsi ringkas&gt;</code></span>
+            </span>
+          </summary>
+          <div class="toggle-content">
+            <div class="cc-grid">
+              <div class="cc-item">
+                <span class="cc-tag" style="color:#059669;">feat:</span>
+                <div>Menambah fitur baru untuk pengguna</div>
+              </div>
+              <div class="cc-item">
+                <span class="cc-tag" style="color:#E11D48;">fix:</span>
+                <div>Memperbaiki bug atau galat error</div>
+              </div>
+              <div class="cc-item">
+                <span class="cc-tag" style="color:#2563EB;">docs:</span>
+                <div>Perubahan dokumentasi / README</div>
+              </div>
+              <div class="cc-item">
+                <span class="cc-tag" style="color:#7C3AED;">style:</span>
+                <div>Format CSS, spasi, tanpa ubah logika</div>
+              </div>
+              <div class="cc-item">
+                <span class="cc-tag" style="color:#D97706;">refactor:</span>
+                <div>Rombak struktur kode tanpa ubah fitur</div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Toggle 2: Prompt Generator -->
+        <details class="notion-toggle" open>
+          <summary>
+            <span class="toggle-left">
+              <span class="toggle-chevron">▶</span>
+              <span>🤖 Prompt AI Generator Pesan Commit</span>
+            </span>
+          </summary>
+          <div class="toggle-content">
+            <div class="notion-prompt-box">
+              <div class="prompt-box-header">
+                <span class="prompt-label">PROMPT &bull; CONVENTIONAL COMMIT GENERATOR</span>
+                <button class="btn-copy-prompt" onclick="copyText(this)">Salin Prompt</button>
+              </div>
+              <div class="prompt-code">"Tolong periksa perubahan kode terbaru via 'git diff', lalu buatkan pesan commit profesional dengan format Conventional Commits (feat, fix, docs, refactor, atau style) dalam satu baris yang ringkas dan deskriptif."</div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </article>
+
+    <!-- MODUL 2: README GENERATOR -->
+    <article class="notion-module guide-section" id="modul-readme">
+      <div class="module-header">
+        <div class="module-title-wrap">
+          <div class="module-eyebrow">
+            <span>MODUL 02</span>
+            <span>&bull;</span>
+            <span class="badge-pastel badge-blue">Etalase Portofolio</span>
+          </div>
+          <h2 class="module-heading">Generator README.md Portofolio Profesional</h2>
+        </div>
+      </div>
+
+      <div class="module-body">
+        <p style="font-size:14px; color:var(--notion-text-mid); margin-bottom:16px;">
+          File <code>README.md</code> adalah halaman utama yang pertama kali dilihat siapapun yang membuka repositori GitHub Anda.
+        </p>
+
+        <details class="notion-toggle" open>
+          <summary>
+            <span class="toggle-left">
+              <span class="toggle-chevron">▶</span>
+              <span>🤖 Prompt AI Pembuat README Lengkap</span>
+            </span>
+          </summary>
+          <div class="toggle-content">
+            <div class="notion-prompt-box">
+              <div class="prompt-box-header">
+                <span class="prompt-label">PROMPT 1 (P6.1) &bull; README.MD PORTFOLIO</span>
+                <button class="btn-copy-prompt" onclick="copyText(this)">Salin Prompt</button>
+              </div>
+              <div class="prompt-code">"Tolong buatkan file README.md portofolio yang menarik dan profesional untuk proyek ini dalam Bahasa Indonesia. Struktur harus mencakup: 1) Judul & Elevator Pitch 2 kalimat, 2) Fitur Utama dengan ikon emoji, 3) Tech Stack tabel badge, 4) Cara Instalasi & Menjalankan Lokal, 5) Struktur Folder, dan 6) Lisensi."</div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </article>
+
+    <!-- MODUL 3: REMOTE ORIGIN & MAIN -->
+    <article class="notion-module guide-section" id="modul-origin">
+      <div class="module-header">
+        <div class="module-title-wrap">
+          <div class="module-eyebrow">
+            <span>MODUL 03</span>
+            <span>&bull;</span>
+            <span class="badge-pastel badge-green">Koneksi Cloud</span>
+          </div>
+          <h2 class="module-heading">Hubungkan Repo Lokal ke Remote Origin &amp; Branch main</h2>
+        </div>
+      </div>
+
+      <div class="module-body">
+        <p style="font-size:14px; color:var(--notion-text-mid); margin-bottom:16px;">
+          Mendaftarkan URL target repositori GitHub Cloud sebagai jalur pengiriman bernama <code>origin</code>.
+        </p>
+
+        <details class="notion-toggle" open>
+          <summary>
+            <span class="toggle-left">
+              <span class="toggle-chevron">▶</span>
+              <span>⚡ Perintah Terminal (CLI Cards)</span>
+            </span>
+          </summary>
+          <div class="toggle-content">
+            <div class="command-grid">
+              <div class="command-card">
+                <div class="command-card-head">
+                  <span class="command-name">1. Mendaftarkan Remote</span>
+                  <button class="btn-copy" onclick="copyCode('git remote add origin https://github.com/USERNAME/REPO.git')">Salin</button>
+                </div>
+                <div class="cmd-code">git remote add origin &lt;URL_REPO&gt;</div>
+                <div class="cmd-desc">Menyimpan alamat server GitHub tujuan dengan nama alias <code>origin</code>.</div>
+              </div>
+
+              <div class="command-card">
+                <div class="command-card-head">
+                  <span class="command-name">2. Standarkan Branch main</span>
+                  <button class="btn-copy" onclick="copyCode('git branch -M main')">Salin</button>
+                </div>
+                <div class="cmd-code">git branch -M main</div>
+                <div class="cmd-desc">Mengubah nama branch aktif menjadi standar industri modern <code>main</code>.</div>
+              </div>
+
+              <div class="command-card">
+                <div class="command-card-head">
+                  <span class="command-name">3. Verifikasi Remote URL</span>
+                  <button class="btn-copy" onclick="copyCode('git remote -v')">Salin</button>
+                </div>
+                <div class="cmd-code">git remote -v</div>
+                <div class="cmd-desc">Memastikan URL fetch dan push sudah terpasang dengan benar.</div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="notion-toggle" open>
+          <summary>
+            <span class="toggle-left">
+              <span class="toggle-chevron">▶</span>
+              <span>🤖 Prompt AI Bantuan Setup Remote</span>
+            </span>
+          </summary>
+          <div class="toggle-content">
+            <div class="notion-prompt-box">
+              <div class="prompt-box-header">
+                <span class="prompt-label">PROMPT 2 (P6.2) &bull; SETUP REMOTE &amp; BRANCH MAIN</span>
+                <button class="btn-copy-prompt" onclick="copyText(this)">Salin Prompt</button>
+              </div>
+              <div class="prompt-code">"Saya baru saja membuat repo kosong di GitHub dengan URL: https://github.com/USERNAME/REPO.git. Tolong daftarkan remote origin tersebut ke repo lokal ini, ubah branch ke 'main', dan verifikasi dengan 'git remote -v'."</div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </article>
+
+    <!-- MODUL 4: FIRST PUSH (-u) -->
+    <article class="notion-module guide-section" id="modul-first-push">
+      <div class="module-header">
+        <div class="module-title-wrap">
+          <div class="module-eyebrow">
+            <span>MODUL 04</span>
+            <span>&bull;</span>
+            <span class="badge-pastel badge-yellow">Unggah Perdana</span>
+          </div>
+          <h2 class="module-heading">First Push: Unggah Perdana ke GitHub (<code>-u</code>)</h2>
+        </div>
+      </div>
+
+      <div class="module-body">
+        <p style="font-size:14px; color:var(--notion-text-mid); margin-bottom:16px;">
+          Mengunggah seluruh riwayat commit dari laptop ke GitHub Cloud dan mengunci pelacakan otomatis (<em>upstream tracking</em>).
+        </p>
+
+        <details class="notion-toggle" open>
+          <summary>
+            <span class="toggle-left">
+              <span class="toggle-chevron">▶</span>
+              <span>⚡ Perintah Terminal (CLI Card)</span>
+            </span>
+          </summary>
+          <div class="toggle-content">
+            <div class="command-grid">
+              <div class="command-card">
+                <div class="command-card-head">
+                  <span class="command-name">First Push Upstream</span>
+                  <button class="btn-copy" onclick="copyCode('git push -u origin main')">Salin</button>
+                </div>
+                <div class="cmd-code">git push -u origin main</div>
+                <div class="cmd-desc">Opsi <code>-u</code> (upstream) mengikat branch lokal <code>main</code> ke <code>origin/main</code> selamanya.</div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="notion-toggle" open>
+          <summary>
+            <span class="toggle-left">
+              <span class="toggle-chevron">▶</span>
+              <span>🤖 Prompt AI First Push &amp; Autentikasi</span>
+            </span>
+          </summary>
+          <div class="toggle-content">
+            <div class="notion-prompt-box">
+              <div class="prompt-box-header">
+                <span class="prompt-label">PROMPT 3 (P6.3) &bull; FIRST PUSH UPSTREAM</span>
+                <button class="btn-copy-prompt" onclick="copyText(this)">Salin Prompt</button>
+              </div>
+              <div class="prompt-code">"Tolong jalankan 'git push -u origin main'. Jika muncul dialog autentikasi GitHub atau Personal Access Token (PAT), jelaskan langkah verifikasinya dengan bahasa yang mudah dipahami."</div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </article>
+
+    <!-- MODUL 5: DAILY PUSH SYNC -->
+    <article class="notion-module guide-section" id="modul-daily-push">
+      <div class="module-header">
+        <div class="module-title-wrap">
+          <div class="module-eyebrow">
+            <span>MODUL 05</span>
+            <span>&bull;</span>
+            <span class="badge-pastel badge-green">Alur Rutin</span>
+          </div>
+          <h2 class="module-heading">Alur Push Rutin Harian 1-Langkah (Daily Sync)</h2>
+        </div>
+      </div>
+
+      <div class="module-body">
+        <p style="font-size:14px; color:var(--notion-text-mid); margin-bottom:16px;">
+          Setelah first push berhasil, alur kerja harian hanya membutuhkan 3 langkah berurutan: Stage &rarr; Commit &rarr; Push.
+        </p>
+
+        <details class="notion-toggle" open>
+          <summary>
+            <span class="toggle-left">
+              <span class="toggle-chevron">▶</span>
+              <span>⚡ Perintah Terminal (CLI Card)</span>
+            </span>
+          </summary>
+          <div class="toggle-content">
+            <div class="command-grid">
+              <div class="command-card">
+                <div class="command-card-head">
+                  <span class="command-name">Push Cepat Rutin</span>
+                  <button class="btn-copy" onclick="copyCode('git push')">Salin</button>
+                </div>
+                <div class="cmd-code">git push</div>
+                <div class="cmd-desc">Cukup ketik <code>git push</code> saja tanpa perlu mengetik nama origin dan branch lagi!</div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="notion-toggle" open>
+          <summary>
+            <span class="toggle-left">
+              <span class="toggle-chevron">▶</span>
+              <span>🤖 Prompt AI Siklus Harian 1-Langkah</span>
+            </span>
+          </summary>
+          <div class="toggle-content">
+            <div class="notion-prompt-box">
+              <div class="prompt-box-header">
+                <span class="prompt-label">PROMPT 4 (P6.4) &bull; SIKLUS DAILY PUSH</span>
+                <button class="btn-copy-prompt" onclick="copyText(this)">Salin Prompt</button>
+              </div>
+              <div class="prompt-code">"Saya baru saja selesai mengerjakan fitur [NAMA_FITUR]. Tolong jalankan siklus lengkap: 1) 'git add .', 2) Buat commit Conventional Commit yang relevan, dan 3) 'git push' ke GitHub Cloud."</div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </article>
+
+    <!-- MODUL 6: PULL & CONFLICT -->
+    <article class="notion-module guide-section" id="modul-pull">
+      <div class="module-header">
+        <div class="module-title-wrap">
+          <div class="module-eyebrow">
+            <span>MODUL 06</span>
+            <span>&bull;</span>
+            <span class="badge-pastel badge-yellow">Kolaborasi &amp; Resolusi</span>
+          </div>
+          <h2 class="module-heading">Sinkronisasi Pembaruan &amp; Resolusi Merge Conflict (Pull)</h2>
+        </div>
+      </div>
+
+      <div class="module-body">
+        <p style="font-size:14px; color:var(--notion-text-mid); margin-bottom:16px;">
+          Mengunduh perubahan terbaru dari GitHub Cloud jika repo diedit lewat web atau oleh rekan tim.
+        </p>
+
+        <details class="notion-toggle" open>
+          <summary>
+            <span class="toggle-left">
+              <span class="toggle-chevron">▶</span>
+              <span>⚡ Perintah Terminal (CLI Card)</span>
+            </span>
+          </summary>
+          <div class="toggle-content">
+            <div class="command-grid">
+              <div class="command-card">
+                <div class="command-card-head">
+                  <span class="command-name">Unduh &amp; Gabung Perubahan</span>
+                  <button class="btn-copy" onclick="copyCode('git pull origin main')">Salin</button>
+                </div>
+                <div class="cmd-code">git pull origin main</div>
+                <div class="cmd-desc">Mengambil update commit di cloud dan menggabungkannya ke repo lokal.</div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="notion-toggle" open>
+          <summary>
+            <span class="toggle-left">
+              <span class="toggle-chevron">▶</span>
+              <span>🤖 Prompt AI Resolusi Merge Conflict</span>
+            </span>
+          </summary>
+          <div class="toggle-content">
+            <div class="notion-prompt-box">
+              <div class="prompt-box-header">
+                <span class="prompt-label">PROMPT 5 (P6.5) &bull; RESOLUSI MERGE CONFLICT</span>
+                <button class="btn-copy-prompt" onclick="copyText(this)">Salin Prompt</button>
+              </div>
+              <div class="prompt-code">"Terjadi merge conflict setelah 'git pull'. Tolong periksa tanda penanda conflict (<<<<<<< HEAD vs >>>>>>>) di semua file yang bermasalah, jelaskan perbedaannya, dan bantu saya memilih kode terbaik."</div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </article>
+
+    <!-- MODUL 7: DOKTER ERROR PUSH -->
+    <article class="notion-module guide-section" id="modul-doctor">
+      <div class="module-header">
+        <div class="module-title-wrap">
+          <div class="module-eyebrow">
+            <span>MODUL 07</span>
+            <span>&bull;</span>
+            <span class="badge-pastel badge-red">Dokter Troubleshooting</span>
+          </div>
+          <h2 class="module-heading">Dokter Error Push: Diagnosis &amp; Perbaikan Otomatis</h2>
+        </div>
+      </div>
+
+      <div class="module-body">
+        <p style="font-size:14px; color:var(--notion-text-mid); margin-bottom:16px;">
+          Solusi instan untuk mengatasi galat umum saat push seperti <code>rejected (fetch first)</code>, <code>Authentication failed</code>, atau <code>remote origin already exists</code>.
+        </p>
+
+        <details class="notion-toggle" open>
+          <summary>
+            <span class="toggle-left">
+              <span class="toggle-chevron">▶</span>
+              <span>🤖 Prompt Dokter Diagnosis Error Push</span>
+            </span>
+          </summary>
+          <div class="toggle-content">
+            <div class="notion-prompt-box">
+              <div class="prompt-box-header">
+                <span class="prompt-label">PROMPT 6 (P6.6) &bull; DOKTER ERROR PUSH</span>
+                <button class="btn-copy-prompt" onclick="copyText(this)">Salin Prompt</button>
+              </div>
+              <div class="prompt-code">"Push ke GitHub gagal dengan pesan error berikut: [PASTE_PESAN_ERROR_TERMINAL_DI_SINI]. Tolong diagnosis penyebabnya (apakah token expired, rejected non-fast-forward, atau remote salah) dan berikan langkah perbaikan terminalnya yang aman."</div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- NOT FOUND MESSAGE -->
+  <div id="noResults">
+    <div style="font-size:28px; margin-bottom:8px;">🔍</div>
+    <strong>Tidak ditemukan modul atau perintah yang cocok dengan pencarian Anda.</strong>
+    <p style="font-size:12.5px; margin-top:4px;">Coba gunakan kata kunci lain seperti: <em>push, remote, pull, token, origin, conflict</em></p>
+  </div>
+
+  <!-- CHEATSHEET TABEL MASTER -->
+  <div id="cheatsheet" style="margin-top:48px;">
+    <h3 style="font-family:'Newsreader',serif; font-size:24px; font-weight:700; margin-bottom:12px;">📊 Cheatsheet Master Perintah GitHub Cloud</h3>
+    
+    <div class="table-scroll">
+      <table class="notion-table">
+        <thead>
+          <tr>
+            <th>Perintah Terminal (CLI)</th>
+            <th>Tingkat</th>
+            <th>Fungsi Utama</th>
+            <th>Tindakan Prompt AI</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>git remote add origin &lt;URL&gt;</code></td>
+            <td><span class="badge-pastel badge-green">Koneksi</span></td>
+            <td>Mendaftarkan link repo GitHub Cloud sebagai target</td>
+            <td>"Daftarkan remote origin repo GitHub ini"</td>
+          </tr>
+          <tr>
+            <td><code>git branch -M main</code></td>
+            <td><span class="badge-pastel badge-green">Koneksi</span></td>
+            <td>Menstandarkan branch lokal menjadi 'main'</td>
+            <td>"Ubah branch utama ke main"</td>
+          </tr>
+          <tr>
+            <td><code>git push -u origin main</code></td>
+            <td><span class="badge-pastel badge-yellow">First Push</span></td>
+            <td>Mengunggah perdana &amp; mengunci tracking upstream</td>
+            <td>"Unggah perdana ke GitHub Cloud"</td>
+          </tr>
+          <tr>
+            <td><code>git push</code></td>
+            <td><span class="badge-pastel badge-green">Rutin</span></td>
+            <td>Unggah commit baru secara instan di hari berikutnya</td>
+            <td>"Push commit terbaru ke GitHub"</td>
+          </tr>
+          <tr>
+            <td><code>git pull origin main</code></td>
+            <td><span class="badge-pastel badge-blue">Sync</span></td>
+            <td>Mengunduh &amp; menggabungkan pembaruan dari cloud</td>
+            <td>"Tarik pembaruan dari GitHub Cloud"</td>
+          </tr>
+          <tr>
+            <td><code>git remote -v</code></td>
+            <td><span class="badge-pastel badge-purple">Audit</span></td>
+            <td>Melihat daftar URL target remote fetch &amp; push</td>
+            <td>"Periksa konfigurasi remote saat ini"</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RUBRIK KELULUSAN REPO GITHUB -->
+  <div class="notion-callout success" style="margin-top:32px;">
+    <span class="callout-icon">🏆</span>
+    <div class="callout-body">
+      <strong>Checklist Kelulusan Pertemuan 6 (GitHub Cloud):</strong>
+      <ul style="padding-left:18px; margin-top:8px; font-size:13px; line-height:1.6;">
+        <li>Repositori GitHub live dapat diakses via URL publik.</li>
+        <li>Branch utama bernama <code>main</code> (bukan master).</li>
+        <li>Memiliki <code>README.md</code> lengkap dengan badge, fitur, dan dokumentasi instalasi.</li>
+        <li>Seluruh riwayat commit rapi berformat <strong>Conventional Commits</strong>.</li>
+        <li>Tidak ada file rahasia <code>.env</code> atau <code>node_modules</code> yang bocor ke publik.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAVIGATION STEP -->
+  <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:48px; padding-top:24px; border-top:1px solid var(--notion-line); flex-wrap:wrap;">
+    <a href="praktikum_git_sebelum_coding.html" class="notion-btn">← Kembali ke P5 (Git Lokal)</a>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <a href="silabus-vibe-coding-16-pertemuan.html#modul-6-github" class="notion-btn">📋 Modul 6 di Silabus</a>
+      <a href="silabus-vibe-coding-16-pertemuan.html#p6" class="notion-btn primary">Lanjut ke Pertemuan 7 (Halaman Statis) →</a>
+    </div>
+  </div>
+
+</div>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div>
-      <b>Praktikum Push &amp; Remote GitHub &bull; Vibe Coding Curriculum</b><br>
-      <span style="font-size:12.5px; color:#94A3B8;">Modul Praktikum Pertemuan 6 · Pendekatan Berbasis Prompting AI &amp; CLI Standar Industri</span>
+      <b>Panduan Push &amp; Remote GitHub</b> &bull; Vibe Coding Masterclass Pertemuan 6
     </div>
-    <div style="text-align:right;">
-      <span style="font-size:12px; color:#64748B;">&copy; 2026 Antigravity IDE Instructional Suite</span>
+    <div>
+      <span>Notion-Like Instructional Suite &copy; 2026</span>
     </div>
   </div>
 </footer>
 
-<!-- Interactive JavaScript -->
+<!-- INTERACTIVE SCRIPT -->
 <script>
-  // Copy Code Function (for terminal command body)
+  // Copy Code Function
   function copyCode(text) {
     const temp = document.createElement('textarea');
     temp.innerHTML = text;
     const decodedText = temp.value;
 
     navigator.clipboard.writeText(decodedText).then(() => {
-      showToast("Perintah '" + decodedText + "' berhasil disalin! 🚀");
+      showToast("Perintah '" + decodedText + "' disalin ke clipboard! 🚀");
     }).catch(err => {
       console.error("Gagal menyalin: ", err);
     });
   }
 
-  // Copy Prompt Text from Button in Prompt Card
+  // Copy Prompt Text Function
   function copyText(buttonElement) {
-    const promptCard = buttonElement.closest('.prompt-card');
-    if (!promptCard) return;
-    const promptTextEl = promptCard.querySelector('.prompt-text');
-    if (!promptTextEl) return;
-    const promptText = promptTextEl.innerText.replace(/^"|"$/g, '').trim();
+    const promptBox = buttonElement.closest('.notion-prompt-box');
+    if (!promptBox) return;
+    const promptCodeEl = promptBox.querySelector('.prompt-code');
+    if (!promptCodeEl) return;
+    const promptText = promptCodeEl.innerText.replace(/^"|"$/g, '').trim();
     navigator.clipboard.writeText(promptText).then(() => {
-      showToast("Prompt AI berhasil disalin! Siap di-paste ke Antigravity IDE 🤖");
+      showToast("Prompt AI disalin! Siap di-paste ke Antigravity IDE 🤖");
     }).catch(err => {
       console.error("Gagal menyalin: ", err);
     });
