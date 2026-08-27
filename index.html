@@ -3223,11 +3223,11 @@ Jangan ubah semua sekaligus. Satu langkah dulu, kita periksa, baru lanjut.</pre>
                 <div>
                   <strong>Analogi: Brankas Bank</strong>
                   <p>Bayangkan sebuah bank. Semua uang nasabah ada di <strong>satu brankas besar</strong> (database yang
-                    sama). Namun setiap nasabah hanya bisa mengambil <strong>uangnya sendiri</strong> — bukan milik
+                    sama). Namun setiap nasabah hanya bisa mengambil <strong>uangnya sendiri</strong>bukan milik
                     orang lain. Itulah cara kerja <strong>Row Level Security (RLS)</strong>.</p>
                   <p style="margin-top:8px;">Tanpa RLS, jika ada bug di aplikasi atau seseorang yang iseng memanggil API
                     secara langsung, mereka bisa membaca <strong>data semua user sekaligus</strong>. Sangat berbahaya!
-                    RLS adalah <em>lapisan keamanan di level database</em> — bahkan jika aplikasimu punya bug, data
+                    RLS adalah <em>lapisan keamanan di level database</em>bahkan jika aplikasimu punya bug, data
                     tetap aman.</p>
                 </div>
               </div>
@@ -3259,7 +3259,7 @@ Jangan ubah semua sekaligus. Satu langkah dulu, kita periksa, baru lanjut.</pre>
                 <div class="theory-steps-title">🔑 3 Jenis Policy RLS yang Wajib Dipahami</div>
                 <div class="theory-step-item">
                   <span class="theory-step-badge" style="background:#ECFDF5;color:#047857;">SELECT</span>
-                  <span><strong>Policy BACA</strong> — Siapa yang boleh melihat data? Jawaban: "Hanya pemilik
+                  <span><strong>Policy BACA</strong>Siapa yang boleh melihat data? Jawaban: "Hanya pemilik
                     data."</span>
                 </div>
                 <div class="theory-step-item">
@@ -3269,15 +3269,14 @@ Jangan ubah semua sekaligus. Satu langkah dulu, kita periksa, baru lanjut.</pre>
                 </div>
                 <div class="theory-step-item">
                   <span class="theory-step-badge" style="background:#FFF8ED;color:#B45309;">UPDATE / DELETE</span>
-                  <span><strong>Policy UBAH/HAPUS</strong> — Hanya pemilik data yang boleh mengubah atau menghapus
+                  <span><strong>Policy UBAH/HAPUS</strong>Hanya pemilik data yang boleh mengubah atau menghapus
                     datanya sendiri.</span>
                 </div>
               </div>
 
               <div class="theory-key-insight" style="background:#FFF1F2; border-color:#FCA5A5;">
                 <span class="theory-insight-label" style="color:var(--rose);">⚠️ Peringatan Penting</span>
-                <p><strong>Jangan pernah mematikan RLS di production!</strong> Anggap RLS seperti helm saat berkendara —
-                  memang sedikit merepotkan saat setup, tapi tanpanya satu kecelakaan kecil bisa berakibat fatal. Semua
+                <p><strong>Jangan pernah mematikan RLS di production!</strong> Anggap RLS seperti helm saat berkendara memang sedikit merepotkan saat setup, tapi tanpanya satu kecelakaan kecil bisa berakibat fatal. Semua
                   tabel yang menyimpan data user WAJIB mengaktifkan RLS.</p>
               </div>
 
