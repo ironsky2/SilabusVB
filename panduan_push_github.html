@@ -3,136 +3,687 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panduan Push ke GitHub untuk Pemula: Teori & Praktikum Berbasis Prompt</title>
+<title>Panduan Master Git & Push GitHub: Kurikulum Lengkap Berbasis Prompt & CLI</title>
+<meta name="description" content="Modul ajar komprehensif Git dan GitHub untuk praktisi Vibe Coding & Pemula. Dilengkapi arsitektur lifecycle, prompt AI siap salin (init, add, commit, restore, revert, push, pull), panduan CLI, dan penanganan error.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --teal:#028090; --seafoam:#00A896; --mint:#02C39A; --deep:#01656F;
-    --amber:#B45309; --rose:#BE123C; --purple:#6D28D9;
-    --ink:#151A1D; --ink-mid:#3D474C; --ink-soft:#5B676D;
-    --line:#E3E9EA; --line-soft:#EFF3F4;
-    --bg:#FFFFFF; --bg-soft:#F6F9F9; --bg-tint:#EAF6F4;
-    --card-shadow: 0 2px 10px rgba(20,30,30,0.05);
+  :root {
+    --teal: #028090;
+    --seafoam: #00A896;
+    --mint: #02C39A;
+    --deep: #01656F;
+    --navy: #0F172A;
+    --amber: #D97706;
+    --rose: #E11D48;
+    --purple: #7C3AED;
+    --blue: #2563EB;
+    --emerald: #059669;
+    
+    --ink: #0F172A;
+    --ink-mid: #334155;
+    --ink-soft: #64748B;
+    --line: #E2E8F0;
+    --line-soft: #F1F5F9;
+    --bg: #FFFFFF;
+    --bg-soft: #F8FAFC;
+    --bg-tint: #F0FDFA;
+    
+    --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+    --card-shadow-hover: 0 12px 28px -4px rgba(15, 23, 42, 0.12);
   }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth; scroll-padding-top:72px;}
-  body{font-family:Calibri,"Segoe UI",Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.68; -webkit-font-smoothing:antialiased;}
-  a{color:var(--teal); text-decoration:none;}
-  a:hover{color:var(--deep); text-decoration:underline;}
-  code{font-family:"Courier New",Consolas,monospace; font-size:.92em; background:var(--bg-tint); color:var(--deep); padding:2px 6px; border-radius:4px; font-weight:600;}
-  ::selection{background:var(--mint); color:#fff;}
 
-  /* NAV */
-  header{position:sticky; top:0; z-index:60; background:rgba(255,255,255,.96); backdrop-filter:blur(12px); border-bottom:1px solid var(--line);}
-  .nav-inner{max-width:1060px; margin:0 auto; padding:13px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px;}
-  .brand{font-family:Cambria,Georgia,serif; font-weight:bold; font-size:16.5px; display:flex; align-items:center; gap:9px; color:var(--ink);}
-  .brand .dot{width:10px; height:10px; border-radius:50%; background:var(--mint);}
-  .nav-menu{display:flex; align-items:center; gap:12px;}
-  .nav-btn{font-size:13px; font-weight:600; color:var(--ink-soft); padding:6px 14px; border:1px solid var(--line); border-radius:8px; background:var(--bg-soft); transition:.15s;}
-  .nav-btn:hover{color:var(--teal); border-color:var(--mint); text-decoration:none; background:var(--bg-tint);}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    background: var(--bg-soft);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  a { color: var(--teal); text-decoration: none; transition: color 0.15s; }
+  a:hover { color: var(--deep); text-decoration: underline; }
+  
+  code {
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    font-size: 0.88em;
+    background: #E6FFFA;
+    color: #007A78;
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-weight: 600;
+  }
+
+  ::selection { background: #99F6E4; color: #042F2E; }
+
+  /* HEADER & NAV */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .brand {
+    font-weight: 800;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+  }
+  .brand .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--mint);
+    box-shadow: 0 0 0 3px rgba(2, 195, 154, 0.25);
+  }
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .nav-btn {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-mid);
+    padding: 7px 14px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-btn:hover {
+    color: var(--teal);
+    border-color: var(--seafoam);
+    background: var(--bg-tint);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .nav-btn.primary {
+    background: var(--teal);
+    color: #fff;
+    border-color: var(--teal);
+  }
+  .nav-btn.primary:hover {
+    background: var(--deep);
+    color: #fff;
+  }
 
   /* LAYOUT */
-  .wrap{max-width:1060px; margin:0 auto; padding:0 24px;}
-  
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
   /* HERO */
-  .hero{background:linear-gradient(135deg, #01656F 0%, #028090 55%, #00A896 100%); color:#fff; padding:60px 24px 50px;}
-  .hero-inner{max-width:1060px; margin:0 auto;}
-  .eyebrow{display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.3); color:#fff; font-size:11.5px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:6px 15px; border-radius:20px; margin-bottom:16px;}
-  .hero h1{font-family:Cambria,Georgia,serif; font-size:36px; line-height:1.22; margin-bottom:14px; max-width:760px;}
-  .hero p{font-size:16px; opacity:.94; max-width:720px; line-height:1.6;}
-  
-  .hero-nav{display:flex; flex-wrap:wrap; gap:12px; margin-top:24px;}
-  .hero-nav-btn{background:#fff; color:var(--deep); font-weight:bold; font-size:13.5px; padding:9px 18px; border-radius:10px; display:inline-flex; align-items:center; gap:8px; box-shadow:0 3px 8px rgba(0,0,0,0.1); transition:.15s;}
-  .hero-nav-btn:hover{background:var(--bg-tint); color:var(--deep); text-decoration:none; transform:translateY(-1px);}
+  .hero {
+    background: linear-gradient(135deg, #014F57 0%, #01656F 35%, #028090 70%, #00A896 100%);
+    color: #fff;
+    padding: 68px 24px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(2, 195, 154, 0.18) 0%, rgba(2, 195, 154, 0) 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1140px; margin: 0 auto; position: relative; z-index: 2; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 24px;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 42px;
+    line-height: 1.18;
+    margin-bottom: 16px;
+    font-weight: 700;
+    max-width: 860px;
+    letter-spacing: -0.5px;
+  }
+  .hero p {
+    font-size: 16.5px;
+    color: rgba(255, 255, 255, 0.94);
+    max-width: 820px;
+    line-height: 1.68;
+    margin-bottom: 24px;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 28px 0 24px;
+  }
+  @media (max-width: 840px) {
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 32px; }
+  }
+  .stat-card {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 14px 18px;
+    backdrop-filter: blur(8px);
+  }
+  .stat-card .num { font-size: 22px; font-weight: 900; color: #6EE7B7; font-family: 'JetBrains Mono', monospace; }
+  .stat-card .lbl { font-size: 12px; color: rgba(255, 255, 255, 0.85); font-weight: 500; }
+
+  .hero-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .hero-nav-btn {
+    background: #fff;
+    color: var(--deep);
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s;
+  }
+  .hero-nav-btn:hover {
+    background: var(--bg-tint);
+    color: var(--navy);
+    transform: translateY(-2px);
+    text-decoration: none;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  }
+  .hero-nav-btn.secondary {
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+  }
+  .hero-nav-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.28);
+    color: #fff;
+  }
 
   /* SECTION DIVIDERS */
-  .section-divider{display:flex; align-items:center; gap:16px; margin:44px 0 24px;}
-  .divider-badge{font-family:Cambria,Georgia,serif; font-size:14px; font-weight:bold; letter-spacing:1px; text-transform:uppercase; color:#fff; padding:6px 16px; border-radius:20px;}
-  .divider-line{flex:1; height:2px; background:var(--line);}
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 52px 0 28px;
+  }
+  .divider-badge {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 7px 18px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .divider-line { flex: 1; height: 2px; background: var(--line); }
 
-  /* SECTION CARDS */
-  .card{background:#fff; border:1px solid var(--line); border-radius:16px; padding:28px; margin-bottom:24px; box-shadow:var(--card-shadow);}
-  .card-head{display:flex; gap:16px; align-items:flex-start; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--line);}
-  .badge-icon{width:40px; height:40px; border-radius:12px; color:#fff; font-weight:bold; font-size:18px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-family:Cambria,Georgia,serif;}
-  .card-title h2{font-size:20px; font-weight:bold; color:var(--ink); margin-bottom:3px;}
-  .card-title p{font-size:13.5px; color:var(--ink-soft);}
+  /* INSTRUCTOR CALLOUT BANNER */
+  .instructor-box {
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-left: 6px solid var(--teal);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin: 28px 0;
+    box-shadow: var(--card-shadow);
+  }
+  .instructor-box h3 {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .instructor-box p {
+    font-size: 14.5px;
+    color: var(--ink-mid);
+    line-height: 1.65;
+  }
 
-  /* ANALOGY GRID */
-  .analogy-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0;}
-  @media(max-width:800px){.analogy-grid{grid-template-columns:1fr;}}
-  .analogy-item{background:var(--bg-soft); border:1px solid var(--line); border-radius:12px; padding:18px;}
-  .analogy-item .icon{font-size:26px; margin-bottom:8px;}
-  .analogy-item h3{font-size:15px; color:var(--ink); margin-bottom:6px; font-weight:bold;}
-  .analogy-item p{font-size:13px; color:var(--ink-soft); line-height:1.55;}
+  /* LIFECYCLE PIPELINE VISUAL */
+  .pipeline-container {
+    background: #FFFFFF;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px;
+    margin: 28px 0;
+    box-shadow: var(--card-shadow);
+  }
+  .pipeline-header {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 24px;
+  }
+  .pipeline-header h3 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+  .pipeline-header p { font-size: 13.5px; color: var(--ink-soft); }
 
-  /* GLOSSARY GRID */
-  .glossary-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0;}
-  @media(max-width:700px){.glossary-grid{grid-template-columns:1fr;}}
-  .glossary-item{background:var(--bg-tint); border:1px solid #A7D8D4; border-radius:10px; padding:14px 16px;}
-  .glossary-item b{color:var(--deep); font-size:14px; display:block; margin-bottom:4px;}
-  .glossary-item p{font-size:13px; color:var(--ink-mid); margin:0;}
+  .pipeline-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    position: relative;
+  }
+  @media (max-width: 900px) {
+    .pipeline-grid { grid-template-columns: 1fr; }
+  }
+  .pipeline-step {
+    background: var(--bg-soft);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 16px;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .pipeline-step:hover {
+    border-color: var(--seafoam);
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow);
+  }
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .pipeline-step h4 { font-size: 15px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+  .pipeline-step p { font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 12px; }
+  .step-cmd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #0F172A;
+    color: #38BDF8;
+    display: block;
+    text-align: center;
+  }
+  .step-undo {
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: #FFF1F2;
+    color: #BE123C;
+    border: 1px dashed #FECDD3;
+    display: block;
+    text-align: center;
+  }
 
-  /* PROMPT CONTAINER */
-  .prompt-box{background:#182228; border:1px solid #2C3C45; border-radius:14px; overflow:hidden; margin:18px 0 10px;}
-  .prompt-header{background:#23323B; padding:10px 18px; display:flex; justify-content:space-between; align-items:center;}
-  .prompt-tag{color:#6EE7B7; font-weight:bold; font-size:12px; letter-spacing:1px; text-transform:uppercase;}
-  .prompt-content{padding:18px; color:#F1F5F9; font-size:13.5px; font-family:"Courier New",Consolas,monospace; line-height:1.65; white-space:pre-wrap; overflow-x:auto;}
+  /* CARDS */
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 28px;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.2s;
+  }
+  .card:hover {
+    box-shadow: var(--card-shadow-hover);
+  }
+  .card-head {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .badge-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 800;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  }
+  .card-title h2 { font-size: 21px; font-weight: 800; color: var(--navy); margin-bottom: 4px; letter-spacing: -0.3px; }
+  .card-title p { font-size: 13.5px; color: var(--ink-soft); }
+
+  /* OBJECTIVES & META */
+  .meta-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 16px;
+  }
+  .meta-tag {
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* PROMPT BOX */
+  .prompt-box {
+    background: #0B131B;
+    border: 1px solid #1E2D3D;
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 20px 0 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  }
+  .prompt-header {
+    background: #14202C;
+    padding: 11px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #233446;
+  }
+  .prompt-tag {
+    color: #34D399;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .prompt-tag .blink-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #34D399;
+    box-shadow: 0 0 8px #34D399;
+  }
+  .prompt-content {
+    padding: 20px;
+    color: #E2E8F0;
+    font-size: 13.5px;
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-x: auto;
+  }
   
-  .btn-copy{background:var(--teal); color:#fff; border:none; padding:7px 16px; border-radius:7px; font-size:12px; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:.15s;}
-  .btn-copy:hover{background:var(--mint); color:var(--ink);}
+  .btn-copy {
+    background: var(--teal);
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.15s ease;
+  }
+  .btn-copy:hover {
+    background: var(--mint);
+    color: #042F2E;
+    transform: translateY(-1px);
+  }
 
-  /* HOW TO USE PROMPT BOX */
-  .how-to-box{background:#F0FDF4; border:1px solid #BBF7D0; border-left:4px solid #16A34A; border-radius:10px; padding:14px 18px; font-size:13.5px; color:#14532D; margin:16px 0;}
-  .how-to-box ol{padding-left:18px; margin-top:6px;}
-  .how-to-box li{margin-bottom:4px;}
+  /* UNDER THE HOOD CLI ACCORDION / BOX */
+  .cli-hood {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 14px 0 18px;
+  }
+  .cli-hood summary {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cli-hood summary:hover { color: var(--teal); }
+  .cli-hood-content {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed #CBD5E1;
+  }
+  .cli-hood-content pre {
+    background: #0F172A;
+    color: #E2E8F0;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    overflow-x: auto;
+    line-height: 1.6;
+  }
+  .cli-hood-content .cli-comment { color: #94A3B8; font-style: italic; }
+  .cli-hood-content .cli-cmd { color: #38BDF8; font-weight: bold; }
+  .cli-hood-content .cli-arg { color: #FCD34D; }
 
-  /* TIP & WARN BOX */
-  .tip-card{background:var(--bg-soft); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:10px; padding:14px 18px; font-size:13.5px; color:var(--ink-mid); margin:14px 0;}
-  .warn-card{background:#FFF8ED; border:1px solid #F5DFB8; border-left:4px solid var(--amber); border-radius:10px; padding:14px 18px; font-size:13.5px; color:#7A4E12; margin:14px 0;}
+  /* CALLOUT BOXES */
+  .tip-card {
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    border-left: 5px solid #16A34A;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 13.5px;
+    color: #14532D;
+    margin: 16px 0;
+  }
+  .warn-card {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    border-left: 5px solid #D97706;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 13.5px;
+    color: #78350F;
+    margin: 16px 0;
+  }
+  .danger-card {
+    background: #FFF1F2;
+    border: 1px solid #FECDD3;
+    border-left: 5px solid #E11D48;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 13.5px;
+    color: #881337;
+    margin: 16px 0;
+  }
 
-  /* CHECKLIST */
-  .checklist{list-style:none; padding:0; margin:14px 0;}
-  .checklist li{display:flex; align-items:flex-start; gap:10px; padding:10px 14px; margin-bottom:8px; background:var(--bg-soft); border:1px solid var(--line); border-radius:8px; font-size:13.5px; color:var(--ink-mid);}
-  .check-icon{width:20px; height:20px; border-radius:5px; background:#DCFCE7; color:#15803D; font-size:12px; font-weight:bold; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;}
+  /* COMPARISON & CHEATSHEET TABLE */
+  .table-responsive {
+    overflow-x: auto;
+    margin: 20px 0;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+  }
+  table.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    text-align: left;
+  }
+  table.custom-table th {
+    background: #F1F5F9;
+    color: var(--navy);
+    font-weight: 800;
+    padding: 12px 16px;
+    border-bottom: 2px solid #CBD5E1;
+    white-space: nowrap;
+  }
+  table.custom-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #E2E8F0;
+    color: var(--ink-mid);
+    vertical-align: middle;
+  }
+  table.custom-table tr:hover td {
+    background: #F8FAFC;
+  }
 
   /* TOAST */
-  #toast{position:fixed; bottom:24px; right:24px; z-index:999; background:var(--ink); color:#fff; padding:12px 22px; border-radius:8px; font-size:13.5px; font-weight:600; display:flex; align-items:center; gap:8px; box-shadow:0 8px 24px rgba(0,0,0,.25); transform:translateY(80px); opacity:0; transition:all .25s ease; pointer-events:none;}
-  #toast.show{transform:translateY(0); opacity:1;}
+  #toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    background: #0F172A;
+    color: #fff;
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    border: 1px solid #334155;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
 
   /* FOOTER */
-  footer{background:var(--ink); color:#AEB9BD; padding:36px 24px; margin-top:60px;}
-  .footer-inner{max-width:1060px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; font-size:13px;}
-  .footer-inner b{color:#fff;}
+  footer {
+    background: #0F172A;
+    color: #94A3B8;
+    padding: 44px 24px;
+    margin-top: 70px;
+    border-top: 1px solid #1E293B;
+  }
+  .footer-inner {
+    max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 13.5px;
+  }
+  .footer-inner b { color: #fff; }
 </style>
 </head>
 <body>
-<!-- Toast Alert -->
-<div id="toast">✅ Prompt berhasil disalin! Silakan tempel di chat Antigravity AI.</div>
 
+<!-- Toast Alert -->
+<div id="toast">✅ Prompt berhasil disalin! Silakan tempel di chat Antigravity IDE.</div>
+
+<!-- NAV HEADER -->
 <header>
   <div class="nav-inner">
-    <a href="silabus-vibe-coding-16-pertemuan.html" class="brand" style="text-decoration:none;">
+    <a href="silabus-vibe-coding-16-pertemuan.html" class="brand">
       <span class="dot"></span>
-      <span>Push ke GitHub <span style="font-size:12px;font-weight:normal;color:var(--ink-soft);">(Modul 6)</span></span>
+      <span>Master Git &amp; GitHub <span style="font-size:12px;font-weight:500;color:var(--ink-soft);">(Vibe Coding Curriculum)</span></span>
     </a>
     <div class="nav-menu">
       <a href="silabus-vibe-coding-16-pertemuan.html" class="nav-btn">📋 Silabus 16 Pertemuan</a>
-      <a href="panduan_vibecoding_owasp.html" class="nav-btn">🛡️ Panduan OWASP</a>
-      <a href="#teori" class="nav-btn">📖 Teori</a>
-      <a href="#praktikum" class="nav-btn" style="background:var(--teal); color:#fff; font-weight:bold; border-color:var(--teal);">🤖 5 Prompt Praktikum</a>
+      <a href="praktikum_git_sebelum_coding.html" class="nav-btn">🛠️ Praktikum Git Lokal</a>
+      <a href="#arsitektur" class="nav-btn">📐 Arsitektur &amp; Teori</a>
+      <a href="#katalog-prompt" class="nav-btn primary">🤖 9 Modul Prompt Praktikum</a>
+      <a href="#cheatsheet" class="nav-btn">📊 Cheatsheet</a>
     </div>
   </div>
 </header>
 
-<!-- HERO -->
+<!-- HERO SECTION -->
 <div class="hero">
   <div class="hero-inner">
-    <span class="eyebrow">👶 Panduan Khusus Pemula Non-IT</span>
-    <h1>Menyimpan Proyek ke GitHub<br>100% Berbasis Prompt AI</h1>
-    <p>Sebagai praktisi <em>Vibe Coding</em>, Anda tidak perlu menghafal atau mengetik perintah-perintah terminal yang rumit. Pahami konsep dasarnya di Bagian Teori, lalu cukup <strong>salin prompt ke AI Antigravity</strong> untuk menyelesaikan praktikumnya.</p>
+    <span class="eyebrow">🎓 Modul Pembelajaran Profesional · Vibe Coding Masterclass</span>
+    <h1>Kuasai Git &amp; GitHub Lengkap:<br>Dari Init, Add, Commit, Restore, Hingga Push Cloud</h1>
+    <p>
+      Panduan standar industri yang dirancang untuk menjembatani mahasiswa non-IT dan praktisi AI. Pahami logika dasar arsitektur <em>Version Control</em> dan eksekusi seluruh siklus pengembangan software (setup, staging, snapshot, rollback waktu, hingga push repositori) cukup menggunakan <strong>Prompting AI Terstruktur</strong> di Antigravity IDE.
+    </p>
+
+    <!-- STATS -->
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="num">9 Modul</div>
+        <div class="lbl">Siklus Hidup Lengkap Git</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">100% Prompt</div>
+        <div class="lbl">Siap Salin ke Antigravity</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">Dual Mode</div>
+        <div class="lbl">Prompt AI + Terminal CLI</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">Safe Restore</div>
+        <div class="lbl">Proteksi Rollback &amp; Anti-Rusak</div>
+      </div>
+    </div>
     
     <div class="hero-nav">
-      <a href="#teori" class="hero-nav-btn">📖 1. Pelajari Teori Sederhana</a>
-      <a href="#praktikum" class="hero-nav-btn">🤖 2. Mulai Praktikum (Tinggal Salin Prompt)</a>
+      <a href="#arsitektur" class="hero-nav-btn">📐 1. Pelajari Arsitektur 4 Tingkat</a>
+      <a href="#katalog-prompt" class="hero-nav-btn">🤖 2. Buka 9 Modul Prompt Praktikum</a>
+      <a href="#cheatsheet" class="hero-nav-btn secondary">📊 3. Cheatsheet Komparasi CLI vs AI</a>
     </div>
   </div>
 </div>
@@ -140,269 +691,701 @@
 <main>
   <div class="wrap">
 
-    <!-- ============================================================== -->
-    <!-- BAGIAN 1: TEORI & PEMAHAMAN KONSEP                            -->
-    <!-- ============================================================== -->
-    <div class="section-divider" id="teori">
-      <span class="divider-badge" style="background:var(--deep);">BAGIAN 1: TEORI &amp; KONSEP</span>
-      <div class="divider-line"></div>
-    </div>
-
-    <!-- KARTU 1: APA ITU GITHUB? -->
-    <div class="card">
-      <div class="card-head">
-        <div class="badge-icon" style="background:var(--deep);">💡</div>
-        <div class="card-title">
-          <h2>Mengapa Kita Butuh GitHub?</h2>
-          <p>Memahami peran GitHub dalam kehidupan sehari-hari pembuatan aplikasi</p>
-        </div>
-      </div>
-
-      <p style="font-size:14.5px; color:var(--ink-mid); margin-bottom:14px;">
-        Bayangkan Anda sedang menulis buku berharga di laptop Anda. Jika laptop Anda ketumpahan kopi, rusak, atau hilang, semua tulisan Anda akan lenyap seketika. <strong>GitHub adalah lemari brankas online di internet</strong> yang menjaga salinan karya Anda tetap aman, bisa dibuka dari laptop manapun, dan bisa dipamerkan ke calon klien atau tempat kerja.
+    <!-- CATATAN INSTRUKTUR -->
+    <div class="instructor-box">
+      <h3>👨‍🏫 Pesan Pengajar: Filosofi Vibe Coding dengan Git</h3>
+      <p>
+        Dalam paradigma <em>Vibe Coding</em>, AI adalah rekan programmer (copilot) yang sangat produktif namun dapat membuat kesalahan atau merusak kode yang sudah berfungsi. <strong>Git bukan sekadar alat upload ke GitHub</strong>, melainkan <em>"Mesin Waktu Penyelamat" (Safety Net)</em> Anda. Dengan menguasai kombinasi <code>init</code>, <code>add</code>, <code>commit</code>, <code>restore</code>, dan <code>push</code>, Anda memiliki kendali penuh 100% untuk mengeksplorasi kode tanpa pernah takut kehilangan karya Anda!
       </p>
-
-      <div class="analogy-grid">
-        <div class="analogy-item">
-          <div class="icon">💻</div>
-          <h3>1. Di Laptop Anda</h3>
-          <p>Tempat Anda bekerja bersama AI. Semua file disimpan di harddisk lokal komputer Anda.</p>
-        </div>
-        <div class="analogy-item">
-          <div class="icon">☁️</div>
-          <h3>2. Di Cloud GitHub</h3>
-          <p>Salinan online di internet. Berfungsi sebagai cadangan otomatis dan portofolio resmi Anda.</p>
-        </div>
-        <div class="analogy-item">
-          <div class="icon">🚀</div>
-          <h3>3. Siap Di-Publish</h3>
-          <p>Setelah ada di GitHub, proyek Anda bisa langsung diubah menjadi website live yang bisa dibuka dari HP.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- KARTU 2: KAMUS BAHASA MANUSIA -->
-    <div class="card">
-      <div class="card-head">
-        <div class="badge-icon" style="background:var(--teal);">📖</div>
-        <div class="card-title">
-          <h2>Kamus Istilah Bahasa Manusia</h2>
-          <p>4 istilah inti yang sering muncul saat bekerja dengan GitHub</p>
-        </div>
-      </div>
-
-      <div class="glossary-grid">
-        <div class="glossary-item">
-          <b>🏛️ Repository (Repo) = "Gudang / Folder Proyek di Internet"</b>
-          <p>Satu halaman khusus di GitHub untuk menampung seluruh file satu aplikasi tertentu.</p>
-        </div>
-        <div class="glossary-item">
-          <b>🏷️ Commit = "Catatan Simpanan / Snapshot"</b>
-          <p>Memberi label catatan pada hasil kerja terakhir, misalnya: <em>"Tombol login sudah selesai dibuat"</em>.</p>
-        </div>
-        <div class="glossary-item">
-          <b>🚚 Push = "Mengunggah / Upload ke Cloud"</b>
-          <p>Proses mengirimkan hasil simpanan dari laptop ke gudang repository GitHub di internet.</p>
-        </div>
-        <div class="glossary-item">
-          <b>⛔ .gitignore = "Daftar Barang Terlarang"</b>
-          <p>File pelindung agar password pribadi dan file sampah komputer tidak ikut ter-upload ke internet.</p>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <strong>✨ Kunci Vibe Coding:</strong> Anda <em>tidak perlu</em> menghafal perintah terminal seperti <code>git init</code>, <code>git remote add</code>, atau <code>git push -u origin main</code>. Cukup pahami artinya secara konsep, dan biarkan AI Antigravity yang menjalankannya untuk Anda!
-      </div>
     </div>
 
     <!-- ============================================================== -->
-    <!-- BAGIAN 2: PRAKTIKUM BERBASIS PROMPT AI                        -->
+    <!-- BAGIAN 1: ARSITEKTUR & SIKLUS HIDUP 4 TINGKAT GIT              -->
     <!-- ============================================================== -->
-    <div class="section-divider" id="praktikum">
-      <span class="divider-badge" style="background:var(--teal);">BAGIAN 2: PRAKTIKUM (PROMPT-BASED)</span>
+    <div class="section-divider" id="arsitektur">
+      <span class="divider-badge" style="background:var(--deep);">BAGIAN 1: ARSITEKTUR SIKLUS HIDUP GIT</span>
       <div class="divider-line"></div>
     </div>
 
-    <div class="how-to-box">
-      <strong>🎯 Cara Mengikuti Praktikum:</strong>
-      <ol>
-        <li>Buka <strong>Antigravity IDE</strong> tempat proyek Anda terbuka.</li>
-        <li>Salin salah satu kotak prompt di bawah ini sesuai kebutuhan Anda.</li>
-        <li>Tempel di ruang chat Antigravity AI, lalu tekan <strong>Enter</strong>.</li>
-        <li>Jika Antigravity meminta izin menjalankan perintah di terminal, cukup klik <strong>"Allow / Proceed"</strong>. Selesai!</li>
-      </ol>
+    <div class="pipeline-container">
+      <div class="pipeline-header">
+        <h3>Peta 4 Tahapan Berkas dalam Git &amp; GitHub</h3>
+        <p>Setiap baris kode yang Anda tulis bergerak melalui 4 zona ruang kerja ini sebelum mendarat aman di cloud internet:</p>
+      </div>
+
+      <div class="pipeline-grid">
+        <!-- TAHAP 1 -->
+        <div class="pipeline-step">
+          <span class="step-num" style="background:#E0F2FE; color:#0369A1;">ZONA 1 · HARDDISK</span>
+          <h4>Working Directory</h4>
+          <p>Folder tempat Anda mengedit file secara aktif bersama AI. Perubahan masih berstatus <em>Unstaged</em>.</p>
+          <span class="step-cmd">git init</span>
+          <span class="step-undo">git restore . (Discard)</span>
+        </div>
+
+        <!-- TAHAP 2 -->
+        <div class="pipeline-step">
+          <span class="step-num" style="background:#FEF3C7; color:#B45309;">ZONA 2 · ANTREAN FOTO</span>
+          <h4>Staging Area (Index)</h4>
+          <p>Kotak seleksi berkas yang sudah dipilih dan siap diambil fotonya (siap di-commit).</p>
+          <span class="step-cmd">git add .</span>
+          <span class="step-undo">git restore --staged .</span>
+        </div>
+
+        <!-- TAHAP 3 -->
+        <div class="pipeline-step">
+          <span class="step-num" style="background:#DCFCE7; color:#15803D;">ZONA 3 · BRANKAS LOKAL</span>
+          <h4>Local Repo (HEAD)</h4>
+          <p>Koleksi snapshot permanen berlabel di laptop Anda. Memiliki ID Commit &amp; riwayat timestamp.</p>
+          <span class="step-cmd">git commit -m "..."</span>
+          <span class="step-undo">git revert / reset</span>
+        </div>
+
+        <!-- TAHAP 4 -->
+        <div class="pipeline-step">
+          <span class="step-num" style="background:#F3E8FF; color:#7E22CE;">ZONA 4 · CLOUD INTERNET</span>
+          <h4>GitHub Remote</h4>
+          <p>Gudang brankas online di internet. Tempat backup aman, kolaborasi tim, dan rujukan deployment live.</p>
+          <span class="step-cmd">git push origin main</span>
+          <span class="step-undo">git pull / fetch</span>
+        </div>
+      </div>
     </div>
 
-    <!-- PROMPT 1: PERSIAPAN & GITIGNORE -->
-    <div class="card">
+    <!-- ============================================================== -->
+    <!-- BAGIAN 2: 9 MODUL PRAKTIKUM BERBASIS PROMPT LENGKAP           -->
+    <!-- ============================================================== -->
+    <div class="section-divider" id="katalog-prompt">
+      <span class="divider-badge" style="background:var(--teal);">BAGIAN 2: 9 MODUL PRAKTIKUM BERBASIS PROMPT</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- MODUL 1: INIT & GITIGNORE & CONFIG -->
+    <div class="card" id="modul-1">
       <div class="card-head">
-        <div class="badge-icon" style="background:var(--teal);">1</div>
+        <div class="badge-icon" style="background:var(--deep);">01</div>
         <div class="card-title">
-          <h2>Praktikum 1: Amankan File Rahasia (.gitignore)</h2>
-          <p>Minta AI memastikan tidak ada password atau file sampah yang akan ter-upload</p>
+          <h2>Modul 1: Inisialisasi Proyek, Konfigurasi Identitas &amp; Proteksi .gitignore</h2>
+          <p>Mempersiapkan fondasi repositori baru, mendaftarkan nama/email pembuat, dan memfilter berkas sensitif</p>
         </div>
+      </div>
+
+      <div class="meta-tag-row">
+        <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">Perintah Terkait: git init</span>
+        <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">git config</span>
+        <span class="meta-tag" style="background:#FEF3C7; color:#92400E;">Keamanan: .gitignore (.env, node_modules)</span>
       </div>
 
       <p style="font-size:14px; color:var(--ink-mid);">
-        Gunakan prompt ini agar AI membuatkan file pengaman <code>.gitignore</code> secara otomatis sesuai jenis proyek Anda:
+        Jalankan prompt ini saat pertama kali membuat folder proyek baru. AI akan memastikan Git diaktifkan, nama Anda terpasang, dan file rahasia seperti API Key tidak akan bocor ke publik.
       </p>
 
       <div class="prompt-box">
         <div class="prompt-header">
-          <span class="prompt-tag">🤖 PROMPT 1 — SALIN KE ANTIGRAVITY</span>
+          <span class="prompt-tag"><span class="blink-dot"></span> PROMPT 1 — INISIALISASI &amp; SETUP AMAN</span>
           <button class="btn-copy" onclick="copyPrompt('prompt-1')">Salin Prompt</button>
         </div>
-        <pre class="prompt-content" id="prompt-1">Halo Antigravity, tolong periksa proyek yang sedang saya buka ini.
-Saya adalah pemula non-IT dan ingin mempersiapkan proyek ini untuk di-push ke GitHub.
+        <pre class="prompt-content" id="prompt-1">Halo Antigravity, saya ingin menginisialisasi sistem pelacakan versi Git untuk proyek yang sedang terbuka ini.
 
-Tolong buatkan file .gitignore yang lengkap dan aman agar file-file sensitif (seperti .env, .env.local, dan folder node_modules) tidak ikut ter-upload ke publik.
+Tolong lakukan langkah-langkah setup berikut:
+1. Periksa apakah repositori Git lokal sudah aktif di folder ini. Jika belum, jalankan 'git init'.
+2. Buatkan file '.gitignore' standar industri yang lengkap sesuai tech-stack proyek ini (pastikan memblokir .env, .env.local, node_modules/, .DS_Store, dist/, dan folder cache/temporary).
+3. Periksa konfigurasi nama (user.name) dan email (user.email) Git saya. Jika belum disetel, bantu setel dengan nama dan email saya.
+4. Buat branch utama default dengan nama 'main'.
 
-Setelah selesai membuat filenya, tolong periksa status git saat ini dan laporkan hasilnya kepada saya dengan bahasa yang sederhana.</pre>
+Setelah selesai, laporkan status repositori awal ini kepada saya dengan bahasa yang ramah dan mudah dipahami.</pre>
       </div>
+
+      <details class="cli-hood">
+        <summary>🔍 Klik untuk melihat perintah Terminal (CLI) yang dijalankan AI di belakang layar</summary>
+        <div class="cli-hood-content">
+          <pre><span class="cli-comment"># 1. Menginisialisasi folder menjadi repositori Git</span>
+<span class="cli-cmd">git init</span> -b main
+
+<span class="cli-comment"># 2. Mengatur identitas pembuat commit</span>
+<span class="cli-cmd">git config</span> user.name <span class="cli-arg">"Nama Anda"</span>
+<span class="cli-cmd">git config</span> user.email <span class="cli-arg">"email@anda.com"</span>
+
+<span class="cli-comment"># 3. Membuat file .gitignore untuk menyaring file rahasia & sampah</span>
+<span class="cli-cmd">echo</span> <span class="cli-arg">"node_modules/&#10;.env&#10;.env.local&#10;.DS_Store&#10;dist/"</span> > .gitignore</pre>
+        </div>
+      </details>
     </div>
 
-    <!-- PROMPT 2: MEMBUAT README.MD -->
-    <div class="card">
+    <!-- MODUL 2: GIT STATUS & GIT ADD -->
+    <div class="card" id="modul-2">
       <div class="card-head">
-        <div class="badge-icon" style="background:var(--teal);">2</div>
+        <div class="badge-icon" style="background:var(--teal);">02</div>
         <div class="card-title">
-          <h2>Praktikum 2: Buat Halaman Penjelasan (README.md)</h2>
-          <p>Minta AI menuliskan deskripsi proyek yang rapi dan profesional</p>
+          <h2>Modul 2: Pemeriksaan Status (git status) &amp; Pendaftaran Antrean (git add)</h2>
+          <p>Melihat apa saja yang berubah di proyek dan memilih file yang layak dimasukkan ke antrean staging</p>
         </div>
       </div>
 
+      <div class="meta-tag-row">
+        <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">Perintah Terkait: git status</span>
+        <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">git add &lt;file&gt;</span>
+        <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">git add .</span>
+        <span class="meta-tag" style="background:#DCFCE7; color:#166534;">Konsep: Staging Area</span>
+      </div>
+
       <p style="font-size:14px; color:var(--ink-mid);">
-        Gunakan prompt ini agar AI membuatkan halaman pembuka (README.md) yang menjelaskan apa fungsi aplikasi Anda kepada orang lain:
+        Sebelum mengambil foto simpanan (commit), Anda perlu melihat file mana saja yang baru dibuat, diedit, atau dihapus, lalu memasukkannya ke antrean <em>Staging Area</em>.
       </p>
 
       <div class="prompt-box">
         <div class="prompt-header">
-          <span class="prompt-tag">🤖 PROMPT 2 — SALIN KE ANTIGRAVITY</span>
+          <span class="prompt-tag"><span class="blink-dot"></span> PROMPT 2 — AUDIT STATUS &amp; STAGING PERUBAHAN</span>
           <button class="btn-copy" onclick="copyPrompt('prompt-2')">Salin Prompt</button>
         </div>
-        <pre class="prompt-content" id="prompt-2">Tolong buatkan file README.md yang menarik dan profesional untuk proyek ini.
-Jelaskan secara ringkas:
-1. Apa nama dan tujuan aplikasi ini
-2. Fitur-fitur utama yang ada di dalamnya
-3. Teknologi yang digunakan
-4. Cara menjalankan proyek ini di laptop
+        <pre class="prompt-content" id="prompt-2">Tolong periksa kondisi berkas pada proyek saya saat ini menggunakan 'git status'.
 
-Tulis dalam Bahasa Indonesia yang rapi dan mudah dibaca oleh orang awam.</pre>
+Bantu saya dengan urutan berikut:
+1. Rangkumkan file apa saja yang baru dibuat (untracked), file apa yang dimodifikasi (modified), dan apakah ada file yang dihapus.
+2. Pastikan tidak ada file rahasia (.env atau credential) yang tidak sengaja terbaca.
+3. Masukkan seluruh file yang relevan ke dalam Staging Area ('git add .').
+4. Konfirmasikan kepada saya daftar berkas yang sudah berhasil berada di zona Staging Area dan siap untuk di-commit.</pre>
       </div>
+
+      <details class="cli-hood">
+        <summary>🔍 Klik untuk melihat perintah Terminal (CLI) yang dijalankan AI di belakang layar</summary>
+        <div class="cli-hood-content">
+          <pre><span class="cli-comment"># Memeriksa status file (merah = belum staged, hijau = sudah staged)</span>
+<span class="cli-cmd">git status</span> -s
+
+<span class="cli-comment"># Memasukkan file spesifik atau seluruh folder ke antrean staging</span>
+<span class="cli-cmd">git add</span> index.html app.js
+<span class="cli-cmd">git add</span> .</pre>
+        </div>
+      </details>
     </div>
 
-    <!-- PROMPT 3: PUSH PERTAMA KALI -->
-    <div class="card">
+    <!-- MODUL 3: GIT COMMIT & CONVENTIONAL COMMITS -->
+    <div class="card" id="modul-3">
       <div class="card-head">
-        <div class="badge-icon" style="background:var(--teal);">3</div>
+        <div class="badge-icon" style="background:var(--seafoam); color:#042F2E;">03</div>
         <div class="card-title">
-          <h2>Praktikum 3: Hubungkan &amp; Push ke GitHub Pertama Kali</h2>
-          <p>Langkah utama mengunggah seluruh proyek ke cloud GitHub</p>
+          <h2>Modul 3: Snapshot Simpanan Permanen (git commit) Standar Industri</h2>
+          <p>Membekukan versi kode dengan pesan commit deskriptif mengikuti standar Conventional Commits</p>
         </div>
+      </div>
+
+      <div class="meta-tag-row">
+        <span class="meta-tag" style="background:#E0F2FE; color:#0369A1;">Perintah Terkait: git commit -m</span>
+        <span class="meta-tag" style="background:#DCFCE7; color:#166534;">Best Practice: Conventional Commits (feat, fix, docs, refactor)</span>
+      </div>
+
+      <p style="font-size:14px; color:var(--ink-mid);">
+        Commit adalah titik simpan permanen. Sebagai pengembang profesional, pesan commit tidak boleh hanya "update", melainkan harus menjelaskan konteks perubahan secara jelas.
+      </p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-tag"><span class="blink-dot"></span> PROMPT 3 — COMMIT DENGAN CONVENTIONAL COMMITS</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-3')">Salin Prompt</button>
+        </div>
+        <pre class="prompt-content" id="prompt-3">Tolong analisis seluruh perubahan berkas yang saat ini ada di Staging Area.
+
+Bantu saya membuatkan Commit resmi dengan kriteria berikut:
+1. Buat pesan commit yang profesional dan deskriptif mengikuti kaidah Conventional Commits (misalnya berawalan 'feat:', 'fix:', 'docs:', 'style:', atau 'refactor:').
+2. Berikan rincian ringkas poin-poin fitur atau perbaikan yang dikandung dalam commit ini.
+3. Eksekusi perintah 'git commit -m "..."' tersebut.
+4. Tampilkan hash commit (ID unik) dan bukti bahwa commit telah tersimpan rapi di repositori lokal.</pre>
+      </div>
+
+      <details class="cli-hood">
+        <summary>🔍 Klik untuk melihat perintah Terminal (CLI) yang dijalankan AI di belakang layar</summary>
+        <div class="cli-hood-content">
+          <pre><span class="cli-comment"># Mengambil snapshot dengan pesan commit standar</span>
+<span class="cli-cmd">git commit</span> -m <span class="cli-arg">"feat: integrasi auth supabase dan validasi input form"</span>
+
+<span class="cli-comment"># Memeriksa daftar snapshot riwayat yang tersimpan</span>
+<span class="cli-cmd">git log</span> --oneline -n 5</pre>
+        </div>
+      </details>
+    </div>
+
+    <!-- MODUL 4: RESTORE, UNSTAGE & ROLLBACK (SAFETY NET) -->
+    <div class="card" id="modul-4" style="border-color:#FBCFE8;">
+      <div class="card-head">
+        <div class="badge-icon" style="background:var(--rose);">04</div>
+        <div class="card-title">
+          <h2>Modul 4: Mesin Waktu &amp; Pemulihan Kode (git restore, unstage, revert)</h2>
+          <p>Membatalkan perubahan error, membuang kode rusak buatan AI, atau mengembalikan snapshot masa lalu</p>
+        </div>
+      </div>
+
+      <div class="meta-tag-row">
+        <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">Perintah Terkait: git restore &lt;file&gt;</span>
+        <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">git restore --staged &lt;file&gt;</span>
+        <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">git revert</span>
+        <span class="meta-tag" style="background:#FEE2E2; color:#991B1B;">Penyelamat: Anti-Rusak</span>
+      </div>
+
+      <div class="danger-card">
+        <strong>⚠️ Peringatan Dosen:</strong> <code>git restore .</code> akan menghapus perubahan yang belum di-commit dan mengembalikannya persis seperti saat commit terakhir. Gunakan prompt ini jika AI merusak logika kode Anda dan Anda ingin kembali ke kondisi aman sebelumnya.
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-tag"><span class="blink-dot"></span> PROMPT 4A — MEMBATALKAN PERUBAHAN ERROR (DISCARD / RESTORE)</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-4a')">Salin Prompt 4A</button>
+        </div>
+        <pre class="prompt-content" id="prompt-4a">Halo Antigravity, kode yang baru saja kita ubah mengalami error dan tampilannya berantakan.
+
+Saya ingin memulihkan keadaan proyek ke kondisi bersih saat commit terakhir:
+1. Jika ada file yang terlanjur dimasukkan ke staging area ('staged'), tolong keluarkan kembali menggunakan 'git restore --staged .'.
+2. Buang seluruh modifikasi yang belum di-commit pada file yang rusak menggunakan 'git restore .' agar file kembali utuh seperti semula.
+3. Hapus file-file baru yang tidak diinginkan/sampah menggunakan 'git clean -fd' jika ada.
+4. Pastikan status git kembali bersih (clean working tree) dan laporkan hasilnya.</pre>
+      </div>
+
+      <div class="prompt-box" style="margin-top:20px;">
+        <div class="prompt-header">
+          <span class="prompt-tag"><span class="blink-dot"></span> PROMPT 4B — ROLLBACK SNAPSHOT LAMA TANPA MERUSAK RIWAYAT (REVERT)</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-4b')">Salin Prompt 4B</button>
+        </div>
+        <pre class="prompt-content" id="prompt-4b">Saya ingin membatalkan fitur tertentu yang sudah terlanjur di-commit sebelumnya.
+
+Tolong bantu saya:
+1. Periksa 5 riwayat commit terakhir menggunakan 'git log --oneline'.
+2. Tunjukkan kepada saya daftar commit tersebut beserta ringkasan fungsinya.
+3. Batalkan perubahan dari commit yang salah tersebut secara aman menggunakan 'git revert &lt;COMMIT_HASH&gt;' (tanpa menghapus riwayat masa lalu).
+4. Pastikan aplikasi dapat berjalan kembali normal.</pre>
+      </div>
+
+      <details class="cli-hood">
+        <summary>🔍 Klik untuk melihat perintah Terminal (CLI) yang dijalankan AI di belakang layar</summary>
+        <div class="cli-hood-content">
+          <pre><span class="cli-comment"># 1. Membatalkan status staged (mengeluarkan file dari antrean commit)</span>
+<span class="cli-cmd">git restore</span> --staged index.html
+<span class="cli-cmd">git restore</span> --staged .
+
+<span class="cli-comment"># 2. Membuang perubahan uncommitted (mengembalikan file ke titik commit terakhir)</span>
+<span class="cli-cmd">git restore</span> index.html
+<span class="cli-cmd">git restore</span> .
+
+<span class="cli-comment"># 3. Menghapus file baru yang belum terlacak (untracked files)</span>
+<span class="cli-cmd">git clean</span> -fd
+
+<span class="cli-comment"># 4. Membatalkan commit tertentu secara elegan dengan membuat commit pembalik</span>
+<span class="cli-cmd">git revert</span> a1b2c3d</pre>
+        </div>
+      </details>
+    </div>
+
+    <!-- MODUL 5: DOKUMENTASI README.MD PROFESIONAL -->
+    <div class="card" id="modul-5">
+      <div class="card-head">
+        <div class="badge-icon" style="background:var(--blue);">05</div>
+        <div class="card-title">
+          <h2>Modul 5: Dokumentasi Portofolio Proyek (README.md Standar Industri)</h2>
+          <p>Mempersiapkan halaman etalase GitHub dengan visualisasi badge, arsitektur, dan panduan instalasi</p>
+        </div>
+      </div>
+
+      <div class="meta-tag-row">
+        <span class="meta-tag" style="background:#EFF6FF; color:#1E40AF;">Dokumentasi: README.md</span>
+        <span class="meta-tag" style="background:#EFF6FF; color:#1E40AF;">Portofolio &amp; Showcasing</span>
+      </div>
+
+      <p style="font-size:14px; color:var(--ink-mid);">
+        Repositori GitHub tanpa README.md bagaikan etalase toko tanpa plang nama. Gunakan prompt ini agar AI menyusun file dokumentasi yang siap memukau calon klien atau recruiter.
+      </p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-tag"><span class="blink-dot"></span> PROMPT 5 — GENERATOR README.MD PROFESIONAL</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-5')">Salin Prompt</button>
+        </div>
+        <pre class="prompt-content" id="prompt-5">Tolong buatkan file README.md yang komprehensif, menarik secara visual, dan berstandar profesional untuk proyek ini.
+
+Pastikan memuat komponen-komponen berikut:
+1. 🏷️ Judul proyek &amp; satu kalimat elevator pitch yang memikat.
+2. ✨ Fitur-fitur unggulan (Key Features) dalam format bullet list berikon.
+3. 🛠️ Tech Stack &amp; Dependensi yang digunakan (HTML5, CSS3, JS/React/Next.js/Supabase dll).
+4. 🚀 Panduan Instalasi &amp; Menjalankan Proyek di komputer lokal (Local Setup).
+5. 📂 Struktur Folder Proyek secara ringkas.
+6. 🛡️ Variabel Environment (.env.example) jika ada yang dibutuhkan.
+7. 👤 Lisensi dan Nama Pembuat (Author).
+
+Tulis dalam format Markdown GitHub yang rapi dengan heading hierarkis.</pre>
+      </div>
+
+      <details class="cli-hood">
+        <summary>🔍 Klik untuk melihat perintah Terminal (CLI) yang dijalankan AI di belakang layar</summary>
+        <div class="cli-hood-content">
+          <pre><span class="cli-comment"># Memeriksa apakah README.md sudah ada atau perlu di-stage</span>
+<span class="cli-cmd">git add</span> README.md
+<span class="cli-cmd">git commit</span> -m <span class="cli-arg">"docs: perbarui dokumentasi README.md dan panduan instalasi"</span></pre>
+        </div>
+      </details>
+    </div>
+
+    <!-- MODUL 6: HUBUNGKAN KE REMOTE GITHUB & PUSH PERDANA -->
+    <div class="card" id="modul-6">
+      <div class="card-head">
+        <div class="badge-icon" style="background:var(--purple);">06</div>
+        <div class="card-title">
+          <h2>Modul 6: Menghubungkan ke GitHub Remote &amp; First Push (Upload Perdana)</h2>
+          <p>Mendaftarkan remote origin ke cloud GitHub, menetapkan branch main, dan mengunggah repositori</p>
+        </div>
+      </div>
+
+      <div class="meta-tag-row">
+        <span class="meta-tag" style="background:#FAF5FF; color:#6B21A8;">Perintah Terkait: git remote add origin &lt;url&gt;</span>
+        <span class="meta-tag" style="background:#FAF5FF; color:#6B21A8;">git branch -M main</span>
+        <span class="meta-tag" style="background:#FAF5FF; color:#6B21A8;">git push -u origin main</span>
       </div>
 
       <div class="warn-card">
-        <strong>Langkah Kecil di Browser Sebelum Memulai:</strong><br>
-        Buka <a href="https://github.com/new" target="_blank" style="font-weight:bold;">github.com/new</a>, beri nama repository Anda, pilih <em>Public</em>, <strong>jangan centang apapun</strong>, lalu klik tombol hijau <em>"Create repository"</em>. Salin URL yang muncul di halaman tersebut.
+        <strong>📌 Langkah Persiapan di Browser (Hanya 1 Menit):</strong><br>
+        1. Buka <a href="https://github.com/new" target="_blank" style="font-weight:bold;">github.com/new</a> di tab browser.<br>
+        2. Masukkan <strong>Repository name</strong> (contoh: <code>aplikasi-kasir-vibe</code>).<br>
+        3. Pilih <strong>Public</strong>. Biarkan pilihan README / .gitignore <strong>KOSONG (Jangan dicentang)</strong>.<br>
+        4. Klik tombol hijau <strong>Create repository</strong>, lalu salin URL HTTPS (contoh: <code>https://github.com/username/repo.git</code>).
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-tag"><span class="blink-dot"></span> PROMPT 6 — HUBUNGKAN &amp; PUSH PERDANA</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-6')">Salin Prompt</button>
+        </div>
+        <pre class="prompt-content" id="prompt-6">Saya sudah membuat repository kosong di GitHub dengan URL:
+[GANTI DENGAN URL GITHUB ANDA, contoh: https://github.com/username/nama-proyek.git]
+
+Tolong hubungkan proyek lokal ini ke GitHub dan lakukan push pertama kali:
+1. Pastikan seluruh file saat ini sudah ter-stage dan ter-commit dengan pesan yang rapi.
+2. Ubah/pastikan nama branch utama adalah 'main' ('git branch -M main').
+3. Daftarkan URL GitHub tersebut sebagai remote origin ('git remote add origin ...'). Jika remote origin sudah ada sebelumnya, tolong perbarui URL-nya.
+4. Lakukan push perdana dengan pelacakan upstream ('git push -u origin main').
+5. Konfirmasikan jika proses upload ke GitHub telah berhasil 100%.</pre>
+      </div>
+
+      <details class="cli-hood">
+        <summary>🔍 Klik untuk melihat perintah Terminal (CLI) yang dijalankan AI di belakang layar</summary>
+        <div class="cli-hood-content">
+          <pre><span class="cli-comment"># 1. Menamai branch utama menjadi 'main'</span>
+<span class="cli-cmd">git branch</span> -M main
+
+<span class="cli-comment"># 2. Mendaftarkan remote origin ke cloud GitHub</span>
+<span class="cli-cmd">git remote add</span> origin <span class="cli-arg">https://github.com/username/nama-proyek.git</span>
+
+<span class="cli-comment"># 3. Mengunggah seluruh snapshot ke branch main di GitHub</span>
+<span class="cli-cmd">git push</span> -u origin main</pre>
+        </div>
+      </details>
+    </div>
+
+    <!-- MODUL 7: PUSH RUTIN HARIAN (DAILY SYNC) -->
+    <div class="card" id="modul-7">
+      <div class="card-head">
+        <div class="badge-icon" style="background:var(--emerald);">07</div>
+        <div class="card-title">
+          <h2>Modul 7: Alur Rutin Harian 1-Prompt (Add + Commit + Push Otomatis)</h2>
+          <p>Prompt instan yang Anda gunakan setiap kali selesai mengedit atau menambah fitur baru</p>
+        </div>
+      </div>
+
+      <div class="meta-tag-row">
+        <span class="meta-tag" style="background:#ECFDF5; color:#065F46;">Alur: Stage → Commit → Push</span>
+        <span class="meta-tag" style="background:#ECFDF5; color:#065F46;">Penggunaan: Harian / Setiap Sesi Selesai</span>
       </div>
 
       <p style="font-size:14px; color:var(--ink-mid);">
-        Setelah mendapatkan URL repo dari GitHub, ganti teks <code>[MASUKKAN URL REPO DI SINI]</code> pada prompt di bawah ini, lalu kirim ke Antigravity:
+        Setelah repositori terhubung, di hari-hari berikutnya Anda tidak perlu lagi mendaftarkan remote. Cukup kirimkan prompt efisien ini di akhir sesi koding Anda bersama AI:
       </p>
 
       <div class="prompt-box">
         <div class="prompt-header">
-          <span class="prompt-tag">🤖 PROMPT 3 — SALIN KE ANTIGRAVITY</span>
-          <button class="btn-copy" onclick="copyPrompt('prompt-3')">Salin Prompt</button>
+          <span class="prompt-tag"><span class="blink-dot"></span> PROMPT 7 — PUSH UPDATE HARIAN SATU-LANGKAH</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-7')">Salin Prompt</button>
         </div>
-        <pre class="prompt-content" id="prompt-3">Saya sudah membuat repository kosong di GitHub dengan alamat:
-[GANTI DENGAN URL REPOSITORY GITHUB ANDA, contoh: https://github.com/username/nama-proyek.git]
+        <pre class="prompt-content" id="prompt-7">Saya telah selesai memperbarui kode dan fitur pada sesi kali ini.
 
-Sebagai pemula non-IT, tolong bantu saya melakukan push proyek ini ke GitHub secara otomatis:
-1. Simpan (stage &amp; commit) seluruh file proyek saat ini
-2. Hubungkan proyek lokal ini ke alamat GitHub tersebut sebagai remote origin
-3. Pastikan branch utama bernama main
-4. Eksekusi git push ke GitHub
-
-Silakan jalankan perintah terminal yang diperlukan dan beri tahu saya setelah selesai!</pre>
+Tolong lakukan siklus penyimpanan penuh dan kirim ke GitHub:
+1. Periksa berkas apa saja yang berubah.
+2. Tambahkan semua perubahan ke staging ('git add .').
+3. Buatkan commit baru dengan pesan yang ringkas dan menjelaskan fitur yang baru kita buat.
+4. Lakukan 'git push' ke remote GitHub.
+5. Beri tahu saya jika update online sudah live di repositori GitHub.</pre>
       </div>
+
+      <details class="cli-hood">
+        <summary>🔍 Klik untuk melihat perintah Terminal (CLI) yang dijalankan AI di belakang layar</summary>
+        <div class="cli-hood-content">
+          <pre><span class="cli-comment"># Alur kerja 3 langkah klasik yang dieksekusi AI</span>
+<span class="cli-cmd">git add</span> .
+<span class="cli-cmd">git commit</span> -m <span class="cli-arg">"feat: penyempurnaan UI dashboard dan perbaikan bug"</span>
+<span class="cli-cmd">git push</span></pre>
+        </div>
+      </details>
     </div>
 
-    <!-- PROMPT 4: PUSH UPDATE HARIAN -->
+    <!-- MODUL 8: SINKRONISASI PULL & MERGE CONFLICT -->
+    <div class="card" id="modul-8">
+      <div class="card-head">
+        <div class="badge-icon" style="background:var(--navy); color:#38BDF8;">08</div>
+        <div class="card-title">
+          <h2>Modul 8: Sinkronisasi Tim &amp; Resolusi Konflik (git pull, fetch &amp; merge)</h2>
+          <p>Menarik pembaharuan kode terbaru dari cloud dan mengatasi benturan kode antar rekan tim</p>
+        </div>
+      </div>
+
+      <div class="meta-tag-row">
+        <span class="meta-tag" style="background:#F1F5F9; color:#334155;">Perintah Terkait: git pull origin main</span>
+        <span class="meta-tag" style="background:#F1F5F9; color:#334155;">git fetch</span>
+        <span class="meta-tag" style="background:#FEF3C7; color:#92400E;">Penanganan: Merge Conflict</span>
+      </div>
+
+      <p style="font-size:14px; color:var(--ink-mid);">
+        Jika Anda mengedit kode dari laptop lain atau berkolaborasi dalam tim, gunakan prompt ini untuk menyinkronkan perubahan terbaru ke laptop Anda saat ini:
+      </p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-tag"><span class="blink-dot"></span> PROMPT 8 — SINKRONISASI PULL &amp; RESOLUSI KONFLIK</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-8')">Salin Prompt</button>
+        </div>
+        <pre class="prompt-content" id="prompt-8">Tolong sinkronkan proyek lokal saya dengan pembaruan terbaru yang ada di GitHub:
+
+1. Ambil pembaruan terbaru menggunakan 'git pull origin main'.
+2. Jika ada perubahan baru dari GitHub, gabungkan ke file lokal saya.
+3. JIKA terjadi benturan file (Merge Conflict), tolong jelaskan baris mana yang bertabrakan, lalu bantu pilihkan kode yang paling mutakhir dan benar agar tidak ada fitur yang hilang.
+4. Selesaikan proses merge dan laporkan status proyek saat ini.</pre>
+      </div>
+
+      <details class="cli-hood">
+        <summary>🔍 Klik untuk melihat perintah Terminal (CLI) yang dijalankan AI di belakang layar</summary>
+        <div class="cli-hood-content">
+          <pre><span class="cli-comment"># Menarik kode terbaru dari server GitHub ke laptop</span>
+<span class="cli-cmd">git pull</span> origin main
+
+<span class="cli-comment"># Memeriksa status bila ada konflik pada baris kode</span>
+<span class="cli-cmd">git status</span>
+<span class="cli-comment"># Setelah konflik diperbaiki:</span>
+<span class="cli-cmd">git add</span> .
+<span class="cli-cmd">git commit</span> -m <span class="cli-arg">"merge: menyelesaikan konflik sinkronisasi branch main"</span></pre>
+        </div>
+      </details>
+    </div>
+
+    <!-- MODUL 9: TROUBLESHOOTING & DOKTER ERROR GITHUB -->
+    <div class="card" id="modul-9" style="border-color:#FCA5A5;">
+      <div class="card-head">
+        <div class="badge-icon" style="background:var(--rose);">09</div>
+        <div class="card-title">
+          <h2>Modul 9: Dokter Masalah Push (Troubleshooting, Rejected &amp; Autentikasi)</h2>
+          <p>Solusi otomatis saat push ditolak (non-fast-forward, remote rejected, atau otentikasi token)</p>
+        </div>
+      </div>
+
+      <div class="meta-tag-row">
+        <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">Kasus Error: Updates were rejected (non-fast-forward)</span>
+        <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">Permission denied (publickey)</span>
+        <span class="meta-tag" style="background:#FFE4E6; color:#9F1239;">Detached HEAD</span>
+      </div>
+
+      <div class="danger-card">
+        <strong>🩺 Jangan Panik Jika Terminal Merah:</strong> Kesalahan umum seperti lupa pull, repository remote berisi README bawaan yang bentrok, atau URL salah ketik dapat diselesaikan AI secara otomatis.
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-tag"><span class="blink-dot"></span> PROMPT 9 — DIAGNOSIS &amp; PERBAIKAN ERROR PUSH OTOMATIS</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-9')">Salin Prompt</button>
+        </div>
+        <pre class="prompt-content" id="prompt-9">Proses git push saya mengalami kegagalan / muncul pesan error merah di terminal.
+
+Tolong bertindak sebagai Senior DevOps Engineer dan perbaiki masalah ini:
+1. Diagnosis penyebab error dengan menjalankan 'git status', 'git remote -v', dan 'git log -n 3'.
+2. Jelaskan kepada saya dalam 1-2 kalimat apa penyebab gagalnya dengan bahasa awam yang sangat mudah dimengerti.
+3. Jalankan solusi perbaikannya (misalnya melakukan 'git pull --rebase origin main' jika remote mendahului lokal, atau memperbaiki URL remote jika salah konfigurasi).
+4. Lakukan push ulang hingga repositori berhasil sinkron dan hijau 100%.</pre>
+      </div>
+
+      <details class="cli-hood">
+        <summary>🔍 Klik untuk melihat perintah Terminal (CLI) yang dijalankan AI di belakang layar</summary>
+        <div class="cli-hood-content">
+          <pre><span class="cli-comment"># 1. Mengatasi error 'Updates were rejected because the remote contains work...'</span>
+<span class="cli-cmd">git pull</span> --rebase origin main
+<span class="cli-cmd">git push</span> origin main
+
+<span class="cli-comment"># 2. Mengubah alamat remote jika sebelumnya salah URL atau username</span>
+<span class="cli-cmd">git remote set-url</span> origin <span class="cli-arg">https://github.com/username-benar/repo.git</span>
+
+<span class="cli-comment"># 3. Memaksa push hanya jika Anda 100% yakin ingin menimpa (Gunakan dengan bijak)</span>
+<span class="cli-cmd">git push</span> origin main --force-with-lease</pre>
+        </div>
+      </details>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- BAGIAN 3: CHEATSHEET TABEL KOMPARASI LENGKAP                   -->
+    <!-- ============================================================== -->
+    <div class="section-divider" id="cheatsheet">
+      <span class="divider-badge" style="background:var(--navy);">BAGIAN 3: CHEATSHEET TABEL KOMPARASI LENGKAP</span>
+      <div class="divider-line"></div>
+    </div>
+
     <div class="card">
       <div class="card-head">
-        <div class="badge-icon" style="background:var(--teal);">4</div>
+        <div class="badge-icon" style="background:var(--navy); color:#fff;">📊</div>
         <div class="card-title">
-          <h2>Praktikum 4: Menyimpan &amp; Upload Perubahan Baru (Harian)</h2>
-          <p>Gunakan setiap kali Anda selesai menambah fitur atau memperbaiki tampilan</p>
+          <h2>Tabel Master: Perintah CLI vs Bahasa Manusia vs Tindakan AI</h2>
+          <p>Rangkuman komparatif untuk memudahkan pemahaman mental model Git</p>
         </div>
       </div>
 
-      <p style="font-size:14px; color:var(--ink-mid);">
-        Di hari-hari berikutnya, saat Anda sudah selesai melakukan perubahan bersama AI, cukup kirim prompt singkat ini:
-      </p>
-
-      <div class="prompt-box">
-        <div class="prompt-header">
-          <span class="prompt-tag">🤖 PROMPT 4 — SALIN KE ANTIGRAVITY</span>
-          <button class="btn-copy" onclick="copyPrompt('prompt-4')">Salin Prompt</button>
-        </div>
-        <pre class="prompt-content" id="prompt-4">Saya baru saja selesai memperbarui fitur di proyek ini.
-Tolong simpan semua perubahan terbaru dengan pesan commit yang rapi dan langsung push ke GitHub saya sekarang.</pre>
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Perintah Terminal (CLI)</th>
+              <th>Zona Kerja</th>
+              <th>Analogi Bahasa Manusia</th>
+              <th>Tindakan Prompt AI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>git init</code></td>
+              <td>Lokal</td>
+              <td>Mendirikan brankas baru di folder proyek</td>
+              <td>"Inisialisasi Git di proyek ini"</td>
+            </tr>
+            <tr>
+              <td><code>git config user.name/email</code></td>
+              <td>Konfigurasi</td>
+              <td>Menandatangani kartu nama pemilik proyek</td>
+              <td>"Setel identitas Git saya"</td>
+            </tr>
+            <tr>
+              <td><code>.gitignore</code></td>
+              <td>Proteksi</td>
+              <td>Daftar barang terlarang (password, cache)</td>
+              <td>"Buatkan .gitignore agar file rahasia aman"</td>
+            </tr>
+            <tr>
+              <td><code>git status</code></td>
+              <td>Working Tree</td>
+              <td>Mengecek barang apa saja yang baru berubah</td>
+              <td>"Periksa berkas mana saja yang berubah"</td>
+            </tr>
+            <tr>
+              <td><code>git add .</code></td>
+              <td>Staging Area</td>
+              <td>Menata barang ke atas meja sebelum difoto</td>
+              <td>"Masukkan semua file ke staging area"</td>
+            </tr>
+            <tr>
+              <td><code>git restore &lt;file&gt;</code></td>
+              <td>Working Tree</td>
+              <td>Membakar coretan salah, kembali ke buku asli</td>
+              <td>"Batalkan modifikasi yang rusak pada file ini"</td>
+            </tr>
+            <tr>
+              <td><code>git restore --staged &lt;file&gt;</code></td>
+              <td>Staging Area</td>
+              <td>Menurunkan barang dari meja foto (unstage)</td>
+              <td>"Keluarkan file ini dari antrean commit"</td>
+            </tr>
+            <tr>
+              <td><code>git commit -m "..."</code></td>
+              <td>Local Repo</td>
+              <td>Memotret snapshot permanen berlabel tanggal</td>
+              <td>"Simpan snapshot dengan pesan commit rapi"</td>
+            </tr>
+            <tr>
+              <td><code>git log --oneline</code></td>
+              <td>Local Repo</td>
+              <td>Membuka album foto riwayat masa lalu</td>
+              <td>"Tunjukkan riwayat commit terakhir"</td>
+            </tr>
+            <tr>
+              <td><code>git revert &lt;hash&gt;</code></td>
+              <td>Local Repo</td>
+              <td>Membuat foto baru yang membatalkan foto lama</td>
+              <td>"Batalkan commit yang salah secara aman"</td>
+            </tr>
+            <tr>
+              <td><code>git remote add origin</code></td>
+              <td>Koneksi Cloud</td>
+              <td>Mendaftarkan alamat gudang online di GitHub</td>
+              <td>"Hubungkan repo lokal ini ke URL GitHub saya"</td>
+            </tr>
+            <tr>
+              <td><code>git push -u origin main</code></td>
+              <td>GitHub Cloud</td>
+              <td>Mengirim seluruh kargo snapshot ke awan</td>
+              <td>"Push semua commit saya ke GitHub"</td>
+            </tr>
+            <tr>
+              <td><code>git pull origin main</code></td>
+              <td>Sinkronisasi</td>
+              <td>Mengunduh update terbaru dari rekan di awan</td>
+              <td>"Tarik dan gabungkan update dari GitHub"</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- PROMPT 5: SOLUSI JIKA ADA ERROR -->
-    <div class="card">
-      <div class="card-head">
-        <div class="badge-icon" style="background:var(--rose);">5</div>
+    <!-- ============================================================== -->
+    <!-- BAGIAN 4: CHECKPOINT KELULUSAN & EVALUASI MAHASISWA            -->
+    <!-- ============================================================== -->
+    <div class="card" style="background:#F0FDF4; border:1.5px solid #86EFAC;">
+      <div class="card-head" style="border-bottom-color:#BBF7D0;">
+        <div class="badge-icon" style="background:#16A34A; color:#fff;">🏆</div>
         <div class="card-title">
-          <h2>Praktikum 5: Penyelamat Saat Menemui Kendala</h2>
-          <p>Jika ada tulisan merah atau gagal push, biarkan AI yang memperbaikinya</p>
+          <h2 style="color:#14532D;">Rubrik Kelulusan Praktikum Git &amp; GitHub</h2>
+          <p style="color:#166534;">Buka repositori GitHub Anda di browser (tekan F5). Evaluasi mandiri checklist berikut:</p>
         </div>
       </div>
 
-      <p style="font-size:14px; color:var(--ink-mid);">
-        Jika proses push gagal atau terminal menampilkan pesan error, jangan panik. Cukup salin prompt ini:
-      </p>
-
-      <div class="prompt-box">
-        <div class="prompt-header">
-          <span class="prompt-tag">🤖 PROMPT 5 (TROUBLESHOOTING) — SALIN KE ANTIGRAVITY</span>
-          <button class="btn-copy" onclick="copyPrompt('prompt-5')">Salin Prompt</button>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0;">
+        <div style="background:#fff; border:1px solid #BBF7D0; border-radius:10px; padding:16px;">
+          <h4 style="color:#15803D; font-size:14.5px; margin-bottom:8px;">✅ Indikator Keberhasilan Repositori:</h4>
+          <ul style="padding-left:18px; font-size:13.5px; color:#1E293B; line-height:1.7;">
+            <li>Semua folder &amp; berkas proyek muncul lengkap di GitHub.</li>
+            <li>Halaman <code>README.md</code> tampil rapi dan informatif di beranda repo.</li>
+            <li>Riwayat commit menunjukkan pesan deskriptif (bukan sekadar "update").</li>
+            <li>Branch utama resmi bernama <code>main</code>.</li>
+          </ul>
         </div>
-        <pre class="prompt-content" id="prompt-5">Tolong periksa status git dan remote proyek ini saat ini.
-Sepertinya proses push mengalami kendala. Tolong jelaskan kepada saya dalam 1 kalimat apa penyebabnya dengan bahasa yang sangat awam, lalu bantu jalankan perintah perbaikannya secara otomatis agar push berhasil.</pre>
+        <div style="background:#fff; border:1px solid #BBF7D0; border-radius:10px; padding:16px;">
+          <h4 style="color:#15803D; font-size:14.5px; margin-bottom:8px;">🛡️ Audit Keamanan &amp; Integritas:</h4>
+          <ul style="padding-left:18px; font-size:13.5px; color:#1E293B; line-height:1.7;">
+            <li>File <code>.env</code> / <code>.env.local</code> <strong>TIDAK ADA</strong> di daftar berkas publik GitHub (aman).</li>
+            <li>Folder <code>node_modules/</code> berukuran raksasa tidak ikut ter-upload.</li>
+            <li>Tidak ada error / uncommitted changes saat mengetik <code>git status</code>.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- CHECKPOINT KELULUSAN -->
-    <div class="card" style="background:#F0FDF4; border-color:#86EFAC;">
-      <h3 style="font-size:18px; color:#166534; margin-bottom:8px;">🏆 Checkpoint Kelulusan Praktikum:</h3>
-      <p style="font-size:13.5px; color:#14532D; margin-bottom:12px;">Buka halaman GitHub Anda di browser, tekan F5. Jika hal-hal ini sudah terlihat, Anda lulus 100%:</p>
-      <ul class="checklist" style="background:transparent;">
-        <li style="background:#fff;"><div class="check-icon">✓</div> Semua folder dan file proyek Anda sudah muncul rapi di website GitHub.</li>
-        <li style="background:#fff;"><div class="check-icon">✓</div> Halaman README.md terbaca dengan jelas di bagian bawah daftar file.</li>
-        <li style="background:#fff;"><div class="check-icon">✓</div> File rahasia <code>.env.local</code> TIDAK muncul di daftar (aman terlindungi).</li>
-      </ul>
-    </div>
-
-    <!-- NAVIGASI HALAMAN -->
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:36px; padding-top:24px; border-top:1px solid var(--line); flex-wrap:wrap;">
-      <a href="silabus-vibe-coding-16-pertemuan.html#p5" class="nav-btn">← Pertemuan 5: Git Lokal</a>
+    <!-- NAVIGASI FOOTER MODUL -->
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:40px; padding-top:24px; border-top:1px solid var(--line); flex-wrap:wrap;">
+      <a href="praktikum_git_sebelum_coding.html" class="nav-btn">← Praktikum Git Lokal (Pertemuan 5)</a>
       <div style="display:flex; gap:10px; flex-wrap:wrap;">
         <a href="silabus-vibe-coding-16-pertemuan.html#modul-6-github" class="nav-btn" style="background:var(--bg-tint); color:var(--deep); border-color:var(--mint); font-weight:bold;">📋 Modul 6 di Silabus</a>
-        <a href="silabus-vibe-coding-16-pertemuan.html#p6" class="nav-btn" style="background:var(--teal); color:#fff; font-weight:bold;">Lanjut ke Pertemuan 7: Halaman Statis →</a>
+        <a href="silabus-vibe-coding-16-pertemuan.html#p7" class="nav-btn" style="background:var(--teal); color:#fff; font-weight:bold;">Lanjut ke Pertemuan 7: Halaman Statis →</a>
       </div>
     </div>
 
   </div>
 </main>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div><b>Modul Vibe Coding: Push ke GitHub</b> — Panduan Khusus Pemula Non-IT</div>
-    <div>100% Berbasis Prompting AI · Tanpa Perlu Hafalan Command Line</div>
+    <div>
+      <b>Modul Ajar Master: Git &amp; GitHub untuk Vibe Coding</b><br>
+      <span style="font-size:12.5px; color:#94A3B8;">Kurikulum Vibe Coding 16 Pertemuan · Pendekatan Berbasis Prompting AI &amp; CLI Standar Industri</span>
+    </div>
+    <div style="text-align:right;">
+      <span style="font-size:12px; color:#64748B;">© 2026 Antigravity IDE Instructional Suite</span>
+    </div>
   </div>
 </footer>
 
