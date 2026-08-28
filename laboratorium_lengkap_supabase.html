@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorium Supabase: Database, RLS, Auth & Realtime — PRD Modul Praktikum</title>
+  <meta name="description" content="Modul Praktikum Lengkap 9 Laboratorium Supabase: SQL Schema, RLS, .env & Singleton Client, AuthContext, Realtime Subscription, CRUD Operations, Storage Bucket, Edge Functions, dan Deploy Vercel.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #028090;
+      --seafoam: #00A896;
+      --mint: #02C39A;
+      --deep: #01656F;
+      --amber: #B45309;
+      --rose: #BE123C;
+      --rose-bg: #FFF1F2;
+      --emerald: #047857;
+      --emerald-bg: #ECFDF5;
+      --indigo: #4F46E5;
+      --indigo-bg: #EEF2FF;
+      --ink: #37352F;
+      --ink-mid: #5A5852;
+      --ink-soft: #787774;
+      --line: #EDECE9;
+      --line-soft: #F1F0ED;
+      --bg: #FFFFFF;
+      --bg-soft: #F7F6F3;
+      --bg-tint: #EAF6F4;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 74px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .brand-title, .hero-title {
+      font-family: 'Newsreader', Georgia, serif;
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: .15s;
+    }
+
+    a:hover {
+      color: var(--deep);
+      text-decoration: underline;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88em;
+      background: #F2F1EE;
+      color: #EB5757;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    ::selection {
+      background: var(--mint);
+      color: #fff;
+    }
+
+    /* ---------- NAVIGATION ---------- */
+    header.nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      height: 56px;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner {
+      max-width: 1160px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #028090;
+      box-shadow: 0 0 0 3px rgba(2, 128, 144, 0.2);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 17.5px;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-pill {
+      font-size: 11.5px;
+      font-weight: 600;
+      background: #EAF6F4;
+      color: var(--deep);
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Popover Dropdown */
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-dropdown-btn {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #37352F;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-dropdown-btn:hover {
+      background: #F7F6F3;
+      border-color: #D3D1CB;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      background: #FFFFFF;
+      min-width: 270px;
+      box-shadow: 0 10px 28px rgba(15, 15, 15, 0.12), 0 0 0 1px rgba(15, 15, 15, 0.05);
+      border-radius: 10px;
+      padding: 6px;
+      z-index: 110;
+      animation: dropFade 0.15s ease;
+    }
+
+    .nav-dropdown:hover .dropdown-content,
+    .nav-dropdown:focus-within .dropdown-content {
+      display: block;
+    }
+
+    @keyframes dropFade {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #37352F;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .dropdown-item:hover {
+      background: #F1F0ED;
+      color: #028090;
+      text-decoration: none;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 4px 6px;
+    }
+
+    .nav-cta-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: #028090;
+      border: 1px solid #028090;
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-cta-btn:hover {
+      background: #01656F;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      background: linear-gradient(180deg, #F0FDF8 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--line);
+      padding: 60px 24px 44px;
+    }
+
+    .wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: var(--bg-tint);
+      border: 1px solid rgba(2, 128, 144, 0.2);
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    h1.hero-title {
+      font-size: 38px;
+      line-height: 1.2;
+      max-width: 860px;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+
+    .lede {
+      font-size: 16.5px;
+      color: var(--ink-mid);
+      max-width: 800px;
+      line-height: 1.65;
+    }
+
+    .meta-badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .meta-badge {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      color: var(--ink-mid);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 1px 2px rgba(20, 30, 30, .03);
+    }
+
+    .meta-badge strong {
+      color: var(--ink);
+    }
+
+    /* ---------- LAB QUICK FILTER NAV ---------- */
+    .lab-nav-sticky {
+      position: sticky;
+      top: 56px;
+      z-index: 90;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 0;
+    }
+
+    .lab-nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+    }
+
+    .lab-nav-pill {
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-mid);
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      padding: 5px 12px;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: all .15s;
+    }
+
+    .lab-nav-pill:hover, .lab-nav-pill.active {
+      background: var(--teal);
+      color: #fff;
+      border-color: var(--teal);
+      text-decoration: none;
+    }
+
+    /* ---------- ARCHITECTURE BANNER ---------- */
+    .arch-card {
+      background: linear-gradient(135deg, #01656F 0%, #028090 60%, #00A896 100%);
+      color: #fff;
+      border-radius: 16px;
+      padding: 32px 30px;
+      margin: 36px 0 28px;
+      box-shadow: 0 6px 20px rgba(1, 101, 111, 0.15);
+    }
+
+    .arch-card h3 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .arch-diagram {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 18px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.55;
+      color: #D1FAE5;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .arch-insight {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13.5px;
+      color: #fff;
+      border-left: 3px solid #6EE7B7;
+    }
+
+    /* ---------- LAB SECTION & CARDS ---------- */
+    .lab-section {
+      padding: 44px 0 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .lab-section:last-child {
+      border-bottom: none;
+    }
+
+    .lab-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .lab-num-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--deep);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 20px;
+      font-weight: bold;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(1, 101, 111, 0.2);
+    }
+
+    .lab-title-area h2 {
+      font-size: 24px;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .lab-sub {
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+
+    /* Three Sub-sections: A. Teori, B. Prompt, C. Checklist */
+    .part-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(20, 30, 30, .03);
+    }
+
+    .part-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .part-title.teori-title { color: #3730A3; }
+    .part-title.prompt-title { color: var(--teal); }
+    .part-title.check-title { color: #047857; }
+
+    /* Analogy Box */
+    .analogy-box {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-left: 4px solid var(--teal);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin: 14px 0;
+    }
+
+    .analogy-box strong {
+      display: block;
+      font-size: 14px;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .analogy-box p {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.6;
+    }
+
+    /* Comparison Table & Simulation */
+    .table-container {
+      overflow-x: auto;
+      margin: 14px 0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 600px;
+    }
+
+    table.data-table th {
+      background: var(--bg-soft);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--ink);
+      border-bottom: 1px solid var(--line);
+    }
+
+    table.data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line-soft);
+      color: var(--ink-mid);
+    }
+
+    table.data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Prompt Dark Box */
+    .prompt-box {
+      background: #151E22;
+      border: 1px solid #2B383E;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 14px 0;
+    }
+
+    .prompt-box-header {
+      background: #1E292E;
+      padding: 8px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #A4B4BA;
+      font-weight: 600;
+    }
+
+    .prompt-box pre {
+      padding: 16px;
+      color: #E3EFF2;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.55;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    .btn-copy {
+      background: var(--teal);
+      color: #fff;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-copy:hover {
+      background: var(--mint);
+      color: var(--ink);
+    }
+
+    /* Checklist Item */
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    @media(max-width:768px) {
+      .checklist-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--ink-mid);
+      cursor: pointer;
+      user-select: none;
+      transition: .15s;
+    }
+
+    .check-item:hover {
+      background: #EAF6F4;
+      border-color: #A7D8D3;
+    }
+
+    .check-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--teal);
+      cursor: pointer;
+    }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      background: var(--ink);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all .25s ease;
+      pointer-events: none;
+    }
+
+    #toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      background: var(--ink);
+      color: #AEB9BD;
+      padding: 40px 24px;
+      margin-top: 60px;
+    }
+
+    .footer-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+    }
+
+    .footer-inner b {
+      color: #fff;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #A4B4BA;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Toast Alert -->
+  <div id="toast">✅ Prompt berhasil disalin ke clipboard!</div>
+
+  <!-- Header Navigation -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="silabus-vibe-coding-16-pertemuan.html" class="brand">
+        <span class="dot"></span>
+        <span class="brand-title">Silabus Vibe Coding</span>
+        <span class="brand-pill">PRD Laboratorium Supabase</span>
+      </a>
+
+      <div class="nav-actions">
+        <!-- Dropdown: Lompat ke Lab -->
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">
+            <span>🔬 Daftar Lab (01–09)</span>
+            <span style="font-size:10px; color:#787774;">▾</span>
+          </button>
+          <div class="dropdown-content">
+            <a href="#lab01" class="dropdown-item">📦 LAB 01: SQL Schema &amp; DDL</a>
+            <a href="#lab02" class="dropdown-item">🔒 LAB 02: Row Level Security (RLS)</a>
+            <a href="#lab03" class="dropdown-item">🔑 LAB 03: .env &amp; Client Singleton</a>
+            <a href="#lab04" class="dropdown-item">🛡️ LAB 04: AuthContext &amp; Route Guard</a>
+            <a href="#lab05" class="dropdown-item">⚡ LAB 05: Realtime Subscription</a>
+            <a href="#lab06" class="dropdown-item">📝 LAB 06: CRUD Operations</a>
+            <a href="#lab07" class="dropdown-item">📁 LAB 07: Storage &amp; Avatar Upload</a>
+            <a href="#lab08" class="dropdown-item">⚡ LAB 08: Edge Functions (Deno)</a>
+            <a href="#lab09" class="dropdown-item">🚀 LAB 09: Deploy ke Vercel</a>
+            <div class="dropdown-divider"></div>
+            <a href="#cheatsheet" class="dropdown-item">📖 Supabase JS v2 Quick Ref</a>
+            <a href="#troubleshoot" class="dropdown-item">🩺 Dokter Error &amp; Tips Mengajar</a>
+          </div>
+        </div>
+
+        <!-- Dropdown: Modul Lain -->
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">
+            <span>📚 Modul Terkait</span>
+            <span style="font-size:10px; color:#787774;">▾</span>
+          </button>
+          <div class="dropdown-content">
+            <a href="silabus-vibe-coding-16-pertemuan.html" class="dropdown-item">
+              <span>📋</span>
+              <div><strong>Silabus Utama</strong><div style="font-size:11px; color:#787774;">16 Pertemuan Vibe Coding</div></div>
+            </a>
+            <a href="materi_modul3_supabase_detail.html" class="dropdown-item">
+              <span>📘</span>
+              <div><strong>Modul 3 Detail</strong><div style="font-size:11px; color:#787774;">Supabase Hands-on Full</div></div>
+            </a>
+            <a href="panduan_vibecoding_owasp.html" class="dropdown-item">
+              <span>🛡️</span>
+              <div><strong>Panduan OWASP</strong><div style="font-size:11px; color:#787774;">Keamanan AI Coding</div></div>
+            </a>
+            <a href="panduan_push_github.html" class="dropdown-item">
+              <span>☁️</span>
+              <div><strong>Push GitHub</strong><div style="font-size:11px; color:#787774;">Git Remote &amp; Branch</div></div>
+            </a>
+            <a href="kurikulum_vibe_coding_pwa_supabase.html" class="dropdown-item">
+              <span>📱</span>
+              <div><strong>Kurikulum PWA</strong><div style="font-size:11px; color:#787774;">PWA Offline First</div></div>
+            </a>
+          </div>
+        </div>
+
+        <a href="silabus-vibe-coding-16-pertemuan.html" class="nav-cta-btn">← Kembali ke Silabus</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Lab Filter Bar -->
+  <div class="lab-nav-sticky">
+    <div class="wrap">
+      <div class="lab-nav-inner">
+        <a href="#lab01" class="lab-nav-pill">01 · SQL Schema</a>
+        <a href="#lab02" class="lab-nav-pill">02 · RLS Security</a>
+        <a href="#lab03" class="lab-nav-pill">03 · .env Singleton</a>
+        <a href="#lab04" class="lab-nav-pill">04 · Auth &amp; Guard</a>
+        <a href="#lab05" class="lab-nav-pill">05 · Realtime</a>
+        <a href="#lab06" class="lab-nav-pill">06 · CRUD</a>
+        <a href="#lab07" class="lab-nav-pill">07 · Storage</a>
+        <a href="#lab08" class="lab-nav-pill">08 · Edge Functions</a>
+        <a href="#lab09" class="lab-nav-pill">09 · Deploy Vercel</a>
+        <a href="#cheatsheet" class="lab-nav-pill">Cheat Sheet API</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <div class="hero">
+    <div class="wrap">
+      <span class="eyebrow">📘 Product Requirements Document (PRD) — Modul Praktikum</span>
+      <h1 class="hero-title">Laboratorium Supabase:<br>Database, RLS, Auth &amp; Realtime</h1>
+      <p class="lede">
+        Panduan praktikum terpadu 9 Laboratorium untuk membangun backend PostgreSQL tingkat industri dengan Row Level Security (RLS) terisolasi, autentikasi multi-provider, sinkronisasi state realtime WebSocket, file storage, serverless Edge Functions, dan deployment production.
+      </p>
+
+      <div class="meta-badge-row">
+        <div class="meta-badge">🔖 Versi: <strong>v1.0.0 (LOCKED — Final)</strong></div>
+        <div class="meta-badge">👩‍🏫 Pengajar: <strong>Ika Suhasmi</strong></div>
+        <div class="meta-badge">💻 Platform: <strong>Antigravity IDE (Google AGY)</strong></div>
+        <div class="meta-badge">⚡ Stack: <strong>Vite + React 18 + TS + Supabase</strong></div>
+      </div>
+
+      <!-- ARSITEKTUR SISTEM -->
+      <div class="arch-card">
+        <h3>🏛️ Arsitektur Sistem: Bagaimana Semua Lab Terhubung</h3>
+        <p style="font-size:14px; opacity:0.95;">Semua modul laboratorium saling menopang secara modular dan berlapis:</p>
+        <pre class="arch-diagram">
+APLIKASI REACT (Frontend)
+  AuthContext (LAB 04) + Route Guard (LAB 04) + Realtime Hook (LAB 05)
+                |
+                | Supabase Client Singleton (LAB 03)
+                |
+        SUPABASE CLOUD
+          Auth           (LAB 04) — JWT Token
+          PostgreSQL DB  (LAB 01) — Schema &amp; DDL
+          RLS Policies   (LAB 02) — Keamanan per baris
+          CRUD API       (LAB 06) — Baca/tulis data
+          Storage Bucket (LAB 07) — File &amp; gambar
+          Edge Functions (LAB 08) — Serverless logic
+          Realtime Engine(LAB 05) — WebSocket push
+                |
+        VERCEL / NETLIFY (LAB 09) — Deploy production</pre>
+        <div class="arch-insight">
+          💡 <strong>Key Insight:</strong> Auth memberi identitas ➔ RLS menjaga privasi ➔ Database menyimpan ➔ Realtime menyiarkan ➔ Storage menyimpan file ➔ Edge Functions jalankan logika bisnis serverless.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <main class="wrap">
+
+    <!-- ========================================================
+         LAB 01: SQL SCHEMA & DDL
+         ======================================================== -->
+    <section class="lab-section" id="lab01">
+      <div class="lab-header">
+        <div class="lab-num-badge">01</div>
+        <div class="lab-title-area">
+          <h2>LAB 01 — SQL Schema &amp; DDL (Data Definition Language)</h2>
+          <p class="lab-sub">Merancang struktur database PostgreSQL, relasi Foreign Key, UUID Primary Key, Triggers, dan Indexes.</p>
+        </div>
+      </div>
+
+      <!-- A. Teori -->
+      <div class="part-box">
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Database</strong> adalah tempat penyimpanan data permanen. Supabase didukung oleh <strong>PostgreSQL</strong>—mesin database kelas dunia yang digunakan Netflix, Spotify, dan GitHub.
+        </p>
+
+        <div class="analogy-box">
+          <strong>🏪 Analogi: Minimarket dengan Sistem Gudang</strong>
+          <p>
+            • <strong>GUDANG</strong> = Database PostgreSQL.<br>
+            • <strong>RAK PRODUK</strong> = Tabel (<code>profiles</code>, <code>categories</code>, <code>transactions</code>).<br>
+            • <strong>BARIS BARANG</strong> = Record (baris data).<br>
+            • <strong>LABEL RAK</strong> = Kolom / Field (id, amount, created_at).<br>
+            • <strong>SATPAM OTOMATIS</strong> = Trigger (langsung buatkan kartu anggota saat pembeli baru mendaftar).
+          </p>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Konsep</th>
+                <th>Definisi Sederhana</th>
+                <th>Analogi Dunia Nyata</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>TABLE</code></td>
+                <td>Tempat simpan satu jenis data terstruktur</td>
+                <td>Rak khusus di gudang</td>
+              </tr>
+              <tr>
+                <td><code>PRIMARY KEY</code></td>
+                <td>Nomor unik identitas setiap baris (UUID)</td>
+                <td>Barcode produk unik</td>
+              </tr>
+              <tr>
+                <td><code>FOREIGN KEY</code></td>
+                <td>Kolom yang menunjuk ke baris tabel lain</td>
+                <td>Kode supplier yang tertera di kardus</td>
+              </tr>
+              <tr>
+                <td><code>TRIGGER</code></td>
+                <td>Fungsi otomatis yang berjalan saat event terjadi</td>
+                <td>Sensor pintu otomatis menyambut tamu</td>
+              </tr>
+              <tr>
+                <td><code>INDEX</code></td>
+                <td>Struktur pencarian cepat data</td>
+                <td>Daftar isi buku tebal</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- B. Prompt -->
+      <div class="part-box">
+        <h3 class="part-title prompt-title">🤖 B. Prompt untuk Antigravity IDE</h3>
+        <p style="font-size:13.5px; color:var(--ink-soft); margin-bottom:10px;">Salin prompt berikut ke Antigravity IDE untuk membuat skrip SQL DDL lengkap:</p>
+        
+        <div class="prompt-box">
+          <div class="prompt-box-header">
+            <span>PROMPT LENGKAP: SQL DDL SCHEMA &amp; TRIGGERS</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab01')">📋 Salin Prompt</button>
+          </div>
+          <pre id="prompt-lab01">[ROLE]: Supabase Database Architect &amp; PostgreSQL Security Specialist
+
+[CONTEXT]:
+Stack: Vite + React 18 (TypeScript) + @supabase/supabase-js v2.
+Aplikasi: Manajemen keuangan pribadi multi-user ("FinTrack").
+
+[TASK]:
+Buatkan script SQL DDL lengkap untuk Supabase:
+
+1. TABEL profiles:
+   - id: UUID (referensi auth.users, cascade delete)
+   - full_name: text nullable, avatar_url: text nullable
+   - created_at, updated_at: timestamptz default now()
+
+2. TABEL categories:
+   - id: UUID primary key gen_random_uuid()
+   - user_id: UUID -&gt; profiles
+   - name: text not null, color: text (hex), icon: text
+   - type: enum('income','expense'), created_at: timestamptz
+
+3. TABEL transactions:
+   - id: UUID primary key gen_random_uuid()
+   - user_id: UUID -&gt; profiles (cascade delete)
+   - category_id: UUID -&gt; categories (set null on delete)
+   - amount: numeric(12,2) check &gt; 0, type: enum('income','expense')
+   - description: text nullable, date: date not null
+   - created_at, updated_at: timestamptz
+
+4. TRIGGER handle_new_user():
+   - Jalankan SETELAH INSERT pada auth.users
+   - Otomatis buat baris di public.profiles
+
+5. INDEX performa pada:
+   - transactions.user_id
+   - transactions.date (DESC)
+   - categories.user_id
+
+[CONSTRAINTS]:
+- UUID (bukan integer) untuk semua primary key
+- Semua timestamp: timestamptz (timezone-aware)
+- Script idempotent (IF NOT EXISTS)
+- Komentar penjelasan di setiap blok SQL
+- Siap dijalankan di Supabase SQL Editor
+
+[OUTPUT]: Script SQL siap copy-paste ke Supabase SQL Editor.</pre>
+        </div>
+      </div>
+
+      <!-- C. Checklist -->
+      <div class="part-box">
+        <h3 class="part-title check-title">✅ C. Checklist Verifikasi Lab 01</h3>
+        <div class="checklist-grid">
+          <label class="check-item"><input type="checkbox"> Table Editor: 3 tabel (profiles, categories, transactions) muncul</label>
+          <label class="check-item"><input type="checkbox"> Kolom id setiap tabel bertipe UUID (bukan integer serial)</label>
+          <label class="check-item"><input type="checkbox"> Trigger handle_new_user muncul di Database ➔ Triggers</label>
+          <label class="check-item"><input type="checkbox"> Buat user test di Auth ➔ baris baru otomatis muncul di profiles</label>
+          <label class="check-item"><input type="checkbox"> Index performa muncul di Database ➔ Indexes</label>
+          <label class="check-item"><input type="checkbox"> Query SELECT * FROM profiles LIMIT 5; berhasil di SQL Editor</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         LAB 02: ROW LEVEL SECURITY (RLS)
+         ======================================================== -->
+    <section class="lab-section" id="lab02">
+      <div class="lab-header">
+        <div class="lab-num-badge">02</div>
+        <div class="lab-title-area">
+          <h2>LAB 02 — Row Level Security (RLS)</h2>
+          <p class="lab-sub">Mengisolasi akses data antar pengguna di level kernel database PostgreSQL dengan auth.uid().</p>
+        </div>
+      </div>
+
+      <!-- A. Teori -->
+      <div class="part-box">
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Row Level Security (RLS)</strong> adalah fitur PostgreSQL yang menentukan <em>siapa yang boleh melihat/mengubah baris mana</em> secara otomatis di server database.
+        </p>
+
+        <div class="analogy-box">
+          <strong>🏦 Analogi: Brankas Pribadi vs Brankas Terbuka</strong>
+          <p>
+            • <strong>TANPA RLS:</strong> Semua orang membuka brankas yang sama. Query <code>SELECT * FROM transactions</code> mengembalikan seluruh data milik semua user di dunia (Sangat Berbahaya!).<br>
+            • <strong>DENGAN RLS:</strong> Nasabah Ani query ke database, PostgreSQL otomatis menyisipkan <code>WHERE user_id = auth.uid()</code> di balik layar sehingga Ani hanya melihat transaksinya sendiri.
+          </p>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Operasi</th>
+                <th>Sintaks Kebijakan (Policy)</th>
+                <th>Fungsi Validasi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>SELECT</code></td>
+                <td><code>USING (user_id = auth.uid())</code></td>
+                <td>Baris mana saja yang boleh <strong>dibaca</strong></td>
+              </tr>
+              <tr>
+                <td><code>INSERT</code></td>
+                <td><code>WITH CHECK (user_id = auth.uid())</code></td>
+                <td>Data baru apa yang boleh <strong>disimpan</strong></td>
+              </tr>
+              <tr>
+                <td><code>UPDATE</code></td>
+                <td><code>USING (...) WITH CHECK (...)</code></td>
+                <td>Baris mana yang boleh <strong>diubah nilainya</strong></td>
+              </tr>
+              <tr>
+                <td><code>DELETE</code></td>
+                <td><code>USING (user_id = auth.uid())</code></td>
+                <td>Baris mana yang boleh <strong>dihapus</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- B. Prompt -->
+      <div class="part-box">
+        <h3 class="part-title prompt-title">🤖 B. Prompt untuk Antigravity IDE</h3>
+        <div class="prompt-box">
+          <div class="prompt-box-header">
+            <span>PROMPT LENGKAP: RLS POLICIES IMPLEMENTATION</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab02')">📋 Salin Prompt</button>
+          </div>
+          <pre id="prompt-lab02">[ROLE]: Supabase Security Specialist &amp; PostgreSQL DBA
+
+[CONTEXT]:
+Aplikasi: FinTrack (manajemen keuangan multi-user)
+Tabel dari LAB 01: profiles, categories, transactions
+
+[TASK]:
+Buatkan script SQL RLS lengkap:
+
+1. Tabel profiles:
+   - Aktifkan RLS
+   - SELECT: hanya profil sendiri (auth.uid() = id)
+   - UPDATE: hanya profil sendiri
+   - INSERT: DILARANG dari client (hanya via trigger)
+   - DELETE: DILARANG
+
+2. Tabel categories:
+   - Aktifkan RLS
+   - SELECT/INSERT/UPDATE/DELETE: hanya kategori milik sendiri (user_id = auth.uid())
+   - INSERT: user_id harus = auth.uid()
+
+3. Tabel transactions:
+   - Aktifkan RLS
+   - SELECT/INSERT/UPDATE/DELETE: hanya transaksi milik sendiri
+
+[CONSTRAINTS]:
+- Gunakan auth.uid() sebagai identifier
+- Nama policy deskriptif (contoh: "transactions_select_own")
+- Script idempotent (DROP POLICY IF EXISTS sebelum CREATE)
+- Sertakan query verifikasi pg_policies di akhir
+
+[OUTPUT]: Script SQL + tabel ringkasan policies yang dibuat.</pre>
+        </div>
+      </div>
+
+      <!-- C. Checklist -->
+      <div class="part-box">
+        <h3 class="part-title check-title">✅ C. Checklist Verifikasi Lab 02</h3>
+        <div class="checklist-grid">
+          <label class="check-item"><input type="checkbox"> Supabase ➔ Authentication ➔ Policies: semua tabel berlabel "RLS Enabled"</label>
+          <label class="check-item"><input type="checkbox"> Query tanpa token login: SELECT * FROM transactions ➔ 0 baris (bukan error)</label>
+          <label class="check-item"><input type="checkbox"> Login sebagai User A ➔ hanya data milik User A yang muncul</label>
+          <label class="check-item"><input type="checkbox"> Uji silang: User B tidak bisa melihat transaksi milik User A</label>
+          <label class="check-item"><input type="checkbox"> SELECT * FROM pg_policies WHERE tablename = 'transactions'; berhasil</label>
+          <label class="check-item"><input type="checkbox"> Service Role Key TIDAK pernah dibagikan ke browser client</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         LAB 03: .ENV & CLIENT SINGLETON
+         ======================================================== -->
+    <section class="lab-section" id="lab03">
+      <div class="lab-header">
+        <div class="lab-num-badge">03</div>
+        <div class="lab-title-area">
+          <h2>LAB 03 — .env Setup &amp; Supabase Client Singleton</h2>
+          <p class="lab-sub">Konfigurasi variabel lingkungan yang aman di Vite + React TypeScript dan Singleton Pattern.</p>
+        </div>
+      </div>
+
+      <!-- A. Teori -->
+      <div class="part-box">
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <div class="analogy-box">
+          <strong>🔐 Anon Key vs Service Role Key</strong>
+          <p>
+            • <strong>Anon Key (VITE_SUPABASE_ANON_KEY):</strong> Kunci publik yang aman diletakkan di browser frontend karena seluruh aksesnya dibatasi oleh RLS.<br>
+            • <strong>Service Role Key:</strong> Kunci master backend yang <em>membypass semua RLS</em>. <strong>DILARANG KERAS</strong> dimasukkan ke file frontend atau di-commit ke GitHub!
+          </p>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Aspek</th>
+                <th>Tanpa Singleton (Boros Memori)</th>
+                <th>Dengan Singleton Pattern (Efisien)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Inisialisasi</td>
+                <td><code>createClient()</code> dipanggil ulang di setiap komponen</td>
+                <td>Dibuat 1x di <code>src/lib/supabase.ts</code> lalu diekspor</td>
+              </tr>
+              <tr>
+                <td>Koneksi WebSocket</td>
+                <td>Bisa membuat puluhan koneksi terduplikasi</td>
+                <td>Satu koneksi tunggal yang dipakai bersama</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- B. Prompt -->
+      <div class="part-box">
+        <h3 class="part-title prompt-title">🤖 B. Prompt untuk Antigravity IDE</h3>
+        <div class="prompt-box">
+          <div class="prompt-box-header">
+            <span>PROMPT LENGKAP: .ENV &amp; CLIENT SINGLETON</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab03')">📋 Salin Prompt</button>
+          </div>
+          <pre id="prompt-lab03">[ROLE]: Full-Stack TypeScript Developer &amp; Supabase Integration Specialist
+
+[CONTEXT]:
+Project: fintrack — Vite + React 18 + TypeScript
+
+[TASK]:
+Setup awal Supabase di project ini:
+
+1. Install: @supabase/supabase-js (versi terbaru)
+
+2. Buat .env.local dengan:
+   VITE_SUPABASE_URL=...
+   VITE_SUPABASE_ANON_KEY=...
+   (Sertakan komentar cara mendapatkan nilai dari Supabase Dashboard)
+
+3. Update .gitignore: pastikan .env.local terdaftar
+
+4. Buat src/lib/supabase.ts:
+   - Singleton pattern
+   - TypeScript strict (tidak ada 'any')
+   - Throw error jika env variable tidak terdefinisi
+   - Export named 'supabase' client
+
+5. Buat src/lib/database.types.ts:
+   - TypeScript types untuk tabel: profiles, categories, transactions
+
+[CONSTRAINTS]:
+- Gunakan import.meta.env (bukan process.env) karena Vite
+- Sertakan instruksi cara generate types dengan Supabase CLI
+
+[OUTPUT]: Setiap file lengkap dengan nama file sebagai header.</pre>
+        </div>
+      </div>
+
+      <!-- C. Checklist -->
+      <div class="part-box">
+        <h3 class="part-title check-title">✅ C. Checklist Verifikasi Lab 03</h3>
+        <div class="checklist-grid">
+          <label class="check-item"><input type="checkbox"> File <code>.env.local</code> terisi URL dan Anon Key asli dari dashboard</label>
+          <label class="check-item"><input type="checkbox"> File <code>.gitignore</code> mengandung <code>.env.local</code></label>
+          <label class="check-item"><input type="checkbox"> <code>src/lib/supabase.ts</code> lulus kompilasi tanpa error TypeScript</label>
+          <label class="check-item"><input type="checkbox"> <code>npm run dev</code> berjalan mulus di browser</label>
+          <label class="check-item"><input type="checkbox"> <code>git status</code> tidak melacak file <code>.env.local</code></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         LAB 04: AUTHCONTEXT & ROUTE GUARD
+         ======================================================== -->
+    <section class="lab-section" id="lab04">
+      <div class="lab-header">
+        <div class="lab-num-badge">04</div>
+        <div class="lab-title-area">
+          <h2>LAB 04 — AuthContext &amp; Route Guard</h2>
+          <p class="lab-sub">Manajemen sesi autentikasi global, session restoration, dan proteksi halaman privat di React.</p>
+        </div>
+      </div>
+
+      <!-- A. Teori -->
+      <div class="part-box">
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <div class="analogy-box">
+          <strong>🏨 Analogi: Resepsionis Hotel &amp; Kartu Kunci (JWT)</strong>
+          <p>
+            • <strong>Autentikasi (Resepsionis):</strong> Memeriksa identitas user via email/password atau OAuth Google, lalu menerbitkan kartu akses (JWT Session).<br>
+            • <strong>Otorisasi (Sensor Pintu):</strong> Route Guard memeriksa apakah kartu masih berlaku saat mengakses halaman <code>/dashboard</code>. Jika belum login, user otomatis dialihkan ke <code>/login</code>.
+          </p>
+        </div>
+      </div>
+
+      <!-- B. Prompt -->
+      <div class="part-box">
+        <h3 class="part-title prompt-title">🤖 B. Prompt untuk Antigravity IDE</h3>
+        <div class="prompt-box">
+          <div class="prompt-box-header">
+            <span>PROMPT LENGKAP: AUTH CONTEXT &amp; ROUTE GUARD</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab04')">📋 Salin Prompt</button>
+          </div>
+          <pre id="prompt-lab04">[ROLE]: React 18 Expert &amp; Supabase Auth Integration Specialist
+
+[CONTEXT]:
+Project: FinTrack — Vite + React 18 + TypeScript + React Router v6
+Supabase client: src/lib/supabase.ts (dari LAB 03)
+
+[TASK]:
+Implementasikan sistem autentikasi lengkap:
+
+1. src/context/AuthContext.tsx:
+   - State: user (User|null), session (Session|null), loading (boolean)
+   - Mount: supabase.auth.getSession() untuk restore session browser
+   - Setup onAuthStateChange listener
+   - WAJIB: cleanup di useEffect return (cegah memory leak)
+   - Export: AuthProvider + useAuth() hook
+
+2. src/components/auth/LoginPage.tsx:
+   - Form: email &amp; password + Google OAuth button
+   - Pesan error ramah pengguna &amp; loading spinner
+   - Redirect ke /dashboard setelah sukses
+
+3. src/components/auth/RegisterPage.tsx:
+   - Form: email, password, konfirmasi password (min 8 karakter)
+   - Notifikasi verifikasi email
+
+4. src/components/ProtectedRoute.tsx:
+   - Loading ➔ tampilkan spinner
+   - User null ➔ redirect ke /login
+   - User ada ➔ render children
+
+5. App.tsx:
+   - Bungkus aplikasi dengan AuthProvider
+   - Routing: /login, /register, /dashboard (protected)
+
+[CONSTRAINTS]:
+- TypeScript strict, cleanup di semua useEffect
+
+[OUTPUT]: Semua file kode lengkap dan siap dijalankan.</pre>
+        </div>
+      </div>
+
+      <!-- C. Checklist -->
+      <div class="part-box">
+        <h3 class="part-title check-title">✅ C. Checklist Verifikasi Lab 04</h3>
+        <div class="checklist-grid">
+          <label class="check-item"><input type="checkbox"> Daftar akun baru via email ➔ berhasil masuk ke Supabase Auth</label>
+          <label class="check-item"><input type="checkbox"> Akses rute <code>/dashboard</code> saat belum login ➔ auto-redirect ke <code>/login</code></label>
+          <label class="check-item"><input type="checkbox"> Refresh browser saat login ➔ status login tetap tersimpan (persist)</label>
+          <label class="check-item"><input type="checkbox"> Tombol Logout ➔ membersihkan token dan redirect ke <code>/login</code></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         LAB 05: REALTIME SUBSCRIPTION
+         ======================================================== -->
+    <section class="lab-section" id="lab05">
+      <div class="lab-header">
+        <div class="lab-num-badge">05</div>
+        <div class="lab-title-area">
+          <h2>LAB 05 — Realtime Subscription (WebSocket)</h2>
+          <p class="lab-sub">Sinkronisasi data multi-tab instan tanpa refresh dan teknik Zero-Memory-Leak cleanup.</p>
+        </div>
+      </div>
+
+      <!-- A. Teori -->
+      <div class="part-box">
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <div class="analogy-box">
+          <strong>📺 Analogi: DVD Player vs Siaran TV Langsung</strong>
+          <p>
+            • <strong>HTTP Request Biasa (DVD):</strong> Browser meminta data, server merespons, selesai. Jika ada perubahan baru di database, browser tidak tahu sebelum halaman di-refresh.<br>
+            • <strong>WebSocket Realtime (Siaran TV):</strong> Jalur komunikasi dua arah terbuka terus menerus. Begitu ada baris baru diinsert ke tabel database, Supabase langsung mendorong (*push*) event ke UI secara instan.
+          </p>
+        </div>
+
+        <div style="background:#FFF1F2; border:1px solid #FECDD3; border-radius:8px; padding:12px 14px; margin-top:10px; font-size:13px; color:#9F1239;">
+          ⚠️ <strong>PERINGATAN MEMORY LEAK:</strong> Setiap kali memanggil <code>supabase.channel(...).subscribe()</code>, Anda <strong>WAJIB</strong> mengembalikan <code>supabase.removeChannel(channel)</code> di fungsi cleanup <code>useEffect</code> agar koneksi ditutup saat komponen unmount!
+        </div>
+      </div>
+
+      <!-- B. Prompt -->
+      <div class="part-box">
+        <h3 class="part-title prompt-title">🤖 B. Prompt untuk Antigravity IDE</h3>
+        <div class="prompt-box">
+          <div class="prompt-box-header">
+            <span>PROMPT LENGKAP: REALTIME SUBSCRIPTION HOOK</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab05')">📋 Salin Prompt</button>
+          </div>
+          <pre id="prompt-lab05">[ROLE]: React Performance Engineer &amp; Supabase Realtime Specialist
+
+[CONTEXT]:
+Project: FinTrack — Vite + React 18 + TypeScript
+Auth: useAuth() tersedia, Tabel: transactions (RLS aktif dari LAB 02)
+
+[TASK]:
+Implementasi Realtime Subscription yang aman (zero memory leak):
+
+1. src/hooks/useRealtimeTransactions.ts:
+   - Props: userId (string)
+   - Return: { transactions, loading, error }
+   - Logic:
+     a. Fetch initial data saat mount
+     b. Setup realtime channel tabel transactions
+     c. INSERT -&gt; tambahkan ke state (tanpa refetch)
+     d. UPDATE -&gt; update item yang sesuai di state
+     e. DELETE -&gt; hapus item dari state
+     f. WAJIB: cleanup -&gt; supabase.removeChannel(channel)
+
+2. src/components/TransactionList.tsx:
+   - Gunakan useRealtimeTransactions(user.id)
+   - Loading skeleton saat loading
+   - Badge "LIVE" untuk tunjukkan koneksi aktif
+
+[CONSTRAINTS]:
+- WAJIB cleanup di setiap useEffect yang membuka channel
+- Jangan gunakan polling (setInterval) — gunakan WebSocket murni
+
+[OUTPUT]: Kedua file lengkap + petunjuk pengujian buka 2 tab browser.</pre>
+        </div>
+      </div>
+
+      <!-- C. Checklist -->
+      <div class="part-box">
+        <h3 class="part-title check-title">✅ C. Checklist Verifikasi Lab 05</h3>
+        <div class="checklist-grid">
+          <label class="check-item"><input type="checkbox"> Buka 2 tab browser: tambah data di Tab A ➔ langsung tampil di Tab B &lt; 1 detik</label>
+          <label class="check-item"><input type="checkbox"> DevTools ➔ Network ➔ WS: ada 1 koneksi WebSocket aktif</label>
+          <label class="check-item"><input type="checkbox"> Navigasi bolak-balik 5x ➔ tidak ada kebocoran koneksi (channel dibersihkan)</label>
+          <label class="check-item"><input type="checkbox"> User A tidak menerima notifikasi dari transaksi milik User B (RLS aktif)</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         LAB 06: CRUD OPERATIONS
+         ======================================================== -->
+    <section class="lab-section" id="lab06">
+      <div class="lab-header">
+        <div class="lab-num-badge">06</div>
+        <div class="lab-title-area">
+          <h2>LAB 06 — CRUD Operations &amp; UI Feedback</h2>
+          <p class="lab-sub">Query Builder Chaining, Optimistic Updates, Error Handling terstruktur, dan format Rupiah.</p>
+        </div>
+      </div>
+
+      <!-- A. Teori -->
+      <div class="part-box">
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Operasi</th>
+                <th>Perintah SQL</th>
+                <th>Supabase JS Client</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Create</strong></td>
+                <td><code>INSERT INTO transactions ...</code></td>
+                <td><code>supabase.from('transactions').insert({...})</code></td>
+              </tr>
+              <tr>
+                <td><strong>Read</strong></td>
+                <td><code>SELECT * FROM transactions ...</code></td>
+                <td><code>supabase.from('transactions').select('*, categories(*)')</code></td>
+              </tr>
+              <tr>
+                <td><strong>Update</strong></td>
+                <td><code>UPDATE transactions SET ...</code></td>
+                <td><code>supabase.from('transactions').update({...}).eq('id', id)</code></td>
+              </tr>
+              <tr>
+                <td><strong>Delete</strong></td>
+                <td><code>DELETE FROM transactions WHERE ...</code></td>
+                <td><code>supabase.from('transactions').delete().eq('id', id)</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- B. Prompt -->
+      <div class="part-box">
+        <h3 class="part-title prompt-title">🤖 B. Prompt untuk Antigravity IDE</h3>
+        <div class="prompt-box">
+          <div class="prompt-box-header">
+            <span>PROMPT LENGKAP: CRUD OPERATIONS HOOK &amp; FORMS</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab06')">📋 Salin Prompt</button>
+          </div>
+          <pre id="prompt-lab06">[ROLE]: React Full-Stack Developer &amp; Supabase CRUD Specialist
+
+[CONTEXT]:
+Project: FinTrack — Vite + React 18 + TypeScript
+Auth: useAuth() tersedia
+Tabel: transactions, categories (LAB 01 schema, LAB 02 RLS)
+
+[TASK]:
+Implementasikan CRUD untuk modul Transaksi:
+
+1. src/hooks/useTransactions.ts:
+   - fetchTransactions(month, year): filter bulan+tahun, sort date desc
+   - addTransaction(data): dengan optimistic update
+   - updateTransaction(id, data)
+   - deleteTransaction(id): konfirmasi sebelum hapus
+   - State: transactions[], loading, error per-operasi
+
+2. src/components/transactions/TransactionForm.tsx:
+   - Field: amount, type (income/expense), category, description, date
+   - Dropdown categories diambil langsung dari database
+   - Validasi: amount &gt; 0, tanggal tidak future
+
+3. src/components/transactions/TransactionItem.tsx:
+   - Tampilkan: tanggal, deskripsi, kategori, amount (Rp)
+   - Tombol Edit dan Delete
+
+[CONSTRAINTS]:
+- Format currency dengan Intl.NumberFormat ('id-ID', { style: 'currency', currency: 'IDR' })
+- Optimistic update untuk pengalaman pengguna yang cepat
+
+[OUTPUT]: Semua file lengkap + komentar penjelas.</pre>
+        </div>
+      </div>
+
+      <!-- C. Checklist -->
+      <div class="part-box">
+        <h3 class="part-title check-title">✅ C. Checklist Verifikasi Lab 06</h3>
+        <div class="checklist-grid">
+          <label class="check-item"><input type="checkbox"> CREATE: Submit form ➔ data langsung tampil di daftar</label>
+          <label class="check-item"><input type="checkbox"> READ: Hanya transaksi milik user aktif yang terambil</label>
+          <label class="check-item"><input type="checkbox"> UPDATE: Ubah nilai transaksi ➔ data di database dan UI terupdate</label>
+          <label class="check-item"><input type="checkbox"> DELETE: Hapus data ➔ baris terhapus dari UI setelah konfirmasi</label>
+          <label class="check-item"><input type="checkbox"> Format mata uang tampil rapi (contoh: <code>Rp 1.500.000</code>)</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         LAB 07: STORAGE BUCKET & AVATAR UPLOAD
+         ======================================================== -->
+    <section class="lab-section" id="lab07">
+      <div class="lab-header">
+        <div class="lab-num-badge">07</div>
+        <div class="lab-title-area">
+          <h2>LAB 07 — Supabase Storage &amp; Upload Foto</h2>
+          <p class="lab-sub">Konfigurasi Storage Bucket, Storage RLS Policy, validasi gambar, dan preview foto profil.</p>
+        </div>
+      </div>
+
+      <!-- A. Teori -->
+      <div class="part-box">
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <div class="analogy-box">
+          <strong>🗄️ Public vs Private Storage Bucket</strong>
+          <p>
+            • <strong>Public Bucket (e.g. avatars):</strong> URL file dapat diakses publik via browser tanpa token (cocok untuk gambar foto profil atau banner publik).<br>
+            • <strong>Private Bucket (e.g. invoices):</strong> File hanya dapat diakses melalui *Signed URL* yang memiliki batas waktu kadaluarsa (cocok untuk berkas rahasia).
+          </p>
+        </div>
+      </div>
+
+      <!-- B. Prompt -->
+      <div class="part-box">
+        <h3 class="part-title prompt-title">🤖 B. Prompt untuk Antigravity IDE</h3>
+        <div class="prompt-box">
+          <div class="prompt-box-header">
+            <span>PROMPT LENGKAP: STORAGE POLICIES &amp; AVATAR UPLOAD</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab07')">📋 Salin Prompt</button>
+          </div>
+          <pre id="prompt-lab07">[ROLE]: Supabase Storage &amp; File Management Specialist
+
+[CONTEXT]:
+Project: FinTrack — Vite + React 18 + TypeScript
+Auth: useAuth() tersedia, user.id tersedia
+profiles sudah ada kolom avatar_url (text, nullable)
+
+[TASK]:
+Implementasikan upload foto profil:
+
+1. SQL untuk Storage Bucket &amp; Policy:
+   - Bucket: avatars (public)
+   - Policy INSERT: upload ke path diawali user.id sendiri
+   - Policy SELECT: semua boleh lihat (public bucket)
+   - Policy UPDATE/DELETE: hanya pemilik file
+
+2. src/hooks/useAvatarUpload.ts:
+   - uploadAvatar(file: File): Promise&lt;string | null&gt;
+   - Validasi: max 2MB, tipe image/jpeg | image/png | image/webp
+   - Filename: userId/Date.now().ext (unique)
+   - Upload upsert: true (timpa foto lama)
+   - Update profiles.avatar_url setelah upload
+   - State: uploading, progress (0-100), error
+
+3. src/components/profile/AvatarUpload.tsx:
+   - Tampilkan foto saat ini (atau icon placeholder)
+   - Preview sebelum upload (FileReader API)
+   - Progress bar dan validasi client-side
+
+[OUTPUT]: Kode hook, komponen UI, dan skrip SQL Storage Policy.</pre>
+        </div>
+      </div>
+
+      <!-- C. Checklist -->
+      <div class="part-box">
+        <h3 class="part-title check-title">✅ C. Checklist Verifikasi Lab 07</h3>
+        <div class="checklist-grid">
+          <label class="check-item"><input type="checkbox"> Bucket <code>avatars</code> berstatus Public di dashboard Supabase</label>
+          <label class="check-item"><input type="checkbox"> Upload foto &lt; 2MB ➔ progress berjalan dan foto terpasang di profil</label>
+          <label class="check-item"><input type="checkbox"> Upload file &gt; 2MB atau bukan gambar ➔ dicegat validasi client-side</label>
+          <label class="check-item"><input type="checkbox"> Path file di bucket terorganisir per folder: <code>{user_id}/{timestamp}.jpg</code></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         LAB 08: EDGE FUNCTIONS (DENO RUNTIME)
+         ======================================================== -->
+    <section class="lab-section" id="lab08">
+      <div class="lab-header">
+        <div class="lab-num-badge">08</div>
+        <div class="lab-title-area">
+          <h2>LAB 08 — Supabase Edge Functions</h2>
+          <p class="lab-sub">Logika serverless server-side berbasis Deno runtime untuk kalkulasi rahasia dan integrasi API pihak ketiga.</p>
+        </div>
+      </div>
+
+      <!-- A. Teori -->
+      <div class="part-box">
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <div class="analogy-box">
+          <strong>👨‍💼 Analogi: Kasir Depan vs Manajer Ruang Belakang</strong>
+          <p>
+            • <strong>Frontend (Kasir):</strong> Bertugas melayani interaksi UI dengan pengunjung. Tidak boleh memegang kunci brankas master.<br>
+            • <strong>Edge Function (Manajer):</strong> Berada di server aman di luar jangkauan inspeksi DevTools browser. Dapat memegang API Key sensitif (Midtrans, SendGrid, Firebase Admin) dan melakukan kalkulasi berat.
+          </p>
+        </div>
+      </div>
+
+      <!-- B. Prompt -->
+      <div class="part-box">
+        <h3 class="part-title prompt-title">🤖 B. Prompt untuk Antigravity IDE</h3>
+        <div class="prompt-box">
+          <div class="prompt-box-header">
+            <span>PROMPT LENGKAP: EDGE FUNCTIONS RINGKASAN FINANSIAL</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab08')">📋 Salin Prompt</button>
+          </div>
+          <pre id="prompt-lab08">[ROLE]: Supabase Edge Functions Developer &amp; Deno Runtime Specialist
+
+[CONTEXT]:
+Project: FinTrack — Vite + React 18 + TypeScript
+Supabase CLI terpasang
+
+[TASK]:
+Implementasikan Edge Function ringkasan keuangan bulanan:
+
+1. Setup CLI:
+   supabase init -&gt; supabase login -&gt; supabase link --project-ref [REF]
+
+2. supabase/functions/monthly-summary/index.ts:
+   - Endpoint: POST /functions/v1/monthly-summary
+   - Body: { month: number, year: number }
+   - Logic:
+     a. Verifikasi JWT token dari Authorization header
+     b. Query data transaksi bulan terkait milik user
+     c. Hitung: totalIncome, totalExpense, netSavings, count, topCategory
+     d. CORS headers handling
+
+3. src/hooks/useMonthlySummary.ts (frontend):
+   - Panggil via: supabase.functions.invoke('monthly-summary', { body: {month, year} })
+
+[CONSTRAINTS]:
+- SERVICE ROLE KEY hanya di Edge Function, tidak di frontend
+- Handle CORS preflight (OPTIONS) dengan benar
+
+[OUTPUT]: File fungsi Deno, types, hook frontend, dan panduan test lokal.</pre>
+        </div>
+      </div>
+
+      <!-- C. Checklist -->
+      <div class="part-box">
+        <h3 class="part-title check-title">✅ C. Checklist Verifikasi Lab 08</h3>
+        <div class="checklist-grid">
+          <label class="check-item"><input type="checkbox"> Supabase CLI terhubung ke proyek cloud via <code>supabase link</code></label>
+          <label class="check-item"><input type="checkbox"> Uji lokal via <code>supabase functions serve</code> mengembalikan status 200</label>
+          <label class="check-item"><input type="checkbox"> Deploy fungsi via <code>supabase functions deploy monthly-summary</code> sukses</label>
+          <label class="check-item"><input type="checkbox"> Header CORS berfungsi dan tidak muncul error CORS di konsol browser</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         LAB 09: DEPLOY & ENVIRONMENT VARIABLES
+         ======================================================== -->
+    <section class="lab-section" id="lab09">
+      <div class="lab-header">
+        <div class="lab-num-badge">09</div>
+        <div class="lab-title-area">
+          <h2>LAB 09 — Deploy ke Vercel &amp; Production Config</h2>
+          <p class="lab-sub">Penerbitan aplikasi ke Vercel, konfigurasi SPA Rewrite (vercel.json), dan setup Auth Redirect URLs.</p>
+        </div>
+      </div>
+
+      <!-- A. Teori -->
+      <div class="part-box">
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <div class="analogy-box">
+          <strong>🌐 Mengapa .env.local Harus Dimasukkan di Vercel Dashboard?</strong>
+          <p>
+            Karena file <code>.env.local</code> terdaftar di <code>.gitignore</code>, file tersebut tidak ikut terunggah ke GitHub. Supaya build Vercel bisa mengakses Supabase, Anda harus mendaftarkan <code>VITE_SUPABASE_URL</code> dan <code>VITE_SUPABASE_ANON_KEY</code> di menu <strong>Vercel Settings ➔ Environment Variables</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- B. Prompt -->
+      <div class="part-box">
+        <h3 class="part-title prompt-title">🤖 B. Prompt untuk Antigravity IDE</h3>
+        <div class="prompt-box">
+          <div class="prompt-box-header">
+            <span>PROMPT LENGKAP: VERCEL DEPLOYMENT &amp; SPA ROUTING</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab09')">📋 Salin Prompt</button>
+          </div>
+          <pre id="prompt-lab09">[ROLE]: DevOps Engineer &amp; Full-Stack Deployment Specialist
+
+[CONTEXT]:
+Project: FinTrack — Vite + React 18 + TypeScript
+Target: Vercel (Production) + Supabase Cloud
+
+[TASK]:
+Bantu deploy FinTrack ke Vercel:
+
+1. Buat vercel.json untuk konfigurasi SPA routing (mencegah 404 pada deep link):
+   {
+     "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+   }
+
+2. Panduan konfigurasi Vercel:
+   - Hubungkan repository GitHub ke Vercel
+   - Masukkan Environment Variables (VITE_SUPABASE_URL &amp; VITE_SUPABASE_ANON_KEY)
+
+3. Konfigurasi Supabase Auth untuk Production:
+   - Update Site URL: https://fintrack.vercel.app
+   - Tambahkan Redirect URL: https://fintrack.vercel.app/**
+
+4. Post-deployment checklist
+
+[OUTPUT]: File vercel.json + panduan langkah-demi-langkah.</pre>
+        </div>
+      </div>
+
+      <!-- C. Checklist -->
+      <div class="part-box">
+        <h3 class="part-title check-title">✅ C. Checklist Verifikasi Lab 09</h3>
+        <div class="checklist-grid">
+          <label class="check-item"><input type="checkbox"> Build lokal <code>npm run build</code> berhasil tanpa error TypeScript</label>
+          <label class="check-item"><input type="checkbox"> File <code>vercel.json</code> terkonfigurasi untuk rewrite rute SPA</label>
+          <label class="check-item"><input type="checkbox"> URL production aktif dan seluruh fitur (Auth, CRUD, Realtime, Upload) berjalan</label>
+          <label class="check-item"><input type="checkbox"> Refresh di halaman sub-rute (misal <code>/dashboard</code>) tidak menampilkan 404</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         LAMPIRAN: CHEAT SHEET & DOKTER ERROR
+         ======================================================== -->
+    <section class="lab-section" id="cheatsheet">
+      <div class="lab-header">
+        <div class="lab-num-badge" style="background:#047857;">📖</div>
+        <div class="lab-title-area">
+          <h2>Lampiran: Referensi Cepat Supabase JS v2 &amp; Dokter Error</h2>
+          <p class="lab-sub">Rangkuman sintaks esensial dan panduan pemecahan error paling umum.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">⚡ Quick Reference Cheat Sheet</h3>
+        <div class="prompt-box">
+          <div class="prompt-box-header">
+            <span>SUPABASE CLIENT JS v2 QUICK CHEAT SHEET</span>
+            <button class="btn-copy" onclick="copySnippet('code-cheatsheet')">📋 Salin Sintaks</button>
+          </div>
+          <pre id="code-cheatsheet">// 1. AUTH
+await supabase.auth.signInWithPassword({ email, password });
+await supabase.auth.signInWithOAuth({ provider: 'google' });
+await supabase.auth.signUp({ email, password });
+await supabase.auth.signOut();
+const { data: { session } } = await supabase.auth.getSession();
+supabase.auth.onAuthStateChange((event, session) => { /* update auth state */ });
+
+// 2. QUERY BUILDER (SELECT)
+const { data, error } = await supabase
+  .from('transactions')
+  .select('*, categories(name, color)')
+  .eq('user_id', user.id)
+  .order('date', { ascending: false })
+  .limit(20);
+
+// 3. INSERT &amp; OPTIMISTIC
+const { data, error } = await supabase
+  .from('transactions')
+  .insert({ user_id: user.id, amount: 50000, type: 'expense' })
+  .select().single();
+
+// 4. STORAGE
+await supabase.storage.from('avatars').upload(path, file, { upsert: true });
+const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(path);
+
+// 5. REALTIME (SELALU CLEANUP!)
+const channel = supabase.channel('realtime_tx')
+  .on('postgres_changes', { event: 'INSERT', table: 'transactions' }, (payload) => {
+    // update state
+  })
+  .subscribe();
+supabase.removeChannel(channel); // &lt;- WAJIB saat unmount!</pre>
+        </div>
+
+        <h3 class="part-title" id="troubleshoot" style="margin-top:24px; color:#BE123C;">🩺 Dokter Error: Kode Error Supabase yang Sering Terjadi</h3>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Error Code</th>
+                <th>Arti Masalah</th>
+                <th>Solusi Cepat</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>PGRST116</code></td>
+                <td>Data baris tidak ditemukan saat menggunakan <code>.single()</code></td>
+                <td>Ganti dengan <code>.maybeSingle()</code> jika baris bisa kosong</td>
+              </tr>
+              <tr>
+                <td><code>42501</code></td>
+                <td>Permission Denied — RLS Policy menolak operasi</td>
+                <td>Periksa policy RLS di Supabase Auth ➔ Policies, pastikan user sudah login</td>
+              </tr>
+              <tr>
+                <td><code>23505</code></td>
+                <td>Duplicate Key — Melanggar Unique Constraint</td>
+                <td>Cek duplikasi data atau gunakan operasi <code>upsert: true</code></td>
+              </tr>
+              <tr>
+                <td><code>23503</code></td>
+                <td>Foreign Key Violation — Data induk tidak ditemukan</td>
+                <td>Pastikan ID referensi di tabel relasi sudah ada sebelum insert</td>
+              </tr>
+              <tr>
+                <td><code>auth/weak-password</code></td>
+                <td>Password terlalu sederhana / pendek</td>
+                <td>Wajibkan validasi password minimal 8 karakter di form pendaftaran</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div><b>Laboratorium Lengkap Supabase (9 Labs)</b> — Modul Praktikum Vibe Coding v1.0.0 LOCKED</div>
+      <div class="footer-links">
+        <a href="#lab01">Kembali ke Atas ↑</a>
+        <a href="silabus-vibe-coding-16-pertemuan.html">Silabus 16 Pertemuan</a>
+        <a href="materi_modul3_supabase_detail.html">Modul 3 Detail</a>
+        <a href="panduan_vibecoding_owasp.html">Panduan OWASP</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let toastTimer = null;
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+      if (msg) toast.textContent = msg;
+      toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+        toastTimer = null;
+      }, 2400);
+    }
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast("✅ Teks berhasil disalin ke clipboard!");
+      } catch (e) {
+        console.error("Gagal menyalin: ", e);
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function copySnippet(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.innerText || el.textContent || '';
+      if (!text) return;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast("✅ Teks berhasil disalin ke clipboard!");
+        }).catch(() => {
+          fallbackCopy(text);
+        });
+      } else {
+        fallbackCopy(text);
+      }
+    }
+  </script>
+
+</body>
+</html>
