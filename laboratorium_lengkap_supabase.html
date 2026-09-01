@@ -1216,27 +1216,52 @@ Bantu periksa 3 kemungkinan penyebab berikut secara to the point:
 
       <!-- A. Teori -->
       <div class="part-box">
-        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental &amp; Penjelasan Bahasa Awam</h3>
         <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
-          <strong>Database</strong> adalah tempat penyimpanan data permanen. Supabase didukung oleh <strong>PostgreSQL</strong>—mesin database kelas dunia yang digunakan Netflix, Spotify, dan GitHub.
+          <strong>Database</strong> adalah tempat penyimpanan data permanen. Supabase didukung oleh <strong>PostgreSQL</strong>—mesin database kelas dunia yang digunakan oleh Netflix, Spotify, dan GitHub.
         </p>
 
         <div class="analogy-box">
           <strong>🏪 Analogi: Minimarket dengan Sistem Gudang</strong>
           <p>
-            • <strong>GUDANG</strong> = Database PostgreSQL.<br>
+            • <strong>GUDANG</strong> = Database PostgreSQL (gedung penyimpanan utama).<br>
             • <strong>RAK PRODUK</strong> = Tabel (<code>profiles</code>, <code>categories</code>, <code>transactions</code>).<br>
-            • <strong>BARIS BARANG</strong> = Record (baris data).<br>
-            • <strong>LABEL RAK</strong> = Kolom / Field (id, amount, created_at).<br>
+            • <strong>BARIS BARANG</strong> = Record (satu lembar data transaksi).<br>
+            • <strong>LABEL RAK</strong> = Kolom / Field (nama, harga, tanggal).<br>
             • <strong>SATPAM OTOMATIS</strong> = Trigger (langsung buatkan kartu anggota saat pembeli baru mendaftar).
           </p>
+        </div>
+
+        <!-- Kotak Kamus Istilah Teknis Bahasa Awam -->
+        <div style="background:#F0FDF4; border:1px solid #86EFAC; border-radius:10px; padding:16px; margin:14px 0;">
+          <strong style="color:#15803D; font-size:13.5px; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+            <span>💡 Kamus Istilah Teknis Lab 01 dalam Bahasa Awam (Non-IT):</span>
+          </strong>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; font-size:12.5px;">
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #BBF7D0;">
+              <b style="color:#166534;">📐 DDL (Data Definition Language)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Gambar cetak biru arsitek. Perintah untuk membuat "ruangan atau lemari formulir kosong" (tabel) sebelum data diisi.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #BBF7D0;">
+              <b style="color:#166534;">🆔 UUID (Universal Unique ID)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Nomor seri KTP unik acak 36 digit (misal: <code>a1b2-c3d4...</code>). Tidak bisa ditebak peretas, beda dengan angka urut 1, 2, 3 yang mudah dibobol.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #BBF7D0;">
+              <b style="color:#166534;">🔗 Foreign Key &amp; Cascade Delete</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Tali pengikat kepemilikan. Jika akun pengguna dihapus, semua data belanjaannya otomatis ikut dibakar bersih tanpa meninggalkan sampah.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #BBF7D0;">
+              <b style="color:#166534;">⚡ Index</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Halaman daftar isi di belakang buku tebal. Membantu sistem menemukan data dalam hitungan sekejap mata tanpa harus membalik lembar satu per satu.</p>
+            </div>
+          </div>
         </div>
 
         <div class="table-container">
           <table class="data-table">
             <thead>
               <tr>
-                <th>Konsep</th>
+                <th>Istilah Teknis</th>
                 <th>Definisi Sederhana</th>
                 <th>Analogi Dunia Nyata</th>
               </tr>
@@ -1245,27 +1270,27 @@ Bantu periksa 3 kemungkinan penyebab berikut secara to the point:
               <tr>
                 <td><code>TABLE</code></td>
                 <td>Tempat simpan satu jenis data terstruktur</td>
-                <td>Rak khusus di gudang</td>
+                <td>Rak khusus di gudang (misal: Rak Makanan, Rak Minuman)</td>
               </tr>
               <tr>
                 <td><code>PRIMARY KEY</code></td>
                 <td>Nomor unik identitas setiap baris (UUID)</td>
-                <td>Barcode produk unik</td>
+                <td>Nomor barcode unik pada bungkus produk</td>
               </tr>
               <tr>
                 <td><code>FOREIGN KEY</code></td>
-                <td>Kolom yang menunjuk ke baris tabel lain</td>
-                <td>Kode supplier yang tertera di kardus</td>
+                <td>Kolom penunjuk pemilik data ke tabel lain</td>
+                <td>Stiker nama pemilik yang ditempel di koper</td>
               </tr>
               <tr>
                 <td><code>TRIGGER</code></td>
-                <td>Fungsi otomatis yang berjalan saat event terjadi</td>
-                <td>Sensor pintu otomatis menyambut tamu</td>
+                <td>Perintah otomatis saat suatu kejadian terjadi</td>
+                <td>Pintu minimarket yang otomatis berbunyi menyambut tamu</td>
               </tr>
               <tr>
                 <td><code>INDEX</code></td>
-                <td>Struktur pencarian cepat data</td>
-                <td>Daftar isi buku tebal</td>
+                <td>Jalur pintas pencarian data super cepat</td>
+                <td>Buku indeks pencarian cepat nomor telepon</td>
               </tr>
             </tbody>
           </table>
@@ -1358,7 +1383,7 @@ Buatkan script SQL DDL lengkap untuk Supabase:
 
       <!-- A. Teori -->
       <div class="part-box">
-        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental &amp; Penjelasan Bahasa Awam</h3>
         <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
           <strong>Row Level Security (RLS)</strong> adalah fitur PostgreSQL yang menentukan <em>siapa yang boleh melihat/mengubah baris mana</em> secara otomatis di server database.
         </p>
@@ -1366,40 +1391,65 @@ Buatkan script SQL DDL lengkap untuk Supabase:
         <div class="analogy-box">
           <strong>🏦 Analogi: Brankas Pribadi vs Brankas Terbuka</strong>
           <p>
-            • <strong>TANPA RLS:</strong> Semua orang membuka brankas yang sama. Query <code>SELECT * FROM transactions</code> mengembalikan seluruh data milik semua user di dunia (Sangat Berbahaya!).<br>
-            • <strong>DENGAN RLS:</strong> Nasabah Ani query ke database, PostgreSQL otomatis menyisipkan <code>WHERE user_id = auth.uid()</code> di balik layar sehingga Ani hanya melihat transaksinya sendiri.
+            • <strong>TANPA RLS:</strong> Semua orang membuka laci yang sama. Jika ada orang bertanya ke database, seluruh data rahasia milik semua pengguna di dunia langsung terbuka (Sangat Berbahaya!).<br>
+            • <strong>DENGAN RLS:</strong> Setiap baris data diberi gembok sidik jari. Saat pengguna Budi login, PostgreSQL otomatis memfilter data sehingga Budi hanya bisa membuka dan melihat catatannya sendiri.
           </p>
+        </div>
+
+        <!-- Kotak Kamus Istilah Teknis Bahasa Awam -->
+        <div style="background:#ECFDF5; border:1px solid #6EE7B7; border-radius:10px; padding:16px; margin:14px 0;">
+          <strong style="color:#065F46; font-size:13.5px; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+            <span>💡 Kamus Istilah Teknis Lab 02 dalam Bahasa Awam (Non-IT):</span>
+          </strong>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; font-size:12.5px;">
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #A7F3D0;">
+              <b style="color:#047857;">🔐 RLS (Row Level Security)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Gembok per baris. Fitur keamanan di mana database menolak siapa pun yang mencoba mengintip baris data milik orang lain.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #A7F3D0;">
+              <b style="color:#047857;">🪪 auth.uid()</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Sensor sidik jari digital. Fungsi otomatis yang membaca ID unik dari akun pengguna yang sedang login saat ini.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #A7F3D0;">
+              <b style="color:#047857;">👓 USING (Filter Baca)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Kacamata filter. Menentukan baris data mana saja yang <em>boleh terlihat</em> di layar pengguna.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #A7F3D0;">
+              <b style="color:#047857;">🛡️ WITH CHECK (Filter Setor)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Satpam pemeriksa barang masuk. Memastikan data baru yang dikirim pengguna memang mencantumkan ID pemilik yang sah.</p>
+            </div>
+          </div>
         </div>
 
         <div class="table-container">
           <table class="data-table">
             <thead>
               <tr>
-                <th>Operasi</th>
+                <th>Operasi Data</th>
                 <th>Sintaks Kebijakan (Policy)</th>
-                <th>Fungsi Validasi</th>
+                <th>Fungsi Validasi Awam</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><code>SELECT</code></td>
+                <td><code>SELECT</code> (Lihat Data)</td>
                 <td><code>USING (user_id = auth.uid())</code></td>
-                <td>Baris mana saja yang boleh <strong>dibaca</strong></td>
+                <td>Baris mana saja yang boleh <strong>dibaca / dilihat</strong></td>
               </tr>
               <tr>
-                <td><code>INSERT</code></td>
+                <td><code>INSERT</code> (Tambah Baru)</td>
                 <td><code>WITH CHECK (user_id = auth.uid())</code></td>
                 <td>Data baru apa yang boleh <strong>disimpan</strong></td>
               </tr>
               <tr>
-                <td><code>UPDATE</code></td>
+                <td><code>UPDATE</code> (Ubah Nilai)</td>
                 <td><code>USING (...) WITH CHECK (...)</code></td>
-                <td>Baris mana yang boleh <strong>diubah nilainya</strong></td>
+                <td>Baris mana yang boleh <strong>diubah isinya</strong></td>
               </tr>
               <tr>
-                <td><code>DELETE</code></td>
+                <td><code>DELETE</code> (Hapus Data)</td>
                 <td><code>USING (user_id = auth.uid())</code></td>
-                <td>Baris mana yang boleh <strong>dihapus</strong></td>
+                <td>Baris mana yang boleh <strong>dibuang</strong></td>
               </tr>
             </tbody>
           </table>
@@ -1477,13 +1527,42 @@ Buatkan script SQL RLS lengkap:
 
       <!-- A. Teori -->
       <div class="part-box">
-        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental &amp; Penjelasan Bahasa Awam</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          Bagaimana cara menghubungkan aplikasi web di laptop ke server Supabase di cloud tanpa membocorkan kunci rahasia ke publik.
+        </p>
+
         <div class="analogy-box">
-          <strong>🔐 Anon Key vs Service Role Key</strong>
+          <strong>🔐 Analogi: Kartu Tamu Lobi vs Kunci Master Brankas</strong>
           <p>
-            • <strong>Anon Key (VITE_SUPABASE_ANON_KEY):</strong> Kunci publik yang aman diletakkan di browser frontend karena seluruh aksesnya dibatasi oleh RLS.<br>
-            • <strong>Service Role Key:</strong> Kunci master backend yang <em>membypass semua RLS</em>. <strong>DILARANG KERAS</strong> dimasukkan ke file frontend atau di-commit ke GitHub!
+            • <strong>Anon Key (VITE_SUPABASE_ANON_KEY):</strong> Ibarat <em>kartu tamu di lobi hotel</em>. Siapa pun boleh pegang, tetapi hanya bisa membuka pintu kamar miliknya sendiri sesuai aturan RLS.<br>
+            • <strong>Service Role Key:</strong> Ibarat <em>kunci master pemilik gedung</em> yang bisa membuka semua pintu kamar. <strong>DILARANG KERAS</strong> ditaruh di kode frontend atau di-upload ke GitHub!
           </p>
+        </div>
+
+        <!-- Kotak Kamus Istilah Teknis Bahasa Awam -->
+        <div style="background:#FEF3C7; border:1px solid #FCD34D; border-radius:10px; padding:16px; margin:14px 0;">
+          <strong style="color:#92400E; font-size:13.5px; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+            <span>💡 Kamus Istilah Teknis Lab 03 dalam Bahasa Awam (Non-IT):</span>
+          </strong>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; font-size:12.5px;">
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #FDE68A;">
+              <b style="color:#78350F;">📞 Singleton Pattern</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Satu saluran telepon bersama. Daripada setiap tombol memasang kabel telepon baru ke database, kita pasang 1 saluran telepon utama yang dipakai bersama agar laptop tidak lemot.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #FDE68A;">
+              <b style="color:#78350F;">📁 File .env (Environment Variables)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Kertas catatan rahasia di laci pribadi. Menyimpan alamat URL dan kunci API agar tidak tertulis langsung di kode publik.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #FDE68A;">
+              <b style="color:#78350F;">🏷️ Prefix VITE_</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Stempel izin baca. Di Vite, hanya variabel dengan awalan <code>VITE_</code> yang diizinkan dibaca oleh browser.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #FDE68A;">
+              <b style="color:#78350F;">🙈 .gitignore</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Daftar "Jangan Dibawa". Memerintahkan Git untuk tidak pernah mengirim file <code>.env.local</code> ke GitHub publik.</p>
+            </div>
+          </div>
         </div>
 
         <div class="table-container">
@@ -1580,13 +1659,42 @@ Setup awal Supabase di project ini:
 
       <!-- A. Teori -->
       <div class="part-box">
-        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental &amp; Penjelasan Bahasa Awam</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          Bagaimana cara mengenali siapa pengguna yang sedang membuka web dan menjaga agar halaman dashboard tidak bisa diintip orang asing.
+        </p>
+
         <div class="analogy-box">
-          <strong>🏨 Analogi: Resepsionis Hotel &amp; Kartu Kunci (JWT)</strong>
+          <strong>🏨 Analogi: Resepsionis Hotel &amp; Kartu Kunci Kamar</strong>
           <p>
-            • <strong>Autentikasi (Resepsionis):</strong> Memeriksa identitas user via email/password atau OAuth Google, lalu menerbitkan kartu akses (JWT Session).<br>
-            • <strong>Otorisasi (Sensor Pintu):</strong> Route Guard memeriksa apakah kartu masih berlaku saat mengakses halaman <code>/dashboard</code>. Jika belum login, user otomatis dialihkan ke <code>/login</code>.
+            • <strong>Autentikasi (Resepsionis):</strong> Memeriksa KTP / password pengguna, lalu memberikan kartu akses hotel (Token JWT Session).<br>
+            • <strong>Otorisasi (Sensor Pintu Kamar):</strong> Route Guard memeriksa apakah kartu masih aktif saat membuka halaman <code>/dashboard</code>. Jika belum login, tamu langsung diarahkan ke meja resepsionis (halaman login).
           </p>
+        </div>
+
+        <!-- Kotak Kamus Istilah Teknis Bahasa Awam -->
+        <div style="background:#FAF5FF; border:1px solid #D8B4FE; border-radius:10px; padding:16px; margin:14px 0;">
+          <strong style="color:#6B21A8; font-size:13.5px; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+            <span>💡 Kamus Istilah Teknis Lab 04 dalam Bahasa Awam (Non-IT):</span>
+          </strong>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; font-size:12.5px;">
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #E9D5FF;">
+              <b style="color:#581C87;">🎫 Session &amp; Token JWT</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Gelang tiket konser. Selama gelang masih terpasang di tangan (session aktif), Anda bebas masuk ke berbagai wahana tanpa harus membayar ulang setiap detik.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #E9D5FF;">
+              <b style="color:#581C87;">👀 onAuthStateChange (Listener)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Penjaga pintu yang selalu siaga. Langsung bereaksi seketika saat pengguna menekan tombol Logout atau saat sesi login diperpanjang otomatis.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #E9D5FF;">
+              <b style="color:#581C87;">🚧 ProtectedRoute (Route Guard)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Palang pintu masuk khusus anggota. Jika belum login, Anda dicegat dan dialihkan otomatis ke halaman <code>/login</code>.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #E9D5FF;">
+              <b style="color:#581C87;">🌐 AuthContext (Global State)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Pengeras suara radio informasi. Menyebarkan status "Siapa yang sedang login" ke seluruh halaman aplikasi sehingga tidak perlu bertanya ulang ke server.</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1665,17 +1773,46 @@ Implementasikan sistem autentikasi lengkap:
 
       <!-- A. Teori -->
       <div class="part-box">
-        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental &amp; Penjelasan Bahasa Awam</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          Bagaimana cara membuat data di layar ponsel atau laptop berubah seketika secara otomatis saat ada transaksi baru tanpa perlu menekan tombol refresh.
+        </p>
+
         <div class="analogy-box">
-          <strong>📺 Analogi: DVD Player vs Siaran TV Langsung</strong>
+          <strong>📻 Analogi: Bolak-Balik Tanya Kurir vs Radio Walkie-Talkie</strong>
           <p>
-            • <strong>HTTP Request Biasa (DVD):</strong> Browser meminta data, server merespons, selesai. Jika ada perubahan baru di database, browser tidak tahu sebelum halaman di-refresh.<br>
-            • <strong>WebSocket Realtime (Siaran TV):</strong> Jalur komunikasi dua arah terbuka terus menerus. Begitu ada baris baru diinsert ke tabel database, Supabase langsung mendorong (*push*) event ke UI secara instan.
+            • <strong>HTTP Biasa / Polling (Melelahkan):</strong> Setiap 2 detik Anda menelepon resepsionis: <em>"Pak ada paket baru belum?"</em>. Ini boros kuota internet dan membuat server kelelahan.<br>
+            • <strong>WebSocket Realtime (Walkie-Talkie):</strong> Saluran suara tetap menyala. Begitu kurir memasukkan paket ke database, walkie-talkie langsung berbunyi di layar Anda dalam hitungan milidetik.
           </p>
         </div>
 
+        <!-- Kotak Kamus Istilah Teknis Bahasa Awam -->
+        <div style="background:#EFF6FF; border:1px solid #93C5FD; border-radius:10px; padding:16px; margin:14px 0;">
+          <strong style="color:#1E40AF; font-size:13.5px; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+            <span>💡 Kamus Istilah Teknis Lab 05 dalam Bahasa Awam (Non-IT):</span>
+          </strong>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; font-size:12.5px;">
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #BFDBFE;">
+              <b style="color:#1E3A8A;">📡 WebSocket Channel</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Frekuensi radio khusus. Jalur pipa data langsung dua arah antara browser Anda dan database Supabase.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #BFDBFE;">
+              <b style="color:#1E3A8A;">🧹 Cleanup / Unsubscribe</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Mematikan sambungan walkie-talkie saat keluar ruangan. Wajib dilakukan agar memori laptop tidak boros.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #BFDBFE;">
+              <b style="color:#1E3A8A;">⚡ Event INSERT/UPDATE/DELETE</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Tiga jenis kabar berita: Ada barang baru disetor (INSERT), ada data diganti (UPDATE), atau ada data dibuang (DELETE).</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #BFDBFE;">
+              <b style="color:#1E3A8A;">🟢 Presence</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Lampu indikator online hijau. Mengetahui siapa saja teman yang saat ini sedang membuka aplikasi bersamaan.</p>
+            </div>
+          </div>
+        </div>
+
         <div style="background:#FFF1F2; border:1px solid #FECDD3; border-radius:8px; padding:12px 14px; margin-top:10px; font-size:13px; color:#9F1239;">
-          ⚠️ <strong>PERINGATAN MEMORY LEAK:</strong> Setiap kali memanggil <code>supabase.channel(...).subscribe()</code>, Anda <strong>WAJIB</strong> mengembalikan <code>supabase.removeChannel(channel)</code> di fungsi cleanup <code>useEffect</code> agar koneksi ditutup saat komponen unmount!
+          ⚠️ <strong>PERINGATAN MEMORY LEAK:</strong> Setiap kali membuka saluran dengan <code>supabase.channel()</code>, selalu sertakan <code>supabase.removeChannel(channel)</code> saat komponen ditutup agar browser tidak lemot!
         </div>
       </div>
 
@@ -1746,7 +1883,45 @@ Implementasi Realtime Subscription yang aman (zero memory leak):
 
       <!-- A. Teori -->
       <div class="part-box">
-        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental &amp; Penjelasan Bahasa Awam</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          Bagaimana cara menghubungkan tombol-tombol pada formulir website Anda ke aksi tambah, lihat, ubah, dan hapus data di database.
+        </p>
+
+        <div class="analogy-box">
+          <strong>📝 Analogi: Buku Kas Keuangan Pribadi</strong>
+          <p>
+            • <strong>Create (Tambah):</strong> Menulis baris catatan pengeluaran baru di buku kas.<br>
+            • <strong>Read (Baca):</strong> Membuka halaman buku dan melihat riwayat belanjaan bulan ini.<br>
+            • <strong>Update (Ubah):</strong> Mencoret nominal yang salah tulis dan menggantinya dengan nominal yang benar.<br>
+            • <strong>Delete (Hapus):</strong> Menghapus baris transaksi yang salah catat.
+          </p>
+        </div>
+
+        <!-- Kotak Kamus Istilah Teknis Bahasa Awam -->
+        <div style="background:#F0FDFA; border:1px solid #99F6E4; border-radius:10px; padding:16px; margin:14px 0;">
+          <strong style="color:#0F766E; font-size:13.5px; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+            <span>💡 Kamus Istilah Teknis Lab 06 dalam Bahasa Awam (Non-IT):</span>
+          </strong>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; font-size:12.5px;">
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #CCFBF1;">
+              <b style="color:#115E59;">🔤 CRUD</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Singkatan 4 aksi dasar: <b>C</b>reate (Bikin), <b>R</b>ead (Baca), <b>U</b>pdate (Ubah), <b>D</b>elete (Hapus).</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #CCFBF1;">
+              <b style="color:#115E59;">🍰 Type-Safe (TypeScript)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Cetakan kue yang presisi. Menjaga agar kolom harga tidak bisa diisi tulisan huruf yang bikin aplikasi rusak.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #CCFBF1;">
+              <b style="color:#115E59;">⚡ Optimistic Update</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Tampil duluan sebelum server selesai. Data langsung muncul di layar seketika tombol ditekan agar terasa super cepat.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #CCFBF1;">
+              <b style="color:#115E59;">🎪 Try-Catch (Error Handling)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Jaring pengaman sirkus. Jika internet tiba-tiba mati saat simpan data, aplikasi tidak crash melainkan menampilkan pesan ramah.</p>
+            </div>
+          </div>
+        </div>
         <div class="table-container">
           <table class="data-table">
             <thead>
@@ -1851,13 +2026,42 @@ Implementasikan CRUD untuk modul Transaksi:
 
       <!-- A. Teori -->
       <div class="part-box">
-        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental &amp; Penjelasan Bahasa Awam</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          Bagaimana cara menyimpan file fisik (seperti foto profil JPG/PNG, bukti struk belanjaan, atau dokumen PDF) yang berbeda dari data teks angka biasa.
+        </p>
+
         <div class="analogy-box">
-          <strong>🗄️ Public vs Private Storage Bucket</strong>
+          <strong>🖼️ Analogi: Papan Mading Terbuka vs Laci Berkas Pribadi</strong>
           <p>
-            • <strong>Public Bucket (e.g. avatars):</strong> URL file dapat diakses publik via browser tanpa token (cocok untuk gambar foto profil atau banner publik).<br>
-            • <strong>Private Bucket (e.g. invoices):</strong> File hanya dapat diakses melalui *Signed URL* yang memiliki batas waktu kadaluarsa (cocok untuk berkas rahasia).
+            • <strong>Public Storage Bucket (Mading Sekolah):</strong> Siapa pun yang lewat di jalan boleh melihat foto yang tertempel (cocok untuk avatar profil atau logo toko).<br>
+            • <strong>Private Storage Bucket (Laci Berkas Terkunci):</strong> Berkas hanya bisa dibuka dengan kunci khusus berwaktu (Signed URL) yang kadaluarsa dalam 60 detik (cocok untuk mutasi rekening bank atau bukti transfer rahasia).
           </p>
+        </div>
+
+        <!-- Kotak Kamus Istilah Teknis Bahasa Awam -->
+        <div style="background:#FFFDF5; border:1px solid #FCD34D; border-radius:10px; padding:16px; margin:14px 0;">
+          <strong style="color:#92400E; font-size:13.5px; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+            <span>💡 Kamus Istilah Teknis Lab 07 dalam Bahasa Awam (Non-IT):</span>
+          </strong>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; font-size:12.5px;">
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #FDE68A;">
+              <b style="color:#78350F;">🪣 Bucket</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Ember / folder wadah khusus di server untuk menampung file-file media (gambar, video, PDF).</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #FDE68A;">
+              <b style="color:#78350F;">🔍 MIME Type</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Label jenis barang. Memeriksa apakah file yang diunggah benar-benar foto (<code>image/jpeg</code>) dan bukan file virus.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #FDE68A;">
+              <b style="color:#78350F;">🔄 Upsert (Update or Insert)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Timpa file lama. Jika sudah pernah pasang foto profil, upload baru akan menggantikan foto lama tanpa menumpuk duplikat.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #FDE68A;">
+              <b style="color:#78350F;">⏱️ Signed URL</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Tautan rahasia dengan batas kadaluarsa. Tautan unduh yang otomatis hangus setelah beberapa menit demi menjaga privasi.</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1928,13 +2132,42 @@ Implementasikan upload foto profil:
 
       <!-- A. Teori -->
       <div class="part-box">
-        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental &amp; Penjelasan Bahasa Awam</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          Bagaimana cara menjalankan perhitungan berat atau memanggil layanan berbayar (seperti kirim WA/Email, verifikasi pembayaran bank) di server belakang yang aman.
+        </p>
+
         <div class="analogy-box">
-          <strong>👨‍💼 Analogi: Kasir Depan vs Manajer Ruang Belakang</strong>
+          <strong>👨‍💼 Analogi: Kasir Depan Toko vs Manajer Ruang Belakang</strong>
           <p>
-            • <strong>Frontend (Kasir):</strong> Bertugas melayani interaksi UI dengan pengunjung. Tidak boleh memegang kunci brankas master.<br>
-            • <strong>Edge Function (Manajer):</strong> Berada di server aman di luar jangkauan inspeksi DevTools browser. Dapat memegang API Key sensitif (Midtrans, SendGrid, Firebase Admin) dan melakukan kalkulasi berat.
+            • <strong>Frontend (Kasir Depan):</strong> Bertugas ramah menyapa pembeli di layar HP. Tidak boleh memegang kunci brankas master.<br>
+            • <strong>Edge Function (Manajer Ruang Belakang):</strong> Berada di server terisolasi yang aman dari inspeksi pembeli. Boleh memegang kunci rahasia bank (Midtrans / Xendit) untuk memverifikasi transaksi tanpa takut dicuri peretas.
           </p>
+        </div>
+
+        <!-- Kotak Kamus Istilah Teknis Bahasa Awam -->
+        <div style="background:#EEF2FF; border:1px solid #A5B4FC; border-radius:10px; padding:16px; margin:14px 0;">
+          <strong style="color:#3730A3; font-size:13.5px; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+            <span>💡 Kamus Istilah Teknis Lab 08 dalam Bahasa Awam (Non-IT):</span>
+          </strong>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; font-size:12.5px;">
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #C7D2FE;">
+              <b style="color:#312E81;">⚡ Serverless (Edge Function)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Robot pelayan panggilan. Menyala hanya saat ada tugas (misal hitung total belanja), lalu langsung tidur tanpa membebani biaya sewa server bulanan.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #C7D2FE;">
+              <b style="color:#312E81;">🦕 Deno Runtime</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Mesin eksekusi modern yang super aman dan cepat untuk menjalankan bahasa pemrograman JavaScript/TypeScript di server Supabase.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #C7D2FE;">
+              <b style="color:#312E81;">🔔 Webhook</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Bel pintu otomatis. Jika ada transfer uang masuk di bank, bank menekan bel pintu website Anda agar status pesanan otomatis berubah jadi 'Lunas'.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #C7D2FE;">
+              <b style="color:#312E81;">🛂 CORS (Cross-Origin Resource Sharing)</b>
+              <p style="color:#374151; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Paspor izin lintas wilayah. Surat izin keamanan yang mengizinkan website Anda berbicara dengan fungsi server Supabase.</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -2004,12 +2237,42 @@ Implementasikan Edge Function ringkasan keuangan bulanan:
 
       <!-- A. Teori -->
       <div class="part-box">
-        <h3 class="part-title teori-title">📚 A. Teori Fundamental</h3>
+        <h3 class="part-title teori-title">📚 A. Teori Fundamental &amp; Penjelasan Bahasa Awam</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          Bagaimana cara memindahkan aplikasi dari laptop Anda ke server hosting internet (Vercel) agar bisa dibuka siapa saja dari ponsel mereka selama 24 jam.
+        </p>
+
         <div class="analogy-box">
-          <strong>🌐 Mengapa .env.local Harus Dimasukkan di Vercel Dashboard?</strong>
+          <strong>🌐 Analogi: Membuka Toko di Mal Pusat Kota Internasional</strong>
           <p>
-            Karena file <code>.env.local</code> terdaftar di <code>.gitignore</code>, file tersebut tidak ikut terunggah ke GitHub. Supaya build Vercel bisa mengakses Supabase, Anda harus mendaftarkan <code>VITE_SUPABASE_URL</code> dan <code>VITE_SUPABASE_ANON_KEY</code> di menu <strong>Vercel Settings ➔ Environment Variables</strong>.
+            • <strong>Localhost di Laptop:</strong> Toko Anda masih berada di dalam garasi rumah — hanya Anda sendiri yang bisa melihatnya.<br>
+            • <strong>Vercel Cloud Hosting:</strong> Membuka etalase toko di mal global dengan penjaga 24 jam, sertifikat keamanan HTTPS gembok hijau gratis, dan jalur distribusi kilat di seluruh dunia.
           </p>
+        </div>
+
+        <!-- Kotak Kamus Istilah Teknis Bahasa Awam -->
+        <div style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:10px; padding:16px; margin:14px 0;">
+          <strong style="color:#0F172A; font-size:13.5px; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+            <span>💡 Kamus Istilah Teknis Lab 09 dalam Bahasa Awam (Non-IT):</span>
+          </strong>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; font-size:12.5px;">
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #E2E8F0;">
+              <b style="color:#0F172A;">🚀 Deployment Production</b>
+              <p style="color:#475569; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Menerbitkan versi resmi untuk umum. Aplikasi siap dipakai oleh pengguna asli di dunia nyata.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #E2E8F0;">
+              <b style="color:#0F172A;">⚡ Pipa CI/CD (Continuous Deployment)</b>
+              <p style="color:#475569; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Mesin cetak otomatis. Cukup <code>git push</code> di laptop, website online langsung terupdate otomatis dalam hitungan detik.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #E2E8F0;">
+              <b style="color:#0F172A;">🔐 Environment Variables di Vercel</b>
+              <p style="color:#475569; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Brankas kunci rahasia di server Vercel. Tempat menyimpan URL &amp; Kunci Supabase agar tidak hilang saat di-deploy.</p>
+            </div>
+            <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #E2E8F0;">
+              <b style="color:#0F172A;">📄 vercel.json (SPA Rewrite 404)</b>
+              <p style="color:#475569; margin-top:3px; line-height:1.5;"><strong>Artinya:</strong> Petunjuk arah satpam. Mencegah error layar putih/404 saat pengguna me-refresh halaman <code>/dashboard</code>.</p>
+            </div>
+          </div>
         </div>
       </div>
 
