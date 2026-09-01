@@ -759,6 +759,7 @@
   <div class="lab-nav-sticky">
     <div class="wrap">
       <div class="lab-nav-inner">
+        <a href="#micro-prompts" class="lab-nav-pill" style="background:#FEF3C7; color:#92400E; border-color:#FCD34D; font-weight:700;">⚡ Micro-Prompts Pemula</a>
         <a href="#lab01" class="lab-nav-pill">01 · SQL Schema</a>
         <a href="#lab02" class="lab-nav-pill">02 · RLS Security</a>
         <a href="#lab03" class="lab-nav-pill">03 · .env Singleton</a>
@@ -818,6 +819,254 @@ APLIKASI REACT (Frontend)
   </div>
 
   <main class="wrap">
+
+    <!-- ========================================================
+         QUICK-START: MICRO-PROMPTS SUPABASE UNTUK PEMULA
+         ======================================================== -->
+    <section class="lab-section" id="micro-prompts" style="background: linear-gradient(180deg, #FFFDF5 0%, #FFFFFF 100%); border: 2px solid #F59E0B; border-radius: var(--radius-lg); padding: 28px; margin-bottom: 36px; box-shadow: 0 4px 16px rgba(245, 158, 11, 0.08);">
+      
+      <!-- Header Area -->
+      <div class="lab-header" style="border-bottom: 2px solid #FDE68A; padding-bottom: 18px; margin-bottom: 24px;">
+        <div class="lab-num-badge" style="background:#F59E0B; color:#fff;">⚡</div>
+        <div class="lab-title-area">
+          <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: #B45309;">Panduan Pedagogis &amp; Vibe-Coding Master Prompts</div>
+          <h2 style="color: #78350F; margin: 4px 0; font-size: 24px;">Quick-Start: Teori Esensial &amp; Micro-Prompts Supabase</h2>
+          <p class="lab-sub" style="color: #92400E; font-size: 14px; line-height: 1.6;">
+            Kuasai mental model backend Supabase tanpa tersesat dalam kerumitan SQL. Prinsip utama: <strong>"Pahami Konsepnya, Serahkan Sintaks ke AI Agent"</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Mental Model Grid -->
+      <div style="background: #FEF3C7; border: 1px solid #FCD34D; border-radius: 10px; padding: 16px; margin-bottom: 24px;">
+        <strong style="font-size: 13px; color: #92400E; display: flex; align-items: center; gap: 6px;">
+          🧭 Kamus Mental Model Arsitektur Supabase untuk Pemula:
+        </strong>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 10px; font-size: 12.5px;">
+          <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #FDE68A;">
+            <b style="color:#1F2937;">🗄️ PostgreSQL DB</b>
+            <p style="color:#6B7280; margin:2px 0 0;">Gudang utama tempat tabel, kolom relasi, dan data tersimpan.</p>
+          </div>
+          <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #FDE68A;">
+            <b style="color:#1F2937;">🔐 Row Level Security (RLS)</b>
+            <p style="color:#6B7280; margin:2px 0 0;">Gembok tiap laci baris: hanya pemilik akun yang bisa baca/tulis.</p>
+          </div>
+          <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #FDE68A;">
+            <b style="color:#1F2937;">🔑 Anon Key vs Service Key</b>
+            <p style="color:#6B7280; margin:2px 0 0;">Anon = Kunci lobi frontend. Service = Kunci master (JANGAN bocor!).</p>
+          </div>
+          <div style="background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #FDE68A;">
+            <b style="color:#1F2937;">📡 Realtime WebSocket</b>
+            <p style="color:#6B7280; margin:2px 0 0;">Walkie-talkie: perubahan data di database langsung siar ke layar.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7 Micro-Prompt Sections with Detailed Theory -->
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+
+        <!-- 1. Setup & Env -->
+        <div style="background:#fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="background:#028090; color:#fff; font-size: 11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;">1</span>
+              <span style="background:#E0F2FE; color:#0369A1; font-size: 12px; font-weight:700; padding: 3px 10px; border-radius: 6px;">Fase 1 · Setup Klien &amp; Singleton .env</span>
+            </div>
+            <button class="btn-copy" onclick="copySnippet('prompt-mp-1')">📋 Salin Prompt Fase 1</button>
+          </div>
+          
+          <!-- Teori Grid -->
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 14px; font-size: 12.5px;">
+            <div style="background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid #E2E8F0;">
+              <strong style="color:#0F172A;">📚 Teori: Mengapa Butuh Singleton &amp; Prefix VITE_?</strong>
+              <p style="color:#475569; margin-top:4px; line-height:1.5;">Di React/Vite, buatlah <strong>1 instance klien saja</strong> di <code>src/lib/supabase.ts</code>. Jika membuat klien baru di tiap komponen, browser akan membuka koneksi berulang dan menyebabkan kebocoran memori. Prefix <code>VITE_</code> wajib agar variabel terbaca via <code>import.meta.env</code>.</p>
+            </div>
+            <div style="background:#FEF2F2; padding:12px; border-radius:8px; border:1px solid #FECACA;">
+              <strong style="color:#991B1B;">⚠️ Perangkap Pemula:</strong>
+              <p style="color:#7F1D1D; margin-top:4px; line-height:1.5;"><strong>JANGAN PERNAH</strong> memakai <code>SUPABASE_SERVICE_ROLE_KEY</code> di frontend! Kunci rahasia ini mem-bypass semua RLS dan bisa menghapus seluruh database Anda jika dilihat publik. Pastikan <code>.env.local</code> ada di <code>.gitignore</code>.</p>
+            </div>
+          </div>
+
+          <pre id="prompt-mp-1" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan file konfigurasi Supabase client untuk proyek Vite (React/TypeScript).
+1. Tunjukkan format isi file `.env.example` (menggunakan prefix VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY).
+2. Buatkan file `src/lib/supabase.ts` untuk menginisialisasi createClient singleton.
+3. Beri peringatan singkat jangan pernah mengekspos SERVICE_ROLE_KEY di frontend.</pre>
+        </div>
+
+        <!-- 2. Skema SQL -->
+        <div style="background:#fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="background:#4F46E5; color:#fff; font-size: 11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;">2</span>
+              <span style="background:#EEF2FF; color:#4338CA; font-size: 12px; font-weight:700; padding: 3px 10px; border-radius: 6px;">Fase 2 · Skema SQL DDL, UUID &amp; Index</span>
+            </div>
+            <button class="btn-copy" onclick="copySnippet('prompt-mp-2')">📋 Salin Prompt Fase 2</button>
+          </div>
+
+          <!-- Teori Grid -->
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 14px; font-size: 12.5px;">
+            <div style="background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid #E2E8F0;">
+              <strong style="color:#0F172A;">📚 Teori: Foreign Key ke auth.users &amp; Cascade Delete</strong>
+              <p style="color:#475569; margin-top:4px; line-height:1.5;">Supabase mengelola pengguna di skema internal <code>auth.users</code>. Kolom <code>user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE</code> menjamin ketika akun user dihapus, semua data todo miliknya otomatis terhapus bersih tanpa data sampah.</p>
+            </div>
+            <div style="background:#EEF2FF; padding:12px; border-radius:8px; border:1px solid #C7D2FE;">
+              <strong style="color:#3730A3;">💡 Mengapa Index Wajib Dibuat?</strong>
+              <p style="color:#312E81; margin-top:4px; line-height:1.5;">Perintah <code>CREATE INDEX ON todos(user_id);</code> membuat daftar indeks cepat pada kolom user_id. Tanpa index, database harus men-scan jutaan baris data setiap kali ada pemanggilan query.</p>
+            </div>
+          </div>
+
+          <pre id="prompt-mp-2" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan SQL DDL untuk tabel `todos` di Supabase SQL Editor:
+- Kolom: id (uuid, default gen_random_uuid()), user_id (relasi ke auth.users.id, cascade delete), title (text, not null), is_completed (boolean, default false), created_at (timestamptz, now()).
+- Tambahkan index pada kolom user_id.
+- Tuliskan query SQL yang siap di-copy-paste ke Supabase SQL Editor.</pre>
+        </div>
+
+        <!-- 3. RLS Security -->
+        <div style="background:#fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="background:#059669; color:#fff; font-size: 11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;">3</span>
+              <span style="background:#ECFDF5; color:#047857; font-size: 12px; font-weight:700; padding: 3px 10px; border-radius: 6px;">Fase 3 · Row Level Security (RLS Policies)</span>
+            </div>
+            <button class="btn-copy" onclick="copySnippet('prompt-mp-3')">📋 Salin Prompt Fase 3</button>
+          </div>
+
+          <!-- Teori Grid -->
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 14px; font-size: 12.5px;">
+            <div style="background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid #E2E8F0;">
+              <strong style="color:#0F172A;">📚 Teori: Cara Kerja RLS di PostgreSQL</strong>
+              <p style="color:#475569; margin-top:4px; line-height:1.5;">Saat RLS aktif, PostgreSQL secara otomatis menyisipkan filter pada setiap query: <code>WHERE user_id = auth.uid()</code>. Fungsi <code>auth.uid()</code> membaca ID unik dari token JWT pengguna yang sedang aktif login.</p>
+            </div>
+            <div style="background:#ECFDF5; padding:12px; border-radius:8px; border:1px solid #A7F3D0;">
+              <strong style="color:#065F46;">🔐 USING vs WITH CHECK:</strong>
+              <p style="color:#047857; margin-top:4px; line-height:1.5;">• <strong>USING (SELECT, UPDATE, DELETE):</strong> Menyaring baris data yang <em>sudah ada</em>.<br>• <strong>WITH CHECK (INSERT, UPDATE):</strong> Memvalidasi baris data <em>baru</em> sebelum disimpan ke tabel.</p>
+            </div>
+          </div>
+
+          <pre id="prompt-mp-3" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan query SQL untuk mengaktifkan RLS pada tabel `todos` dengan aturan:
+1. User hanya boleh SELECT data miliknya sendiri (`auth.uid() = user_id`).
+2. User hanya boleh INSERT data dengan user_id mereka sendiri.
+3. User hanya boleh UPDATE &amp; DELETE data miliknya sendiri.
+Tuliskan SQL-nya dengan komentar penjelasan singkat di tiap baris policy.</pre>
+        </div>
+
+        <!-- 4. Auth Hook -->
+        <div style="background:#fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="background:#7C3AED; color:#fff; font-size: 11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;">4</span>
+              <span style="background:#FAF5FF; color:#7E22CE; font-size: 12px; font-weight:700; padding: 3px 10px; border-radius: 6px;">Fase 4 · Hook &amp; State Autentikasi Pengguna</span>
+            </div>
+            <button class="btn-copy" onclick="copySnippet('prompt-mp-4')">📋 Salin Prompt Fase 4</button>
+          </div>
+
+          <!-- Teori Grid -->
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 14px; font-size: 12.5px;">
+            <div style="background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid #E2E8F0;">
+              <strong style="color:#0F172A;">📚 Teori: Mengapa Butuh onAuthStateChange?</strong>
+              <p style="color:#475569; margin-top:4px; line-height:1.5;">Supabase otomatis merefresh JWT token setiap 1 jam di latar belakang. Listener <code>onAuthStateChange</code> mendeteksi pergantian sesi login, logout, atau token refresh tanpa perlu reload halaman browser.</p>
+            </div>
+            <div style="background:#FAF5FF; padding:12px; border-radius:8px; border:1px solid #E9D5FF;">
+              <strong style="color:#6B21A8;">⚡ Keuntungan Hook useAuth():</strong>
+              <p style="color:#581C87; margin-top:4px; line-height:1.5;">Komponen UI hanya perlu memanggil <code>const { user, signOut } = useAuth()</code> tanpa perlu mengimpor Supabase client berulang-ulang di berbagai komponen.</p>
+            </div>
+          </div>
+
+          <pre id="prompt-mp-4" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan modul/hook autentikasi `useAuth.ts` di frontend menggunakan Supabase:
+- Fungsi: `signUp(email, password)`, `signIn(email, password)`, dan `signOut()`.
+- State: `user`, `loading`, dan `session`.
+- Ambil sesi aktif secara realtime menggunakan listener `supabase.auth.onAuthStateChange`.
+- Buatkan kode yang ringkas dan mudah dibaca pemula.</pre>
+        </div>
+
+        <!-- 5. CRUD Service -->
+        <div style="background:#fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="background:#0D9488; color:#fff; font-size: 11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;">5</span>
+              <span style="background:#F0FDFA; color:#0F766E; font-size: 12px; font-weight:700; padding: 3px 10px; border-radius: 6px;">Fase 5 · Service Layer CRUD Terisolasi</span>
+            </div>
+            <button class="btn-copy" onclick="copySnippet('prompt-mp-5')">📋 Salin Prompt Fase 5</button>
+          </div>
+
+          <!-- Teori Grid -->
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 14px; font-size: 12.5px;">
+            <div style="background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid #E2E8F0;">
+              <strong style="color:#0F172A;">📚 Teori: Hindari Kode Spaghetti di Komponen UI</strong>
+              <p style="color:#475569; margin-top:4px; line-height:1.5;">Jangan menuliskan query <code>supabase.from(...)</code> langsung di dalam tombol UI. Pisahkan ke file <code>todoService.ts</code> agar kode terstruktur rapi, mudah di-test, dan mudah di-refactor jika skema tabel berubah.</p>
+            </div>
+            <div style="background:#F0FDFA; padding:12px; border-radius:8px; border:1px solid #99F6E4;">
+              <strong style="color:#115E59;">✨ Format Return Bersih:</strong>
+              <p style="color:#134E4A; margin-top:4px; line-height:1.5;">Semua fungsi service selalu mengembalikan object <code>{ data, error }</code> dengan blok <code>try-catch</code> agar aplikasi tidak pernah mengalami blank screen saat terjadi kendala jaringan.</p>
+            </div>
+          </div>
+
+          <pre id="prompt-mp-5" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan fungsi CRUD untuk tabel `todos` di file `src/services/todoService.ts`:
+1. `getTodos()`: ambil data milik user yang sedang login, urutkan dari terbaru.
+2. `addTodo(title)`: tambah todo baru dengan otomatis mengisi user_id dari sesi aktif.
+3. `toggleTodo(id, currentStatus)`: ubah status is_completed.
+4. `deleteTodo(id)`: hapus item todo.
+Sertakan try-catch dan return `{ data, error }`.</pre>
+        </div>
+
+        <!-- 6. Realtime Listener -->
+        <div style="background:#fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="background:#2563EB; color:#fff; font-size: 11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;">6</span>
+              <span style="background:#EFF6FF; color:#1D4ED8; font-size: 12px; font-weight:700; padding: 3px 10px; border-radius: 6px;">Fase 6 · Realtime Subscription (WebSocket)</span>
+            </div>
+            <button class="btn-copy" onclick="copySnippet('prompt-mp-6')">📋 Salin Prompt Fase 6</button>
+          </div>
+
+          <!-- Teori Grid -->
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 14px; font-size: 12.5px;">
+            <div style="background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid #E2E8F0;">
+              <strong style="color:#0F172A;">📚 Teori: WebSocket vs Polling Tradisional</strong>
+              <p style="color:#475569; margin-top:4px; line-height:1.5;">Alih-alih browser me-request server setiap detik (polling boros kuota), Supabase membuka saluran <strong>WebSocket permanen</strong>. Saat data di database berubah, server langsung menyiarkan data baru ke layar dalam hitungan milidetik.</p>
+            </div>
+            <div style="background:#EFF6FF; padding:12px; border-radius:8px; border:1px solid #BFDBFE;">
+              <strong style="color:#1E40AF;">⚠️ Syarat Wajib &amp; Cleanup:</strong>
+              <p style="color:#1E3A8A; margin-top:4px; line-height:1.5;">1. Aktifkan toggle <em>Realtime</em> pada tabel di Supabase Dashboard.<br>2. Selalu panggil <code>channel.unsubscribe()</code> di cleanup <code>useEffect</code> agar tidak memory leak.</p>
+            </div>
+          </div>
+
+          <pre id="prompt-mp-6" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan hook React `useRealtimeTodos` yang mendengarkan perubahan realtime (INSERT, UPDATE, DELETE) pada tabel `todos` menggunakan `supabase.channel()`.
+Pastikan ada fungsi cleanup (`channel.unsubscribe()`) di `useEffect` agar tidak memory leak.</pre>
+        </div>
+
+        <!-- 7. Debugger RLS Special -->
+        <div style="background:#FFF1F2; border: 2px solid #F43F5E; border-radius: 12px; padding: 22px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+            <div style="display:flex; align-items:center; gap: 8px;">
+              <span style="background:#BE123C; color:#fff; font-size: 11px; font-weight:800; padding: 3px 8px; border-radius: 4px; text-transform:uppercase;">Fase 7 · Diagnostic</span>
+              <strong style="font-size: 14px; color: #9F1239;">Deteksi "Silent Bug" RLS (Data Tidak Muncul / Array Kosong [])</strong>
+            </div>
+            <button class="btn-copy" onclick="copySnippet('prompt-mp-7')" style="background:#E11D48;">📋 Salin Prompt Debugging</button>
+          </div>
+
+          <!-- Teori Grid -->
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 14px; font-size: 12.5px;">
+            <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #FECDD3;">
+              <strong style="color:#9F1239;">❓ Kenapa Hasil Query Selalu Kosong Tanpa Error?</strong>
+              <p style="color:#881337; margin-top:4px; line-height:1.5;">Ini adalah kebingungan nomor 1 pemula: data di Supabase ada, tapi saat di-fetch dari frontend hasilnya selalu <code>data = []</code>. PostgreSQL menganggap ini filter keamanan RLS: baris disembunyikan karena belum login atau <code>auth.uid()</code> tidak cocok.</p>
+            </div>
+            <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #FECDD3;">
+              <strong style="color:#9F1239;">🔍 3 Langkah Cek Cepat Mandiri:</strong>
+              <p style="color:#881337; margin-top:4px; line-height:1.5;">1. Cek apakah user sudah login (<code>supabase.auth.getUser()</code>).<br>2. Cek apakah policy <code>FOR SELECT</code> sudah dibuat.<br>3. Cek apakah <code>user_id</code> di tabel sama dengan UUID user yang login.</p>
+            </div>
+          </div>
+
+          <pre id="prompt-mp-7" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Data di tabel Supabase saya tidak muncul di frontend (hasil query selalu [] / kosong), padahal tidak ada error di console.
+Bantu periksa 3 kemungkinan penyebab berikut secara to the point:
+1. Apakah RLS aktif tapi policy SELECT belum dibuat atau pengguna belum login?
+2. Apakah user_id di database cocok dengan auth.uid() pengguna yang sedang login?
+3. Berikan SQL checklist untuk memeriksa status RLS dan list policy yang sedang aktif di tabel saya.</pre>
+        </div>
+
+      </div>
+
+    </section>
 
     <!-- ========================================================
          LAB 01: SQL SCHEMA & DDL

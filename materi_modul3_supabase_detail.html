@@ -103,6 +103,8 @@
         </p>
         <!-- Progress flow -->
         <div class="flex flex-wrap items-center gap-1.5 text-xs font-mono">
+          <button onclick="scrollToSection('micro-prompts')" class="px-3 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 dark:bg-amber-950 dark:hover:bg-amber-900 text-amber-800 dark:text-amber-300 font-bold border border-amber-300 dark:border-amber-700 transition flex items-center gap-1">⚡ Micro-Prompts Pemula</button>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
           <button onclick="scrollToSection('part1')" class="px-3 py-1 rounded-lg bg-slate-100 hover:bg-sky-100 dark:bg-slate-800 dark:hover:bg-sky-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition">01 · SQL Schema & DDL</button>
           <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
           <button onclick="scrollToSection('part2')" class="px-3 py-1 rounded-lg bg-slate-100 hover:bg-sky-100 dark:bg-slate-800 dark:hover:bg-sky-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition">02 · RLS Policies</button>
@@ -115,6 +117,310 @@
         </div>
       </div>
     </div>
+
+    <!-- ===== SECTION KHUSUS: QUICK-START MICRO-PROMPTS UNTUK PEMULA ===== -->
+    <section id="micro-prompts" class="space-y-8 bg-gradient-to-br from-amber-50/80 via-orange-50/40 to-slate-50 dark:from-amber-950/25 dark:via-slate-900 dark:to-slate-950 border-2 border-amber-300/90 dark:border-amber-700/70 rounded-2xl p-6 sm:p-8 shadow-sm">
+      
+      <!-- Header Section -->
+      <div class="border-b border-amber-200 dark:border-amber-800 pb-6 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-300 text-xs font-black uppercase tracking-wider">
+            <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400"></i> Panduan Pedagogis &amp; Vibe-Coding Master Prompts
+          </div>
+          <span class="text-xs font-bold text-amber-800 dark:text-amber-300 bg-amber-200/70 dark:bg-amber-900/60 px-3 py-1.5 rounded-lg border border-amber-300 dark:border-amber-700">7 Fase Terstruktur</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+          ⚡ Teori Fundamental &amp; Micro-Prompts Supabase untuk Pemula
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
+          Sebagai pemula di <em>Vibe-Coding</em>, prinsip utamanya adalah <strong>"Pahami Mental Modelnya, Delegasikan Sintaksnya ke AI"</strong>. Di bawah ini terdapat landasan teori esensial, analogi dunia nyata, perangkap yang sering menjebak pemula, serta prompt singkat <em>to-the-point</em> untuk masing-masing fase.
+        </p>
+
+        <!-- Tabel Mental Model Cepat -->
+        <div class="mt-4 overflow-x-auto rounded-xl border border-amber-200 dark:border-amber-800/60 bg-white/90 dark:bg-slate-900/90 p-4">
+          <div class="text-xs font-bold text-amber-900 dark:text-amber-300 mb-2 flex items-center gap-1.5">
+            <i data-lucide="compass" class="w-4 h-4 text-amber-600"></i> Mental Model Arsitektur Supabase (Kamus Cepat Pemula):
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+            <div class="p-2.5 rounded-lg bg-amber-50/60 dark:bg-slate-800/80 border border-amber-100 dark:border-slate-700">
+              <strong class="text-slate-900 dark:text-slate-100">🗄️ Database PostgreSQL:</strong>
+              <p class="text-slate-500 dark:text-slate-400 mt-0.5">Gudang data utama tempat tabel, kolom, dan relasi disimpan.</p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-amber-50/60 dark:bg-slate-800/80 border border-amber-100 dark:border-slate-700">
+              <strong class="text-slate-900 dark:text-slate-100">🔐 Row Level Security (RLS):</strong>
+              <p class="text-slate-500 dark:text-slate-400 mt-0.5">Gembok pintu baris data: hanya pemilik baris yang boleh buka.</p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-amber-50/60 dark:bg-slate-800/80 border border-amber-100 dark:border-slate-700">
+              <strong class="text-slate-900 dark:text-slate-100">🔑 Anon Key vs Service Key:</strong>
+              <p class="text-slate-500 dark:text-slate-400 mt-0.5">Anon = Kunci lobi aman di frontend. Service = Kunci master (JANGAN bocor!).</p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-amber-50/60 dark:bg-slate-800/80 border border-amber-100 dark:border-slate-700">
+              <strong class="text-slate-900 dark:text-slate-100">📡 Realtime (WebSocket):</strong>
+              <p class="text-slate-500 dark:text-slate-400 mt-0.5">Walkie-talkie siaran: update data di tab A langsung muncul di tab B.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7 Fase Detail dengan Teori & Prompt -->
+      <div class="space-y-6">
+
+        <!-- FASE 1: Setup & Env -->
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 space-y-4 shadow-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-sky-600 text-white font-bold text-xs flex items-center justify-center">1</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 text-xs font-bold">Fase 1 · Setup, Singleton &amp; .env</span>
+            </div>
+            <button onclick="copyById('prompt-micro-1')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-sky-50 hover:bg-sky-100 dark:bg-sky-950 dark:hover:bg-sky-900 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800 transition flex items-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt Fase 1
+            </button>
+          </div>
+
+          <!-- Teori & Penjelasan -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600 dark:text-slate-300">
+            <div class="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+              <strong class="text-slate-900 dark:text-slate-100 flex items-center gap-1.5"><i data-lucide="book-open" class="w-3.5 h-3.5 text-sky-500"></i> Teori: Kenapa Harus Singleton &amp; .env?</strong>
+              <p>Di aplikasi Vite/React, kita hanya boleh membuat <strong>satu instance Supabase client (Singleton)</strong> di seluruh siklus hidup aplikasi. Jika membuat klien baru di tiap komponen, memori browser akan bocor dan koneksi realtime akan putus-nyambung.</p>
+              <p>Prefix <code>VITE_</code> wajib digunakan agar Vite dapat membaca variabel tersebut di frontend via <code>import.meta.env</code>.</p>
+            </div>
+            <div class="space-y-2 bg-amber-50/70 dark:bg-amber-950/30 p-3.5 rounded-lg border border-amber-200 dark:border-amber-800">
+              <strong class="text-amber-900 dark:text-amber-200 flex items-center gap-1.5"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-600"></i> Perangkap Pemula:</strong>
+              <p>• <strong>Jangan pernah</strong> memasukkan <code>SUPABASE_SERVICE_ROLE_KEY</code> ke file frontend/Vite. Kunci ini bypass semua keamanan RLS dan bisa menghapus seluruh database Anda jika dilihat orang lain!</p>
+              <p>• Selalu pastikan <code>.env.local</code> terdaftar di dalam <code>.gitignore</code>.</p>
+            </div>
+          </div>
+
+          <!-- Prompt Box -->
+          <div class="space-y-1.5">
+            <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Prompt Siap Eksekusi:</div>
+            <pre id="prompt-micro-1" class="p-3.5 bg-slate-900 text-slate-100 rounded-lg text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap select-all">Buatkan file konfigurasi Supabase client untuk proyek Vite (React/TypeScript).
+1. Tunjukkan format isi file `.env.example` (menggunakan prefix VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY).
+2. Buatkan file `src/lib/supabase.ts` untuk menginisialisasi createClient singleton.
+3. Beri peringatan singkat jangan pernah mengekspos SERVICE_ROLE_KEY di frontend.</pre>
+          </div>
+        </div>
+
+        <!-- FASE 2: Skema SQL -->
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 space-y-4 shadow-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">2</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300 text-xs font-bold">Fase 2 · Skema SQL DDL &amp; Relasi</span>
+            </div>
+            <button onclick="copyById('prompt-micro-2')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950 dark:hover:bg-indigo-900 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 transition flex items-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt Fase 2
+            </button>
+          </div>
+
+          <!-- Teori & Penjelasan -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600 dark:text-slate-300">
+            <div class="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+              <strong class="text-slate-900 dark:text-slate-100 flex items-center gap-1.5"><i data-lucide="book-open" class="w-3.5 h-3.5 text-indigo-500"></i> Teori: Kenapa UUID &amp; Foreign Key auth.users?</strong>
+              <p>Supabase mengelola pengguna di skema internal <code>auth.users</code>. Saat membuat tabel publik (misal <code>todos</code>), kita membuat kolom <code>user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE</code>.</p>
+              <p><code>ON DELETE CASCADE</code> berarti jika akun user dihapus, semua data todo miliknya otomatis ikut terhapus bersih tanpa meninggalkan sampah data (orphan rows).</p>
+            </div>
+            <div class="space-y-2 bg-indigo-50/70 dark:bg-indigo-950/30 p-3.5 rounded-lg border border-indigo-200 dark:border-indigo-800">
+              <strong class="text-indigo-900 dark:text-indigo-200 flex items-center gap-1.5"><i data-lucide="lightbulb" class="w-3.5 h-3.5 text-indigo-600"></i> Mengapa Index Penting?</strong>
+              <p>Perintah <code>CREATE INDEX ON todos(user_id);</code> membuat daftar isi cepat di PostgreSQL. Karena tiap query frontend akan memfilter <code>WHERE user_id = ...</code>, indeks membuat query 100x lebih cepat saat data mencapai ribuan baris.</p>
+            </div>
+          </div>
+
+          <!-- Prompt Box -->
+          <div class="space-y-1.5">
+            <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Prompt Siap Eksekusi:</div>
+            <pre id="prompt-micro-2" class="p-3.5 bg-slate-900 text-slate-100 rounded-lg text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap select-all">Buatkan SQL DDL untuk tabel `todos` di Supabase SQL Editor:
+- Kolom: id (uuid, default gen_random_uuid()), user_id (relasi ke auth.users.id, cascade delete), title (text, not null), is_completed (boolean, default false), created_at (timestamptz, now()).
+- Tambahkan index pada kolom user_id.
+- Tuliskan query SQL yang siap di-copy-paste ke Supabase SQL Editor.</pre>
+          </div>
+        </div>
+
+        <!-- FASE 3: RLS Security -->
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 space-y-4 shadow-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">3</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 text-xs font-bold">Fase 3 · Keamanan Row Level Security (RLS)</span>
+            </div>
+            <button onclick="copyById('prompt-micro-3')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950 dark:hover:bg-emerald-900 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 transition flex items-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt Fase 3
+            </button>
+          </div>
+
+          <!-- Teori & Penjelasan -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600 dark:text-slate-300">
+            <div class="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+              <strong class="text-slate-900 dark:text-slate-100 flex items-center gap-1.5"><i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-500"></i> Teori: Cara Kerja RLS di Balik Layar</strong>
+              <p>Tanpa RLS, siapa saja yang memegang Anon Key bisa menjalankan <code>supabase.from('todos').select('*')</code> dan mengunduh seluruh data pengguna lain.</p>
+              <p>Saat RLS aktif, PostgreSQL secara otomatis menyisipkan filter rahasia pada setiap query: <code>WHERE user_id = auth.uid()</code>. Fungsi <code>auth.uid()</code> membaca token JWT pengguna yang sedang login.</p>
+            </div>
+            <div class="space-y-2 bg-emerald-50/70 dark:bg-emerald-950/30 p-3.5 rounded-lg border border-emerald-200 dark:border-emerald-800">
+              <strong class="text-emerald-900 dark:text-emerald-200 flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i> Anatomi Policy (USING vs WITH CHECK):</strong>
+              <p>• <strong>USING (SELECT, UPDATE, DELETE):</strong> Memeriksa apakah baris data yang <em>sudah ada</em> boleh diakses.</p>
+              <p>• <strong>WITH CHECK (INSERT, UPDATE):</strong> Memeriksa apakah baris data <em>baru</em> yang mau disimpan memiliki <code>user_id</code> yang sah sesuai si pengirim.</p>
+            </div>
+          </div>
+
+          <!-- Prompt Box -->
+          <div class="space-y-1.5">
+            <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Prompt Siap Eksekusi:</div>
+            <pre id="prompt-micro-3" class="p-3.5 bg-slate-900 text-slate-100 rounded-lg text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap select-all">Buatkan query SQL untuk mengaktifkan RLS pada tabel `todos` dengan aturan:
+1. User hanya boleh SELECT data miliknya sendiri (`auth.uid() = user_id`).
+2. User hanya boleh INSERT data dengan user_id mereka sendiri.
+3. User hanya boleh UPDATE & DELETE data miliknya sendiri.
+Tuliskan SQL-nya dengan komentar penjelasan singkat di tiap baris policy.</pre>
+          </div>
+        </div>
+
+        <!-- FASE 4: Auth Hook -->
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 space-y-4 shadow-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center">4</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300 text-xs font-bold">Fase 4 · State &amp; Hook Autentikasi Pengguna</span>
+            </div>
+            <button onclick="copyById('prompt-micro-4')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-50 hover:bg-purple-100 dark:bg-purple-950 dark:hover:bg-purple-900 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 transition flex items-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt Fase 4
+            </button>
+          </div>
+
+          <!-- Teori & Penjelasan -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600 dark:text-slate-300">
+            <div class="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+              <strong class="text-slate-900 dark:text-slate-100 flex items-center gap-1.5"><i data-lucide="book-open" class="w-3.5 h-3.5 text-purple-500"></i> Teori: Kenapa Butuh onAuthStateChange?</strong>
+              <p>Sesi login disimpan oleh Supabase di LocalStorage dan memiliki masa kedaluwarsa token JWT (biasanya 1 jam). Supabase otomatis me-refresh token ini di latar belakang.</p>
+              <p>Dengan <code>supabase.auth.onAuthStateChange()</code>, aplikasi Anda langsung mengetahui saat user login, token di-refresh, atau user logout di tab lain tanpa perlu me-reload halaman.</p>
+            </div>
+            <div class="space-y-2 bg-purple-50/70 dark:bg-purple-950/30 p-3.5 rounded-lg border border-purple-200 dark:border-purple-800">
+              <strong class="text-purple-900 dark:text-purple-200 flex items-center gap-1.5"><i data-lucide="zap" class="w-3.5 h-3.5 text-purple-600"></i> Keuntungan Custom Hook (useAuth):</strong>
+              <p>Semua komponen UI tinggal memanggil <code>const { user, signOut } = useAuth()</code> tanpa perlu mengimpor library Supabase berulang kali di puluhan komponen.</p>
+            </div>
+          </div>
+
+          <!-- Prompt Box -->
+          <div class="space-y-1.5">
+            <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Prompt Siap Eksekusi:</div>
+            <pre id="prompt-micro-4" class="p-3.5 bg-slate-900 text-slate-100 rounded-lg text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap select-all">Buatkan modul/hook autentikasi `useAuth.ts` di frontend menggunakan Supabase:
+- Fungsi: `signUp(email, password)`, `signIn(email, password)`, dan `signOut()`.
+- State: `user`, `loading`, dan `session`.
+- Ambil sesi aktif secara realtime menggunakan listener `supabase.auth.onAuthStateChange`.
+- Buatkan kode yang ringkas dan mudah dibaca pemula.</pre>
+          </div>
+        </div>
+
+        <!-- FASE 5: CRUD Service -->
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 space-y-4 shadow-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-teal-600 text-white font-bold text-xs flex items-center justify-center">5</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300 text-xs font-bold">Fase 5 · Service Layer CRUD (Create, Read, Update, Delete)</span>
+            </div>
+            <button onclick="copyById('prompt-micro-5')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-teal-50 hover:bg-teal-100 dark:bg-teal-950 dark:hover:bg-teal-900 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800 transition flex items-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt Fase 5
+            </button>
+          </div>
+
+          <!-- Teori & Penjelasan -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600 dark:text-slate-300">
+            <div class="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+              <strong class="text-slate-900 dark:text-slate-100 flex items-center gap-1.5"><i data-lucide="book-open" class="w-3.5 h-3.5 text-teal-500"></i> Teori: Kenapa Harus Memisahkan Service Layer?</strong>
+              <p>Banyak pemula mencampurkan query database langsung di dalam event handler button React: <code>&lt;button onClick={() =&gt; supabase.from(...)}&gt;</code>. Ini membuat kode berantakan (spaghetti code) dan sulit di-debug.</p>
+              <p>Dengan membuat <code>todoService.ts</code>, logika database terisolasi rapi. Jika nama tabel atau struktur kolom berubah, Anda hanya perlu mengedit 1 file service ini.</p>
+            </div>
+            <div class="space-y-2 bg-teal-50/70 dark:bg-teal-950/30 p-3.5 rounded-lg border border-teal-200 dark:border-teal-800">
+              <strong class="text-teal-900 dark:text-teal-200 flex items-center gap-1.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-teal-600"></i> Pola Return Bersih:</strong>
+              <p>Selalu kembalikan tuple/object <code>{ data, error }</code> agar komponen UI bisa menampilkan pesan toast error yang ramah saat koneksi internet pengguna terputus.</p>
+            </div>
+          </div>
+
+          <!-- Prompt Box -->
+          <div class="space-y-1.5">
+            <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Prompt Siap Eksekusi:</div>
+            <pre id="prompt-micro-5" class="p-3.5 bg-slate-900 text-slate-100 rounded-lg text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap select-all">Buatkan fungsi CRUD untuk tabel `todos` di file `src/services/todoService.ts`:
+1. `getTodos()`: ambil data milik user yang sedang login, urutkan dari terbaru.
+2. `addTodo(title)`: tambah todo baru dengan otomatis mengisi user_id dari sesi aktif.
+3. `toggleTodo(id, currentStatus)`: ubah status is_completed.
+4. `deleteTodo(id)`: hapus item todo.
+Sertakan try-catch dan return `{ data, error }`.</pre>
+          </div>
+        </div>
+
+        <!-- FASE 6: Realtime Listener -->
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 space-y-4 shadow-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center">6</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 text-xs font-bold">Fase 6 · Realtime Subscription (WebSocket Synchronization)</span>
+            </div>
+            <button onclick="copyById('prompt-micro-6')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-950 dark:hover:bg-blue-900 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 transition flex items-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt Fase 6
+            </button>
+          </div>
+
+          <!-- Teori & Penjelasan -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600 dark:text-slate-300">
+            <div class="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700">
+              <strong class="text-slate-900 dark:text-slate-100 flex items-center gap-1.5"><i data-lucide="book-open" class="w-3.5 h-3.5 text-blue-500"></i> Teori: WebSocket vs Polling Tradisional</strong>
+              <p>Daripada browser melakukan request berulang kali setiap detik (polling) yang memboroskan kuota server, Supabase Realtime membuka pipa <strong>WebSocket permanen</strong>.</p>
+              <p>Ketika ada perubahan data di database (INSERT / UPDATE / DELETE), server Supabase langsung mendorong (push) data baru tersebut ke layar dalam hitungan milidetik.</p>
+            </div>
+            <div class="space-y-2 bg-blue-50/70 dark:bg-blue-950/30 p-3.5 rounded-lg border border-blue-200 dark:border-blue-800">
+              <strong class="text-blue-900 dark:text-blue-200 flex items-center gap-1.5"><i data-lucide="alert-circle" class="w-3.5 h-3.5 text-blue-600"></i> Syarat Wajib di Supabase Dashboard:</strong>
+              <p>Tabel yang ingin di-listen secara realtime <strong>wajib diaktifkan toggle Realtime-nya</strong> di Supabase Dashboard (menu <em>Database &gt; Replication &gt; Supabase Realtime</em>).</p>
+              <p>Jangan lupa selalu return <code>channel.unsubscribe()</code> di dalam fungsi cleanup <code>useEffect</code> agar koneksi ditutup saat komponen unmount.</p>
+            </div>
+          </div>
+
+          <!-- Prompt Box -->
+          <div class="space-y-1.5">
+            <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Prompt Siap Eksekusi:</div>
+            <pre id="prompt-micro-6" class="p-3.5 bg-slate-900 text-slate-100 rounded-lg text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap select-all">Buatkan hook React `useRealtimeTodos` yang mendengarkan perubahan realtime (INSERT, UPDATE, DELETE) pada tabel `todos` menggunakan `supabase.channel()`.
+Pastikan ada fungsi cleanup (`channel.unsubscribe()`) di `useEffect` agar tidak memory leak.</pre>
+          </div>
+        </div>
+
+        <!-- FASE 7: Debugger Special -->
+        <div class="bg-rose-50/80 dark:bg-rose-950/35 rounded-xl border-2 border-rose-300 dark:border-rose-800 p-6 space-y-4 shadow-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-rose-200 dark:border-rose-800/80 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-rose-600 text-white font-bold text-xs flex items-center justify-center">7</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-rose-200 text-rose-900 dark:bg-rose-900 dark:text-rose-200 text-xs font-black uppercase">Fase 7 · Diagnostic &amp; Debugger RLS</span>
+            </div>
+            <button onclick="copyById('prompt-micro-7')" class="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-rose-600 hover:bg-rose-700 text-white shadow-xs transition flex items-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Prompt Debugging
+            </button>
+          </div>
+
+          <!-- Teori & Penjelasan -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-rose-900 dark:text-rose-200">
+            <div class="space-y-2 bg-white/80 dark:bg-slate-900/80 p-3.5 rounded-lg border border-rose-200 dark:border-rose-900">
+              <strong class="text-rose-950 dark:text-rose-100 flex items-center gap-1.5"><i data-lucide="help-circle" class="w-3.5 h-3.5 text-rose-600"></i> Mengapa Terjadi "Silent Failure" (Array Kosong [])?</strong>
+              <p>Ini adalah kebingungan nomor 1 pemula: <em>"Data di Table Editor Supabase ada 5 baris, tapi saat di-fetch dari frontend hasilnya selalu <code>data = []</code> tanpa pesan error sama sekali di console."</em></p>
+              <p>PostgreSQL menganggap ini bukan error aplikasi melainkan filter keamanan: RLS memblokir baris tersebut karena user saat ini belum terautentikasi atau <code>auth.uid()</code> tidak cocok.</p>
+            </div>
+            <div class="space-y-2 bg-white/80 dark:bg-slate-900/80 p-3.5 rounded-lg border border-rose-200 dark:border-rose-900">
+              <strong class="text-rose-950 dark:text-rose-100 flex items-center gap-1.5"><i data-lucide="check-square" class="w-3.5 h-3.5 text-rose-600"></i> 3 Langkah Cepat Pengecekan Mandiri:</strong>
+              <p>1. Cek apakah Anda sudah login (periksa <code>supabase.auth.getUser()</code>).</p>
+              <p>2. Cek apakah policy <code>FOR SELECT</code> sudah dibuat di tabel tersebut.</p>
+              <p>3. Cek apakah nilai kolom <code>user_id</code> di tabel sama persis dengan UUID akun yang sedang login.</p>
+            </div>
+          </div>
+
+          <!-- Prompt Box -->
+          <div class="space-y-1.5">
+            <div class="text-[11px] font-bold text-rose-800 dark:text-rose-300 uppercase tracking-wider">Prompt Siap Eksekusi:</div>
+            <pre id="prompt-micro-7" class="p-3.5 bg-slate-900 text-slate-100 rounded-lg text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap select-all">Data di tabel Supabase saya tidak muncul di frontend (hasil query selalu [] / kosong), padahal tidak ada error di console.
+Bantu periksa 3 kemungkinan penyebab berikut secara to the point:
+1. Apakah RLS aktif tapi policy SELECT belum dibuat atau pengguna belum login?
+2. Apakah user_id di database cocok dengan auth.uid() pengguna yang sedang login?
+3. Berikan SQL checklist untuk memeriksa status RLS dan list policy yang sedang aktif di tabel saya.</pre>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
 
     <!-- ===== PART 1: SQL SCHEMA & DDL ===== -->
     <section id="part1" class="space-y-5">
