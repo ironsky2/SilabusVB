@@ -858,7 +858,7 @@ APLIKASI REACT (Frontend)
         </div>
       </div>
 
-      <!-- 7 Micro-Prompt Sections with Detailed Theory -->
+      <!-- 7 Micro-Prompt Sections with Detailed Theory & Beginner Non-IT Prompts -->
       <div style="display: flex; flex-direction: column; gap: 20px;">
 
         <!-- 1. Setup & Env -->
@@ -868,7 +868,7 @@ APLIKASI REACT (Frontend)
               <span style="background:#028090; color:#fff; font-size: 11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;">1</span>
               <span style="background:#E0F2FE; color:#0369A1; font-size: 12px; font-weight:700; padding: 3px 10px; border-radius: 6px;">Fase 1 · Setup Klien &amp; Singleton .env</span>
             </div>
-            <button class="btn-copy" onclick="copySnippet('prompt-mp-1')">📋 Salin Prompt Fase 1</button>
+            <span style="font-size:12px; color:#4B5563; background:#F3F4F6; padding:3px 8px; border-radius:4px; font-weight:600;">🎯 Sasaran: File .env &amp; Client Singleton</span>
           </div>
           
           <!-- Teori Grid -->
@@ -883,10 +883,31 @@ APLIKASI REACT (Frontend)
             </div>
           </div>
 
-          <pre id="prompt-mp-1" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan file konfigurasi Supabase client untuk proyek Vite (React/TypeScript).
+          <!-- Prompt Awam -->
+          <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:8px; padding:12px; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:12px; font-weight:800; color:#15803D;">🌱 OPSI 1A · Prompt Bahasa Awam (Pemula Non-IT)</span>
+              <button class="btn-copy" onclick="copySnippet('prompt-f1-awam')">📋 Salin Prompt Awam</button>
+            </div>
+            <pre id="prompt-f1-awam" style="background:#0F172A; color:#E2E8F0; padding:10px; border-radius:6px; font-family:monospace; font-size:11.5px; line-height:1.5; white-space:pre-wrap; margin:0;">Saya pemula yang sedang membuat aplikasi web menggunakan Vite + React dan Supabase.
+
+Tolong buatkan kode setup koneksi ke Supabase yang aman dan rapi:
+1. Buatkan contoh template file `.env.example` yang berisi variabel `VITE_SUPABASE_URL` dan `VITE_SUPABASE_ANON_KEY`.
+2. Buatkan file koneksi `src/lib/supabase.ts` (singleton client) yang membaca file `.env` tersebut dan menampilkan pesan peringatan yang ramah jika kunci Supabase belum diisi.
+3. Jelaskan dalam 3 langkah sederhana di mana saya harus menyalin URL & Anon Key dari dashboard Supabase ke file `.env.local` saya.</pre>
+          </div>
+
+          <!-- Prompt Teknis -->
+          <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:8px; padding:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:12px; font-weight:700; color:#374151;">⚙️ OPSI 1B · Prompt Teknis Singkat</span>
+              <button class="btn-copy" onclick="copySnippet('prompt-mp-1')">📋 Salin Prompt Teknis</button>
+            </div>
+            <pre id="prompt-mp-1" style="background:#111827; color:#F3F4F6; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 11.5px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan file konfigurasi Supabase client untuk proyek Vite (React/TypeScript).
 1. Tunjukkan format isi file `.env.example` (menggunakan prefix VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY).
 2. Buatkan file `src/lib/supabase.ts` untuk menginisialisasi createClient singleton.
 3. Beri peringatan singkat jangan pernah mengekspos SERVICE_ROLE_KEY di frontend.</pre>
+          </div>
         </div>
 
         <!-- 2. Skema SQL -->
@@ -896,25 +917,49 @@ APLIKASI REACT (Frontend)
               <span style="background:#4F46E5; color:#fff; font-size: 11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;">2</span>
               <span style="background:#EEF2FF; color:#4338CA; font-size: 12px; font-weight:700; padding: 3px 10px; border-radius: 6px;">Fase 2 · Skema SQL DDL, UUID &amp; Index</span>
             </div>
-            <button class="btn-copy" onclick="copySnippet('prompt-mp-2')">📋 Salin Prompt Fase 2</button>
+            <span style="font-size:12px; color:#4B5563; background:#F3F4F6; padding:3px 8px; border-radius:4px; font-weight:600;">🎯 Sasaran: Supabase SQL Editor</span>
           </div>
 
           <!-- Teori Grid -->
           <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 14px; font-size: 12.5px;">
             <div style="background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid #E2E8F0;">
               <strong style="color:#0F172A;">📚 Teori: Foreign Key ke auth.users &amp; Cascade Delete</strong>
-              <p style="color:#475569; margin-top:4px; line-height:1.5;">Supabase mengelola pengguna di skema internal <code>auth.users</code>. Kolom <code>user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE</code> menjamin ketika akun user dihapus, semua data todo miliknya otomatis terhapus bersih tanpa data sampah.</p>
+              <p style="color:#475569; margin-top:4px; line-height:1.5;">Supabase mengelola pengguna di skema internal <code>auth.users</code>. Kolom <code>user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE</code> menjamin ketika akun user dihapus, semua data miliknya otomatis terhapus bersih tanpa data sampah.</p>
             </div>
             <div style="background:#EEF2FF; padding:12px; border-radius:8px; border:1px solid #C7D2FE;">
               <strong style="color:#3730A3;">💡 Mengapa Index Wajib Dibuat?</strong>
-              <p style="color:#312E81; margin-top:4px; line-height:1.5;">Perintah <code>CREATE INDEX ON todos(user_id);</code> membuat daftar indeks cepat pada kolom user_id. Tanpa index, database harus men-scan jutaan baris data setiap kali ada pemanggilan query.</p>
+              <p style="color:#312E81; margin-top:4px; line-height:1.5;">Perintah <code>CREATE INDEX ON tabel(user_id);</code> membuat daftar indeks cepat pada kolom user_id. Tanpa index, database harus men-scan jutaan baris data setiap kali ada pemanggilan query.</p>
             </div>
           </div>
 
-          <pre id="prompt-mp-2" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan SQL DDL untuk tabel `todos` di Supabase SQL Editor:
+          <!-- Prompt Awam -->
+          <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:8px; padding:12px; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:12px; font-weight:800; color:#15803D;">🌱 OPSI 2A · Prompt Bahasa Awam (Pemula Non-IT)</span>
+              <button class="btn-copy" onclick="copySnippet('prompt-f2-awam')">📋 Salin Prompt Awam</button>
+            </div>
+            <pre id="prompt-f2-awam" style="background:#0F172A; color:#E2E8F0; padding:10px; border-radius:6px; font-family:monospace; font-size:11.5px; line-height:1.5; white-space:pre-wrap; margin:0;">Saya adalah pemula yang sedang membuat aplikasi [Sebutkan jenis aplikasi, contoh: Catatan Keuangan Pribadi] menggunakan Supabase.
+
+Tolong bertindak sebagai Database Architect profesional dan buatkan script SQL DDL lengkap yang siap saya jalankan di Supabase SQL Editor:
+1. Buatkan tabel-tabel yang dibutuhkan oleh aplikasi ini (contoh: profil pengguna, kategori, dan data transaksi/konten utama).
+2. Hubungkan semua tabel tersebut ke sistem login pengguna (auth.users) agar setiap data memiliki pemilik yang jelas.
+3. Buatkan function & trigger otomatis agar saat pengguna baru sign-up/mendaftar, profil mereka langsung otomatis terbuat di database.
+4. Buatkan index performa agar pencarian data cepat.
+
+Tuliskan HANYA script SQL yang bersih, aman, dan siap dieksekusi sekali klik di dashboard Supabase SQL Editor.</pre>
+          </div>
+
+          <!-- Prompt Teknis -->
+          <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:8px; padding:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:12px; font-weight:700; color:#374151;">⚙️ OPSI 2B · Prompt Teknis Singkat</span>
+              <button class="btn-copy" onclick="copySnippet('prompt-mp-2')">📋 Salin Prompt Teknis</button>
+            </div>
+            <pre id="prompt-mp-2" style="background:#111827; color:#F3F4F6; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 11.5px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan SQL DDL untuk tabel `todos` di Supabase SQL Editor:
 - Kolom: id (uuid, default gen_random_uuid()), user_id (relasi ke auth.users.id, cascade delete), title (text, not null), is_completed (boolean, default false), created_at (timestamptz, now()).
 - Tambahkan index pada kolom user_id.
 - Tuliskan query SQL yang siap di-copy-paste ke Supabase SQL Editor.</pre>
+          </div>
         </div>
 
         <!-- 3. RLS Security -->
@@ -924,7 +969,7 @@ APLIKASI REACT (Frontend)
               <span style="background:#059669; color:#fff; font-size: 11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;">3</span>
               <span style="background:#ECFDF5; color:#047857; font-size: 12px; font-weight:700; padding: 3px 10px; border-radius: 6px;">Fase 3 · Row Level Security (RLS Policies)</span>
             </div>
-            <button class="btn-copy" onclick="copySnippet('prompt-mp-3')">📋 Salin Prompt Fase 3</button>
+            <span style="font-size:12px; color:#4B5563; background:#F3F4F6; padding:3px 8px; border-radius:4px; font-weight:600;">🎯 Sasaran: PostgreSQL Security Policies</span>
           </div>
 
           <!-- Teori Grid -->
@@ -939,11 +984,34 @@ APLIKASI REACT (Frontend)
             </div>
           </div>
 
-          <pre id="prompt-mp-3" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan query SQL untuk mengaktifkan RLS pada tabel `todos` dengan aturan:
+          <!-- Prompt Awam -->
+          <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:8px; padding:12px; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:12px; font-weight:800; color:#15803D;">🌱 OPSI 3A · Prompt Bahasa Awam (Pemula Non-IT)</span>
+              <button class="btn-copy" onclick="copySnippet('prompt-f3-awam')">📋 Salin Prompt Awam</button>
+            </div>
+            <pre id="prompt-f3-awam" style="background:#0F172A; color:#E2E8F0; padding:10px; border-radius:6px; font-family:monospace; font-size:11.5px; line-height:1.5; white-space:pre-wrap; margin:0;">Saya adalah pemula yang sedang mengamankan database Supabase untuk aplikasi [Sebutkan jenis aplikasi, contoh: Catatan Keuangan Pribadi].
+
+Saya ingin mengaktifkan fitur keamanan Row Level Security (RLS) pada SEMUA tabel yang ada, dengan aturan perlindungan privasi mutlak:
+1. Aktifkan RLS di setiap tabel agar tidak ada kebocoran data.
+2. Setiap pengguna yang login HANYA BISA melihat (SELECT), menambah (INSERT), mengedit (UPDATE), dan menghapus (DELETE) data miliknya sendiri.
+3. Tidak boleh ada pengguna yang bisa melihat atau memodifikasi data milik pengguna lain.
+
+Tolong buatkan script query SQL lengkap yang aman, rapi, dan siap langsung saya jalankan di Supabase SQL Editor.</pre>
+          </div>
+
+          <!-- Prompt Teknis -->
+          <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:8px; padding:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:12px; font-weight:700; color:#374151;">⚙️ OPSI 3B · Prompt Teknis Singkat</span>
+              <button class="btn-copy" onclick="copySnippet('prompt-mp-3')">📋 Salin Prompt Teknis</button>
+            </div>
+            <pre id="prompt-mp-3" style="background:#111827; color:#F3F4F6; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 11.5px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan query SQL untuk mengaktifkan RLS pada tabel `todos` dengan aturan:
 1. User hanya boleh SELECT data miliknya sendiri (`auth.uid() = user_id`).
 2. User hanya boleh INSERT data dengan user_id mereka sendiri.
 3. User hanya boleh UPDATE &amp; DELETE data miliknya sendiri.
 Tuliskan SQL-nya dengan komentar penjelasan singkat di tiap baris policy.</pre>
+          </div>
         </div>
 
         <!-- 4. Auth Hook -->
@@ -953,7 +1021,7 @@ Tuliskan SQL-nya dengan komentar penjelasan singkat di tiap baris policy.</pre>
               <span style="background:#7C3AED; color:#fff; font-size: 11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;">4</span>
               <span style="background:#FAF5FF; color:#7E22CE; font-size: 12px; font-weight:700; padding: 3px 10px; border-radius: 6px;">Fase 4 · Hook &amp; State Autentikasi Pengguna</span>
             </div>
-            <button class="btn-copy" onclick="copySnippet('prompt-mp-4')">📋 Salin Prompt Fase 4</button>
+            <span style="font-size:12px; color:#4B5563; background:#F3F4F6; padding:3px 8px; border-radius:4px; font-weight:600;">🎯 Sasaran: AuthContext &amp; Route Guard</span>
           </div>
 
           <!-- Teori Grid -->
@@ -968,11 +1036,33 @@ Tuliskan SQL-nya dengan komentar penjelasan singkat di tiap baris policy.</pre>
             </div>
           </div>
 
-          <pre id="prompt-mp-4" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan modul/hook autentikasi `useAuth.ts` di frontend menggunakan Supabase:
+          <!-- Prompt Awam -->
+          <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:8px; padding:12px; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:12px; font-weight:800; color:#15803D;">🌱 OPSI 4A · Prompt Bahasa Awam (Pemula Non-IT)</span>
+              <button class="btn-copy" onclick="copySnippet('prompt-f4-awam')">📋 Salin Prompt Awam</button>
+            </div>
+            <pre id="prompt-f4-awam" style="background:#0F172A; color:#E2E8F0; padding:10px; border-radius:6px; font-family:monospace; font-size:11.5px; line-height:1.5; white-space:pre-wrap; margin:0;">Saya pemula yang sedang membuat fitur Login & Akun Pengguna menggunakan React dan Supabase Auth.
+
+Tolong buatkan sistem autentikasi lengkap dan mudah dipakai di seluruh halaman:
+1. Buatkan `AuthContext` dan hook `useAuth()` yang menyediakan status: `user` (data pengguna login), `loading` (status saat cek login), fungsi `signIn`, `signUp`, dan `signOut`.
+2. Tangani listener `supabase.auth.onAuthStateChange` agar jika pengguna refresh halaman atau sesi habis, status login tetap sinkron otomatis.
+3. Buatkan komponen pelindung halaman `&lt;ProtectedRoute&gt;`: jika belum login arahkan otomatis ke `/login`, jika sudah login tampilkan isi halaman.
+4. Buatkan contoh form Login & Register sederhana dengan penanganan pesan error (contoh: password salah atau email belum terdaftar).</pre>
+          </div>
+
+          <!-- Prompt Teknis -->
+          <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:8px; padding:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:12px; font-weight:700; color:#374151;">⚙️ OPSI 4B · Prompt Teknis Singkat</span>
+              <button class="btn-copy" onclick="copySnippet('prompt-mp-4')">📋 Salin Prompt Teknis</button>
+            </div>
+            <pre id="prompt-mp-4" style="background:#111827; color:#F3F4F6; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 11.5px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan modul/hook autentikasi `useAuth.ts` di frontend menggunakan Supabase:
 - Fungsi: `signUp(email, password)`, `signIn(email, password)`, dan `signOut()`.
 - State: `user`, `loading`, dan `session`.
 - Ambil sesi aktif secara realtime menggunakan listener `supabase.auth.onAuthStateChange`.
 - Buatkan kode yang ringkas dan mudah dibaca pemula.</pre>
+          </div>
         </div>
 
         <!-- 5. CRUD Service -->
@@ -982,7 +1072,7 @@ Tuliskan SQL-nya dengan komentar penjelasan singkat di tiap baris policy.</pre>
               <span style="background:#0D9488; color:#fff; font-size: 11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;">5</span>
               <span style="background:#F0FDFA; color:#0F766E; font-size: 12px; font-weight:700; padding: 3px 10px; border-radius: 6px;">Fase 5 · Service Layer CRUD Terisolasi</span>
             </div>
-            <button class="btn-copy" onclick="copySnippet('prompt-mp-5')">📋 Salin Prompt Fase 5</button>
+            <span style="font-size:12px; color:#4B5563; background:#F3F4F6; padding:3px 8px; border-radius:4px; font-weight:600;">🎯 Sasaran: File Service Bersih</span>
           </div>
 
           <!-- Teori Grid -->
@@ -997,12 +1087,34 @@ Tuliskan SQL-nya dengan komentar penjelasan singkat di tiap baris policy.</pre>
             </div>
           </div>
 
-          <pre id="prompt-mp-5" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan fungsi CRUD untuk tabel `todos` di file `src/services/todoService.ts`:
+          <!-- Prompt Awam -->
+          <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:8px; padding:12px; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:12px; font-weight:800; color:#15803D;">🌱 OPSI 5A · Prompt Bahasa Awam (Pemula Non-IT)</span>
+              <button class="btn-copy" onclick="copySnippet('prompt-f5-awam')">📋 Salin Prompt Awam</button>
+            </div>
+            <pre id="prompt-f5-awam" style="background:#0F172A; color:#E2E8F0; padding:10px; border-radius:6px; font-family:monospace; font-size:11.5px; line-height:1.5; white-space:pre-wrap; margin:0;">Saya pemula yang ingin membuat modul fungsi olah data (Tambah, Baca, Edit, Hapus) untuk aplikasi [Sebutkan jenis aplikasi, contoh: Catatan Keuangan Pribadi] di React.
+
+Tolong buatkan file service terpisah yang rapi dan aman:
+1. Buatkan fungsi untuk mengambil semua data milik user yang sedang login.
+2. Buatkan fungsi untuk menambah data baru dengan otomatis mencatat ID pemiliknya.
+3. Buatkan fungsi untuk mengubah status/isi data dan fungsi untuk menghapus data.
+4. Pastikan semua fungsi dilengkapi penanganan error (try-catch) dan tidak membuat layar web crash.</pre>
+          </div>
+
+          <!-- Prompt Teknis -->
+          <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:8px; padding:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:12px; font-weight:700; color:#374151;">⚙️ OPSI 5B · Prompt Teknis Singkat</span>
+              <button class="btn-copy" onclick="copySnippet('prompt-mp-5')">📋 Salin Prompt Teknis</button>
+            </div>
+            <pre id="prompt-mp-5" style="background:#111827; color:#F3F4F6; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 11.5px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan fungsi CRUD untuk tabel `todos` di file `src/services/todoService.ts`:
 1. `getTodos()`: ambil data milik user yang sedang login, urutkan dari terbaru.
 2. `addTodo(title)`: tambah todo baru dengan otomatis mengisi user_id dari sesi aktif.
 3. `toggleTodo(id, currentStatus)`: ubah status is_completed.
 4. `deleteTodo(id)`: hapus item todo.
 Sertakan try-catch dan return `{ data, error }`.</pre>
+          </div>
         </div>
 
         <!-- 6. Realtime Listener -->
@@ -1012,7 +1124,7 @@ Sertakan try-catch dan return `{ data, error }`.</pre>
               <span style="background:#2563EB; color:#fff; font-size: 11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;">6</span>
               <span style="background:#EFF6FF; color:#1D4ED8; font-size: 12px; font-weight:700; padding: 3px 10px; border-radius: 6px;">Fase 6 · Realtime Subscription (WebSocket)</span>
             </div>
-            <button class="btn-copy" onclick="copySnippet('prompt-mp-6')">📋 Salin Prompt Fase 6</button>
+            <span style="font-size:12px; color:#4B5563; background:#F3F4F6; padding:3px 8px; border-radius:4px; font-weight:600;">🎯 Sasaran: Supabase Realtime Channel</span>
           </div>
 
           <!-- Teori Grid -->
@@ -1027,8 +1139,30 @@ Sertakan try-catch dan return `{ data, error }`.</pre>
             </div>
           </div>
 
-          <pre id="prompt-mp-6" style="background:#111827; color:#F3F4F6; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan hook React `useRealtimeTodos` yang mendengarkan perubahan realtime (INSERT, UPDATE, DELETE) pada tabel `todos` menggunakan `supabase.channel()`.
+          <!-- Prompt Awam -->
+          <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:8px; padding:12px; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:12px; font-weight:800; color:#15803D;">🌱 OPSI 6A · Prompt Bahasa Awam (Pemula Non-IT)</span>
+              <button class="btn-copy" onclick="copySnippet('prompt-f6-awam')">📋 Salin Prompt Awam</button>
+            </div>
+            <pre id="prompt-f6-awam" style="background:#0F172A; color:#E2E8F0; padding:10px; border-radius:6px; font-family:monospace; font-size:11.5px; line-height:1.5; white-space:pre-wrap; margin:0;">Saya pemula yang ingin fitur website saya bergerak 'Live' secara realtime menggunakan Supabase Realtime di React.
+
+Tolong buatkan custom hook React untuk mendengarkan perubahan data secara langsung:
+1. Dengarkan tabel [Sebutkan nama tabel, contoh: transactions / catatan] saat ada data BARU (INSERT), data DIEDIT (UPDATE), atau data DIHAPUS (DELETE).
+2. Perbarui state data di layar seketika tanpa perlu refresh halaman browser.
+3. Pastikan hook ini aman dari kebocoran memori (otomatis unsubscribe/melepaskan koneksi websocket saat komponen ditutup).
+4. Berikan contoh cara memakainya di komponen daftar data.</pre>
+          </div>
+
+          <!-- Prompt Teknis -->
+          <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:8px; padding:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:12px; font-weight:700; color:#374151;">⚙️ OPSI 6B · Prompt Teknis Singkat</span>
+              <button class="btn-copy" onclick="copySnippet('prompt-mp-6')">📋 Salin Prompt Teknis</button>
+            </div>
+            <pre id="prompt-mp-6" style="background:#111827; color:#F3F4F6; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 11.5px; line-height: 1.5; white-space: pre-wrap; margin:0;">Buatkan hook React `useRealtimeTodos` yang mendengarkan perubahan realtime (INSERT, UPDATE, DELETE) pada tabel `todos` menggunakan `supabase.channel()`.
 Pastikan ada fungsi cleanup (`channel.unsubscribe()`) di `useEffect` agar tidak memory leak.</pre>
+          </div>
         </div>
 
         <!-- 7. Debugger RLS Special -->
