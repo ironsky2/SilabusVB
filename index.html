@@ -1976,6 +1976,13 @@
                 <div style="font-size:11px; color:#787774;">SQL, RLS, Auth, Realtime &amp; Edge</div>
               </div>
             </a>
+            <a href="panduan_deploy_vercel.html" class="dropdown-item">
+              <span>▲</span>
+              <div>
+                <strong>Deploy ke Vercel (P15)</strong>
+                <div style="font-size:11px; color:#787774;">Panduan Non-IT + Supabase</div>
+              </div>
+            </a>
             <a href="panduan_vibecoding_owasp.html" class="dropdown-item">
               <span>🛡️</span>
               <div>
@@ -3759,45 +3766,101 @@ Jangan ubah semua sekaligus. Satu langkah dulu, kita periksa, baru lanjut.</pre>
                 </div>
               </div>
             </div>
-            <p class="session-goal"><b>Tujuan:</b> Proyek memiliki alamat URL publik yang hidup dan bisa dibuka siapa
-              saja.</p>
+            <p class="session-goal"><b>Tujuan:</b> Memindahkan aplikasi dari server lokal (localhost) ke cloud hosting global (Vercel) sehingga memiliki URL publik yang aktif 24/7 dan terhubung aman ke database Supabase.</p>
+            
+            <!-- 3 Kolom Mental Model Pedagogis -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; margin:16px 0 20px;">
+              <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:14px;">
+                <strong style="color:#0F172A; font-size:13px; display:flex; align-items:center; gap:6px;">
+                  <span>🏠 vs 🌐 Localhost vs Cloud Hosting</span>
+                </strong>
+                <p style="font-size:12px; color:#475569; margin:6px 0 0; line-height:1.5;">
+                  <code>localhost:5173</code> ibarat toko di dalam garasi rumah — hanya Anda yang bisa melihatnya. Vercel menyalin kode ke server internet publik (CDN global) sehingga siapapun di seluruh dunia bisa mengaksesnya via URL <code>*.vercel.app</code>.
+                </p>
+              </div>
+
+              <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:10px; padding:14px;">
+                <strong style="color:#1E40AF; font-size:13px; display:flex; align-items:center; gap:6px;">
+                  <span>⚡ Pipa Otomasi CI/CD Modern</span>
+                </strong>
+                <p style="font-size:12px; color:#1E3A8A; margin:6px 0 0; line-height:1.5;">
+                  Tidak perlu upload file manual via FTP! Cukup jalankan <code>git push</code> ke GitHub, Vercel secara otomatis mendeteksi perubahan, mengompilasi bundel kode, dan menerbitkan pembaruan secara live dalam hitungan detik.
+                </p>
+              </div>
+
+              <div style="background:#FEF3C7; border:1px solid #FCD34D; border-radius:10px; padding:14px;">
+                <strong style="color:#92400E; font-size:13px; display:flex; align-items:center; gap:6px;">
+                  <span>🔐 Brankas Environment Variables</span>
+                </strong>
+                <p style="font-size:12px; color:#78350F; margin:6px 0 0; line-height:1.5;">
+                  Kunci database (Supabase URL &amp; Anon Key) tidak boleh ditulis langsung di kode publik. Simpan di menu <strong>Settings → Environment Variables</strong> di Vercel agar koneksi database aman dari pencurian kunci.
+                </p>
+              </div>
+            </div>
+
             <div class="session-cols">
               <div class="col">
                 <h4 class="col-title">Yang dibahas</h4>
                 <ul class="plain-list">
-                  <li>Perbedaan menjalankan di localhost (port lokal) vs server hosting publik</li>
-                  <li>Hal yang sering bermasalah saat deploy: environment variable yang lupa diisi, routing SPA 404</li>
-                  <li>Membaca build log di platform hosting saat deploy gagal</li>
+                  <li>Perbedaan menjalankan di localhost (port lokal) vs server edge hosting publik Vercel</li>
+                  <li>Alur 5 Fase Deploy: Siapkan Laptop ➔ GitHub ➔ Vercel ➔ Update Otomatis ➔ Database Supabase</li>
+                  <li>Penanganan error deploy: environment variables tidak terbaca, routing SPA 404, dan cara rollback versi</li>
+                  <li>Membaca build log di dashboard Vercel secara tenang menggunakan AI Diagnostic prompt</li>
                 </ul>
               </div>
               <div class="col">
                 <h4 class="col-title col-title-do">Praktik di kelas</h4>
                 <ol class="do-list">
-                  <li>Push seluruh commit repo ke GitHub</li>
-                  <li>Hubungkan repo ke Vercel / Netlify, pasang Environment Variables Supabase</li>
-                  <li>Jika build gagal, salin log error persis ke AI untuk solusi perbaikan cepat</li>
-                  <li>Buka URL aplikasi dari ponsel, uji skenario transaksi secara langsung</li>
+                  <li>Push seluruh commit repository lokal ke GitHub (<code>git push -u origin main</code>)</li>
+                  <li>Buka Vercel Dashboard, import repository GitHub, dan klik <strong>Deploy</strong></li>
+                  <li>Tambahkan <code>VITE_SUPABASE_URL</code> dan <code>VITE_SUPABASE_ANON_KEY</code> di Environment Variables Vercel, lalu Redeploy</li>
+                  <li>Buka link live dari browser smartphone, uji coba transaksi, dan verifikasi data masuk ke Supabase Table Editor</li>
                 </ol>
               </div>
             </div>
+
+            <!-- CALLOUT BANNER MODUL PRAKTIKUM TERPISAH -->
+            <div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); color:#fff; border-radius:12px; padding:20px 24px; margin:20px 0; box-shadow:0 4px 14px rgba(15, 23, 42, 0.15);">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:14px;">
+                <div style="max-width:620px;">
+                  <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(56, 189, 248, 0.2); color:#38BDF8; font-size:11px; font-weight:800; padding:2px 8px; border-radius:4px; margin-bottom:6px;">
+                    <span>▲ PANDUAN LENGKAP NON-IT</span>
+                    <span>•</span>
+                    <span>TINGGAL COPY-PASTE KE AI</span>
+                  </div>
+                  <h4 style="font-size:16px; font-weight:bold; color:#fff; margin:2px 0 4px;">Modul Praktikum Deploy Vercel &amp; Supabase (Pemula Non-IT)</h4>
+                  <p style="font-size:12.5px; color:#94A3B8; margin:0; line-height:1.5;">
+                    Tersedia 18 Master Prompt siap pakai: Fase A (Laptop), Fase B (GitHub), Fase C (Vercel), Fase D (Update), Fase Darurat/Panik, dan Fase E (Supabase) + Checklist 100% Siap.
+                  </p>
+                </div>
+                <div>
+                  <a href="panduan_deploy_vercel.html" class="btn-nav btn-nav-primary" style="background:#0070F3; border-color:#0070F3; color:#fff; padding:10px 18px; font-size:13px; font-weight:700; border-radius:8px; display:inline-flex; align-items:center; gap:6px;">
+                    <span>▲ Buka Modul Praktikum Deploy</span>
+                    <span>→</span>
+                  </a>
+                </div>
+              </div>
+              <a href="panduan_deploy_vercel.html" style="display:block; border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,0.15);">
+                <img src="peta_deploy_vercel_5fase.jpg" alt="Peta Arsitektur 5 Fase Deploy Vercel &amp; Supabase" style="width:100%; height:auto; display:block;" loading="lazy">
+              </a>
+            </div>
+
             <div class="warn-box">
               <div class="warn-mark">!</div>
-              <p>Sebelum push ke GitHub, periksa isi commit. Pastikan tidak ada kunci rahasia, password, atau file
-                <code>.env.local</code> yang ikut terkirim ke repo publik.
-              </p>
+              <p>Sebelum push ke GitHub, periksa file <code>.gitignore</code>. Pastikan file <code>.env.local</code> yang berisi kunci rahasia tidak ikut terkirim ke repository publik GitHub.</p>
             </div>
+
             <div class="session-foot">
               <div class="foot-item foot-output">
                 <span class="foot-label">Output pertemuan</span>
-                <span class="foot-text">Tautan URL aplikasi publik yang hidup dan berfungsi normal saat dibuka dari
-                  smartphone.</span>
+                <span class="foot-text">Tautan URL aplikasi publik (<code>*.vercel.app</code>) yang aktif, terenkripsi SSL/HTTPS, dan berfungsi normal saat diuji dari smartphone.</span>
               </div>
               <div class="foot-item foot-pitfall">
                 <span class="foot-label">Kesalahan yang sering terjadi</span>
-                <span class="foot-text">Aplikasi sukses di laptop tetapi layar putih di server publik karena lupa
-                  mengisi env variables di dashboard hosting.</span>
+                <span class="foot-text">Aplikasi sukses di laptop tetapi layar putih di server publik karena lupa mengisi Environment Variables di dashboard Vercel atau lupa klik Redeploy.</span>
               </div>
             </div>
+
             <div class="nav-step-bar">
               <a href="#p14" class="btn-nav">← Pertemuan 14</a>
               <a href="#p16" class="btn-nav btn-nav-primary">Lanjut ke Pertemuan 16 (Presentasi) →</a>
