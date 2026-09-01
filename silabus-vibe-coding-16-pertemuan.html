@@ -3551,309 +3551,136 @@ Jangan ubah semua sekaligus. Satu langkah dulu, kita periksa, baru lanjut.</pre>
                 <small>Push ke semua client</small>
               </div>
             </div>
-            <p class="theory-summary-desc">Keempat komponen ini <strong>tidak bisa dipisahkan</strong>. Auth memberi
-              identitas → RLS menjaga privasi → Database menyimpan data → Realtime menyiarkan perubahan. Inilah
-              arsitektur aplikasi modern yang sesungguhnya.</p>
+            <p class="theory-summary-desc">Keempat komponen ini <strong>tidak bisa dipisahkan</strong>. Auth memberi identitas → RLS menjaga privasi → Database menyimpan data → Realtime menyiarkan perubahan. Inilah arsitektur aplikasi modern yang sesungguhnya.</p>
           </div>
 
         </div><!-- end theory-wrapper -->
 
-        <!-- LAB PART 1 -->
-        <div class="lab-card" id="lab-part1">
-          <div class="lab-head">
-            <div class="lab-head-title">
-              <div class="lab-step-num">01</div>
-              <div class="lab-head-text">
-                <h4>Menulis Skema SQL &amp; DDL di Supabase</h4>
-                <p>DDL Tables · Foreign Key Cascade · Triggers · Index Performa</p>
+        <!-- =========================================================== -->
+        <!-- PROMPT SQL & RLS SINGKAT, PADAT & TO-THE-POINT             -->
+        <!-- =========================================================== -->
+        <div class="session" style="background:#fff; border:2px solid #028090; border-radius:14px; padding:28px; margin:28px 0; box-shadow:0 4px 16px rgba(2, 128, 144, 0.07);">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #EAF6F4; padding-bottom:16px; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+            <div>
+              <div style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:1.2px; color:#01656F;">Master Prompts Vibe-Coding</div>
+              <h3 style="color:#01656F; margin:4px 0; font-size:22px;">⚡ Prompt Singkat &amp; Padat: Eksekusi Backend Supabase</h3>
+              <p style="font-size:13.5px; color:var(--ink-mid); margin:0;">Salin prompt ringkas di bawah ini langsung ke AI Agent (Antigravity / Cursor / Claude) untuk membangun database backend dalam hitungan menit.</p>
+            </div>
+            <span style="background:#EAF6F4; color:#01656F; font-size:12px; font-weight:700; padding:4px 12px; border-radius:20px; border:1px solid rgba(1, 101, 111, 0.2);">SQL &amp; RLS Ready</span>
+          </div>
+
+          <!-- 3 Langkah Eksekusi -->
+          <div style="background:#F7F6F3; border:1px solid var(--line); border-radius:10px; padding:14px 18px; margin-bottom:22px;">
+            <strong style="font-size:13px; color:var(--ink); display:flex; align-items:center; gap:6px;">
+              <span>🚀 3 Langkah Cepat Eksekusi SQL di Supabase:</span>
+            </strong>
+            <ol style="font-size:13px; color:var(--ink-mid); margin:8px 0 0 20px; line-height:1.6;">
+              <li>Salin salah satu prompt di bawah dan tempelkan ke AI Agent untuk menghasilkan query SQL.</li>
+              <li>Buka dashboard proyek Anda di <strong>Supabase Cloud → Menu SQL Editor</strong>.</li>
+              <li>Tempelkan SQL hasil generate AI, lalu klik tombol hijau <strong>Run (Ctrl+Enter)</strong>. Selesai!</li>
+            </ol>
+          </div>
+
+          <!-- Kumpulan Prompt Singkat -->
+          <div style="display:flex; flex-direction:column; gap:18px;">
+
+            <!-- Prompt 1: DDL Schema -->
+            <div style="background:#fff; border:1px solid #E5E7EB; border-radius:10px; padding:18px; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                <div>
+                  <span style="background:#EEF2FF; color:#4338CA; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">PROMPT 1 · Skema Database (SQL DDL)</span>
+                  <div style="font-size:14px; font-weight:bold; color:#1F2937; margin-top:2px;">Membuat Tabel FinTrack, Relasi Foreign Key &amp; Trigger Profil</div>
+                </div>
+                <button class="btn-copy" onclick="copySnippet('p-sql-schema')">📋 Salin Prompt</button>
               </div>
+              <p style="font-size:12.5px; color:#6B7280; margin-bottom:10px;">
+                Mendefinisikan tabel <code>profiles</code>, <code>categories</code>, dan <code>transactions</code> dengan relasi UUID ke <code>auth.users</code> serta trigger auto-create profile.
+              </p>
+              <pre id="p-sql-schema" style="background:#111827; color:#F3F4F6; padding:14px; border-radius:8px; font-family:monospace; font-size:12px; line-height:1.5; white-space:pre-wrap; margin:0;">Buatkan script SQL DDL lengkap untuk Supabase SQL Editor (Aplikasi FinTrack):
+1. Tabel profiles: id UUID references auth.users(id) ON DELETE CASCADE primary key, full_name text, avatar_url text, updated_at timestamptz.
+2. Tabel categories: id UUID PK gen_random_uuid(), user_id UUID references auth.users(id) cascade, name text not null, color text, type text check in ('income','expense').
+3. Tabel transactions: id UUID PK gen_random_uuid(), user_id UUID references auth.users(id) cascade, category_id UUID references categories(id) on delete set null, title text not null, amount numeric(15,2) check > 0, type text check in ('income','expense'), date date not null.
+4. Function & Trigger handle_new_user() untuk otomatis membuat baris profil baru saat ada user mendaftar di auth.users.
+5. Index pada transactions.user_id dan categories.user_id.
+Tuliskan SQL bersih siap eksekusi.</pre>
             </div>
-          </div>
 
-          <p style="font-size:14px; color:var(--ink-mid); margin-bottom:14px;">
-            <b>Konsep:</b> DDL (Data Definition Language) adalah perintah SQL untuk mendefinisikan kerangka struktur
-            database. Kita membuat tabel <code>profiles</code>, <code>categories</code>, dan <code>transactions</code>
-            dengan trigger otomatis pembuatan profil saat user sign-up.
-          </p>
-
-          <!-- Prompt Card -->
-          <div class="prompt-card">
-            <div class="prompt-card-bar">
-              <span>PROMPT KE ANTIGRAVITY AGENT</span>
-              <button class="btn-copy" onclick="copySnippet('prompt-sql-ddl')">Salin Prompt</button>
+            <!-- Prompt 2: RLS Policies -->
+            <div style="background:#fff; border:1px solid #E5E7EB; border-radius:10px; padding:18px; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                <div>
+                  <span style="background:#ECFDF5; color:#047857; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">PROMPT 2 · Keamanan RLS (Row Level Security)</span>
+                  <div style="font-size:14px; font-weight:bold; color:#1F2937; margin-top:2px;">Mengunci Tabel Agar Data Pengguna Terisolasi Sempurna</div>
+                </div>
+                <button class="btn-copy" onclick="copySnippet('p-sql-rls')">📋 Salin Prompt</button>
+              </div>
+              <p style="font-size:12.5px; color:#6B7280; margin-bottom:10px;">
+                Mengaktifkan <code>ROW LEVEL SECURITY</code> dan membuat policy SELECT, INSERT, UPDATE, DELETE berbasis <code>auth.uid() = user_id</code>.
+              </p>
+              <pre id="p-sql-rls" style="background:#111827; color:#F3F4F6; padding:14px; border-radius:8px; font-family:monospace; font-size:12px; line-height:1.5; white-space:pre-wrap; margin:0;">Buatkan query SQL untuk mengaktifkan Row Level Security (RLS) pada tabel profiles, categories, dan transactions di Supabase:
+1. Aktifkan ALTER TABLE ... ENABLE ROW LEVEL SECURITY untuk ketiga tabel.
+2. Buat policy SELECT: Pengguna hanya boleh membaca data miliknya sendiri (auth.uid() = user_id atau auth.uid() = id pada profiles).
+3. Buat policy INSERT: Pengguna hanya boleh menambahkan baris dengan user_id miliknya sendiri.
+4. Buat policy UPDATE & DELETE: Pengguna hanya boleh mengubah/menghapus baris miliknya sendiri.
+Sertakan komentar ringkas pada setiap policy.</pre>
             </div>
-            <pre id="prompt-sql-ddl">[ROLE]: Supabase Database Architect & PostgreSQL Security Specialist
-[CONTEXT]: Stack: Vite + React 18 (TypeScript) + @supabase/supabase-js. Aplikasi manajemen keuangan pribadi multi-user.
-[INSTRUCTION]:
-Buatkan script SQL DDL lengkap untuk Supabase dengan ketentuan:
-1. TABEL profiles (id UUID PK references auth.users ON DELETE CASCADE, full_name, avatar_url, updated_at).
-2. TABEL categories (id UUID PK, user_id UUID references auth.users ON DELETE CASCADE, name, color, icon, created_at).
-3. TABEL transactions (id UUID PK, user_id UUID references auth.users ON DELETE CASCADE, category_id UUID references categories ON DELETE SET NULL, title, amount NUMERIC(15,2), type CHECK ('income','expense'), note, date, created_at).
-4. FUNCTION & TRIGGER handle_new_user() untuk auto-create row di profiles saat user baru terdaftar di auth.users.
-5. FUNCTION & TRIGGER update_updated_at_column() pada profiles.
-6. INDEX performa pada transactions.user_id, transactions.date, categories.user_id.
-[CONSTRAINT]:
-- Siap dijalankan di Supabase SQL Editor.
-- Tanpa RLS dahulu (RLS akan dibuat terpisah).</pre>
-          </div>
 
-          <!-- Output Code Card -->
-          <div class="code-card">
-            <div class="code-card-bar">
-              <span>SQL OUTPUT — Eksekusi di Supabase Dashboard → SQL Editor</span>
-              <button class="btn-copy" onclick="copySnippet('code-sql-ddl')">Salin SQL</button>
+            <!-- Prompt 3: Singleton Client & .env -->
+            <div style="background:#fff; border:1px solid #E5E7EB; border-radius:10px; padding:18px; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                <div>
+                  <span style="background:#E0F2FE; color:#0369A1; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">PROMPT 3 · Frontend Singleton &amp; Environment Variable</span>
+                  <div style="font-size:14px; font-weight:bold; color:#1F2937; margin-top:2px;">Koneksi Aman Antara Vite/React dengan Supabase</div>
+                </div>
+                <button class="btn-copy" onclick="copySnippet('p-sql-env')">📋 Salin Prompt</button>
+              </div>
+              <p style="font-size:12.5px; color:#6B7280; margin-bottom:10px;">
+                Inisialisasi klien tunggal (singleton) di <code>src/lib/supabase.ts</code> menggunakan URL dan Anon Key tanpa membocorkan Service Role Key.
+              </p>
+              <pre id="p-sql-env" style="background:#111827; color:#F3F4F6; padding:14px; border-radius:8px; font-family:monospace; font-size:12px; line-height:1.5; white-space:pre-wrap; margin:0;">Buatkan konfigurasi koneksi Supabase untuk proyek Vite (React / TypeScript):
+1. Format file `.env.example` berisi variabel VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY.
+2. File `src/lib/supabase.ts` dengan createClient singleton dan penanganan error jika env belum terdefinisi.
+3. Contoh singkat hook autentikasi `useAuth.ts` untuk menangani login, logout, dan session realtime.</pre>
             </div>
-            <pre
-              id="code-sql-ddl"><span class="c-cm">-- 1. FUNCTION: Auto-update timestamp saat row dimodifikasi</span>
-<span class="c-kw">CREATE OR REPLACE FUNCTION</span> <span class="c-fn">update_updated_at_column</span>()
-<span class="c-kw">RETURNS TRIGGER AS</span> $$
-<span class="c-kw">BEGIN</span>
-  NEW.updated_at = now();
-  <span class="c-kw">RETURN</span> NEW;
-<span class="c-kw">END</span>;
-$$ <span class="c-kw">LANGUAGE</span> plpgsql;
 
-<span class="c-cm">-- 2. TABEL PROFILES (relasi 1-to-1 dengan auth.users)</span>
-<span class="c-kw">CREATE TABLE IF NOT EXISTS</span> public.profiles (
-  id          UUID <span class="c-kw">REFERENCES</span> auth.users(id) <span class="c-kw">ON DELETE CASCADE PRIMARY KEY</span>,
-  full_name   TEXT,
-  avatar_url  TEXT,
-  updated_at  TIMESTAMPTZ <span class="c-kw">DEFAULT</span> now()
-);
-
-<span class="c-kw">CREATE OR REPLACE TRIGGER</span> profiles_updated_at
-  <span class="c-kw">BEFORE UPDATE ON</span> public.profiles
-  <span class="c-kw">FOR EACH ROW EXECUTE FUNCTION</span> <span class="c-fn">update_updated_at_column</span>();
-
-<span class="c-cm">-- 3. TABEL CATEGORIES (per user)</span>
-<span class="c-kw">CREATE TABLE IF NOT EXISTS</span> public.categories (
-  id          UUID <span class="c-kw">PRIMARY KEY DEFAULT</span> gen_random_uuid(),
-  user_id     UUID <span class="c-kw">NOT NULL REFERENCES</span> auth.users(id) <span class="c-kw">ON DELETE CASCADE</span>,
-  name        TEXT <span class="c-kw">NOT NULL</span>,
-  color       TEXT <span class="c-kw">DEFAULT</span> <span class="c-str">'#028090'</span>,
-  icon        TEXT <span class="c-kw">DEFAULT</span> <span class="c-str">'tag'</span>,
-  created_at  TIMESTAMPTZ <span class="c-kw">DEFAULT</span> now()
-);
-
-<span class="c-cm">-- 4. TABEL TRANSACTIONS (catatan keuangan)</span>
-<span class="c-kw">CREATE TABLE IF NOT EXISTS</span> public.transactions (
-  id          UUID <span class="c-kw">PRIMARY KEY DEFAULT</span> gen_random_uuid(),
-  user_id     UUID <span class="c-kw">NOT NULL REFERENCES</span> auth.users(id) <span class="c-kw">ON DELETE CASCADE</span>,
-  category_id UUID <span class="c-kw">REFERENCES</span> public.categories(id) <span class="c-kw">ON DELETE SET NULL</span>,
-  title       TEXT <span class="c-kw">NOT NULL</span>,
-  amount      NUMERIC(<span class="c-num">15</span>,<span class="c-num">2</span>) <span class="c-kw">NOT NULL</span>,
-  type        TEXT <span class="c-kw">NOT NULL CHECK</span> (type <span class="c-kw">IN</span> (<span class="c-str">'income'</span>, <span class="c-str">'expense'</span>)),
-  note        TEXT,
-  date        DATE <span class="c-kw">DEFAULT</span> CURRENT_DATE,
-  created_at  TIMESTAMPTZ <span class="c-kw">DEFAULT</span> now()
-);
-
-<span class="c-cm">-- 5. FUNCTION + TRIGGER: Auto-buat profile saat user baru terdaftar</span>
-<span class="c-kw">CREATE OR REPLACE FUNCTION</span> <span class="c-fn">handle_new_user</span>()
-<span class="c-kw">RETURNS TRIGGER AS</span> $$
-<span class="c-kw">BEGIN</span>
-  <span class="c-kw">INSERT INTO</span> public.profiles (id, full_name, avatar_url)
-  <span class="c-kw">VALUES</span> (
-    NEW.id,
-    NEW.raw_user_meta_data ->> <span class="c-str">'full_name'</span>,
-    NEW.raw_user_meta_data ->> <span class="c-str">'avatar_url'</span>
-  );
-  <span class="c-kw">RETURN</span> NEW;
-<span class="c-kw">END</span>;
-$$ <span class="c-kw">LANGUAGE</span> plpgsql SECURITY DEFINER;
-
-<span class="c-kw">CREATE OR REPLACE TRIGGER</span> on_auth_user_created
-  <span class="c-kw">AFTER INSERT ON</span> auth.users
-  <span class="c-kw">FOR EACH ROW EXECUTE FUNCTION</span> <span class="c-fn">handle_new_user</span>();
-
-<span class="c-cm">-- 6. INDEX PERFORMA</span>
-<span class="c-kw">CREATE INDEX IF NOT EXISTS</span> idx_transactions_user_id <span class="c-kw">ON</span> public.transactions(user_id);
-<span class="c-kw">CREATE INDEX IF NOT EXISTS</span> idx_transactions_date     <span class="c-kw">ON</span> public.transactions(date DESC);
-<span class="c-kw">CREATE INDEX IF NOT EXISTS</span> idx_categories_user_id    <span class="c-kw">ON</span> public.categories(user_id);</pre>
           </div>
         </div>
 
-        <!-- LAB PART 2: RLS -->
-        <div class="lab-card" id="lab-part2">
-          <div class="lab-head">
-            <div class="lab-head-title">
-              <div class="lab-step-num">02</div>
-              <div class="lab-head-text">
-                <h4>Row Level Security (RLS) Policies &amp; Visual Komparasi</h4>
-                <p>Firewall Database per Baris · Isolasi Multi-Tenant · Keamanan Mutlak</p>
+        <!-- CALLOUT BANNER BAWAH: CHECKPOINT & PRAKTIKUM MANDIRI -->
+        <div class="session" style="background: linear-gradient(135deg, #FFFDF5 0%, #FFFFFF 50%, #F0FDF8 100%); border: 2px solid #01656F; margin: 24px 0 16px; border-radius: 14px; padding: 24px; box-shadow: 0 4px 18px rgba(1, 101, 111, 0.1);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div style="max-width: 640px;">
+              <div style="display:inline-flex; align-items:center; gap:6px; background:#EAF6F4; color:#01656F; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:20px; margin-bottom:6px;">
+                <span>🔬 Modul Praktikum Terpisah</span>
+                <span>•</span>
+                <span>Panduan 9 Lab Lengkap</span>
               </div>
+              <h4 style="font-size: 17px; color: #01656F; margin-bottom: 4px; font-weight: bold;">
+                Siap Masuk ke Implementasi Kode Penuh &amp; Fitur Lanjutan?
+              </h4>
+              <p style="font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.55;">
+                Untuk melihat <strong>seluruh kode implementasi TypeScript/React</strong>, operasi CRUD terisolasi, upload file avatar (<strong>Storage</strong>), serverless logic (<strong>Edge Functions</strong>), pengujian verifikasi, dan deployment live ke Vercel, silakan buka buku pegangan laboratorium mandiri:
+              </p>
             </div>
-          </div>
-
-          <!-- Penjelasan Visual RLS -->
-          <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
-            <b>Memahami RLS:</b> Tanpa RLS aktif, query <code>SELECT * FROM transactions</code> akan mengembalikan
-            seluruh baris data semua user. Dengan RLS aktif, engine PostgreSQL menyisipkan filter
-            <code>WHERE user_id = auth.uid()</code> secara otomatis di level database.
-          </p>
-
-          <!-- Grid 2 Kolom Simulasi RLS -->
-          <div class="rls-sim-grid">
-            <!-- TANPA RLS -->
-            <div class="rls-col rls-col-bad">
-              <div class="rls-col-head">
-                <span>🔴</span>
-                <span>TANPA RLS (Data Bocor!)</span>
-              </div>
-              <div class="rls-col-body">
-                <div
-                  style="font-family:monospace; font-size:12px; background:#F8FAFC; padding:6px 10px; border-radius:6px; margin-bottom:8px;">
-                  SELECT * FROM transactions;
-                </div>
-                <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:8px;">PostgreSQL mengeksekusi tanpa
-                  filter kepemilikan. Hasil:</p>
-                <table class="rls-sim-table">
-                  <thead>
-                    <tr>
-                      <th>user_id</th>
-                      <th>title</th>
-                      <th>amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr style="background:#ECFDF5;">
-                      <td>user-A (kamu)</td>
-                      <td>Gaji Bulanan</td>
-                      <td>5.000.000</td>
-                    </tr>
-                    <tr style="background:#FFF1F2; color:#991B1B;">
-                      <td>user-B (orang lain!)</td>
-                      <td>Bonus Tahunan</td>
-                      <td>20.000.000</td>
-                    </tr>
-                    <tr style="background:#FFF1F2; color:#991B1B;">
-                      <td>user-C (orang lain!)</td>
-                      <td>Beli Saham</td>
-                      <td>15.000.000</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <p style="font-size:12px; color:#BE123C; font-weight:bold;">⚠️ User A bisa melihat seluruh transaksi
-                  User B &amp; C!</p>
-              </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <a href="laboratorium_lengkap_supabase.html" class="btn-nav btn-nav-primary" style="padding:10px 18px; font-size:13px; text-decoration:none; background:#01656F; color:#fff; border-radius:8px; font-weight:bold; display:inline-flex; align-items:center; gap:6px; box-shadow: 0 2px 8px rgba(1, 101, 111, 0.2);">
+                <span>🔬 Buka PRD 9 Lab Penuh</span>
+                <span>→</span>
+              </a>
+              <a href="materi_modul3_supabase_detail.html" class="btn-nav" style="padding:10px 16px; font-size:12.5px; text-decoration:none; background:#fff; color:#01656F; border:1.5px solid #01656F; border-radius:8px; font-weight:600; display:inline-flex; align-items:center; gap:6px;">
+                <span>📘 Modul 3 Detail</span>
+                <span>→</span>
+              </a>
             </div>
-
-            <!-- DENGAN RLS -->
-            <div class="rls-col rls-col-good">
-              <div class="rls-col-head">
-                <span>🟢</span>
-                <span>DENGAN RLS (Aman &amp; Terisolasi)</span>
-              </div>
-              <div class="rls-col-body">
-                <div
-                  style="font-family:monospace; font-size:12px; background:#F8FAFC; padding:6px 10px; border-radius:6px; margin-bottom:4px;">
-                  SELECT * FROM transactions;
-                </div>
-                <div style="font-size:11px; color:#047857; margin-bottom:8px;">+ PostgreSQL otomatis menambahkan
-                  <code>WHERE user_id = auth.uid()</code></div>
-                <table class="rls-sim-table">
-                  <thead>
-                    <tr>
-                      <th>user_id</th>
-                      <th>title</th>
-                      <th>amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr style="background:#ECFDF5;">
-                      <td>user-A (kamu)</td>
-                      <td>Gaji Bulanan</td>
-                      <td>5.000.000</td>
-                    </tr>
-                    <tr class="row-unauth">
-                      <td>user-B</td>
-                      <td>Bonus Tahunan</td>
-                      <td>20.000.000</td>
-                    </tr>
-                    <tr class="row-unauth">
-                      <td>user-C</td>
-                      <td>Beli Saham</td>
-                      <td>15.000.000</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <p style="font-size:12px; color:#047857; font-weight:bold;">✅ Hanya baris milik user yang sedang login
-                  yang dikirimkan.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Prompt Card Part 2 -->
-          <div class="prompt-card">
-            <div class="prompt-card-bar">
-              <span>PROMPT 2 KE ANTIGRAVITY AGENT: BUAT RLS POLICIES KEAMANAN</span>
-              <button class="btn-copy" onclick="copySnippet('prompt-rls')">Salin Prompt RLS</button>
-            </div>
-            <pre id="prompt-rls">[ROLE]: Supabase Security Specialist & PostgreSQL Administrator
-[CONTEXT]: Aplikasi React + Supabase dengan tabel `profiles`, `categories`, dan `transactions`.
-[INSTRUCTION]:
-Buatkan script SQL lengkap untuk mengamankan seluruh tabel menggunakan Row Level Security (RLS):
-1. Aktifkan RLS di public.profiles, public.categories, dan public.transactions.
-2. Aturan PROFILES:
-   - SELECT: Hanya data profil miliknya sendiri (auth.uid() = id).
-   - UPDATE: Hanya bisa update profil miliknya sendiri (auth.uid() = id).
-3. Aturan CATEGORIES:
-   - SELECT, INSERT, UPDATE, DELETE: Hanya kategori miliknya sendiri (auth.uid() = user_id).
-4. Aturan TRANSACTIONS:
-   - SELECT, INSERT, UPDATE, DELETE: Hanya transaksi miliknya sendiri (auth.uid() = user_id).
-[CONSTRAINT]:
-- Script SQL harus aman, idempotent, dan siap dieksekusi di Supabase SQL Editor.</pre>
-          </div>
-
-          <!-- SQL RLS Policies -->
-          <div class="code-card">
-            <div class="code-card-bar">
-              <span>SQL RLS POLICIES — Eksekusi di Supabase SQL Editor</span>
-              <button class="btn-copy" onclick="copySnippet('code-rls-ddl')">Salin SQL RLS</button>
-            </div>
-            <pre
-              id="code-rls-ddl"><span class="c-cm">-- 1. PROFILES POLICIES</span>
-<span class="c-kw">ALTER TABLE</span> public.profiles <span class="c-kw">ENABLE ROW LEVEL SECURITY</span>;
-
-<span class="c-kw">CREATE POLICY</span> <span class="c-str">"profiles: select own"</span>
-  <span class="c-kw">ON</span> public.profiles <span class="c-kw">FOR SELECT</span>
-  <span class="c-kw">USING</span> (auth.<span class="c-fn">uid</span>() = id);
-
-<span class="c-kw">CREATE POLICY</span> <span class="c-str">"profiles: update own"</span>
-  <span class="c-kw">ON</span> public.profiles <span class="c-kw">FOR UPDATE</span>
-  <span class="c-kw">USING</span> (auth.<span class="c-fn">uid</span>() = id) <span class="c-kw">WITH CHECK</span> (auth.<span class="c-fn">uid</span>() = id);
-
-<span class="c-cm">-- 2. CATEGORIES POLICIES</span>
-<span class="c-kw">ALTER TABLE</span> public.categories <span class="c-kw">ENABLE ROW LEVEL SECURITY</span>;
-
-<span class="c-kw">CREATE POLICY</span> <span class="c-str">"categories: select own"</span> <span class="c-kw">ON</span> public.categories <span class="c-kw">FOR SELECT</span> <span class="c-kw">USING</span> (auth.<span class="c-fn">uid</span>() = user_id);
-<span class="c-kw">CREATE POLICY</span> <span class="c-str">"categories: insert own"</span> <span class="c-kw">ON</span> public.categories <span class="c-kw">FOR INSERT</span> <span class="c-kw">WITH CHECK</span> (auth.<span class="c-fn">uid</span>() = user_id);
-<span class="c-kw">CREATE POLICY</span> <span class="c-str">"categories: update own"</span> <span class="c-kw">ON</span> public.categories <span class="c-kw">FOR UPDATE</span> <span class="c-kw">USING</span> (auth.<span class="c-fn">uid</span>() = user_id);
-<span class="c-kw">CREATE POLICY</span> <span class="c-str">"categories: delete own"</span> <span class="c-kw">ON</span> public.categories <span class="c-kw">FOR DELETE</span> <span class="c-kw">USING</span> (auth.<span class="c-fn">uid</span>() = user_id);
-
-<span class="c-cm">-- 3. TRANSACTIONS POLICIES</span>
-<span class="c-kw">ALTER TABLE</span> public.transactions <span class="c-kw">ENABLE ROW LEVEL SECURITY</span>;
-
-<span class="c-kw">CREATE POLICY</span> <span class="c-str">"transactions: select own"</span> <span class="c-kw">ON</span> public.transactions <span class="c-kw">FOR SELECT</span> <span class="c-kw">USING</span> (auth.<span class="c-fn">uid</span>() = user_id);
-<span class="c-kw">CREATE POLICY</span> <span class="c-str">"transactions: insert own"</span> <span class="c-kw">ON</span> public.transactions <span class="c-kw">FOR INSERT</span> <span class="c-kw">WITH CHECK</span> (auth.<span class="c-fn">uid</span>() = user_id);
-<span class="c-kw">CREATE POLICY</span> <span class="c-str">"transactions: update own"</span> <span class="c-kw">ON</span> public.transactions <span class="c-kw">FOR UPDATE</span> <span class="c-kw">USING</span> (auth.<span class="c-fn">uid</span>() = user_id);
-<span class="c-kw">CREATE POLICY</span> <span class="c-str">"transactions: delete own"</span> <span class="c-kw">ON</span> public.transactions <span class="c-kw">FOR DELETE</span> <span class="c-kw">USING</span> (auth.<span class="c-fn">uid</span>() = user_id);</pre>
           </div>
         </div>
 
-        <!-- LAB PART 3: .ENV & CLIENT -->
-        <div class="lab-card" id="lab-part3">
-          <div class="lab-head">
-            <div class="lab-head-title">
-              <div class="lab-step-num">03</div>
-              <div class="lab-head-text">
-                <h4>Setup .env.local &amp; Supabase Client Singleton</h4>
-                <p>Variabel Lingkungan · Strict TypeScript Database Types · Client Instance</p>
-              </div>
-            </div>
-          </div>
+        <div class="nav-step-bar">
+          <a href="#p12" class="btn-nav">← Kembali ke Pertemuan 12</a>
+          <a href="#produksi" class="btn-nav btn-nav-primary">Lanjut ke Blok 4 (Pertemuan 13) →</a>
+        </div>
 
-          <!-- Prompt Card Part 3 -->
+      </section>ompt Card Part 3 -->
           <div class="prompt-card">
             <div class="prompt-card-bar">
               <span>PROMPT 3 KE ANTIGRAVITY AGENT: SETUP .ENV & CLIENT SINGLETON</span>
@@ -3861,324 +3688,6 @@ Buatkan script SQL lengkap untuk mengamankan seluruh tabel menggunakan Row Level
             </div>
             <pre id="prompt-client">[ROLE]: Senior Fullstack React & TypeScript Developer
 [CONTEXT]: Project Vite + React 18 + Supabase.
-[TASK]:
-1. Buatkan contoh file `.env.local` berisi:
-   VITE_SUPABASE_URL=https://xyzcompany.supabase.co
-   VITE_SUPABASE_ANON_KEY=your_anon_key_here
-2. Buatkan file client singleton `src/lib/supabase.ts` menggunakan `@supabase/supabase-js`.
-3. Tambahkan validasi error: Jika env url/anon_key belum diisi di `.env.local`, lemparkan Error dengan pesan instruksi yang jelas.
-4. Aktifkan opsi auth: `persistSession: true`, `autoRefreshToken: true`, `detectSessionInUrl: true`.</pre>
-          </div>
-
-          <!-- File .env.local -->
-          <p style="font-size:14px; color:var(--ink-mid); margin-bottom:10px;">
-            Buat file <code>.env.local</code> di root proyek (pastikan sudah ada di <code>.gitignore</code>):
-          </p>
-          <div class="code-card" style="margin-top:0;">
-            <div class="code-card-bar">
-              <span>FILE: .env.local</span>
-              <button class="btn-copy" onclick="copySnippet('code-env')">Salin .env</button>
-            </div>
-            <pre id="code-env"><span class="c-cm"># Ambil dari Supabase Dashboard → Settings → API</span>
-VITE_SUPABASE_URL=https://xyzcompany.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.your_anon_key_here</pre>
-          </div>
-
-          <!-- Types & Singleton Code -->
-          <div class="code-card">
-            <div class="code-card-bar">
-              <span>FILE: src/lib/supabase.ts</span>
-              <button class="btn-copy" onclick="copySnippet('code-singleton')">Salin Client Singleton</button>
-            </div>
-            <pre id="code-singleton"><span class="c-kw">import</span> { createClient } <span class="c-kw">from</span> <span class="c-str">'@supabase/supabase-js'</span>;
-<span class="c-kw">import type</span> { <span class="c-typ">Database</span> } <span class="c-kw">from</span> <span class="c-str">'../types/database.types'</span>;
-
-<span class="c-kw">const</span> supabaseUrl = import.meta.env.VITE_SUPABASE_URL <span class="c-kw">as</span> string;
-<span class="c-kw">const</span> supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY <span class="c-kw">as</span> string;
-
-<span class="c-kw">if</span> (!supabaseUrl || !supabaseAnonKey) {
-  <span class="c-kw">throw new</span> <span class="c-fn">Error</span>(<span class="c-str">'[supabase.ts] Missing VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY di .env.local'</span>);
-}
-
-<span class="c-kw">export const</span> supabase = <span class="c-fn">createClient</span>&lt;<span class="c-typ">Database</span>&gt;(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: <span class="c-kw">true</span>,
-    autoRefreshToken: <span class="c-kw">true</span>,
-    detectSessionInUrl: <span class="c-kw">true</span>,
-  },
-});</pre>
-          </div>
-        </div>
-
-        <!-- LAB PART 4: AUTH CONTEXT & ROUTE GUARD -->
-        <div class="lab-card" id="lab-part4">
-          <div class="lab-head">
-            <div class="lab-head-title">
-              <div class="lab-step-num">04</div>
-              <div class="lab-head-text">
-                <h4>AuthContext, Custom Hook `useAuth` &amp; Route Guard</h4>
-                <p>React Context · onAuthStateChange · Session Cleanup · ProtectedRoute</p>
-              </div>
-            </div>
-          </div>
-
-          <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
-            Sistem autentikasi multi-halaman dengan session tracking reaktif dan proteksi rute halaman privat:
-          </p>
-
-          <!-- Prompt Card Part 4 -->
-          <div class="prompt-card">
-            <div class="prompt-card-bar">
-              <span>PROMPT 4 KE ANTIGRAVITY AGENT: BUAT AUTHPROVIDER & PROTECTED ROUTE</span>
-              <button class="btn-copy" onclick="copySnippet('prompt-auth')">Salin Prompt Auth</button>
-            </div>
-            <pre id="prompt-auth">[ROLE]: React State & Authentication Architect
-[CONTEXT]: Supabase Client tersedia di `src/lib/supabase.ts`.
-[TASK]:
-1. Buatkan `src/context/AuthContext.tsx`:
-   - State `user`, `session`, `profile`, dan `loading`.
-   - Sinkronisasi sesi otomatis via `supabase.auth.onAuthStateChange` dengan listener cleanup `subscription.unsubscribe()`.
-   - Method: `signUpWithEmail(email, password, fullName)`, `signInWithEmail(email, password)`, dan `signOut()`.
-2. Buatkan custom hook `useAuth()` yang mengecek apakah dipanggil di dalam `<AuthProvider>`.
-3. Buatkan komponen pelindung `src/components/ProtectedRoute.tsx` menggunakan React Router DOM:
-   - Tampilkan status loading jika `loading` masih true.
-   - Redirect ke `/login` jika user belum login.
-   - Render `<Outlet />` jika user sudah terautentikasi.</pre>
-          </div>
-
-          <!-- AuthContext Code -->
-          <div class="code-card">
-            <div class="code-card-bar">
-              <span>FILE: src/context/AuthContext.tsx</span>
-              <button class="btn-copy" onclick="copySnippet('code-authcontext')">Salin AuthContext</button>
-            </div>
-            <pre id="code-authcontext"><span class="c-kw">import</span> { createContext, useContext, useEffect, useState, useCallback } <span class="c-kw">from</span> <span class="c-str">'react'</span>;
-<span class="c-kw">import type</span> { ReactNode } <span class="c-kw">from</span> <span class="c-str">'react'</span>;
-<span class="c-kw">import type</span> { <span class="c-typ">Session</span>, <span class="c-typ">User</span>, <span class="c-typ">AuthError</span> } <span class="c-kw">from</span> <span class="c-str">'@supabase/supabase-js'</span>;
-<span class="c-kw">import</span> { supabase } <span class="c-kw">from</span> <span class="c-str">'../lib/supabase'</span>;
-<span class="c-kw">import type</span> { <span class="c-typ">Profile</span> } <span class="c-kw">from</span> <span class="c-str">'../types/database.types'</span>;
-
-<span class="c-kw">interface</span> <span class="c-typ">AuthContextType</span> {
-  user: <span class="c-typ">User</span> | <span class="c-kw">null</span>;
-  session: <span class="c-typ">Session</span> | <span class="c-kw">null</span>;
-  profile: <span class="c-typ">Profile</span> | <span class="c-kw">null</span>;
-  loading: boolean;
-  <span class="c-fn">signUpWithEmail</span>: (e: string, p: string, name: string) => <span class="c-typ">Promise</span>&lt;{ error: <span class="c-typ">AuthError</span> | <span class="c-kw">null</span> }&gt;;
-  <span class="c-fn">signInWithEmail</span>: (e: string, p: string) => <span class="c-typ">Promise</span>&lt;{ error: <span class="c-typ">AuthError</span> | <span class="c-kw">null</span> }&gt;;
-  <span class="c-fn">signOut</span>: () => <span class="c-typ">Promise</span>&lt;void&gt;;
-}
-
-<span class="c-kw">const</span> AuthContext = <span class="c-fn">createContext</span>&lt;<span class="c-typ">AuthContextType</span> | undefined&gt;(undefined);
-
-<span class="c-kw">export function</span> <span class="c-fn">AuthProvider</span>({ children }: { children: ReactNode }) {
-  <span class="c-kw">const</span> [user, setUser] = <span class="c-fn">useState</span>&lt;<span class="c-typ">User</span> | <span class="c-kw">null</span>&gt;(<span class="c-kw">null</span>);
-  <span class="c-kw">const</span> [session, setSession] = <span class="c-fn">useState</span>&lt;<span class="c-typ">Session</span> | <span class="c-kw">null</span>&gt;(<span class="c-kw">null</span>);
-  <span class="c-kw">const</span> [profile, setProfile] = <span class="c-fn">useState</span>&lt;<span class="c-typ">Profile</span> | <span class="c-kw">null</span>&gt;(<span class="c-kw">null</span>);
-  <span class="c-kw">const</span> [loading, setLoading] = <span class="c-fn">useState</span>&lt;boolean&gt;(<span class="c-kw">true</span>);
-
-  <span class="c-kw">const</span> <span class="c-fn">fetchProfile</span> = <span class="c-fn">useCallback</span>(<span class="c-kw">async</span> (userId: string) => {
-    <span class="c-kw">const</span> { data } = <span class="c-kw">await</span> supabase.from(<span class="c-str">'profiles'</span>).select(<span class="c-str">'*'</span>).eq(<span class="c-str">'id'</span>, userId).single();
-    <span class="c-fn">setProfile</span>(data);
-  }, []);
-
-  <span class="c-fn">useEffect</span>(() => {
-    supabase.auth.<span class="c-fn">getSession</span>().then(({ data: { session } }) => {
-      <span class="c-fn">setSession</span>(session);
-      <span class="c-fn">setUser</span>(session?.user ?? <span class="c-kw">null</span>);
-      <span class="c-kw">if</span> (session?.user) <span class="c-fn">fetchProfile</span>(session.user.id);
-      <span class="c-fn">setLoading</span>(<span class="c-kw">false</span>);
-    });
-
-    <span class="c-kw">const</span> { data: { subscription } } = supabase.auth.<span class="c-fn">onAuthStateChange</span>((_evt, session) => {
-      <span class="c-fn">setSession</span>(session);
-      <span class="c-fn">setUser</span>(session?.user ?? <span class="c-kw">null</span>);
-      <span class="c-kw">if</span> (session?.user) <span class="c-fn">fetchProfile</span>(session.user.id);
-      <span class="c-kw">else</span> <span class="c-fn">setProfile</span>(<span class="c-kw">null</span>);
-      <span class="c-fn">setLoading</span>(<span class="c-kw">false</span>);
-    });
-
-    <span class="c-kw">return</span> () => subscription.<span class="c-fn">unsubscribe</span>(); <span class="c-cm">// Safe Cleanup</span>
-  }, [fetchProfile]);
-
-  <span class="c-kw">const</span> <span class="c-fn">signUpWithEmail</span> = <span class="c-kw">async</span> (email: string, password: string, fullName: string) => {
-    <span class="c-kw">const</span> { error } = <span class="c-kw">await</span> supabase.auth.<span class="c-fn">signUp</span>({
-      email, password, options: { data: { full_name: fullName } }
-    });
-    <span class="c-kw">return</span> { error };
-  };
-
-  <span class="c-kw">const</span> <span class="c-fn">signInWithEmail</span> = <span class="c-kw">async</span> (email: string, password: string) => {
-    <span class="c-kw">const</span> { error } = <span class="c-kw">await</span> supabase.auth.<span class="c-fn">signInWithPassword</span>({ email, password });
-    <span class="c-kw">return</span> { error };
-  };
-
-  <span class="c-kw">const</span> <span class="c-fn">signOut</span> = <span class="c-kw">async</span> () => { <span class="c-kw">await</span> supabase.auth.<span class="c-fn">signOut</span>(); };
-
-  <span class="c-kw">return</span> (
-    &lt;AuthContext.Provider value={{ user, session, profile, loading, signUpWithEmail, signInWithEmail, signOut }}&gt;
-      {children}
-    &lt;/AuthContext.Provider&gt;
-  );
-}
-
-<span class="c-kw">export function</span> <span class="c-fn">useAuth</span>() {
-  <span class="c-kw">const</span> context = <span class="c-fn">useContext</span>(AuthContext);
-  <span class="c-kw">if</span> (!context) <span class="c-kw">throw new</span> <span class="c-fn">Error</span>(<span class="c-str">'useAuth harus digunakan di dalam &lt;AuthProvider&gt;'</span>);
-  <span class="c-kw">return</span> context;
-}</pre>
-          </div>
-
-          <!-- ProtectedRoute Code -->
-          <div class="code-card">
-            <div class="code-card-bar">
-              <span>FILE: src/components/ProtectedRoute.tsx</span>
-              <button class="btn-copy" onclick="copySnippet('code-protectedroute')">Salin ProtectedRoute</button>
-            </div>
-            <pre id="code-protectedroute"><span class="c-kw">import</span> { Navigate, Outlet, useLocation } <span class="c-kw">from</span> <span class="c-str">'react-router-dom'</span>;
-<span class="c-kw">import</span> { useAuth } <span class="c-kw">from</span> <span class="c-str">'../context/AuthContext'</span>;
-
-<span class="c-kw">export function</span> <span class="c-fn">ProtectedRoute</span>() {
-  <span class="c-kw">const</span> { user, loading } = <span class="c-fn">useAuth</span>();
-  <span class="c-kw">const</span> location = <span class="c-fn">useLocation</span>();
-
-  <span class="c-kw">if</span> (loading) {
-    <span class="c-kw">return</span> (
-      &lt;div style={{ minHeight: <span class="c-str">'100vh'</span>, display: <span class="c-str">'flex'</span>, alignItems: <span class="c-str">'center'</span>, justifyContent: <span class="c-str">'center'</span> }}&gt;
-        &lt;p&gt;Memeriksa sesi login...&lt;/p&gt;
-      &lt;/div&gt;
-    );
-  }
-
-  <span class="c-kw">if</span> (!user) {
-    <span class="c-kw">return</span> &lt;Navigate to=<span class="c-str">"/login"</span> state={{ from: location.pathname }} replace /&gt;;
-  }
-
-  <span class="c-kw">return</span> &lt;Outlet /&gt;;
-}</pre>
-          </div>
-        </div>
-
-        <!-- LAB PART 5: REALTIME HOOK -->
-        <div class="lab-card" id="lab-part5">
-          <div class="lab-head">
-            <div class="lab-head-title">
-              <div class="lab-step-num">05</div>
-              <div class="lab-head-text">
-                <h4>Realtime Subscription Hook dengan Safe Cleanup</h4>
-                <p>supabase.channel() · Auto Reconnect · Memory Leak Prevention · Optimistic Update</p>
-              </div>
-            </div>
-          </div>
-
-          <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
-            Custom Hook <code>useTransactions</code> yang otomatis menyinkronkan data antar-perangkat secara realtime
-            dan membersihkan koneksi WebSocket saat komponen di-unmount:
-          </p>
-
-          <!-- Prompt Card Part 5 -->
-          <div class="prompt-card">
-            <div class="prompt-card-bar">
-              <span>PROMPT 5 KE ANTIGRAVITY AGENT: BUAT REALTIME SYNC HOOK</span>
-              <button class="btn-copy" onclick="copySnippet('prompt-realtime')">Salin Prompt Realtime</button>
-            </div>
-            <pre id="prompt-realtime">[ROLE]: Senior Frontend Engineer (Realtime Systems)
-[CONTEXT]: Supabase Client di `src/lib/supabase.ts` dan user login dari `useAuth()`.
-[TASK]:
-Buatkan custom hook `src/hooks/useTransactions.ts`:
-1. Fetch data transaksi awal terurut berdasarkan tanggal terbaru untuk user yang sedang login (`user_id = user.id`).
-2. Buat Realtime WebSocket Channel `supabase.channel('transactions_' + user.id)`:
-   - Dengarkan event `postgres_changes` untuk tabel `transactions` dengan filter `user_id=eq.${user.id}`.
-   - Otomatis sinkronkan state transaksi setiap kali ada penambahan, perubahan, atau penghapusan data.
-3. Wajib tambahkan fungsi pembersihan (`supabase.removeChannel(channel)`) pada return `useEffect` agar tidak terjadi memory leak.
-4. Sediakan helper method `addTransaction(data)` dan `deleteTransaction(id)` dengan optimistic UI update.</pre>
-          </div>
-
-          <!-- Realtime Hook Code -->
-          <div class="code-card">
-            <div class="code-card-bar">
-              <span>FILE: src/hooks/useTransactions.ts</span>
-              <button class="btn-copy" onclick="copySnippet('code-realtime')">Salin Realtime Hook</button>
-            </div>
-            <pre id="code-realtime"><span class="c-kw">import</span> { useState, useEffect, useCallback } <span class="c-kw">from</span> <span class="c-str">'react'</span>;
-<span class="c-kw">import</span> { supabase } <span class="c-kw">from</span> <span class="c-str">'../lib/supabase'</span>;
-<span class="c-kw">import</span> { useAuth } <span class="c-kw">from</span> <span class="c-str">'../context/AuthContext'</span>;
-<span class="c-kw">import type</span> { <span class="c-typ">Transaction</span>, <span class="c-typ">TransactionInsert</span> } <span class="c-kw">from</span> <span class="c-str">'../types/database.types'</span>;
-
-<span class="c-kw">export function</span> <span class="c-fn">useTransactions</span>() {
-  <span class="c-kw">const</span> { user } = <span class="c-fn">useAuth</span>();
-  <span class="c-kw">const</span> [transactions, setTransactions] = <span class="c-fn">useState</span>&lt;<span class="c-typ">Transaction</span>[]&gt;([]);
-  <span class="c-kw">const</span> [isLoading, setIsLoading] = <span class="c-fn">useState</span>&lt;boolean&gt;(<span class="c-kw">true</span>);
-
-  <span class="c-kw">const</span> <span class="c-fn">fetchTransactions</span> = <span class="c-fn">useCallback</span>(<span class="c-kw">async</span> () => {
-    <span class="c-kw">if</span> (!user) { setTransactions([]); setIsLoading(<span class="c-kw">false</span>); <span class="c-kw">return</span>; }
-    setIsLoading(<span class="c-kw">true</span>);
-    <span class="c-kw">const</span> { data } = <span class="c-kw">await</span> supabase
-      .from(<span class="c-str">'transactions'</span>)
-      .select(<span class="c-str">'*, categories(*)'</span>)
-      .eq(<span class="c-str">'user_id'</span>, user.id)
-      .order(<span class="c-str">'date'</span>, { ascending: <span class="c-kw">false</span> });
-    <span class="c-fn">setTransactions</span>((data <span class="c-kw">as</span> <span class="c-typ">Transaction</span>[]) ?? []);
-    <span class="c-fn">setIsLoading</span>(<span class="c-kw">false</span>);
-  }, [user]);
-
-  <span class="c-fn">useEffect</span>(() => {
-    <span class="c-fn">fetchTransactions</span>();
-    <span class="c-kw">if</span> (!user) <span class="c-kw">return</span>;
-
-    <span class="c-cm">// Realtime channel filter user_id</span>
-    <span class="c-kw">const</span> channel = supabase
-      .<span class="c-fn">channel</span>(`transactions_${user.id}`)
-      .on(
-        <span class="c-str">'postgres_changes'</span>,
-        { event: <span class="c-str">'*'</span>, schema: <span class="c-str">'public'</span>, table: <span class="c-str">'transactions'</span>, filter: `user_id=eq.${user.id}` },
-        () => { <span class="c-fn">fetchTransactions</span>(); }
-      )
-      .<span class="c-fn">subscribe</span>();
-
-    <span class="c-cm">// Cleanup: cegah memory leak saat unmount</span>
-    <span class="c-kw">return</span> () => { supabase.<span class="c-fn">removeChannel</span>(channel); };
-  }, [user, fetchTransactions]);
-
-  <span class="c-kw">const</span> <span class="c-fn">addTransaction</span> = <span class="c-kw">async</span> (data: <span class="c-typ">TransactionInsert</span>) => {
-    <span class="c-kw">if</span> (!user) <span class="c-kw">return</span> { error: <span class="c-str">'Belum login'</span> };
-    <span class="c-kw">const</span> { error } = <span class="c-kw">await</span> supabase.from(<span class="c-str">'transactions'</span>).insert({ ...data, user_id: user.id });
-    <span class="c-kw">return</span> { error: error?.message ?? <span class="c-kw">null</span> };
-  };
-
-  <span class="c-kw">const</span> <span class="c-fn">deleteTransaction</span> = <span class="c-kw">async</span> (id: string) => {
-    <span class="c-cm">// Optimistic delete UI</span>
-    <span class="c-kw">const</span> prev = [...transactions];
-    <span class="c-fn">setTransactions</span>(t => t.filter(x => x.id !== id));
-    <span class="c-kw">const</span> { error } = <span class="c-kw">await</span> supabase.from(<span class="c-str">'transactions'</span>).delete().eq(<span class="c-str">'id'</span>, id);
-    <span class="c-kw">if</span> (error) <span class="c-fn">setTransactions</span>(prev); <span class="c-cm">// rollback jika gagal</span>
-    <span class="c-kw">return</span> { error: error?.message ?? <span class="c-kw">null</span> };
-  };
-
-  <span class="c-kw">return</span> { transactions, isLoading, addTransaction, deleteTransaction, refetch: fetchTransactions };
-}</pre>
-          </div>
-
-          <!-- CALLOUT BANNER BAWAH: CHECKPOINT & PRAKTIKUM MANDIRI -->
-          <div class="session" style="background: linear-gradient(135deg, #FFFDF5 0%, #FFFFFF 50%, #F0FDF8 100%); border: 2px solid #F59E0B; margin: 24px 0 16px; border-radius: 14px; padding: 22px; box-shadow: 0 4px 16px rgba(245, 158, 11, 0.08);">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-              <div style="max-width: 640px;">
-                <div style="display:inline-flex; align-items:center; gap:6px; background:#FEF3C7; color:#92400E; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:20px; margin-bottom:6px;">
-                  <span>🎯 Siap Masuk ke Tahap Lanjutan?</span>
-                </div>
-                <h4 style="font-size: 16.5px; color: #78350F; margin-bottom: 4px; font-weight: bold;">
-                  Selesaikan 9 Lab Supabase Lengkap di Ruang Praktikum Mandiri
-                </h4>
-                <p style="font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.5;">
-                  Buka PRD 9 Lab untuk mencoba upload foto profil (Storage), pengiriman email otomatis (Edge Functions), deploy live ke Vercel, dan gunakan cheat sheet micro-prompts pemula.
-                </p>
-              </div>
-              <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <a href="laboratorium_lengkap_supabase.html" class="btn-nav btn-nav-primary" style="padding:9px 15px; font-size:12.5px; text-decoration:none; background:#01656F; color:#fff; border-radius:8px; font-weight:bold; display:inline-flex; align-items:center; gap:6px;">
-                  <span>🔬 Buka PRD 9 Lab</span>
-                  <span>→</span>
-                </a>
-                <a href="materi_modul3_supabase_detail.html#micro-prompts" class="btn-nav" style="padding:9px 15px; font-size:12.5px; text-decoration:none; background:#FEF3C7; color:#92400E; border:1px solid #FCD34D; border-radius:8px; font-weight:700; display:inline-flex; align-items:center; gap:6px;">
-                  <span>⚡ 7 Micro-Prompts</span>
                   <span>→</span>
                 </a>
               </div>
