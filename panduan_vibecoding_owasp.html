@@ -771,6 +771,7 @@
         <a href="#a08" class="lab-nav-pill">A08: Integritas Data</a>
         <a href="#a09" class="lab-nav-pill">A09: Logging &amp; Monitor</a>
         <a href="#a10" class="lab-nav-pill">A10: SSRF</a>
+        <a href="#lab-studi-kasus" class="lab-nav-pill" style="background:#047857; color:#fff; border-color:#047857; font-weight:700;">🧪 Lab Studi Kasus (MyOrder)</a>
         <a href="#universal-prompt" class="lab-nav-pill" style="background:#4338CA; color:#fff; border-color:#4338CA;">⚡ Universal Prompt</a>
         <a href="#tips-vibe-coder" class="lab-nav-pill">💡 Tips Keamanan</a>
       </div>
@@ -1450,6 +1451,183 @@ Cari semua bagian di mana server melakukan HTTP request (fetch, axios, curl) ke 
             <strong>⚠️ Kesalahan Fatal</strong>
             Membiarkan fungsi <code>fetch(userUrl)</code> berjalan bebas tanpa memverifikasi domain tujuan.
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== LABORATORIUM PRAKTIKUM STUDI KASUS ==================== -->
+    <section class="owasp-section" id="lab-studi-kasus" style="background:#F8FAFC; border:1px solid var(--line); border-radius:16px; padding:36px 30px; margin:36px 0 28px;">
+      <div class="section-header">
+        <div class="owasp-badge" style="background:#047857;">🧪 LAB</div>
+        <div class="section-header-text">
+          <h2>Laboratorium Praktikum: Studi Kasus Aplikasi "MyOrder" (Toko Online Mini)</h2>
+          <p>Simulasi 4 Fase pengujian penetrasi (Ethical Hacking) dan hardening kode aplikasi nyata menggunakan AI.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <p style="font-size:14.5px; color:var(--ink-mid); margin-bottom:16px;">
+          Untuk memahami bagaimana 10 risiko OWASP terjadi di dunia nyata, kita akan menggunakan studi kasus <strong>"MyOrder App"</strong> (Portal Riwayat Pesanan Pelanggan). Berikut adalah pemetaan bagaimana setiap risiko muncul pada fitur aplikasi toko online:
+        </p>
+
+        <div class="table-container" style="overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:10px;">
+          <table class="data-table" style="width:100%; border-collapse:collapse; font-size:13.5px;">
+            <thead>
+              <tr style="background:#F1F5F9;">
+                <th style="padding:10px 14px; text-align:left; border-bottom:1px solid var(--line);">Risiko OWASP</th>
+                <th style="padding:10px 14px; text-align:left; border-bottom:1px solid var(--line);">Fitur Aplikasi MyOrder</th>
+                <th style="padding:10px 14px; text-align:left; border-bottom:1px solid var(--line);">Skenario Celah jika Menggunakan Prompt Polos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);"><strong>A01: Access Control</strong></td>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);">Detail Pesanan (<code>/order?id=101</code>)</td>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);">User A mengganti ID ke <code>id=102</code> dan bisa melihat alamat & belanjaan User B.</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);"><strong>A02: Kriptografi</strong></td>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);">Registrasi Akun Pelanggan</td>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);">AI menyimpan password langsung sebagai plaintext di database.</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);"><strong>A03: SQL Injection</strong></td>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);">Pencarian Barang / Produk</td>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);">Mengetik <code>' OR '1'='1</code> menampilkan semua produk rahasia / diskon internal.</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);"><strong>A04: Insecure Design</strong></td>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);">Klaim Kupon Diskon / OTP</td>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);">Penyerang menebak ribuan kode voucher otomatis tanpa ada batasan percobaan.</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);"><strong>A05: Misconfiguration</strong></td>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);">Pesan Error saat Gagal Bayar</td>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);">Layar menampilkan error SQL mentah dan nama tabel database ke pembeli.</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);"><strong>A07: Autentikasi</strong></td>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);">Halaman Login Pembeli</td>
+                <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);">Bebas ditebak brute force tanpa batas percobaan & sesi berlaku selamanya.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FASE 1 -->
+      <div class="part-box" style="margin-top:28px;">
+        <h3 class="part-title">📍 Fase 1: Pembangunan Baseline Aplikasi (Kode Awal AI yang Rentan)</h3>
+        <p style="font-size:14px; color:var(--ink-mid);">
+          Langkah pertama: Minta AI membuatkan prototipe aplikasi awal. Kita akan melihat bagaimana AI menghasilkan kode yang "langsung jalan" namun menyimpan banyak celah keamanan secara default.
+        </p>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🤖 PROMPT LAB 1: MEMBUAT PROTOTIPE BASELINE APLIKASI</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab-myorder-f1')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-lab-myorder-f1">Saya ingin membuat aplikasi web sederhana "MyOrder - Portal Cek Pesanan" menggunakan HTML, CSS, JavaScript, dan backend sederhana (Node.js/Express atau mock database JSON).
+
+Fitur yang dibutuhkan:
+1. Registrasi dan Login User (nama, email, password).
+2. Dashboard pembeli: Menampilkan daftar riwayat pesanan milik user.
+3. Halaman Detail Pesanan: Mengambil data pesanan berdasarkan parameter URL (?order_id=...).
+4. Kotak Pencarian Produk: Mencari barang belanjaan berdasarkan nama.
+
+Tolong buatkan kode lengkapnya agar bisa langsung saya jalankan di laptop.</pre>
+        </div>
+      </div>
+
+      <!-- FASE 2 -->
+      <div class="part-box" style="margin-top:28px;">
+        <h3 class="part-title">📍 Fase 2: Simulasi Penyerangan (Hands-on Pentesting Mandiri)</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          Setelah aplikasi berjalan di browser, uji coba 3 skenario serangan berikut untuk membuktikan keberadaan celah keamanan:
+        </p>
+
+        <div class="card-grid">
+          <div class="feature-card" style="border-left:4px solid #DC2626;">
+            <h4 style="color:#DC2626;">🎯 Uji Coba 1: Bobol Data Orang Lain (A01)</h4>
+            <p>
+              Buka 2 tab browser. Login sebagai <strong>User A</strong> (Order ID: 101) dan <strong>User B</strong> (Order ID: 102). Di tab User A, ubah angka URL menjadi <code>/order?id=102</code>. Amati: Anda berhasil melihat alamat dan struk belanja milik User B!
+            </p>
+          </div>
+
+          <div class="feature-card" style="border-left:4px solid #B45309;">
+            <h4 style="color:#B45309;">💉 Uji Coba 2: SQL Injection (A03)</h4>
+            <p>
+              Ketik karakter <code>' OR '1'='1</code> di kolom pencarian produk. Amati: Sistem menampilkan seluruh data produk privat atau memunculkan pesan error database mentah.
+            </p>
+          </div>
+
+          <div class="feature-card" style="border-left:4px solid #4F46E5;">
+            <h4 style="color:#4F46E5;">🔓 Uji Coba 3: Brute Force Login (A07)</h4>
+            <p>
+              Coba login dengan password salah sebanyak 10 kali berturut-turut. Sistem tetap membiarkan Anda mencoba tanpa ada peringatan atau penguncian akun sementara.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FASE 3 -->
+      <div class="part-box" style="margin-top:28px;">
+        <h3 class="part-title">📍 Fase 3: Hardening Keamanan Menggunakan Master Prompt OWASP</h3>
+        <p style="font-size:14px; color:var(--ink-mid);">
+          Sekarang, gunakan prompt berbasis standar OWASP untuk meminta AI menambal seluruh celah tersebut secara tuntas:
+        </p>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛡️ PROMPT LAB 2: HARDENING ACCESS CONTROL &amp; SQL INJECTION</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab-myorder-f3a')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-lab-myorder-f3a">Aplikasi MyOrder saya memiliki 2 celah kritis:
+1. User bisa melihat pesanan milik orang lain hanya dengan mengganti nomor order_id di URL (OWASP A01).
+2. Fitur pencarian rawan SQL Injection (OWASP A03).
+
+Ini kode aplikasi saya saat ini:
+[TEMPEL KODE CONTROLLER / BACKEND ANDA DI SINI]
+
+Tolong perbaiki dengan syarat wajib:
+1. Validasi kepemilikan data: Pastikan order_id yang diminta BENAR-BENAR milik user_id yang sedang login dari session. Jika bukan, tolak dengan response 403 Forbidden.
+2. Ubah semua query database menjadi Parameterized Query / Prepared Statements.
+3. Jelaskan baris mana yang Anda ubah dan kenapa perubahan itu membuat aplikasi aman.</pre>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🔐 PROMPT LAB 3: HARDENING PASSWORD HASHING &amp; RATE LIMITER</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab-myorder-f3b')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-lab-myorder-f3b">Tolong tambahkan proteksi autentikasi (OWASP A02 &amp; A07) pada fitur registrasi dan login aplikasi MyOrder saya:
+1. Gunakan bcrypt untuk hashing password sebelum disimpan ke database.
+2. Tambahkan Rate Limiter: Maksimal 5 kali percobaan login gagal dalam 15 menit per IP, lalu kunci sementara.
+3. Batasi masa berlaku sesi (JWT / session cookie) maksimal 2 jam dan revoke token saat user menekan Logout.
+4. Gunakan pesan error generik: "Email atau password salah" (jangan beri tahu apakah email terdaftar atau tidak).</pre>
+        </div>
+      </div>
+
+      <!-- FASE 4 -->
+      <div class="part-box" style="margin-top:28px;">
+        <h3 class="part-title">📍 Fase 4: Audit Akhir Kesiapan Go-Live (Security Reviewer)</h3>
+        <p style="font-size:14px; color:var(--ink-mid);">
+          Jalankan prompt audit penutup untuk memastikan tidak ada celah OWASP yang terlewat sebelum aplikasi di-deploy:
+        </p>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>📊 PROMPT LAB 4: AUDIT SKOR KEAMANAN GO-LIVE</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-lab-myorder-f4')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-lab-myorder-f4">Kamu adalah Senior Web Security Auditor. Tolong lakukan audit keamanan menyeluruh terhadap kode aplikasi MyOrder saya yang sudah di-hardening berikut:
+
+[TEMPEL KODE LENGKAP APLIKASI DI SINI]
+
+Berikan laporan evaluasi:
+1. Celah apa saja yang sudah berhasil ditutup dengan sempurna?
+2. Apakah masih ada sisa risiko dari A01 sampai A10 yang belum tertangani?
+3. Berikan Skor Keamanan (1-100) dan rekomendasi checklist sebelum aplikasi ini dipublikasikan ke internet.</pre>
         </div>
       </div>
     </section>
