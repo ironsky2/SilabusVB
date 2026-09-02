@@ -2,1544 +2,1528 @@
 <html lang="id">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Panduan Lengkap Vibecoding & Keamanan Web (Pemula ke Mahir)</title>
-
-  <!-- Web Favicon -->
-  <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'%3E%3Crect width='64' height='64' rx='16' fill='%230f172a'/%3E%3Cpath d='M32 8L48 14V28C48 39.5 41.2 50.1 32 54C22.8 50.1 16 39.5 16 28V14L32 8Z' fill='%232563eb'/%3E%3Cpath d='M25 25L21 29L25 33' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M39 25L43 29L39 33' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M28 29.5L31 32.5L36 26' stroke='%2310b981' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
-
-  <!-- Google Fonts -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panduan Keamanan OWASP Top 10 untuk Vibe Coder Pemula — Masterclass Vibe Coding</title>
+  <meta name="description" content="Panduan Lengkap OWASP Top 10:2021 untuk Pemula Non-IT dan Vibe Coder: Memahami 10 Risiko Keamanan Web Terbesar, Bahaya Kode AI yang Longgar, dan Kumpulan Master Prompt AI untuk Membangun Serta Mengaudit Keamanan Aplikasi.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-    rel="stylesheet">
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            border: "hsl(var(--border))",
-            input: "hsl(var(--input))",
-            ring: "hsl(var(--ring))",
-            background: "hsl(var(--background))",
-            foreground: "hsl(var(--foreground))",
-            primary: {
-              DEFAULT: "hsl(var(--primary))",
-              foreground: "hsl(var(--primary-foreground))",
-            },
-            secondary: {
-              DEFAULT: "hsl(var(--secondary))",
-              foreground: "hsl(var(--secondary-foreground))",
-            },
-            muted: {
-              DEFAULT: "hsl(var(--muted))",
-              foreground: "hsl(var(--muted-foreground))",
-            },
-            accent: {
-              DEFAULT: "hsl(var(--accent))",
-              foreground: "hsl(var(--accent-foreground))",
-            },
-            card: {
-              DEFAULT: "hsl(var(--card))",
-              foreground: "hsl(var(--card-foreground))",
-            },
-          },
-        }
-      }
-    }
-  </script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --background: 210 20% 98%;
-      --foreground: 222.2 84% 4.9%;
-      --card: 0 0% 100%;
-      --card-foreground: 222.2 84% 4.9%;
-      --primary: 221.2 83.2% 53.3%;
-      --primary-foreground: 210 40% 98%;
-      --secondary: 210 40% 96.1%;
-      --secondary-foreground: 222.2 47.4% 11.2%;
-      --muted: 210 40% 96.1%;
-      --muted-foreground: 215.4 16.3% 46.9%;
-      --accent: 210 40% 96.1%;
-      --accent-foreground: 222.2 47.4% 11.2%;
-      --border: 214.3 31.8% 91.4%;
-      --input: 214.3 31.8% 91.4%;
-      --ring: 221.2 83.2% 53.3%;
+      --teal: #028090;
+      --seafoam: #00A896;
+      --mint: #02C39A;
+      --deep: #01656F;
+      --amber: #B45309;
+      --amber-bg: #FEF3C7;
+      --rose: #BE123C;
+      --rose-bg: #FFF1F2;
+      --emerald: #047857;
+      --emerald-bg: #ECFDF5;
+      --indigo: #4F46E5;
+      --indigo-bg: #EEF2FF;
+      --shield-red: #DC2626;
+      --shield-bg: #FEF2F2;
+      --ink: #37352F;
+      --ink-mid: #5A5852;
+      --ink-soft: #787774;
+      --line: #EDECE9;
+      --line-soft: #F1F0ED;
+      --bg: #FFFFFF;
+      --bg-soft: #F7F6F3;
+      --bg-tint: #EAF6F4;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
     }
 
-    .dark {
-      --background: 224 71.4% 4.1%;
-      --foreground: 210 20% 98%;
-      --card: 224 71.4% 6.5%;
-      --card-foreground: 210 20% 98%;
-      --primary: 217.2 91.2% 59.8%;
-      --primary-foreground: 222.2 47.4% 11.2%;
-      --secondary: 217.2 32.6% 17.5%;
-      --secondary-foreground: 210 20% 98%;
-      --muted: 217.2 32.6% 14%;
-      --muted-foreground: 215 20.2% 65.1%;
-      --accent: 217.2 32.6% 15%;
-      --accent-foreground: 210 20% 98%;
-      --border: 217.2 32.6% 16%;
-      --input: 217.2 32.6% 16%;
-      --ring: 224.3 76.3% 48%;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .no-scrollbar::-webkit-scrollbar {
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 110px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .brand-title, .hero-title, .part-title {
+      font-family: 'Newsreader', Georgia, serif;
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: .15s;
+    }
+
+    a:hover {
+      color: var(--deep);
+      text-decoration: underline;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88em;
+      background: #F2F1EE;
+      color: #EB5757;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    ::selection {
+      background: var(--mint);
+      color: #fff;
+    }
+
+    /* ---------- NAVIGATION ---------- */
+    header.nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      height: 56px;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner {
+      max-width: 1160px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--shield-red);
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 17.5px;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-pill {
+      font-size: 11.5px;
+      font-weight: 600;
+      background: #DC2626;
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Popover Dropdown */
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-dropdown-btn {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #37352F;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-dropdown-btn:hover {
+      background: #F7F6F3;
+      border-color: #D3D1CB;
+    }
+
+    .dropdown-content {
       display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      background: #FFFFFF;
+      min-width: 280px;
+      box-shadow: 0 10px 28px rgba(15, 15, 15, 0.12), 0 0 0 1px rgba(15, 15, 15, 0.05);
+      border-radius: 10px;
+      padding: 6px;
+      z-index: 110;
+      animation: dropFade 0.15s ease;
     }
 
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    .tab-pane {
-      display: none;
-      animation: fadeIn 0.2s ease-in-out;
-    }
-
-    .tab-pane.active {
+    .nav-dropdown:hover .dropdown-content,
+    .nav-dropdown:focus-within .dropdown-content {
       display: block;
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(3px);
-      }
+    @keyframes dropFade {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #37352F;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .dropdown-item:hover {
+      background: #F1F0ED;
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    .dropdown-item.active {
+      background: var(--bg-tint);
+      color: var(--deep);
+      font-weight: 700;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 4px 6px;
+    }
+
+    .nav-cta-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: var(--deep);
+      border: 1px solid var(--deep);
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-cta-btn:hover {
+      background: #028090;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      background: linear-gradient(180deg, #FEF2F2 0%, #FFF7ED 50%, var(--bg) 100%);
+      border-bottom: 1px solid var(--line);
+      padding: 56px 24px 40px;
+    }
+
+    .wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: #B91C1C;
+      background: #FEE2E2;
+      border: 1px solid #FECACA;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    h1.hero-title {
+      font-size: 38px;
+      line-height: 1.2;
+      max-width: 920px;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+
+    .lede {
+      font-size: 16.5px;
+      color: var(--ink-mid);
+      max-width: 880px;
+      line-height: 1.65;
+    }
+
+    .meta-badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .meta-badge {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      color: var(--ink-mid);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 1px 2px rgba(20, 30, 30, .03);
+    }
+
+    .meta-badge strong {
+      color: var(--ink);
+    }
+
+    /* ---------- LAB QUICK FILTER NAV ---------- */
+    .lab-nav-sticky {
+      position: sticky;
+      top: 56px;
+      z-index: 90;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 0;
+    }
+
+    .lab-nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+    }
+
+    .lab-nav-pill {
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-mid);
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      padding: 5px 12px;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: all .15s;
+    }
+
+    .lab-nav-pill:hover, .lab-nav-pill.active {
+      background: #DC2626;
+      color: #fff;
+      border-color: #DC2626;
+      text-decoration: none;
+    }
+
+    /* ---------- ARCHITECTURE BANNER ---------- */
+    .arch-card {
+      background: linear-gradient(135deg, #450A0A 0%, #7F1D1D 60%, #991B1B 100%);
+      color: #fff;
+      border-radius: 16px;
+      padding: 32px 30px;
+      margin: 36px 0 28px;
+      box-shadow: 0 6px 20px rgba(127, 29, 29, 0.25);
+    }
+
+    .arch-card h3 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .arch-diagram {
+      background: rgba(30, 5, 5, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 18px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #FECACA;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .arch-insight {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13.5px;
+      color: #fff;
+      border-left: 3px solid #FCA5A5;
+    }
+
+    /* ---------- SECTIONS & PRD STRUCTURE ---------- */
+    .owasp-section {
+      padding: 44px 0 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .owasp-section:last-child {
+      border-bottom: none;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .owasp-badge {
+      width: 60px;
+      height: 48px;
+      border-radius: 12px;
+      background: #DC2626;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 16px;
+      flex-shrink: 0;
+      letter-spacing: -0.5px;
+    }
+
+    .section-header-text h2 {
+      font-size: 26px;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .section-header-text p {
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+
+    /* PRD Structured Parts (A, B, C) */
+    .part-box {
+      margin-bottom: 24px;
+    }
+
+    .part-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Danger Callout */
+    .danger-box {
+      background: #FFF1F2;
+      border: 1px solid #FECDD3;
+      border-left: 4px solid #E11D48;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+
+    .danger-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #9F1239;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .danger-content {
+      font-size: 13.5px;
+      color: #881337;
+      line-height: 1.6;
+    }
+
+    /* Prompt Cards */
+    .prompt-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 16px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .prompt-header {
+      background: #0F172A;
+      color: #F8FAFC;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .btn-copy {
+      background: #334155;
+      color: #F8FAFC;
+      border: 1px solid #475569;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all .15s;
+    }
+
+    .btn-copy:hover {
+      background: #DC2626;
+      border-color: #DC2626;
+      color: #fff;
+    }
+
+    .prompt-content {
+      background: #1E293B;
+      color: #E2E8F0;
+      padding: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.8px;
+      line-height: 1.65;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 0;
+    }
+
+    /* Output & Pitfall Boxes */
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
     }
 
     @media (max-width: 768px) {
-      body {
-        padding-bottom: 75px;
+      .result-grid {
+        grid-template-columns: 1fr;
       }
+    }
+
+    .res-box {
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .res-box strong {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .res-output {
+      background: var(--emerald-bg);
+      border: 1px solid #A7F3D0;
+      color: #065F46;
+    }
+
+    .res-pitfall {
+      background: var(--rose-bg);
+      border: 1px solid #FECDD3;
+      color: #9F1239;
+    }
+
+    /* Action Checklist */
+    .action-list {
+      list-style: none;
+      margin: 14px 0;
+    }
+
+    .action-list li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: var(--ink-mid);
+    }
+
+    .action-list li::before {
+      content: "🛡️";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 14px;
+    }
+
+    /* Universal Prompt Card */
+    .universal-card {
+      background: linear-gradient(135deg, #1E1B4B 0%, #312E81 60%, #4338CA 100%);
+      color: #fff;
+      border-radius: 16px;
+      padding: 32px 30px;
+      margin: 36px 0 28px;
+      box-shadow: 0 8px 24px rgba(67, 56, 202, 0.25);
+    }
+
+    .universal-card h3 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 10000;
+      pointer-events: none;
+      border: 1px solid #334155;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Footer */
+    footer {
+      background: #F7F6F3;
+      border-top: 1px solid var(--line);
+      padding: 40px 24px;
+      margin-top: 60px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-mid);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
     }
   </style>
 </head>
 
-<body
-  class="min-h-screen bg-background text-foreground font-sans antialiased selection:bg-primary/20 selection:text-primary">
-  <!-- Toast Notification -->
-  <div id="toast"
-    class="fixed top-4 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:top-auto sm:bottom-6 z-50 flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-3 text-xs sm:text-sm font-medium shadow-2xl transition-all duration-300 opacity-0 -translate-y-3 sm:translate-y-3 pointer-events-none w-[90%] max-w-sm sm:w-auto">
-    <i data-lucide="check-circle-2" class="h-4 w-4 text-emerald-600 shrink-0"></i>
-    <span id="toast-msg" class="truncate">Tersalin ke clipboard!</span>
-  </div>
+<body>
 
-  <!-- Top Sticky Header -->
-  <header class="sticky top-0 z-40 w-full border-b border-border bg-card/90 backdrop-blur-md">
-    <div class="max-w-6xl mx-auto flex h-14 sm:h-16 items-center justify-between px-3 sm:px-6 gap-3">
+  <!-- TOAST ALERT -->
+  <div id="toast">✅ Prompt berhasil disalin ke clipboard!</div>
 
-      <!-- Brand Logo -->
-      <a href="silabus-vibe-coding-16-pertemuan.html" class="flex items-center gap-2.5 sm:gap-3 text-decoration-none">
-        <div
-          class="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-          <i data-lucide="shield-check" class="h-4 w-4 sm:h-5 sm:w-5"></i>
-        </div>
-        <div>
-          <span class="font-bold text-sm sm:text-base tracking-tight block leading-tight text-foreground">Vibecoding Security Hub</span>
-          <span class="text-[10px] sm:text-[11px] text-muted-foreground font-medium">Panduan OWASP Ramah Pemula</span>
-        </div>
+  <!-- NAVIGATION HEADER -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="silabus-vibe-coding-16-pertemuan.html" class="brand">
+        <span class="dot"></span>
+        <span class="brand-title">Vibe Coding · Keamanan OWASP Top 10</span>
+        <span class="brand-pill">Panduan Keamanan</span>
       </a>
 
-      <!-- Desktop Navigation Tabs -->
-      <nav class="hidden lg:flex items-center gap-1 bg-muted/60 p-1 rounded-xl border border-border/80">
-        <button onclick="switchMainTab('intro')" id="nav-intro"
-          class="nav-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-card text-foreground shadow-sm">
-          💡 Dasar
-        </button>
-        <button onclick="switchMainTab('owasp')" id="nav-owasp"
-          class="nav-tab px-3 py-1.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground transition-all">
-          📚 OWASP Top 10
-        </button>
-        <button onclick="switchMainTab('testing')" id="nav-testing"
-          class="nav-tab px-3 py-1.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground transition-all">
-          🧪 Pengujian
-        </button>
-        <button onclick="switchMainTab('checklist')" id="nav-checklist"
-          class="nav-tab px-3 py-1.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground transition-all flex items-center gap-1">
-          ✅ Checklist
-          <span id="badgeProgress"
-            class="rounded-full bg-primary/10 text-primary px-1.5 py-0.2 text-[10px] font-bold">0/8</span>
-        </button>
-      </nav>
+      <div class="nav-actions">
+        <!-- Dropdown: Modul Terkait -->
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">
+            <span>📚 Modul Masterclass</span>
+            <span style="font-size:10px; color:#787774;">▾</span>
+          </button>
+          <div class="dropdown-content">
+            <a href="silabus-vibe-coding-16-pertemuan.html" class="dropdown-item">
+              <span>📖</span>
+              <div><strong>Silabus Utama</strong><div style="font-size:11px; color:#787774;">16 Pertemuan Vibe Coding</div></div>
+            </a>
+            <a href="teori_integrasi_api_eksternal.html" class="dropdown-item">
+              <span>🌐</span>
+              <div><strong>Teori API Eksternal (P11)</strong><div style="font-size:11px; color:#787774;">Konsep, JSON &amp; Prompting</div></div>
+            </a>
+            <a href="praktikum_integrasi_api_eksternal.html" class="dropdown-item">
+              <span>🧪</span>
+              <div><strong>Lab API Eksternal (P11)</strong><div style="font-size:11px; color:#787774;">Praktikum Kurs &amp; Cuaca</div></div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="laboratorium_lengkap_supabase.html" class="dropdown-item">
+              <span>🔬</span>
+              <div><strong>Lab Supabase (9 Lab)</strong><div style="font-size:11px; color:#787774;">SQL, RLS, Auth &amp; Realtime</div></div>
+            </a>
+            <a href="praktikum_git_sebelum_coding.html" class="dropdown-item">
+              <span>🌿</span>
+              <div><strong>Git Lokal (P5)</strong><div style="font-size:11px; color:#787774;">Safety Net &amp; Recovery</div></div>
+            </a>
+            <a href="panduan_push_github.html" class="dropdown-item">
+              <span>🚀</span>
+              <div><strong>Push GitHub (P6)</strong><div style="font-size:11px; color:#787774;">Remote &amp; Branch Cloud</div></div>
+            </a>
+            <a href="panduan_deploy_vercel.html" class="dropdown-item">
+              <span>▲</span>
+              <div><strong>Deploy Vercel (P15)</strong><div style="font-size:11px; color:#787774;">Produksi Cloud &amp; CI/CD</div></div>
+            </a>
+            <a href="panduan_vibecoding_owasp.html" class="dropdown-item active">
+              <span>🛡️</span>
+              <div><strong>Panduan OWASP</strong><div style="font-size:11px; color:#787774;">Keamanan AI Coding</div></div>
+            </a>
+          </div>
+        </div>
 
-      <!-- Right Controls -->
-      <div class="flex items-center gap-1.5 sm:gap-2">
-        <a href="silabus-vibe-coding-16-pertemuan.html" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-muted text-muted-foreground hover:text-foreground transition-colors" style="text-decoration:none;">📋 Silabus 16 Pertemuan</a>
-        <a href="panduan_push_github.html" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 transition-colors" style="text-decoration:none;">🚀 Panduan Push GitHub</a>
-        <button onclick="toggleTheme()"
-          class="h-8 w-8 sm:h-9 sm:w-9 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
-          title="Toggle Theme">
-          <i data-lucide="sun" class="h-4 w-4 dark:hidden"></i>
-          <i data-lucide="moon" class="h-4 w-4 hidden dark:block"></i>
-        </button>
+        <a href="silabus-vibe-coding-16-pertemuan.html" class="nav-cta-btn">← Kembali ke Silabus</a>
       </div>
-
     </div>
   </header>
 
-  <!-- Mobile Bottom Tab Bar -->
-  <nav
-    class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-lg border-t border-border flex items-center justify-around py-1.5 px-1 shadow-lg">
-    <button onclick="switchMainTab('intro')" id="mob-intro"
-      class="mob-tab flex flex-col items-center gap-1 py-1 px-1.5 rounded-lg text-[9px] font-semibold text-primary transition-all flex-1">
-      <i data-lucide="sparkles" class="h-4 w-4"></i>
-      <span>Dasar</span>
-    </button>
-    <button onclick="switchMainTab('owasp')" id="mob-owasp"
-      class="mob-tab flex flex-col items-center gap-1 py-1 px-1.5 rounded-lg text-[9px] font-medium text-muted-foreground transition-all flex-1">
-      <i data-lucide="compass" class="h-4 w-4"></i>
-      <span>OWASP 10</span>
-    </button>
-    <button onclick="switchMainTab('testing')" id="mob-testing"
-      class="mob-tab flex flex-col items-center gap-1 py-1 px-1.5 rounded-lg text-[9px] font-medium text-muted-foreground transition-all flex-1">
-      <i data-lucide="flask-conical" class="h-4 w-4"></i>
-      <span>Testing</span>
-    </button>
-    <button onclick="switchMainTab('generator')" id="mob-generator"
-      class="mob-tab flex flex-col items-center gap-1 py-1 px-1.5 rounded-lg text-[9px] font-medium text-muted-foreground transition-all flex-1">
-      <i data-lucide="wand-2" class="h-4 w-4"></i>
-      <span>Prompt</span>
-    </button>
-    <button onclick="switchMainTab('checklist')" id="mob-checklist"
-      class="mob-tab flex flex-col items-center gap-1 py-1 px-1.5 rounded-lg text-[9px] font-medium text-muted-foreground transition-all flex-1">
-      <i data-lucide="check-square" class="h-4 w-4"></i>
-      <span>Checklist</span>
-    </button>
-  </nav>
+  <!-- HERO SECTION -->
+  <div class="hero">
+    <div class="wrap">
+      <span class="eyebrow">🛡️ PANDUAN KEAMANAN APLIKASI WEB &amp; AI CODING</span>
+      <h1 class="hero-title">OWASP Top 10 untuk Vibe Coder Pemula:<br>Cara Menjaga Aplikasi AI Tetap Aman dari Serangan</h1>
+      <p class="lede">
+        Panduan praktis bagi pemula non-IT yang belajar membuat aplikasi dengan bantuan AI (Vibe Coding). Tujuannya bukan untuk mencetak pakar keamanan siber, melainkan membuat Anda <strong>tahu apa yang harus diminta ke AI</strong> agar kode yang dihasilkan tidak hanya berfungsi, tetapi juga kokoh dan tidak mudah dibobol.
+      </p>
 
-  <!-- Main Container -->
-  <main class="max-w-6xl mx-auto px-3 sm:px-6 py-4 sm:py-8">
-
-    <!-- ========================================== -->
-    <!-- TAB 0: PENGENALAN & DASAR VIBECODING -->
-    <!-- ========================================== -->
-    <div id="tab-intro" class="tab-pane active space-y-6 sm:space-y-8">
-
-      <!-- Hero Banner -->
-      <div class="rounded-xl sm:rounded-2xl border border-border bg-card p-5 sm:p-8 shadow-sm space-y-3">
-        <div
-          class="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-          <i data-lucide="book-open" class="h-3.5 w-3.5"></i> Panduan Pemula Mulai dari Nol
-        </div>
-        <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight">Selamat Datang di Vibecoding Security
-          Hub</h1>
-        <p class="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-3xl">
-          Jika Anda baru belajar coding dengan AI (ChatGPT, Claude, Cursor, Antigravity), panduan ini dibuat dengan
-          bahasa yang <strong>mudah dimengerti, dilengkapi analogi dunia nyata</strong>, dan panduan
-          langkah-demi-langkah agar web Anda aman dari hacker.
-        </p>
+      <div class="meta-badge-row">
+        <div class="meta-badge"><span>🛡️</span> <strong>Standar:</strong> OWASP Top 10:2021</div>
+        <div class="meta-badge"><span>🤖</span> <strong>Metode:</strong> Vibe Coding (Prompt-Driven Security)</div>
+        <div class="meta-badge"><span>🎯</span> <strong>Target:</strong> Pemula Tanpa Latar Belakang IT</div>
+        <div class="meta-badge"><span>📋</span> <strong>Format:</strong> Teori, Risiko Kode AI &amp; Master Prompt Siap Pakai</div>
       </div>
-
-      <!-- Konsep Dasar Vibecoding -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-        <div class="rounded-xl border border-border bg-card p-4 space-y-2">
-          <div class="flex items-center gap-2 font-bold text-sm">
-            <span
-              class="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary text-xs">1</span>
-            <span>Apa itu Vibecoding?</span>
-          </div>
-          <p class="text-xs text-muted-foreground leading-relaxed">
-            Anda bertindak sebagai <strong>Arsitek / Mandor</strong>: Anda mendeskripsikan fitur apa yang ingin dibuat
-            ke AI, lalu AI yang menulis kode programnya.
-          </p>
-        </div>
-
-        <div class="rounded-xl border border-border bg-card p-4 space-y-2">
-          <div class="flex items-center gap-2 font-bold text-sm text-amber-600 dark:text-amber-400">
-            <span
-              class="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/10 text-amber-600 text-xs">2</span>
-            <span>Jebakan Pemula di AI</span>
-          </div>
-          <p class="text-xs text-muted-foreground leading-relaxed">
-            Secara default, AI cenderung menghasilkan kode yang <em>"asal jalan dulu"</em>. Jika Anda tidak memintanya
-            secara spesifik untuk aman, AI bisa melewatkan enkripsi, proteksi database, dan validasi.
-          </p>
-        </div>
-
-        <div class="rounded-xl border border-border bg-card p-4 space-y-2">
-          <div class="flex items-center gap-2 font-bold text-sm text-emerald-600 dark:text-emerald-400">
-            <span
-              class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 text-xs">3</span>
-            <span>Solusi: Prompting Aman</span>
-          </div>
-          <p class="text-xs text-muted-foreground leading-relaxed">
-            Cukup tambahkan 4 aturan keamanan (Formula Prompting) setiap kali berbicara ke AI. AI akan otomatis
-            membuatkan kode berstandar industri.
-          </p>
-        </div>
-
-      </div>
-
-      <!-- Kamus Istilah Keamanan untuk Pemula -->
-      <div class="rounded-xl border border-border bg-card p-5 space-y-4">
-        <h3 class="font-bold text-base flex items-center gap-2">
-          <i data-lucide="help-circle" class="h-4 w-4 text-primary"></i>
-          <span>Kamus Istilah Keamanan Web (Wajib Tahu untuk Pemula)</span>
-        </h3>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-          <div class="rounded-lg bg-muted/40 p-3 space-y-1">
-            <span class="font-bold text-foreground">1. OWASP Top 10</span>
-            <p class="text-muted-foreground">Daftar 10 jenis celah keamanan web paling berbahaya dan paling sering
-              diserang di seluruh dunia.</p>
-          </div>
-
-          <div class="rounded-lg bg-muted/40 p-3 space-y-1">
-            <span class="font-bold text-foreground">2. Supabase RLS (Row Level Security)</span>
-            <p class="text-muted-foreground">Sistem gembok baris database: memastikan User A hanya bisa melihat datanya
-              sendiri dan tidak bisa mengintip data User B.</p>
-          </div>
-
-          <div class="rounded-lg bg-muted/40 p-3 space-y-1">
-            <span class="font-bold text-foreground">3. SQL Injection (SQLi)</span>
-            <p class="text-muted-foreground">Serangan di mana penyerang menyisipkan perintah database palsu di form
-              input/pencarian untuk membobol login tanpa password.</p>
-          </div>
-
-          <div class="rounded-lg bg-muted/40 p-3 space-y-1">
-            <span class="font-bold text-foreground">4. IDOR (Insecure Direct Object Reference)</span>
-            <p class="text-muted-foreground">Celah di mana user mengganti angka URL (misal <code>/user/10</code> jadi
-              <code>/user/11</code>) dan bisa melihat akun orang lain.</p>
-          </div>
-
-          <div class="rounded-lg bg-muted/40 p-3 space-y-1">
-            <span class="font-bold text-foreground">5. Rate Limiting</span>
-            <p class="text-muted-foreground">Pembatasan jumlah request: jika ada orang/bot yang mencoba login 100 kali
-              dalam 1 detik, IP-nya akan otomatis diblokir.</p>
-          </div>
-
-          <div class="rounded-lg bg-muted/40 p-3 space-y-1">
-            <span class="font-bold text-foreground">6. HTTP Security Headers</span>
-            <p class="text-muted-foreground">Instruksi keamanan tambahan yang dikirim server ke browser agar web Anda
-              tidak bisa ditaruh di dalam iframe hacker (Clickjacking).</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4 Langkah Alur Vibecoding -->
-      <div class="rounded-xl border border-border bg-card p-5 space-y-4">
-        <h3 class="font-bold text-base flex items-center gap-2">
-          <i data-lucide="workflow" class="h-4 w-4 text-emerald-600"></i>
-          <span>Alur Kerja Vibecoding yang Aman (Step-by-Step)</span>
-        </h3>
-
-        <div class="space-y-2 text-xs">
-          <div class="flex items-start gap-2.5 p-2 rounded-lg bg-muted/30">
-            <span class="font-bold text-primary shrink-0">Langkah 1:</span>
-            <span>Buka tab <strong>🪄 Prompt Builder</strong> di website ini → Pilih fitur yang mau dibuat → Salin
-              promptnya ke AI agent yang sedang digunakan (Antigravity / ChatGPT / Claude / Gemini).</span>
-          </div>
-          <div class="flex items-start gap-2.5 p-2 rounded-lg bg-muted/30">
-            <span class="font-bold text-primary shrink-0">Langkah 2:</span>
-            <span>Paste kode hasil dari AI ke project aplikasi Anda di IDE editor (sesuikan dengan IDE masing2).</span>
-          </div>
-          <div class="flex items-start gap-2.5 p-2 rounded-lg bg-muted/30">
-            <span class="font-bold text-primary shrink-0">Langkah 3:</span>
-            <span>Deploy web Anda ke <strong>Vercel</strong> atau <strong>Netlify</strong> dengan database
-              <strong>Supabase</strong>.</span>
-          </div>
-          <div class="flex items-start gap-2.5 p-2 rounded-lg bg-muted/30">
-            <span class="font-bold text-primary shrink-0">Langkah 4:</span>
-            <span>Buka tab <strong>🧪 Pengujian Post-Deploy</strong> di website ini → Jalankan pengujian di browser
-              untuk memastikan web Anda 100% aman!</span>
-          </div>
-        </div>
-      </div>
-
     </div>
+  </div>
 
-    <!-- ========================================== -->
-    <!-- TAB 1: OWASP TOP 10 EXPLORER (LENGKAP 10 MODUL) -->
-    <!-- ========================================== -->
-    <div id="tab-owasp" class="tab-pane space-y-5 sm:space-y-8">
+  <!-- STICKY QUICK-FILTER NAV -->
+  <div class="lab-nav-sticky">
+    <div class="wrap">
+      <div class="lab-nav-inner">
+        <a href="#a01" class="lab-nav-pill">A01: Access Control</a>
+        <a href="#a02" class="lab-nav-pill">A02: Kriptografi</a>
+        <a href="#a03" class="lab-nav-pill">A03: Injection</a>
+        <a href="#a04" class="lab-nav-pill">A04: Insecure Design</a>
+        <a href="#a05" class="lab-nav-pill">A05: Misconfiguration</a>
+        <a href="#a06" class="lab-nav-pill">A06: Komponen Usang</a>
+        <a href="#a07" class="lab-nav-pill">A07: Autentikasi</a>
+        <a href="#a08" class="lab-nav-pill">A08: Integritas Data</a>
+        <a href="#a09" class="lab-nav-pill">A09: Logging &amp; Monitor</a>
+        <a href="#a10" class="lab-nav-pill">A10: SSRF</a>
+        <a href="#universal-prompt" class="lab-nav-pill" style="background:#4338CA; color:#fff; border-color:#4338CA;">⚡ Universal Prompt</a>
+        <a href="#tips-vibe-coder" class="lab-nav-pill">💡 Tips Keamanan</a>
+      </div>
+    </div>
+  </div>
 
-      <!-- Hero Banner -->
-      <div class="rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-8 shadow-sm relative">
-        <div class="max-w-2xl space-y-2 sm:space-y-3">
-          <div
-            class="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-0.5 sm:px-3 sm:py-1 text-[11px] sm:text-xs font-semibold text-primary">
-            <i data-lucide="sparkles" class="h-3 w-3 sm:h-3.5 sm:w-3.5"></i> Standar Resmi OWASP Top 10 (2021-2026)
-          </div>
-          <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight">Katalog Lengkap 10 Kerentanan Web &
-            Prompt AI</h1>
-          <p class="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            Klik tombol <strong>"Detail & Panduan Pemula"</strong> pada setiap kartu untuk mempelajari analogi dunia
-            nyata, contoh kode bahaya vs aman, dan cara mem-prompt AI.
-          </p>
-        </div>
+  <!-- MAIN WRAPPER -->
+  <div class="wrap">
+
+    <!-- ARCHITECTURE BANNER -->
+    <div class="arch-card">
+      <h3>🏛️ Mental Model: Kenapa AI Sering Menulis Kode yang Rentan?</h3>
+      <p style="font-size:14px; opacity:0.9;">
+        AI selalu memprioritaskan kode yang paling singkat dan "langsung kelihatan jalan". AI tidak akan menambahkan pengecekan kepemilikan data, hashing password, atau parameter query KECUALI Anda memintanya secara eksplisit!
+      </p>
+
+      <div class="arch-diagram">
+[ PROMPT POLOS: "Buatkan fitur login" ]  --->  [ AI Menulis Jalan Pintas ]  --->  [ Password Plaintext / Rawan SQLi ] ❌
+                                                          
+[ PROMPT OWASP: + Syarat bcrypt & SQLi ] --->  [ AI Menulis Kode Aman ]    --->  [ Terproteksi Standar Industri ] ✅
       </div>
 
-      <!-- Filter & Search Toolbar -->
-      <div class="space-y-3">
-        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 -mx-3 px-3 sm:mx-0 sm:px-0">
-          <button onclick="filterOwasp('all')"
-            class="cat-pill active shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-primary-foreground transition-all">Semua
-            (10)</button>
-          <button onclick="filterOwasp('auth')"
-            class="cat-pill shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium bg-card border border-border text-muted-foreground hover:text-foreground transition-all">Otentikasi
-            & Akses</button>
-          <button onclick="filterOwasp('data')"
-            class="cat-pill shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium bg-card border border-border text-muted-foreground hover:text-foreground transition-all">Database
-            & Injeksi</button>
-          <button onclick="filterOwasp('server')"
-            class="cat-pill shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium bg-card border border-border text-muted-foreground hover:text-foreground transition-all">Server
-            & Config</button>
-        </div>
-
-        <div class="relative w-full">
-          <i data-lucide="search" class="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground"></i>
-          <input type="text" id="owaspSearch" placeholder="Cari IDOR, SQLi, SSRF, token, bcrypt..."
-            class="h-9 sm:h-10 w-full rounded-lg border border-border bg-card pl-9 pr-3 text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-            onkeyup="searchOwasp()" />
-        </div>
-      </div>
-
-      <!-- 10 OWASP Cards List -->
-      <div class="grid grid-cols-1 gap-3 sm:gap-4" id="owaspContainer">
-
-        <!-- MODUL 01: Broken Access Control -->
-        <div
-          class="owasp-item rounded-xl border border-border bg-card p-4 sm:p-5 shadow-sm transition-all hover:border-primary/40 space-y-3"
-          data-cat="auth" data-tags="idor access control otorisasi token profil user a01">
-          <div class="flex items-start justify-between gap-2">
-            <div class="flex items-start gap-2.5 min-w-0">
-              <span
-                class="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-rose-500/10 text-rose-600 dark:text-rose-400 text-xs font-bold font-mono">01</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <h3 class="font-bold text-sm sm:text-base">A01: Broken Access Control (IDOR)</h3>
-                  <span
-                    class="rounded bg-rose-500/10 text-rose-600 dark:text-rose-400 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-semibold">Bahaya
-                    #1</span>
-                </div>
-                <p class="text-xs text-muted-foreground mt-1">User dapat membuka atau mengubah data user lain hanya
-                  dengan mengganti nomor ID pada URL.</p>
-              </div>
-            </div>
-            <button onclick="toggleCardDetail(this)"
-              class="shrink-0 text-xs font-semibold text-primary hover:underline flex items-center gap-0.5 py-1">
-              <span class="btn-text">Detail & Panduan</span>
-              <i data-lucide="chevron-down" class="h-3.5 w-3.5 transition-transform duration-200"></i>
-            </button>
-          </div>
-
-          <!-- Detail Box -->
-          <div class="card-detail hidden pt-3 border-t border-border space-y-3 text-xs">
-            <div class="rounded-lg bg-primary/5 border border-primary/20 p-3 space-y-1">
-              <strong class="text-primary font-semibold block">🏨 Analogi Sederhana di Dunia Nyata:</strong>
-              <p class="text-muted-foreground">Bayangkan Anda menginap di hotel di kamar 101. Ketika Anda berjalan ke
-                kamar 102 dan memutar gagang pintunya, ternyata pintunya langsung terbuka dan Anda bisa mengambil dompet
-                tamu lain. Seharusnya pintu kamar 102 hanya bisa dibuka dengan kunci milik tamu kamar 102.</p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <div class="rounded-lg bg-red-500/5 border border-red-500/20 p-2.5">
-                <span class="font-semibold text-red-600 block mb-0.5">❌ Kode Bahaya:</span>
-                <p class="text-muted-foreground font-mono text-[11px]">app.get('/invoice/:id', async (req, res) =>
-                  {<br>&nbsp;&nbsp;const doc = await db.find(req.params.id);<br>&nbsp;&nbsp;res.json(doc); // Siapapun
-                  bisa download invoice orang lain!<br>});</p>
-              </div>
-              <div class="rounded-lg bg-emerald-500/5 border border-emerald-500/20 p-2.5">
-                <span class="font-semibold text-emerald-600 block mb-0.5">✅ Kode Aman:</span>
-                <p class="text-muted-foreground font-mono text-[11px]">app.get('/invoice/:id', authMiddleware, async
-                  (req, res) => {<br>&nbsp;&nbsp;const doc = await db.findOne({ id: req.params.id, userId: req.user.id
-                  });<br>&nbsp;&nbsp;if (!doc) return
-                  res.status(403).send('Ditolak!');<br>&nbsp;&nbsp;res.json(doc);<br>});</p>
-              </div>
-            </div>
-
-            <div class="rounded-lg border border-border bg-muted/40 p-3 relative">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-semibold text-muted-foreground flex items-center gap-1"><i
-                    data-lucide="terminal" class="h-3 w-3"></i> Prompt AI yang Harus Diketik:</span>
-                <button onclick="copyCode(this)"
-                  class="inline-flex h-6 items-center gap-1 rounded border border-border bg-card px-2 text-[11px] font-medium hover:bg-accent"><i
-                    data-lucide="copy" class="h-3 w-3"></i> Salin</button>
-              </div>
-              <pre class="font-mono text-xs text-foreground whitespace-pre-wrap">Buat endpoint GET & PUT /api/user/:id/profile:
-- Wajib verifikasi session token pengguna
-- Pastikan user hanya boleh mengakses datanya sendiri (req.user.id === req.params.id)
-- Jika bukan pemilik data dan bukan admin, kembalikan status 403 Forbidden</pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- MODUL 02: Cryptographic Failures -->
-        <div
-          class="owasp-item rounded-xl border border-border bg-card p-4 sm:p-5 shadow-sm transition-all hover:border-primary/40 space-y-3"
-          data-cat="auth" data-tags="crypto password hash bcrypt enkripsi md5 sha1 a02">
-          <div class="flex items-start justify-between gap-2">
-            <div class="flex items-start gap-2.5 min-w-0">
-              <span
-                class="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold font-mono">02</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <h3 class="font-bold text-sm sm:text-base">A02: Cryptographic Failures</h3>
-                  <span
-                    class="rounded bg-muted text-muted-foreground px-1.5 py-0.5 text-[9px] sm:text-[10px] font-medium">Kerahasiaan</span>
-                </div>
-                <p class="text-xs text-muted-foreground mt-1">Menyimpan password asli (plaintext) atau memakai algoritma
-                  lama (MD5) yang mudah dibongkar.</p>
-              </div>
-            </div>
-            <button onclick="toggleCardDetail(this)"
-              class="shrink-0 text-xs font-semibold text-primary hover:underline flex items-center gap-0.5 py-1">
-              <span class="btn-text">Detail & Panduan</span>
-              <i data-lucide="chevron-down" class="h-3.5 w-3.5 transition-transform duration-200"></i>
-            </button>
-          </div>
-
-          <div class="card-detail hidden pt-3 border-t border-border space-y-3 text-xs">
-            <div class="rounded-lg bg-primary/5 border border-primary/20 p-3 space-y-1">
-              <strong class="text-primary font-semibold block">🏨 Analogi Sederhana di Dunia Nyata:</strong>
-              <p class="text-muted-foreground">Menyimpan password sebagai teks biasa di database sama seperti menuliskan
-                nomor PIN kartu ATM Anda di kartu nama menggunakan pulpen. Siapapun yang melihat kartu itu bisa langsung
-                menguras uang Anda.</p>
-            </div>
-
-            <div class="rounded-lg border border-border bg-muted/40 p-3 relative">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-semibold text-muted-foreground flex items-center gap-1"><i
-                    data-lucide="terminal" class="h-3 w-3"></i> Prompt AI yang Harus Diketik:</span>
-                <button onclick="copyCode(this)"
-                  class="inline-flex h-6 items-center gap-1 rounded border border-border bg-card px-2 text-[11px] font-medium hover:bg-accent"><i
-                    data-lucide="copy" class="h-3 w-3"></i> Salin</button>
-              </div>
-              <pre class="font-mono text-xs text-foreground whitespace-pre-wrap">Buatkan modul registrasi dan login:
-- Password wajib di-hash menggunakan bcrypt (salt rounds: 12) atau Argon2id
-- JANGAN PERNAH simpan plaintext password atau hash MD5 di database
-- Enkripsi field data pribadi sensitif menggunakan AES-256-GCM
-- Simpan secret key di file .env, jangan hardcoded di repository</pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- MODUL 03: Injection -->
-        <div
-          class="owasp-item rounded-xl border border-border bg-card p-4 sm:p-5 shadow-sm transition-all hover:border-primary/40 space-y-3"
-          data-cat="data" data-tags="injection sql sqli prepared statement query database a03">
-          <div class="flex items-start justify-between gap-2">
-            <div class="flex items-start gap-2.5 min-w-0">
-              <span
-                class="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-rose-500/10 text-rose-600 dark:text-rose-400 text-xs font-bold font-mono">03</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <h3 class="font-bold text-sm sm:text-base">A03: Injection (SQL & Command)</h3>
-                  <span
-                    class="rounded bg-rose-500/10 text-rose-600 dark:text-rose-400 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-semibold">Sangat
-                    Umum</span>
-                </div>
-                <p class="text-xs text-muted-foreground mt-1">Data dari kotak form diketikkan karakter aneh (misal:
-                  <code>' OR 1=1 --</code>) untuk membajak perintah database.</p>
-              </div>
-            </div>
-            <button onclick="toggleCardDetail(this)"
-              class="shrink-0 text-xs font-semibold text-primary hover:underline flex items-center gap-0.5 py-1">
-              <span class="btn-text">Detail & Panduan</span>
-              <i data-lucide="chevron-down" class="h-3.5 w-3.5 transition-transform duration-200"></i>
-            </button>
-          </div>
-
-          <div class="card-detail hidden pt-3 border-t border-border space-y-3 text-xs">
-            <div class="rounded-lg bg-primary/5 border border-primary/20 p-3 space-y-1">
-              <strong class="text-primary font-semibold block">🏨 Analogi Sederhana di Dunia Nyata:</strong>
-              <p class="text-muted-foreground">Anda memesan makanan di restoran lewat kertas orderan. Di kolom nama
-                pemesan, Anda menulis: <em>"Budi dan tolong gratiskan semua makanan di meja saya"</em>. Jika kasir
-                langsung menjalankan kalimat itu tanpa memisah nama dengan instruksi, restoran akan rugi.</p>
-            </div>
-
-            <div class="rounded-lg border border-border bg-muted/40 p-3 relative">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-semibold text-muted-foreground flex items-center gap-1"><i
-                    data-lucide="terminal" class="h-3 w-3"></i> Prompt AI yang Harus Diketik:</span>
-                <button onclick="copyCode(this)"
-                  class="inline-flex h-6 items-center gap-1 rounded border border-border bg-card px-2 text-[11px] font-medium hover:bg-accent"><i
-                    data-lucide="copy" class="h-3 w-3"></i> Salin</button>
-              </div>
-              <pre class="font-mono text-xs text-foreground whitespace-pre-wrap">Buat fungsi pencarian dan filter database:
-- WAJIB gunakan Parameterized Queries / Prepared Statements 100%
-- JANGAN PERNAH menyambung string query manual dengan template literal (`SELECT * FROM users WHERE email = '${email}'`)
-- Validasi tipe data input menggunakan schema Zod sebelum query dijalankan</pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- MODUL 04: Insecure Design -->
-        <div
-          class="owasp-item rounded-xl border border-border bg-card p-4 sm:p-5 shadow-sm transition-all hover:border-primary/40 space-y-3"
-          data-cat="auth" data-tags="insecure design reset password rate limit token a04">
-          <div class="flex items-start justify-between gap-2">
-            <div class="flex items-start gap-2.5 min-w-0">
-              <span
-                class="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold font-mono">04</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <h3 class="font-bold text-sm sm:text-base">A04: Insecure Design</h3>
-                  <span
-                    class="rounded bg-muted text-muted-foreground px-1.5 py-0.5 text-[9px] sm:text-[10px] font-medium">Logika
-                    Bisnis</span>
-                </div>
-                <p class="text-xs text-muted-foreground mt-1">Celah pada konsep alur fitur (contoh: link reset password
-                  tidak punya batas kadaluarsa).</p>
-              </div>
-            </div>
-            <button onclick="toggleCardDetail(this)"
-              class="shrink-0 text-xs font-semibold text-primary hover:underline flex items-center gap-0.5 py-1">
-              <span class="btn-text">Detail & Panduan</span>
-              <i data-lucide="chevron-down" class="h-3.5 w-3.5 transition-transform duration-200"></i>
-            </button>
-          </div>
-
-          <div class="card-detail hidden pt-3 border-t border-border space-y-3 text-xs">
-            <div class="rounded-lg bg-primary/5 border border-primary/20 p-3 space-y-1">
-              <strong class="text-primary font-semibold block">🏨 Analogi Sederhana di Dunia Nyata:</strong>
-              <p class="text-muted-foreground">Karcis parkir yang tidak diberi stempel jam masuk dan bisa dipakai
-                selamanya tanpa bayar biaya parkir tambahan.</p>
-            </div>
-
-            <div class="rounded-lg border border-border bg-muted/40 p-3 relative">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-semibold text-muted-foreground flex items-center gap-1"><i
-                    data-lucide="terminal" class="h-3 w-3"></i> Prompt AI yang Harus Diketik:</span>
-                <button onclick="copyCode(this)"
-                  class="inline-flex h-6 items-center gap-1 rounded border border-border bg-card px-2 text-[11px] font-medium hover:bg-accent"><i
-                    data-lucide="copy" class="h-3 w-3"></i> Salin</button>
-              </div>
-              <pre class="font-mono text-xs text-foreground whitespace-pre-wrap">Desain alur dan kode fitur Reset Password:
-- Buat token acak crypto.randomBytes(32).toString('hex')
-- Token hanya berlaku 15 menit dan hanya bisa digunakan 1 kali
-- Batasi permintaan reset maksimal 3 kali per jam per email
-- Selalu tampilkan pesan respon: "Jika email terdaftar, link telah dikirim"</pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- MODUL 05: Security Misconfiguration -->
-        <div
-          class="owasp-item rounded-xl border border-border bg-card p-4 sm:p-5 shadow-sm transition-all hover:border-primary/40 space-y-3"
-          data-cat="server" data-tags="misconfiguration helmet cors headers env debug stack trace a05">
-          <div class="flex items-start justify-between gap-2">
-            <div class="flex items-start gap-2.5 min-w-0">
-              <span
-                class="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-bold font-mono">05</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <h3 class="font-bold text-sm sm:text-base">A05: Security Misconfiguration</h3>
-                  <span
-                    class="rounded bg-muted text-muted-foreground px-1.5 py-0.5 text-[9px] sm:text-[10px] font-medium">Server</span>
-                </div>
-                <p class="text-xs text-muted-foreground mt-1">Menggunakan konfigurasi default yang tidak aman atau lupa
-                  mematikan mode debug di production.</p>
-              </div>
-            </div>
-            <button onclick="toggleCardDetail(this)"
-              class="shrink-0 text-xs font-semibold text-primary hover:underline flex items-center gap-0.5 py-1">
-              <span class="btn-text">Detail & Panduan</span>
-              <i data-lucide="chevron-down" class="h-3.5 w-3.5 transition-transform duration-200"></i>
-            </button>
-          </div>
-
-          <div class="card-detail hidden pt-3 border-t border-border space-y-3 text-xs">
-            <div class="rounded-lg bg-primary/5 border border-primary/20 p-3 space-y-1">
-              <strong class="text-primary font-semibold block">🏨 Analogi Sederhana di Dunia Nyata:</strong>
-              <p class="text-muted-foreground">Membeli gembok baru untuk pagar rumah, tetapi password kodenya dibiarkan
-                tetap '0000' (bawaan pabrik) sehingga siapapun bisa membukanya.</p>
-            </div>
-
-            <div class="rounded-lg border border-border bg-muted/40 p-3 relative">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-semibold text-muted-foreground flex items-center gap-1"><i
-                    data-lucide="terminal" class="h-3 w-3"></i> Prompt AI yang Harus Diketik:</span>
-                <button onclick="copyCode(this)"
-                  class="inline-flex h-6 items-center gap-1 rounded border border-border bg-card px-2 text-[11px] font-medium hover:bg-accent"><i
-                    data-lucide="copy" class="h-3 w-3"></i> Salin</button>
-              </div>
-              <pre class="font-mono text-xs text-foreground whitespace-pre-wrap">Setup konfigurasi Express.js / Next.js server production yang aman:
-- Pasang helmet() untuk HTTP Security Headers (CSP, HSTS, X-Frame-Options)
-- Nonaktifkan header "X-Powered-By"
-- Setup CORS ketat hanya untuk whitelist domain frontend terpercaya
-- Pasang Global Error Handler yang tidak menampilkan stack trace ke client</pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- MODUL 06: Vulnerable Components -->
-        <div
-          class="owasp-item rounded-xl border border-border bg-card p-4 sm:p-5 shadow-sm transition-all hover:border-primary/40 space-y-3"
-          data-cat="server" data-tags="vulnerable components npm audit dependabot cve package a06">
-          <div class="flex items-start justify-between gap-2">
-            <div class="flex items-start gap-2.5 min-w-0">
-              <span
-                class="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold font-mono">06</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <h3 class="font-bold text-sm sm:text-base">A06: Vulnerable & Outdated Components</h3>
-                  <span
-                    class="rounded bg-muted text-muted-foreground px-1.5 py-0.5 text-[9px] sm:text-[10px] font-medium">Dependency</span>
-                </div>
-                <p class="text-xs text-muted-foreground mt-1">Menggunakan library / package npm pihak ketiga yang sudah
-                  usang dan memiliki catatan bug berbahaya.</p>
-              </div>
-            </div>
-            <button onclick="toggleCardDetail(this)"
-              class="shrink-0 text-xs font-semibold text-primary hover:underline flex items-center gap-0.5 py-1">
-              <span class="btn-text">Detail & Panduan</span>
-              <i data-lucide="chevron-down" class="h-3.5 w-3.5 transition-transform duration-200"></i>
-            </button>
-          </div>
-
-          <div class="card-detail hidden pt-3 border-t border-border space-y-3 text-xs">
-            <div class="rounded-lg bg-primary/5 border border-primary/20 p-3 space-y-1">
-              <strong class="text-primary font-semibold block">🏨 Analogi Sederhana di Dunia Nyata:</strong>
-              <p class="text-muted-foreground">Membangun rumah mewah dengan pintu baja kokoh, tetapi memasang engsel
-                bekas yang sudah berkarat dan gampang dipatahkan.</p>
-            </div>
-
-            <div class="rounded-lg border border-border bg-muted/40 p-3 relative">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-semibold text-muted-foreground flex items-center gap-1"><i
-                    data-lucide="terminal" class="h-3 w-3"></i> Perintah Terminal yang Harus Dijalankan:</span>
-                <button onclick="copyCode(this)"
-                  class="inline-flex h-6 items-center gap-1 rounded border border-border bg-card px-2 text-[11px] font-medium hover:bg-accent"><i
-                    data-lucide="copy" class="h-3 w-3"></i> Salin</button>
-              </div>
-              <pre class="font-mono text-xs text-foreground whitespace-pre-wrap"># Buka terminal di folder project Anda, ketik:
-npm audit
-# Jika ada laporan celah keamanan, ketik:
-npm audit fix</pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- MODUL 07: Auth Failures -->
-        <div
-          class="owasp-item rounded-xl border border-border bg-card p-4 sm:p-5 shadow-sm transition-all hover:border-primary/40 space-y-3"
-          data-cat="auth" data-tags="auth authentication brute force lockout password jwt 2fa a07">
-          <div class="flex items-start justify-between gap-2">
-            <div class="flex items-start gap-2.5 min-w-0">
-              <span
-                class="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-rose-500/10 text-rose-600 dark:text-rose-400 text-xs font-bold font-mono">07</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <h3 class="font-bold text-sm sm:text-base">A07: Identification & Auth Failures</h3>
-                  <span
-                    class="rounded bg-muted text-muted-foreground px-1.5 py-0.5 text-[9px] sm:text-[10px] font-medium">Login
-                    & Sesi</span>
-                </div>
-                <p class="text-xs text-muted-foreground mt-1">Mengizinkan password terlalu lemah (seperti '123456') atau
-                  tidak ada penguncian akun saat gagal login berulang.</p>
-              </div>
-            </div>
-            <button onclick="toggleCardDetail(this)"
-              class="shrink-0 text-xs font-semibold text-primary hover:underline flex items-center gap-0.5 py-1">
-              <span class="btn-text">Detail & Panduan</span>
-              <i data-lucide="chevron-down" class="h-3.5 w-3.5 transition-transform duration-200"></i>
-            </button>
-          </div>
-
-          <div class="card-detail hidden pt-3 border-t border-border space-y-3 text-xs">
-            <div class="rounded-lg bg-primary/5 border border-primary/20 p-3 space-y-1">
-              <strong class="text-primary font-semibold block">🏨 Analogi Sederhana di Dunia Nyata:</strong>
-              <p class="text-muted-foreground">Sebuah brankas bank yang memperbolehkan pencuri mencoba menebak kombinasi
-                angka sebanyak 1 juta kali tanpa membunyikan alarm dan tanpa memblokir brankas.</p>
-            </div>
-
-            <div class="rounded-lg border border-border bg-muted/40 p-3 relative">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-semibold text-muted-foreground flex items-center gap-1"><i
-                    data-lucide="terminal" class="h-3 w-3"></i> Prompt AI yang Harus Diketik:</span>
-                <button onclick="copyCode(this)"
-                  class="inline-flex h-6 items-center gap-1 rounded border border-border bg-card px-2 text-[11px] font-medium hover:bg-accent"><i
-                    data-lucide="copy" class="h-3 w-3"></i> Salin</button>
-              </div>
-              <pre class="font-mono text-xs text-foreground whitespace-pre-wrap">Implementasikan sistem autentikasi user yang aman:
-- Validasi password: minimal 8 karakter, wajib kombinasi huruf besar, angka, dan simbol
-- Kunci akun sementara (15 menit) setelah 5x gagal login berturut-turut
-- Hapus token session / refresh token secara menyeluruh saat endpoint logout dipanggil</pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- MODUL 08: Software & Data Integrity -->
-        <div
-          class="owasp-item rounded-xl border border-border bg-card p-4 sm:p-5 shadow-sm transition-all hover:border-primary/40 space-y-3"
-          data-cat="server" data-tags="integrity sri cdn checksum subresource a08">
-          <div class="flex items-start justify-between gap-2">
-            <div class="flex items-start gap-2.5 min-w-0">
-              <span
-                class="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold font-mono">08</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <h3 class="font-bold text-sm sm:text-base">A08: Software & Data Integrity Failures</h3>
-                  <span
-                    class="rounded bg-muted text-muted-foreground px-1.5 py-0.5 text-[9px] sm:text-[10px] font-medium">Integritas</span>
-                </div>
-                <p class="text-xs text-muted-foreground mt-1">Memuat script CDN eksternal tanpa verifikasi sidik jari
-                  (Subresource Integrity / SRI).</p>
-              </div>
-            </div>
-            <button onclick="toggleCardDetail(this)"
-              class="shrink-0 text-xs font-semibold text-primary hover:underline flex items-center gap-0.5 py-1">
-              <span class="btn-text">Detail & Panduan</span>
-              <i data-lucide="chevron-down" class="h-3.5 w-3.5 transition-transform duration-200"></i>
-            </button>
-          </div>
-
-          <div class="card-detail hidden pt-3 border-t border-border space-y-3 text-xs">
-            <div class="rounded-lg bg-primary/5 border border-primary/20 p-3 space-y-1">
-              <strong class="text-primary font-semibold block">🏨 Analogi Sederhana di Dunia Nyata:</strong>
-              <p class="text-muted-foreground">Menerima paket kiriman dari kurir tanpa memeriksa segel hologram; jika
-                kurir nakal mengganti isi paket di tengah jalan, Anda tidak mengetahuinya.</p>
-            </div>
-
-            <div class="rounded-lg border border-border bg-muted/40 p-3 relative">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-semibold text-muted-foreground flex items-center gap-1"><i
-                    data-lucide="terminal" class="h-3 w-3"></i> Prompt AI yang Harus Diketik:</span>
-                <button onclick="copyCode(this)"
-                  class="inline-flex h-6 items-center gap-1 rounded border border-border bg-card px-2 text-[11px] font-medium hover:bg-accent"><i
-                    data-lucide="copy" class="h-3 w-3"></i> Salin</button>
-              </div>
-              <pre class="font-mono text-xs text-foreground whitespace-pre-wrap">Buatkan tag HTML include CDN library eksternal:
-- Wajib sertakan atribut Subresource Integrity (integrity="sha384-...")
-- Sertakan atribut crossorigin="anonymous"</pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- MODUL 09: Logging & Monitoring -->
-        <div
-          class="owasp-item rounded-xl border border-border bg-card p-4 sm:p-5 shadow-sm transition-all hover:border-primary/40 space-y-3"
-          data-cat="server" data-tags="logging monitoring winston audit trail alert a09">
-          <div class="flex items-start justify-between gap-2">
-            <div class="flex items-start gap-2.5 min-w-0">
-              <span
-                class="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold font-mono">09</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <h3 class="font-bold text-sm sm:text-base">A09: Security Logging & Monitoring</h3>
-                  <span
-                    class="rounded bg-muted text-muted-foreground px-1.5 py-0.5 text-[9px] sm:text-[10px] font-medium">Audit
-                    Log</span>
-                </div>
-                <p class="text-xs text-muted-foreground mt-1">Sistem tidak mencatat upaya pembobolan login atau
-                  penghapusan data, sehingga insiden tidak terlacak.</p>
-              </div>
-            </div>
-            <button onclick="toggleCardDetail(this)"
-              class="shrink-0 text-xs font-semibold text-primary hover:underline flex items-center gap-0.5 py-1">
-              <span class="btn-text">Detail & Panduan</span>
-              <i data-lucide="chevron-down" class="h-3.5 w-3.5 transition-transform duration-200"></i>
-            </button>
-          </div>
-
-          <div class="card-detail hidden pt-3 border-t border-border space-y-3 text-xs">
-            <div class="rounded-lg bg-primary/5 border border-primary/20 p-3 space-y-1">
-              <strong class="text-primary font-semibold block">🏨 Analogi Sederhana di Dunia Nyata:</strong>
-              <p class="text-muted-foreground">Toko emas tanpa kamera CCTV. Jika suatu saat perhiasan hilang, pemilik
-                toko tidak tahu siapa yang mengambil dan jam berapa kejadiannya.</p>
-            </div>
-
-            <div class="rounded-lg border border-border bg-muted/40 p-3 relative">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-semibold text-muted-foreground flex items-center gap-1"><i
-                    data-lucide="terminal" class="h-3 w-3"></i> Prompt AI yang Harus Diketik:</span>
-                <button onclick="copyCode(this)"
-                  class="inline-flex h-6 items-center gap-1 rounded border border-border bg-card px-2 text-[11px] font-medium hover:bg-accent"><i
-                    data-lucide="copy" class="h-3 w-3"></i> Salin</button>
-              </div>
-              <pre class="font-mono text-xs text-foreground whitespace-pre-wrap">Buat modul structured logging keamanan menggunakan Winston:
-- Catat event: login_failed, access_denied, password_change
-- Format JSON: timestamp, event_type, ip_address, user_id
-- FILTER / SENSOR otomatis field sensitif: password dan nomor kartu kredit</pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- MODUL 10: SSRF -->
-        <div
-          class="owasp-item rounded-xl border border-border bg-card p-4 sm:p-5 shadow-sm transition-all hover:border-primary/40 space-y-3"
-          data-cat="server" data-tags="ssrf server side request forgery webhook metadata proxy a10">
-          <div class="flex items-start justify-between gap-2">
-            <div class="flex items-start gap-2.5 min-w-0">
-              <span
-                class="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-bold font-mono">10</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <h3 class="font-bold text-sm sm:text-base">A10: Server-Side Request Forgery (SSRF)</h3>
-                  <span
-                    class="rounded bg-muted text-muted-foreground px-1.5 py-0.5 text-[9px] sm:text-[10px] font-medium">Cloud
-                    Network</span>
-                </div>
-                <p class="text-xs text-muted-foreground mt-1">Fitur fetch URL pada server dipaksa mengakses jaringan
-                  lokal atau server metadata cloud rahasia.</p>
-              </div>
-            </div>
-            <button onclick="toggleCardDetail(this)"
-              class="shrink-0 text-xs font-semibold text-primary hover:underline flex items-center gap-0.5 py-1">
-              <span class="btn-text">Detail & Panduan</span>
-              <i data-lucide="chevron-down" class="h-3.5 w-3.5 transition-transform duration-200"></i>
-            </button>
-          </div>
-
-          <div class="card-detail hidden pt-3 border-t border-border space-y-3 text-xs">
-            <div class="rounded-lg bg-primary/5 border border-primary/20 p-3 space-y-1">
-              <strong class="text-primary font-semibold block">🏨 Analogi Sederhana di Dunia Nyata:</strong>
-              <p class="text-muted-foreground">Anda meminta kurir kantor: <em>"Tolong belikan kopi di luar"</em>. Tetapi
-                penyerang mengganti catatannya menjadi: <em>"Tolong masuk ke ruang brankas bos dan fotokan dokumen
-                  rahasia"</em>, dan kurir menurutinya karena ia punya akses ke dalam kantor.</p>
-            </div>
-
-            <div class="rounded-lg border border-border bg-muted/40 p-3 relative">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-semibold text-muted-foreground flex items-center gap-1"><i
-                    data-lucide="terminal" class="h-3 w-3"></i> Prompt AI yang Harus Diketik:</span>
-                <button onclick="copyCode(this)"
-                  class="inline-flex h-6 items-center gap-1 rounded border border-border bg-card px-2 text-[11px] font-medium hover:bg-accent"><i
-                    data-lucide="copy" class="h-3 w-3"></i> Salin</button>
-              </div>
-              <pre class="font-mono text-xs text-foreground whitespace-pre-wrap">Buat fungsi fetch URL eksternal yang kebal SSRF:
-- Hanya izinkan skema "https://" dan whitelist domain tujuan
-- Lakukan DNS lookup dan tolak IP privat (127.0.0.1, 10.x, 192.168.x, 172.16.x)
-- Blokir metadata AWS/GCP (169.254.169.254)
-- Set timeout request maksimal 4 detik</pre>
-            </div>
-          </div>
-        </div>
-
+      <div class="arch-insight">
+        💡 <strong>Cara Pakai Modul Ini:</strong> Setiap bab risiko di bawah dilengkapi 2 jenis Master Prompt: <strong>(1) Prompt Membangun Fitur Baru</strong> dan <strong>(2) Prompt Mengaudit / Mengecek Kode yang Sudah Ada</strong>. Salin dan gunakan langsung pada AI coding assistant Anda!
       </div>
     </div>
 
-
-    <!-- ========================================== -->
-    <!-- TAB 2: POST-DEPLOY TESTING PLAYBOOK (PANDUAN LENGKAP) -->
-    <!-- ========================================== -->
-    <div id="tab-testing" class="tab-pane space-y-5 sm:space-y-8">
-
-      <div class="rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-8 shadow-sm space-y-2 sm:space-y-3">
-        <div
-          class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 sm:px-3 sm:py-1 text-[11px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-          <i data-lucide="shield-check" class="h-3 w-3 sm:h-3.5 sm:w-3.5"></i> Panduan Eksekusi Pemula
+    <!-- ==================== A01 ==================== -->
+    <section class="owasp-section" id="a01">
+      <div class="section-header">
+        <div class="owasp-badge">A01</div>
+        <div class="section-header-text">
+          <h2>Broken Access Control (Kontrol Akses yang Rusak)</h2>
+          <p>Kategori risiko #1 OWASP: Siapa yang boleh melihat, mengedit, atau menghapus data.</p>
         </div>
-        <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight">Cara Menguji Keamanan Web Setelah
-          Di-Hosting</h2>
-        <p class="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-2xl">
-          Ikuti 4 langkah di bawah ini untuk menguji apakah web Anda di <strong>Vercel / Netlify + Supabase</strong>
-          sudah benar-benar aman dari kebocoran data.
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Teori &amp; Mengapa Bahaya Buat Vibe Coder</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Teori:</strong> Ini soal otorisasi data. Contoh gagal: Pengguna A bisa melihat struk pesanan Pengguna B hanya dengan mengganti angka di URL dari <code>id=101</code> menjadi <code>id=102</code>. Aplikasi hanya mengecek *"apakah ID 102 ada di database?"*, bukan *"apakah ID 102 milik user yang sedang login?"*.
         </p>
-      </div>
-
-      <!-- Step 1: Supabase RLS Testing (Detail Tutorial) -->
-      <div class="rounded-xl border-2 border-emerald-500/40 bg-card p-4 sm:p-6 shadow-sm space-y-4">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div class="flex items-center gap-2.5">
-            <span
-              class="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500 text-white font-bold text-xs">1</span>
-            <div>
-              <h3 class="font-bold text-sm sm:text-base">Pengujian 1: Pentest Supabase RLS di Console Browser</h3>
-              <span class="text-[11px] sm:text-xs text-muted-foreground">Uji apakah data pengguna lain bisa dicuri
-                sembarangan</span>
-            </div>
+        <div class="danger-box">
+          <div class="danger-title">⚠️ Kenapa Bahaya Buat Vibe Coder?</div>
+          <div class="danger-content">
+            AI sangat sering membuat endpoint seperti <code>GET /api/order/:id</code> yang berfungsi sempurna saat Anda uji sendiri dengan 1 akun. Namun celah bocornya data baru ketahuan saat orang lain iseng mengganti angka ID di URL browser.
           </div>
-          <span
-            class="rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 text-[10px] font-bold">Wajib
-            #1</span>
-        </div>
-
-        <!-- Step by step visual instructions -->
-        <div class="rounded-lg bg-muted/40 p-3.5 space-y-2 text-xs">
-          <strong class="font-semibold text-foreground block">📍 Cara Menjalankannya (Langkah Demi Langkah):</strong>
-          <ol class="list-decimal pl-4 space-y-1.5 text-muted-foreground">
-            <li>Buka website Anda yang sudah aktif (misal <code>https://nama-web.vercel.app</code>) di browser Chrome
-              atau Edge.</li>
-            <li>Tekan tombol keyboard <kbd
-                class="px-1.5 py-0.5 rounded bg-card border border-border font-mono">F12</kbd> (atau klik kanan di web →
-              pilih <em>Inspect / Periksa</em>).</li>
-            <li>Klik tab menu <strong>"Console"</strong> di bagian atas panel Developer Tools.</li>
-            <li>Salin script di bawah, ganti URL & Anon Key proyek Supabase Anda, paste di Console, lalu tekan
-              <strong>Enter</strong>:</li>
-          </ol>
-        </div>
-
-        <div class="rounded-lg border border-border bg-card p-3 relative">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-[11px] font-mono font-semibold text-muted-foreground">Script Pengujian Mandiri (100% Jalan
-              di Browser)</span>
-            <button onclick="copyCode(this)"
-              class="inline-flex h-6 items-center gap-1 rounded border border-border bg-muted/50 px-2 text-[11px] font-medium hover:bg-accent"><i
-                data-lucide="copy" class="h-3 w-3"></i> Salin Script</button>
-          </div>
-          <pre class="font-mono text-xs text-foreground whitespace-pre-wrap overflow-x-auto max-w-full">// 1. Muat Supabase client langsung di console
-const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
-
-// 2. Masukkan URL dan Anon Key publik Anda
-const supabaseUrl = 'https://PROJECT_ID.supabase.co'; // Ganti URL supabase Anda
-const supabaseAnonKey = 'eyJhbGci...'; // Ganti NEXT_PUBLIC_SUPABASE_ANON_KEY Anda
-
-const client = createClient(supabaseUrl, supabaseAnonKey);
-
-// 3. Uji coba tarik data tabel 'profiles' tanpa login:
-const { data, error } = await client.from('profiles').select('*');
-
-console.log('--- HASIL AUDIT KEAMANAN RLS ---');
-if (error) {
-  console.log('✅ AMAN: Server menolak akses dengan benar:', error.message);
-} else if (data && data.length === 0) {
-  console.log('✅ AMAN: RLS aktif! Data tabel kosong (0 rows) bagi user anonim.');
-} else {
-  console.error('🚨 BAHAYA: RLS MATI! Seluruh data user bocor:', data);
-}</pre>
-        </div>
-
-        <div
-          class="rounded-lg bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 p-3 text-xs space-y-1 text-amber-900 dark:text-amber-300">
-          <strong class="font-semibold">💡 Jika Hasilnya "BAHAYA", Cara Mengatasinya:</strong>
-          <p>Buka <a href="https://supabase.com/dashboard" target="_blank" class="underline font-semibold">Supabase
-              Dashboard</a> → Masuk ke <strong>Table Editor</strong> → Klik tabel Anda (misal <code>profiles</code>) →
-            Klik tombol <strong>"Enable RLS"</strong> di pojok kanan atas → Tambahkan Policy:
-            <code>auth.uid() = id</code>.</p>
         </div>
       </div>
 
-      <!-- Step 2: Security Headers -->
-      <div class="rounded-xl border border-border bg-card p-4 sm:p-6 shadow-sm space-y-4">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div class="flex items-center gap-2.5">
-            <span
-              class="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-xs">2</span>
-            <div>
-              <h3 class="font-bold text-sm sm:text-base">Pengujian 2: HTTP Security Headers & SSL</h3>
-              <span class="text-[11px] sm:text-xs text-muted-foreground">Mencegah Clickjacking dan Pencurian
-                Cookie</span>
-            </div>
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompts AI Siap Pakai</h3>
+        
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛡️ PROMPT A01.1: MEMBANGUN FITUR DENGAN AKSES AMAN</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a01-build')">📋 Salin Prompt</button>
           </div>
-          <span class="rounded bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">Scanner Online</span>
+          <pre class="prompt-content" id="prompt-a01-build">Buatkan endpoint untuk melihat detail pesanan berdasarkan order_id.
+Syarat wajib keamanan (OWASP A01):
+1. Ambil identitas user yang sedang login dari session/token aman, JANGAN dari parameter yang dikirim client.
+2. Sebelum mengembalikan data, cek apakah order_id tersebut memang milik user_id yang sedang login.
+3. Kalau bukan miliknya, kembalikan response error 403 Forbidden, bukan data milik orang lain.
+4. Tulis juga 1 contoh test case yang mencoba mengakses order milik user lain untuk membuktikan proteksinya berjalan.</pre>
         </div>
 
-        <p class="text-xs text-muted-foreground leading-relaxed">
-          Buka situs pemindai gratis di bawah, ketik nama domain Vercel/Netlify Anda, lalu periksa skor yang didapatkan:
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🔍 PROMPT A01.2: MENGECEK KODE DARI BROKEN ACCESS CONTROL</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a01-check')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a01-check">Ini kode endpoint saya:
+[TEMPEL KODE ANDA DI SINI]
+
+Tolong cek khusus dari sisi Broken Access Control (OWASP A01):
+- Apakah ada endpoint yang mengambil data berdasarkan ID dari user tanpa memverifikasi kepemilikan data tersebut?
+- Apakah ada fitur admin yang bisa diakses user biasa jika dia mengetahui URL-nya?
+Jelaskan tiap temuan dengan bahasa sederhana, lalu berikan kode perbaikannya.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Proteksi yang Benar</strong>
+            Setiap query database memuat klausa kepemilikan: <code>WHERE order_id = $1 AND user_id = $current_user</code>.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Kesalahan Fatal</strong>
+            Mempercayai <code>user_id</code> yang dikirim langsung dari form/URL tanpa mencocokkannya dengan session login.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== A02 ==================== -->
+    <section class="owasp-section" id="a02">
+      <div class="section-header">
+        <div class="owasp-badge">A02</div>
+        <div class="section-header-text">
+          <h2>Cryptographic Failures (Kegagalan Kriptografi)</h2>
+          <p>Melindungi data sensitif (password, token, data pribadi) dengan enkripsi dan hashing yang tepat.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Teori &amp; Mengapa Bahaya Buat Vibe Coder</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Teori:</strong> Terjadi saat data sensitif (password, nomor kartu, NIK) disimpan dalam bentuk teks polos (plaintext), dikirim tanpa protokol HTTPS, atau di-hash menggunakan algoritma usang yang mudah dipecahkan (seperti MD5 atau SHA1).
         </p>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-          <a href="https://securityheaders.com" target="_blank"
-            class="rounded-lg border border-border bg-muted/20 p-3 hover:bg-accent transition-colors block space-y-1">
-            <span class="font-bold text-primary flex items-center gap-1">1. SecurityHeaders.com ↗</span>
-            <p class="text-muted-foreground">Mengecek Content-Security-Policy, HSTS, dan X-Frame-Options. (Target: Skor
-              A atau A+)</p>
-          </a>
-          <a href="https://www.ssllabs.com/ssltest/" target="_blank"
-            class="rounded-lg border border-border bg-muted/20 p-3 hover:bg-accent transition-colors block space-y-1">
-            <span class="font-bold text-emerald-600 flex items-center gap-1">2. SSL Labs Qualys ↗</span>
-            <p class="text-muted-foreground">Mengecek sertifikat HTTPS dan enkripsi TLS domain Anda. (Target: Skor A+)
-            </p>
-          </a>
+        <div class="danger-box">
+          <div class="danger-title">⚠️ Kenapa Bahaya Buat Vibe Coder?</div>
+          <div class="danger-content">
+            Saat Anda meminta AI "buatkan sistem login", AI terkadang menyimpan password langsung ke database tanpa di-hash, atau memakai MD5. Tidak ada error sama sekali pada website Anda — hingga database Anda bocor ke publik.
+          </div>
         </div>
       </div>
 
-      <!-- Step 3: Secret Leaks Check -->
-      <div class="rounded-xl border border-border bg-card p-4 sm:p-6 shadow-sm space-y-4">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div class="flex items-center gap-2.5">
-            <span
-              class="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-xs">3</span>
-            <div>
-              <h3 class="font-bold text-sm sm:text-base">Pengujian 3: Cek Kebocoran Secret Key di File Frontend</h3>
-              <span class="text-[11px] sm:text-xs text-muted-foreground">Memastikan SUPABASE_SERVICE_ROLE_KEY tidak
-                bocor</span>
-            </div>
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompts AI Siap Pakai</h3>
+        
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛡️ PROMPT A02.1: SISTEM REGISTRASI &amp; HASHING AMAN</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a02-build')">📋 Salin Prompt</button>
           </div>
-          <span class="rounded bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">Di Komputer Lokal</span>
+          <pre class="prompt-content" id="prompt-a02-build">Buatkan sistem registrasi dan login user.
+Syarat wajib keamanan (OWASP A02):
+1. JANGAN PERNAH simpan password dalam bentuk plaintext.
+2. Gunakan algoritma hashing password standar industri saat ini (misalnya bcrypt atau argon2), bukan MD5 atau SHA1.
+3. Data sensitif lain (contoh: token reset password) harus dibuat secara acak dan aman (cryptographically secure random).
+4. Jangan pernah menampilkan atau mengirimkan password asli lewat email atau log aplikasi.
+Jelaskan juga di komentar kode alasan pemilihan algoritma tersebut.</pre>
         </div>
 
-        <p class="text-xs text-muted-foreground">
-          Buka terminal di VS Code pada project Anda, lalu jalankan perintah ini setelah menjalankan
-          <code>npm run build</code>:
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🔍 PROMPT A02.2: AUDIT KRIPTOGRAFI PADA KODE</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a02-check')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a02-check">Cek kode ini dari sisi Cryptographic Failures (OWASP A02):
+[TEMPEL KODE ANDA DI SINI]
+
+- Apakah ada password atau data sensitif yang disimpan tanpa hashing/enkripsi yang layak?
+- Apakah ada data sensitif yang dikirim lewat HTTP biasa atau tercatat di console.log?
+Berikan daftar temuan dan cara perbaikannya, urutkan dari yang paling berbahaya.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Proteksi yang Benar</strong>
+            Password di-hash dengan <code>bcrypt.hash(password, 10)</code> dan kunci rahasia disimpan di Environment Variables.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Kesalahan Fatal</strong>
+            Menyimpan password asli dalam kolom database atau menggunakan enkripsi dua arah yang bisa didekripsi kembali.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== A03 ==================== -->
+    <section class="owasp-section" id="a03">
+      <div class="section-header">
+        <div class="owasp-badge">A03</div>
+        <div class="section-header-text">
+          <h2>Injection (SQL Injection &amp; Command Injection)</h2>
+          <p>Mencegah input berbahaya dari user disalahartikan sebagai perintah program.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Teori &amp; Mengapa Bahaya Buat Vibe Coder</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Teori:</strong> Terjadi jika input dari user dipercaya begitu saja dan digabung langsung ke perintah database. Contoh legendaris: penyerang mengetik <code>' OR '1'='1</code> di kolom login dan berhasil masuk tanpa mengetahui password asli.
         </p>
-
-        <div class="rounded-lg border border-border bg-card p-3 relative">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-[11px] font-mono font-semibold text-muted-foreground">PowerShell Command:</span>
-            <button onclick="copyCode(this)"
-              class="inline-flex h-6 items-center gap-1 rounded border border-border bg-muted/50 px-2 text-[11px] font-medium hover:bg-accent"><i
-                data-lucide="copy" class="h-3 w-3"></i> Salin</button>
+        <div class="danger-box">
+          <div class="danger-title">⚠️ Kenapa Bahaya Buat Vibe Coder?</div>
+          <div class="danger-content">
+            AI sering membuat query dengan cara menggabungkan teks (string concatenation: <code>"SELECT * WHERE user = '" + input + "'"</code>) karena itu cara tercepat. Tanpa instruksi eksplisit untuk memakai parameterized query, aplikasi Anda sangat rentan dieksploitasi.
           </div>
-          <pre class="font-mono text-xs text-foreground whitespace-pre-wrap overflow-x-auto max-w-full">Select-String -Path ".next\static\chunks\*.js" -Pattern "service_role", "DATABASE_URL"
-
-# HASIL AUDIT:
-# Jika output KOSONG = ✅ AMAN (Kunci rahasia tersimpan aman di server)
-# Jika ADA HASIL = 🚨 SEGERA ganti import Anda ke Server Component / Route Handler!</pre>
         </div>
       </div>
 
-      <!-- Step 4: Rate Limiting Test -->
-      <div class="rounded-xl border border-border bg-card p-4 sm:p-6 shadow-sm space-y-4">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div class="flex items-center gap-2.5">
-            <span
-              class="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-xs">4</span>
-            <div>
-              <h3 class="font-bold text-sm sm:text-base">Pengujian 4: Uji Ketahanan Rate Limiting (Brute Force)</h3>
-              <span class="text-[11px] sm:text-xs text-muted-foreground">Uji apakah endpoint login menolak request
-                banjir</span>
-            </div>
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompts AI Siap Pakai</h3>
+        
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛡️ PROMPT A03.1: QUERY DATABASE ANTI-INJECTION</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a03-build')">📋 Salin Prompt</button>
           </div>
-          <span class="rounded bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">Simulasi Bot</span>
+          <pre class="prompt-content" id="prompt-a03-build">Buatkan fitur pencarian produk berdasarkan nama yang diketik user.
+Syarat wajib keamanan (OWASP A03):
+1. Gunakan parameterized query / prepared statements untuk semua query database. JANGAN PERNAH gabungkan input user langsung ke string SQL.
+2. Validasi tipe data dan panjang karakter input sebelum diproses.
+3. Tunjukkan perbandingan kode versi SALAH (rawan SQL Injection) dan versi BENAR agar saya paham perbedaannya.</pre>
         </div>
 
-        <p class="text-xs text-muted-foreground">
-          Jalankan simulasi 15 request cepat di PowerShell untuk melihat apakah server memblokir percobaan login
-          berulang:
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🔍 PROMPT A03.2: SCANNING INJECTION PADA KODE</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a03-check')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a03-check">Cek kode ini khusus untuk kerentanan Injection (OWASP A03):
+[TEMPEL KODE ANDA DI SINI]
+
+- Cari semua baris yang menggabungkan input user langsung ke query database, command shell, atau innerHTML tanpa sanitasi.
+- Untuk tiap temuan, berikan contoh input jahat yang bisa dipakai menyerang serta kode perbaikannya.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Proteksi yang Benar</strong>
+            Menggunakan placeholder: <code>db.query('SELECT * FROM users WHERE email = $1', [userEmail])</code>.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Kesalahan Fatal</strong>
+            Menulis template literal: <code>`SELECT * FROM users WHERE email = '${userEmail}'`</code>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== A04 ==================== -->
+    <section class="owasp-section" id="a04">
+      <div class="section-header">
+        <div class="owasp-badge">A04</div>
+        <div class="section-header-text">
+          <h2>Insecure Design (Desain Sistem yang Tidak Aman)</h2>
+          <p>Mencegah cacat logika pada alur bisnis aplikasi sebelum baris kode ditulis.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Teori &amp; Mengapa Bahaya Buat Vibe Coder</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Teori:</strong> Berbeda dari bug pemrograman, ini adalah fitur yang dari awal *salah dirancang*. Contoh: Fitur reset password via OTP 6 digit, namun tidak membatasi berapa kali orang boleh menebak angka OTP tersebut (tidak ada batas percobaan / rate limit).
         </p>
-
-        <div class="rounded-lg border border-border bg-card p-3 relative">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-[11px] font-mono font-semibold text-muted-foreground">Simulasi di PowerShell:</span>
-            <button onclick="copyCode(this)"
-              class="inline-flex h-6 items-center gap-1 rounded border border-border bg-muted/50 px-2 text-[11px] font-medium hover:bg-accent"><i
-                data-lucide="copy" class="h-3 w-3"></i> Salin</button>
+        <div class="danger-box">
+          <div class="danger-title">⚠️ Kenapa Bahaya Buat Vibe Coder?</div>
+          <div class="danger-content">
+            Vibe coder cenderung fokus pada *"apakah fiturnya berjalan"*, bukan *"bagaimana jika orang jahat menyalahgunakan alur ini"*. AI tidak akan memikirkan skenario penyalahgunaan kecuali Anda memintanya melakukan threat modeling.
           </div>
-          <pre class="font-mono text-xs text-foreground whitespace-pre-wrap overflow-x-auto max-w-full">1..15 | ForEach-Object {
-  curl.exe -s -o /dev/null -w "%{http_code}\n" -X POST https://domain-anda.vercel.app/api/login
-}
-
-# HASIL YANG DIHARAPKAN:
-# Request 1-5  : 200 atau 401 (Respon login biasa)
-# Request 6-15 : 429 (Too Many Requests - Berhasil terlindungi!)</pre>
         </div>
       </div>
 
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompts AI Siap Pakai</h3>
+        
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛡️ PROMPT A04.1: DESAIN FITUR AMAN &amp; THREAT MODELING</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a04-build')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a04-build">Saya ingin membuat fitur: "Reset password lewat kode OTP 6 digit yang dikirim ke email".
+Sebelum menulis kode, tolong lakukan analisa terlebih dahulu:
+1. Apa saja skenario penyalahgunaan yang mungkin terjadi (contoh: bot menebak semua kombinasi OTP)?
+2. Bagaimana desain arsitektur yang aman untuk mencegahnya (rate limiting, masa kedaluwarsa OTP 5 menit, batas percobaan maksimal 3x)?
+Setelah desain disepakati, baru buatkan kodenya berdasarkan arsitektur aman tersebut.</pre>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🔍 PROMPT A04.2: REVIEW ALUR LOGIKA BISNIS</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a04-check')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a04-check">Ini alur fitur [NAMA FITUR] pada aplikasi saya:
+[JELASKAN ALUR / TEMPEL KODE]
+
+Sebagai reviewer keamanan, coba pikirkan skenario penyerangan: Skenario penyalahgunaan apa saja yang bisa terjadi pada alur ini yang belum dicegah oleh desainnya? Berikan rekomendasi perbaikan desain.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Proteksi yang Benar</strong>
+            OTP kedaluwarsa dalam 5 menit, batas salah maksimal 3 kali sebelum akun dibekukan sementara.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Kesalahan Fatal</strong>
+            Membuat OTP yang berlaku selamanya tanpa batas percobaan tebakan.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== A05 ==================== -->
+    <section class="owasp-section" id="a05">
+      <div class="section-header">
+        <div class="owasp-badge">A05</div>
+        <div class="section-header-text">
+          <h2>Security Misconfiguration (Salah Konfigurasi Server &amp; App)</h2>
+          <p>Menutup celah akibat pengaturan bawaan yang terlalu longgar saat naik ke produksi.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Teori &amp; Mengapa Bahaya Buat Vibe Coder</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Teori:</strong> Aplikasi rentan bukan karena kode error, tetapi karena pengaturannya teledor: Mode debug masih menyala di production, pesan error membocorkan struktur tabel database, atau CORS mengizinkan semua website (<code>*</code>).
+        </p>
+        <div class="danger-box">
+          <div class="danger-title">⚠️ Kenapa Bahaya Buat Vibe Coder?</div>
+          <div class="danger-content">
+            Boilerplate atau kode dari AI biasanya dibuat untuk kenyamanan lokal (<code>DEBUG=True</code>, <code>CORS=*</code>). Pengaturan ini sering terlupakan saat aplikasi di-deploy ke Vercel atau hosting publik.
+          </div>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompts AI Siap Pakai</h3>
+        
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛡️ PROMPT A05.1: CHECKLIST HARDENING DEPLOY PRODUCTION</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a05-build')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a05-build">Saya ingin men-deploy aplikasi [Express / Next.js / Supabase / dll] ke production.
+Buatkan checklist konfigurasi keamanan sebelum go-live:
+1. Pastikan mode debug / stack trace error mati total di production.
+2. Konfigurasi CORS agar hanya mengizinkan domain frontend resmi saya, bukan '*'.
+3. Pasang HTTP Security Headers standar (Content-Security-Policy, X-Frame-Options, HSTS).
+4. Pastikan tidak ada halaman admin default yang terbuka tanpa password.
+Setelah itu, audit file konfigurasi saya ini: [TEMPEL CONFIG / .ENV CONTOH]</pre>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🔍 PROMPT A05.2: AUDIT PENGATURAN &amp; ENV</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a05-check')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a05-check">Cek project ini dari sisi Security Misconfiguration (OWASP A05):
+[TEMPEL FILE CONFIG / SETTINGS]
+
+Cari pengaturan yang aman untuk development laptop tetapi berbahaya jika dipakai di internet publik (production), dan jelaskan resiko masing-masing.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Proteksi yang Benar</strong>
+            Pesan error ke pengguna hanya berupa: <em>"Terjadi kendala teknis. Kode referensi: #123"</em> tanpa detail database.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Kesalahan Fatal</strong>
+            Menampilkan seluruh pesan error database SQL beserta baris kodenya di layar pengguna umum.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== A06 ==================== -->
+    <section class="owasp-section" id="a06">
+      <div class="section-header">
+        <div class="owasp-badge">A06</div>
+        <div class="section-header-text">
+          <h2>Vulnerable and Outdated Components (Komponen Usang &amp; Rentan)</h2>
+          <p>Menghindari penggunaan paket library pihak ketiga yang memiliki celah keamanan publik.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Teori &amp; Mengapa Bahaya Buat Vibe Coder</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Teori:</strong> Website modern dibangun menggunakan puluhan package (npm, pip). Jika salah satu library memiliki celah keamanan yang tercatat publik (CVE) dan tidak diperbarui, penyerang bisa meretas aplikasi Anda dengan mudah.
+        </p>
+        <div class="danger-box">
+          <div class="danger-title">⚠️ Kenapa Bahaya Buat Vibe Coder?</div>
+          <div class="danger-content">
+            Vibe coder sering menjalankan <code>npm install [nama-paket]</code> yang disarankan AI tanpa memeriksa apakah library tersebut masih aktif dirawat atau sudah ditinggalkan pembuatnya sejak 5 tahun lalu.
+          </div>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompts AI Siap Pakai</h3>
+        
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛡️ PROMPT A06.1: PEMILIHAN LIBRARY YANG AMAN</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a06-build')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a06-build">Saya ingin menambahkan fitur upload dan kompresi gambar di website saya.
+Sebelum merekomendasikan library:
+1. Sarankan hanya library yang populer, teruji, dan aktif di-maintain dalam 6 bulan terakhir.
+2. Jelaskan cara saya mengecek reputasi dan riwayat keamanan (vulnerability) library tersebut sebelum saya pasang.</pre>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🔍 PROMPT A06.2: AUDIT DEPENDENCY PACKAGE</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a06-check')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a06-check">Ini isi file package.json / requirements.txt saya:
+[TEMPEL ISI FILE DEPENDENCY]
+
+Tolong:
+1. Berikan perintah terminal untuk menjalankan audit keamanan otomatis pada stack saya (misal: npm audit).
+2. Jelaskan langkah yang harus saya lakukan jika audit menemukan celah berbahaya.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Proteksi yang Benar</strong>
+            Menjalankan <code>npm audit</code> secara berkala dan memperbarui dependensi ke versi stabil terbaru.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Kesalahan Fatal</strong>
+            Membiarkan paket versi lama yang sudah terbukti memiliki celah zero-day tanpa pernah di-update.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== A07 ==================== -->
+    <section class="owasp-section" id="a07">
+      <div class="section-header">
+        <div class="owasp-badge">A07</div>
+        <div class="section-header-text">
+          <h2>Identification and Authentication Failures (Kegagalan Autentikasi)</h2>
+          <p>Mencegah serangan brute force password dan kebocoran sesi pengguna.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Teori &amp; Mengapa Bahaya Buat Vibe Coder</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Teori:</strong> Proses login yang lemah membiarkan robot penyerang mencoba jutaan password tanpa dibatasi (brute force), token login tidak pernah kedaluwarsa, atau sistem memberitahu secara gamblang bahwa *"Email ini belum terdaftar"* (user enumeration).
+        </p>
+        <div class="danger-box">
+          <div class="danger-title">⚠️ Kenapa Bahaya Buat Vibe Coder?</div>
+          <div class="danger-content">
+            Sistem login dasar dari AI biasanya hanya mengecek <code>if (password == cocok)</code> tanpa mekanisme keamanan seperti rate limiter percobaan login atau penghancuran sesi saat logout.
+          </div>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompts AI Siap Pakai</h3>
+        
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛡️ PROMPT A07.1: SISTEM LOGIN DENGAN RATE LIMITER</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a07-build')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a07-build">Buatkan sistem login yang aman.
+Syarat wajib keamanan (OWASP A07):
+1. Batasi percobaan login yang gagal (maksimal 5 kali dalam 15 menit per IP/akun, lalu kunci sementara).
+2. Session / JWT token wajib memiliki masa berlaku (expiry time).
+3. Hancurkan session / revoke token secara total saat user menekan tombol Logout atau ganti password.
+4. Gunakan pesan error umum: "Email atau password salah" (jangan beri tahu apakah email terdaftar atau tidak).</pre>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🔍 PROMPT A07.2: AUDIT SESI &amp; ALUR LOGIN</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a07-check')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a07-check">Cek alur login dan session pada kode ini (OWASP A07):
+[TEMPEL KODE ANDA DI SINI]
+
+- Apakah ada rate limiting untuk mencegah serangan tebak password otomatis?
+- Apakah session bisa kedaluwarsa secara otomatis?
+- Apakah pesan error membocorkan keberadaan akun pengguna?</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Proteksi yang Benar</strong>
+            Pesan error generik dan token sesi disimpan di cookie dengan flag <code>HttpOnly</code> dan <code>Secure</code>.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Kesalahan Fatal</strong>
+            Menyimpan token autentikasi di <code>localStorage</code> yang mudah dicuri oleh serangan XSS JavaScript.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== A08 ==================== -->
+    <section class="owasp-section" id="a08">
+      <div class="section-header">
+        <div class="owasp-badge">A08</div>
+        <div class="section-header-text">
+          <h2>Software and Data Integrity Failures (Kegagalan Integritas Software &amp; Data)</h2>
+          <p>Memastikan kode, update, dan data dari luar telah terverifikasi keasliannya.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Teori &amp; Mengapa Bahaya Buat Vibe Coder</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Teori:</strong> Mempercayai kode eksternal, auto-update, atau plugin tanpa mengecek integritasnya (checksum/digital signature). Penyerang bisa menyisipkan kode jahat di tengah transmisi data (Man-in-the-Middle).
+        </p>
+        <div class="danger-box">
+          <div class="danger-title">⚠️ Kenapa Bahaya Buat Vibe Coder?</div>
+          <div class="danger-content">
+            Sangat relevan saat Anda memakai fitur auto-update, CI/CD pipeline otomatis di GitHub Actions, atau mengunduh file konfigurasi dinamis dari server luar.
+          </div>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompts AI Siap Pakai</h3>
+        
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛡️ PROMPT A08.1: UNDUH &amp; VERIFIKASI DATA EKSTERNAL</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a08-build')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a08-build">Saya ingin membuat fitur di aplikasi yang mengunduh file konfigurasi/data dari server eksternal secara otomatis.
+Sebelum menulis kode:
+1. Jelaskan bagaimana cara memverifikasi keaslian file tersebut (misalnya pencocokan Checksum SHA-256 / Signature) sebelum dieksekusi oleh aplikasi.
+2. Tuliskan kode lengkap yang menolak menjalankan file jika checksum tidak cocok.</pre>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🔍 PROMPT A08.2: AUDIT PIPELINE &amp; INTEGRITAS KODE</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a08-check')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a08-check">Ini alur proses CI/CD dan deployment saya:
+[TEMPEL FILE WORKFLOW / CONFIG]
+
+Apakah ada tahapan yang mempercayai kode dari luar tanpa verifikasi signature atau sumber yang terpercaya? Berikan rekomendasi pengamanannya.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Proteksi yang Benar</strong>
+            Memeriksa hash SHA-256 file sebelum membuka atau menjalankan isinya di server.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Kesalahan Fatal</strong>
+            Menjalankan perintah <code>eval()</code> langsung dari teks yang diunduh via URL publik.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== A09 ==================== -->
+    <section class="owasp-section" id="a09">
+      <div class="section-header">
+        <div class="owasp-badge">A09</div>
+        <div class="section-header-text">
+          <h2>Security Logging and Monitoring Failures (Kegagalan Pencatatan Log)</h2>
+          <p>Mencatat jejak aktivitas mencurigakan agar serangan bisa dideteksi sebelum terlambat.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Teori &amp; Mengapa Bahaya Buat Vibe Coder</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Teori:</strong> Jika aplikasi diserang tetapi tidak ada catatan (log) tentang siapa yang mencoba login ratusan kali, dari mana IP-nya, dan kapan kejadiannya, Anda tidak akan pernah tahu bahwa aplikasi Anda sedang dalam bahaya.
+        </p>
+        <div class="danger-box">
+          <div class="danger-title">⚠️ Kenapa Bahaya Buat Vibe Coder?</div>
+          <div class="danger-content">
+            Vibe coder biasanya tidak terpikir membuat logging karena logging "tidak terlihat di antarmuka website". Padahal tanpa log yang rapi, Anda baru sadar terjadi peretasan setelah data pelanggan hilang.
+          </div>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompts AI Siap Pakai</h3>
+        
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛡️ PROMPT A09.1: IMPLEMENTASI LOG KEAMANAN DASAR</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a09-build')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a09-build">Tambahkan sistem logging keamanan dasar ke aplikasi saya.
+Syarat wajib keamanan (OWASP A09):
+1. Catat setiap percobaan login (sukses maupun gagal) beserta timestamp waktu dan IP address (TANPA mencatat password).
+2. Catat aktivitas penting seperti perubahan role user, ganti password, dan transaksi pembayaran.
+3. JANGAN PERNAH mencatat password, token rahasia, atau nomor kartu di log.
+4. Jelaskan cara memantau log ini untuk mendeteksi anomali (misal: 10 login gagal berturut-turut).</pre>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🔍 PROMPT A09.2: AUDIT KELAYAKAN LOGGING</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a09-check')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a09-check">Cek kode aplikasi saya dari sisi Logging & Monitoring (OWASP A09):
+[TEMPEL KODE ANDA DI SINI]
+
+- Aktivitas sensitif apa saja yang belum tercatat di log?
+- Apakah ada data pribadi atau password yang tidak sengaja tercetak di dalam log?</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Proteksi yang Benar</strong>
+            Mencatat aktivitas penting dengan sensor otomatis terhadap kata sandi dan token.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Kesalahan Fatal</strong>
+            Mencetak seluruh object request <code>console.log(req.body)</code> yang berisi password asli user ke log server.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== A10 ==================== -->
+    <section class="owasp-section" id="a10">
+      <div class="section-header">
+        <div class="owasp-badge">A10</div>
+        <div class="section-header-text">
+          <h2>Server-Side Request Forgery / SSRF</h2>
+          <p>Mencegah server Anda diperalat penyerang untuk mengakses data rahasia internal.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Teori &amp; Mengapa Bahaya Buat Vibe Coder</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Teori:</strong> SSRF terjadi jika aplikasi bisa disuruh melakukan fetch URL sembarangan. Contoh: Fitur *"masukkan URL gambar profil"*, lalu penyerang memasukkan alamat <code>http://localhost:8080/admin-database</code> sehingga server membaca datanya sendiri dan membocorkannya.
+        </p>
+        <div class="danger-box">
+          <div class="danger-title">⚠️ Kenapa Bahaya Buat Vibe Coder?</div>
+          <div class="danger-content">
+            Fitur seperti "import data dari link", "preview link website", atau "webhook URL" sangat sering diminta ke AI, dan AI biasanya membuatnya tanpa menyaring domain (tanpa whitelist domain).
+          </div>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompts AI Siap Pakai</h3>
+        
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛡️ PROMPT A10.1: FITUR FETCH URL DENGAN WHITELIST AMAN</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a10-build')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a10-build">Buatkan fitur: "Mengambil gambar profil dari URL yang dimasukkan user".
+Syarat wajib keamanan (OWASP A10):
+1. Buat whitelist protokol (hanya https://) dan blokir total akses ke alamat jaringan privat/internal (seperti localhost, 127.0.0.1, 10.x.x.x, 192.168.x.x).
+2. Validasi ini WAJIB dilakukan di sisi Backend/Server, bukan hanya di frontend.
+3. Jelaskan secara singkat skenario serangan SSRF yang dicegah oleh kode ini.</pre>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🔍 PROMPT A10.2: DETEKSI CELAH SSRF</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a10-check')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a10-check">Cek kode ini dari sisi risiko Server-Side Request Forgery (OWASP A10):
+[TEMPEL KODE ANDA DI SINI]
+
+Cari semua bagian di mana server melakukan HTTP request (fetch, axios, curl) ke URL yang berasal dari inputan pengguna. Apakah ada mekanisme whitelist?</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Proteksi yang Benar</strong>
+            Memblokir semua IP internal / loopback sebelum server mengirimkan permintaan jaringan.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Kesalahan Fatal</strong>
+            Membiarkan fungsi <code>fetch(userUrl)</code> berjalan bebas tanpa memverifikasi domain tujuan.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== UNIVERSAL SECURITY PROMPT ==================== -->
+    <div class="universal-card" id="universal-prompt">
+      <h3>⚡ Master Prompt: "AI Security Reviewer" Sapu Jagat</h3>
+      <p style="font-size:14px; opacity:0.9; margin-bottom:18px;">
+        Gunakan satu prompt sakti ini setiap kali Anda selesai membuat fitur atau proyek baru dengan AI, untuk melakukan audit menyeluruh terhadap 10 kategori OWASP Top 10 sekaligus!
+      </p>
+
+      <div class="prompt-card" style="margin:0;">
+        <div class="prompt-header">
+          <span>🤖 UNIVERSAL PROMPT: AUDIT OWASP TOP 10 SECARA MENYELURUH</span>
+          <button class="btn-copy" onclick="copySnippet('prompt-universal')">📋 Salin Prompt</button>
+        </div>
+        <pre class="prompt-content" id="prompt-universal">Kamu berperan sebagai Security Reviewer dan Ethical Hacker berpengalaman. Tolong lakukan audit keamanan menyeluruh terhadap kode berikut berdasarkan standar OWASP Top 10:2021 (A01 sampai A10):
+
+[TEMPEL SELURUH KODE FITUR / APLIKASI ANDA DI SINI]
+
+Untuk setiap kategori risiko:
+- Jika aman / tidak relevan: Tulis singkat "Aman / Tidak Relevan" beserta alasan singkatnya.
+- Jika ditemukan potensi bahaya: Jelaskan (1) apa nama celahnya, (2) bagaimana cara penyerang mengeksploitasinya dalam bahasa awam, dan (3) berikan kode perbaikannya secara lengkap.
+
+Di bagian akhir, buatkan tabel ringkasan prioritas perbaikan: Urutkan dari yang PALING KRITIS dan wajib diperbaiki sekarang juga!</pre>
+      </div>
     </div>
 
-
-    <!-- ========================================== -->
-    <!-- TAB 3: SMART PROMPT BUILDER -->
-    <!-- ========================================== -->
-    <div id="tab-generator" class="tab-pane space-y-5 sm:space-y-6">
-
-      <div class="rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-8 shadow-sm space-y-1.5 sm:space-y-2">
-        <h2 class="text-xl sm:text-2xl font-bold tracking-tight">🪄 Interactive Secure Prompt Generator</h2>
-        <p class="text-xs sm:text-sm text-muted-foreground">
-          Pilih teknologi yang Anda gunakan, generator ini akan menyusun prompt profesional yang siap Anda salin dan
-          kirimkan ke AI coding agent.
-        </p>
+    <!-- ==================== TIPS PRAKTIS VIBE CODER ==================== -->
+    <section class="owasp-section" id="tips-vibe-coder">
+      <div class="section-header">
+        <div class="owasp-badge" style="background:#028090;">💡</div>
+        <div class="section-header-text">
+          <h2>4 Tips Praktis Keamanan untuk Vibe Coder Non-IT</h2>
+          <p>Prinsip dasar agar aplikasi Anda selalu terlindungi di dunia nyata.</p>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+      <ul class="action-list">
+        <li><strong>Jangan Cuma Minta Fitur:</strong> Selalu sertakan kata kunci keamanan spesifik dalam prompt Anda (misalnya: <em>"gunakan parameterized query, bcrypt hash, dan validasi kepemilikan data"</em>).</li>
+        <li><strong>Audit Sebelum Go-Live:</strong> Jalankan Universal Security Prompt di atas sebelum aplikasi Anda diakses oleh pengguna umum di internet publik (production).</li>
+        <li><strong>Perlakukan Data Pribadi dengan Standar Tinggi:</strong> Jika aplikasi Anda menyimpan nama, email, nomor HP, atau data transaksi, gunakan brankas Environment Variables dan proteksi database Row Level Security (RLS).</li>
+        <li><strong>Gunakan Keamanan Berlapis (Defense in Depth):</strong> Validasi di sisi tampilan (frontend) berguna untuk kenyamanan user, tapi validasi di sisi server (backend) adalah benteng pertahanan yang sesungguhnya.</li>
+      </ul>
+    </section>
 
-        <!-- Controls Column -->
-        <div class="space-y-3 sm:space-y-4 md:col-span-1 bg-card p-4 sm:p-5 rounded-xl border border-border">
+  </div>
 
-          <div>
-            <label class="text-xs font-semibold text-foreground block mb-1">1. Framework / Stack</label>
-            <select id="genTech" onchange="generatePrompt()"
-              class="w-full rounded-lg border border-border bg-background p-2.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-primary">
-              <option value="Next.js (App Router)">Next.js (App Router)</option>
-              <option value="Node.js + Express">Node.js + Express</option>
-              <option value="Nuxt 3">Nuxt 3</option>
-              <option value="FastAPI (Python)">FastAPI (Python)</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="text-xs font-semibold text-foreground block mb-1">2. Database / Backend</label>
-            <select id="genDb" onchange="generatePrompt()"
-              class="w-full rounded-lg border border-border bg-background p-2.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-primary">
-              <option value="Supabase (PostgreSQL + RLS)">Supabase (PostgreSQL + RLS)</option>
-              <option value="Prisma ORM + PostgreSQL">Prisma ORM + PostgreSQL</option>
-              <option value="MySQL (mysql2)">MySQL (mysql2)</option>
-              <option value="MongoDB (Mongoose)">MongoDB (Mongoose)</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="text-xs font-semibold text-foreground block mb-1">3. Jenis Fitur</label>
-            <select id="genFeature" onchange="generatePrompt()"
-              class="w-full rounded-lg border border-border bg-background p-2.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-primary">
-              <option value="Autentikasi & Login User">Autentikasi & Login User</option>
-              <option value="CRUD & Filter Pencarian Data">CRUD & Filter Pencarian Data</option>
-              <option value="Upload File & Media">Upload File & Media</option>
-              <option value="Sistem Reset Password">Sistem Reset Password</option>
-            </select>
-          </div>
-
-        </div>
-
-        <!-- Output Column -->
-        <div class="md:col-span-2 space-y-2 sm:space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-muted-foreground">Prompt AI Dihasilkan:</span>
-            <button onclick="copyGeneratedPrompt()"
-              class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:bg-primary/90 transition-all shadow-sm">
-              <i data-lucide="copy" class="h-3.5 w-3.5"></i>
-              <span>Salin Prompt Ini</span>
-            </button>
-          </div>
-
-          <div class="rounded-xl border border-border bg-card p-3.5 sm:p-4 shadow-sm">
-            <pre id="promptOutput"
-              class="font-mono text-xs text-foreground whitespace-pre-wrap leading-relaxed overflow-x-auto max-w-full">Pilih opsi di samping untuk merakit prompt...</pre>
-          </div>
-        </div>
-
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-links">
+        <a href="silabus-vibe-coding-16-pertemuan.html">📖 Silabus Utama</a>
+        <a href="teori_integrasi_api_eksternal.html">🌐 Teori API (P11)</a>
+        <a href="praktikum_integrasi_api_eksternal.html">🧪 Lab Praktikum (P11)</a>
+        <a href="laboratorium_lengkap_supabase.html">🔬 Lab Supabase</a>
+        <a href="panduan_deploy_vercel.html">▲ Deploy Vercel</a>
+        <a href="panduan_vibecoding_owasp.html">🛡️ OWASP Security</a>
       </div>
+      <p>© 2026 Vibe Coding Masterclass — Modul Panduan Keamanan OWASP Top 10:2021 untuk Pemula Non-IT.</p>
     </div>
-
-
-    <!-- ========================================== -->
-    <!-- TAB 4: AUDIT CHECKLIST -->
-    <!-- ========================================== -->
-    <div id="tab-checklist" class="tab-pane space-y-5 sm:space-y-6">
-
-      <div class="rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-8 shadow-sm space-y-3">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="text-xl sm:text-2xl font-bold tracking-tight">Checklist Kesiapan Deploy</h2>
-            <p class="text-xs sm:text-sm text-muted-foreground">Centang item di bawah untuk melihat skor kesiapan
-              aplikasi Anda.</p>
-          </div>
-          <div class="flex items-center gap-3">
-            <span id="scoreText" class="text-xs sm:text-sm font-bold text-primary">0% Selesai</span>
-            <button onclick="resetChecklist()" class="text-xs text-muted-foreground hover:underline">Reset</button>
-          </div>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="w-full bg-muted rounded-full h-2 overflow-hidden">
-          <div id="progressBar" class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
-        </div>
-      </div>
-
-      <!-- Checklist Items Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3" id="checklistItems">
-
-        <label
-          class="flex items-start gap-3 rounded-xl border border-border bg-card p-3.5 sm:p-4 shadow-sm hover:border-primary/40 cursor-pointer transition-all">
-          <input type="checkbox" onchange="updateProgress()"
-            class="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary">
-          <div class="space-y-0.5 text-xs">
-            <span class="font-semibold text-foreground block">1. Supabase RLS Aktif</span>
-            <span class="text-muted-foreground">Anon key tidak bisa membaca atau menghapus data milik user lain.</span>
-          </div>
-        </label>
-
-        <label
-          class="flex items-start gap-3 rounded-xl border border-border bg-card p-3.5 sm:p-4 shadow-sm hover:border-primary/40 cursor-pointer transition-all">
-          <input type="checkbox" onchange="updateProgress()"
-            class="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary">
-          <div class="space-y-0.5 text-xs">
-            <span class="font-semibold text-foreground block">2. Parameterized Queries</span>
-            <span class="text-muted-foreground">100% query database memakai prepared statements / ORM.</span>
-          </div>
-        </label>
-
-        <label
-          class="flex items-start gap-3 rounded-xl border border-border bg-card p-3.5 sm:p-4 shadow-sm hover:border-primary/40 cursor-pointer transition-all">
-          <input type="checkbox" onchange="updateProgress()"
-            class="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary">
-          <div class="space-y-0.5 text-xs">
-            <span class="font-semibold text-foreground block">3. Security Headers Terpasang</span>
-            <span class="text-muted-foreground">Mendapat skor A di SecurityHeaders.com (CSP & HSTS aktif).</span>
-          </div>
-        </label>
-
-        <label
-          class="flex items-start gap-3 rounded-xl border border-border bg-card p-3.5 sm:p-4 shadow-sm hover:border-primary/40 cursor-pointer transition-all">
-          <input type="checkbox" onchange="updateProgress()"
-            class="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary">
-          <div class="space-y-0.5 text-xs">
-            <span class="font-semibold text-foreground block">4. Service Role Key Tidak Bocor</span>
-            <span class="text-muted-foreground">File .next/static/chunks bersih dari string service_role atau
-              secret.</span>
-          </div>
-        </label>
-
-        <label
-          class="flex items-start gap-3 rounded-xl border border-border bg-card p-3.5 sm:p-4 shadow-sm hover:border-primary/40 cursor-pointer transition-all">
-          <input type="checkbox" onchange="updateProgress()"
-            class="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary">
-          <div class="space-y-0.5 text-xs">
-            <span class="font-semibold text-foreground block">5. Rate Limiting Teruji</span>
-            <span class="text-muted-foreground">Endpoint login mengembalikan HTTP status 429 saat dibanjiri
-              request.</span>
-          </div>
-        </label>
-
-        <label
-          class="flex items-start gap-3 rounded-xl border border-border bg-card p-3.5 sm:p-4 shadow-sm hover:border-primary/40 cursor-pointer transition-all">
-          <input type="checkbox" onchange="updateProgress()"
-            class="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary">
-          <div class="space-y-0.5 text-xs">
-            <span class="font-semibold text-foreground block">6. Input Validation (Zod)</span>
-            <span class="text-muted-foreground">Semua input divalidasi dan disanitasi di sisi server.</span>
-          </div>
-        </label>
-
-      </div>
-    </div>
-
-  </main>
-
-  <!-- Clean Footer -->
-  <footer
-    class="border-t border-border mt-12 sm:mt-16 py-6 sm:py-8 bg-card text-center text-xs text-muted-foreground px-4">
-    <p>Vibecoding Security Hub — Dirancang khusus untuk pemula berstandar <strong class="text-foreground">OWASP Top
-        10</strong> & best practice <strong class="text-foreground">Vercel + Supabase</strong>.</p>
   </footer>
 
   <script>
-    // Initialize Icons
-    lucide.createIcons();
-
-    // Tab Switching Logic
-    function switchMainTab(tabId) {
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-      const targetPane = document.getElementById('tab-' + tabId);
-      if (targetPane) targetPane.classList.add('active');
-
-      // Desktop nav update
-      document.querySelectorAll('.nav-tab').forEach(b => {
-        b.classList.remove('bg-card', 'text-foreground', 'shadow-sm');
-        b.classList.add('text-muted-foreground');
-      });
-      const activeNav = document.getElementById('nav-' + tabId);
-      if (activeNav) {
-        activeNav.classList.remove('text-muted-foreground');
-        activeNav.classList.add('bg-card', 'text-foreground', 'shadow-sm');
-      }
-
-      // Mobile nav update
-      document.querySelectorAll('.mob-tab').forEach(b => {
-        b.classList.remove('text-primary', 'font-semibold');
-        b.classList.add('text-muted-foreground', 'font-medium');
-      });
-      const activeMob = document.getElementById('mob-' + tabId);
-      if (activeMob) {
-        activeMob.classList.remove('text-muted-foreground', 'font-medium');
-        activeMob.classList.add('text-primary', 'font-semibold');
-      }
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Toggle Collapsible OWASP Cards
-    function toggleCardDetail(btn) {
-      const card = btn.closest('.owasp-item');
-      const detail = card.querySelector('.card-detail');
-      const icon = btn.querySelector('svg');
-
-      if (detail.classList.contains('hidden')) {
-        detail.classList.remove('hidden');
-        btn.querySelector('.btn-text').innerText = 'Tutup Panduan';
-        if (icon) icon.style.transform = 'rotate(180deg)';
-      } else {
-        detail.classList.add('hidden');
-        btn.querySelector('.btn-text').innerText = 'Detail & Panduan';
-        if (icon) icon.style.transform = 'rotate(0deg)';
-      }
-    }
-
-    // Filter OWASP Categories
-    function filterOwasp(cat, btn) {
-      document.querySelectorAll('.cat-pill').forEach(b => {
-        b.classList.remove('bg-primary', 'text-primary-foreground', 'active');
-        b.classList.add('bg-card', 'text-muted-foreground');
-      });
-      const activeBtn = btn || (typeof event !== 'undefined' && event ? event.target : null);
-      if (activeBtn) {
-        activeBtn.classList.remove('bg-card', 'text-muted-foreground');
-        activeBtn.classList.add('bg-primary', 'text-primary-foreground', 'active');
-      }
-
-      document.querySelectorAll('.owasp-item').forEach(item => {
-        if (cat === 'all' || item.getAttribute('data-cat') === cat) {
-          item.classList.remove('hidden');
-        } else {
-          item.classList.add('hidden');
-        }
+    function copySnippet(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
       });
     }
-
-    // Search OWASP Cards
-    function searchOwasp() {
-      const searchEl = document.getElementById('owaspSearch');
-      if (!searchEl) return;
-      const q = searchEl.value.toLowerCase().trim();
-      document.querySelectorAll('.owasp-item').forEach(item => {
-        const text = ((item.getAttribute('data-tags') || '') + ' ' + (item.innerText || '')).toLowerCase();
-        if (!q || text.includes(q)) {
-          item.classList.remove('hidden');
-        } else {
-          item.classList.add('hidden');
-        }
-      });
-    }
-
-    // Fallback Copy Function
-    function fallbackCopyText(text, successMsg) {
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        showToast(successMsg || "Teks berhasil disalin ke clipboard!");
-      } catch (e) {
-        console.error("Gagal menyalin: ", e);
-      }
-      document.body.removeChild(textarea);
-    }
-
-    // Copy Code Utility
-    function copyCode(btn) {
-      const container = btn.closest('.rounded-lg, .rounded-xl, .relative');
-      if (!container) return;
-      const pre = container.querySelector('pre');
-      if (!pre) return;
-      const text = pre.innerText || pre.textContent || '';
-      const msg = "Teks berhasil disalin ke clipboard!";
-
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => {
-          showToast(msg);
-        }).catch(() => {
-          fallbackCopyText(text, msg);
-        });
-      } else {
-        fallbackCopyText(text, msg);
-      }
-    }
-
-    let toastTimer = null;
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toast-msg');
-      if (!toast) return;
-      if (toastMsg && msg) toastMsg.innerText = msg;
-      toast.classList.remove('opacity-0', '-translate-y-3', 'translate-y-3', 'pointer-events-none');
-      toast.classList.add('opacity-100');
-
-      if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        toast.classList.add('opacity-0', 'pointer-events-none');
-        toast.classList.remove('opacity-100');
-        toastTimer = null;
-      }, 2000);
-    }
-
-    // Smart Prompt Generator Logic
-    function generatePrompt() {
-      const techEl = document.getElementById('genTech');
-      const dbEl = document.getElementById('genDb');
-      const featureEl = document.getElementById('genFeature');
-      const outputEl = document.getElementById('promptOutput');
-      if (!techEl || !dbEl || !featureEl || !outputEl) return;
-
-      const tech = techEl.value;
-      const db = dbEl.value;
-      const feature = featureEl.value;
-
-      let prompt = `Buatkan fitur ${feature} menggunakan ${tech} dan ${db} dengan standar keamanan tinggi:\n`;
-      prompt += `1. Pertahanan Utama: Kebal dari serangan OWASP Top 10 (SQLi, IDOR, XSS, Brute Force).\n`;
-
-      if (db.includes('Supabase')) {
-        prompt += `2. Supabase RLS: Pastikan query menghormati policy auth.uid() = user_id.\n`;
-        prompt += `3. Secrets: JANGAN PERNAH gunakan SUPABASE_SERVICE_ROLE_KEY di client component.\n`;
-      } else {
-        prompt += `2. Database: Gunakan Parameterized Query / Prepared Statements 100%.\n`;
-      }
-
-      prompt += `4. Validasi Input: Validasi semua request data menggunakan schema Zod.\n`;
-      prompt += `5. Error Handling: Return pesan error umum ke client dan log detail teknis ke server log saja.`;
-
-      outputEl.innerText = prompt;
-    }
-
-    function copyGeneratedPrompt() {
-      const outputEl = document.getElementById('promptOutput');
-      if (!outputEl) return;
-      const text = outputEl.innerText || outputEl.textContent || '';
-      const msg = "Prompt hasil generator berhasil disalin!";
-
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => {
-          showToast(msg);
-        }).catch(() => {
-          fallbackCopyText(text, msg);
-        });
-      } else {
-        fallbackCopyText(text, msg);
-      }
-    }
-
-    // Checklist Progress Calculator (with Zero-Division Protection)
-    function updateProgress() {
-      const checkboxes = document.querySelectorAll('#checklistItems input[type="checkbox"]');
-      const total = checkboxes.length;
-      let checked = 0;
-
-      checkboxes.forEach(c => {
-        if (c.checked) checked++;
-      });
-
-      const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
-      const bar = document.getElementById('progressBar');
-      if (bar) bar.style.width = pct + '%';
-      const score = document.getElementById('scoreText');
-      if (score) score.innerText = pct + '% Selesai';
-      const badge = document.getElementById('badgeProgress');
-      if (badge) badge.innerText = checked + '/' + total;
-    }
-
-    function resetChecklist() {
-      document.querySelectorAll('#checklistItems input[type="checkbox"]').forEach(c => c.checked = false);
-      updateProgress();
-      showToast("Checklist di-reset.");
-    }
-
-    // Theme Toggle
-    function toggleTheme() {
-      const html = document.documentElement;
-      if (html.classList.contains('dark')) {
-        html.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-      } else {
-        html.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-      }
-    }
-
-    if (localStorage.getItem('theme') === 'dark') {
-      document.documentElement.classList.add('dark');
-    }
-
-    // Init Prompt on load
-    generatePrompt();
   </script>
 </body>
 
