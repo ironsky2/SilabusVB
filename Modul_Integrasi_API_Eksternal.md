@@ -113,7 +113,7 @@ oleh saya yang bukan programmer, dan jelaskan langkah menjalankannya.
 
 Kita akan membuat halaman web sederhana yang mengambil data kurs mata uang dari API gratis **ExchangeRate-API** (tidak wajib API key untuk versi dasar) dan menampilkannya.
 
-### Langkah 0 — Persiapan
+### Tahap Persiapan — Lingkungan Kerja & Endpoint API
 
 1. Buka situs [https://www.exchangerate-api.com](https://www.exchangerate-api.com) atau gunakan endpoint publik gratis: `https://open.er-api.com/v6/latest/USD`
 2. Buka aplikasi AI coding assistant pilihanmu (Claude.ai, ChatGPT, dsb).
