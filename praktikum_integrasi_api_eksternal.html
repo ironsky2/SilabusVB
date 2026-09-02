@@ -890,7 +890,7 @@
         <a href="#lab1-langkah4" class="lab-nav-pill">Langkah 4: Debug Console F12</a>
         <a href="#lab1-langkah5" class="lab-nav-pill">Langkah 5: API Key Cuaca</a>
         <a href="#lab2-overview" class="lab-nav-pill">🤖 Modul 2: Asisten Aduan AI</a>
-        <a href="#lab2-tahap0" class="lab-nav-pill">Tahap 0: Ambil API Key</a>
+        <a href="#lab2-persiapan" class="lab-nav-pill">🛠️ Persiapan Kunci AI</a>
         <a href="#lab2-tahap1" class="lab-nav-pill">Tahap 1: Tampilan Dummy</a>
         <a href="#lab2-tahap2" class="lab-nav-pill">Tahap 2: Sambung API AI</a>
         <a href="#lab2-tahap3" class="lab-nav-pill">Tahap 3: Error &amp; Biaya Rp</a>
@@ -1257,35 +1257,50 @@ Tolong:
       </div>
     </section>
 
-    <!-- TAHAP 0: AMBIL API KEY -->
-    <section class="lab-step" id="lab2-tahap0">
+    <!-- TAHAP PERSIAPAN LEVEL 2: AMBIL API KEY -->
+    <section class="lab-step" id="lab2-persiapan">
       <div class="step-header">
-        <div class="step-badge">00</div>
+        <div class="step-badge" style="background:#0F172A; font-size:22px;">🔑</div>
         <div class="step-header-text">
-          <h2>Tahap 0 — Mengambil API Key &amp; Membaca Kuota Free Tier</h2>
-          <p>Mendapatkan kredensial otentikasi resmi dan memahami dashboard pemakaian akun.</p>
+          <h2>Tahap Persiapan — Mengamankan Kunci Akses AI &amp; Mengecek Jatah Kuota Gratis</h2>
+          <p>Langkah demi langkah memperoleh kredensial resmi Gemini API, menyimpannya di Notepad lokal, dan membaca meteran kuota.</p>
         </div>
       </div>
 
       <div class="part-box">
-        <h3 class="part-title">Part A · Langkah Pengambilan Kunci</h3>
+        <h3 class="part-title">Part A · Langkah Pengambilan Kunci &amp; Penyimpanan Aman</h3>
         <ul class="action-list">
-          <li>Buka situs penyedia API AI: <code>aistudio.google.com/apikey</code> (untuk Gemini API) menggunakan akun Google Anda.</li>
-          <li>Klik <strong>Create API Key</strong> &rarr; Salin deretan kunci yang muncul menggunakan tombol <em>Copy</em>.</li>
-          <li><strong>Tempel sementara di aplikasi Notepad lokal</strong> (JANGAN kirim ke chat grup atau WhatsApp).</li>
-          <li>Periksa bagian kuota di dashboard: Catat berapa batas RPM (Request Per Minute) dan RPD (Request Per Day) yang diberikan secara gratis.</li>
+          <li><strong>Buka Portal Resmi AI Studio:</strong> Buka tautan <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> menggunakan akun Google Anda.</li>
+          <li><strong>Buat Kunci Baru:</strong> Klik tombol <strong>Create API Key</strong> &rarr; pilih proyek default &rarr; klik salin (copy) deretan karakter kunci unik yang muncul.</li>
+          <li><strong>Amankan Sementara di Notepad Lokal:</strong> Tempelkan kunci tersebut ke dalam aplikasi Notepad di komputer Anda. <em>(Dilarang keras menempelkan kunci ke chat WhatsApp, Telegram, atau dokumen publik!)</em></li>
+          <li><strong>Periksa &amp; Catat Jatah Kuota:</strong> Di halaman dashboard yang sama, periksa batas kuota gratis yang Anda miliki hari ini:
+            <ul style="margin:6px 0 6px 20px; font-size:13.5px; color:var(--ink-mid);">
+              <li><strong>RPM (Request Per Minute):</strong> Batas frekuensi panggilan per menit (misal: 15 request/menit).</li>
+              <li><strong>RPD (Request Per Day):</strong> Batas kuota total panggilan per hari (misal: 1.500 request/hari).</li>
+              <li><strong>TPM (Tokens Per Minute):</strong> Batas volume kata yang diproses per menit.</li>
+            </ul>
+          </li>
         </ul>
+      </div>
+
+      <!-- Kotak Solusi Akun Organisasi -->
+      <div class="callout callout-warn">
+        <span style="font-size:20px;">💡</span>
+        <div>
+          <strong>Tips Penting — Jika Muncul Peringatan Akun Dibatasi:</strong><br>
+          Jika email kantor, instansi, atau kampus Anda memblokir akses ke Google AI Studio karena kebijakan keamanan internal organisasi (admin policy), <strong>beralihlah menggunakan akun Google pribadi (Gmail biasa)</strong>. Akun pribadi selalu memiliki akses langsung ke Free Tier pengembang tanpa batasan administratif kantor.
+        </div>
       </div>
 
       <div class="part-box">
         <div class="result-grid">
           <div class="res-box res-output">
-            <strong>✅ Keterampilan Kunci</strong>
-            Mampu membaca grafik pemakaian dan kuota sendiri di dashboard resmi penyedia API.
+            <strong>✅ Keterampilan Kunci yang Terbentuk</strong>
+            Anda mampu membaca dashboard pemakaian sendiri dan memahami bahwa API Key adalah kartu identitas yang menempel pada kuota Anda.
           </div>
           <div class="res-box res-pitfall">
-            <strong>⚠️ Aturan Keamanan</strong>
-            Kunci yang Anda buat di sesi latihan ini <strong>wajib dihapus (revoke)</strong> sebelum Anda menutup laptop di akhir sesi!
+            <strong>⚠️ Ritual Disiplin Keamanan</strong>
+            Kunci yang Anda buat untuk latihan ini <strong>wajib dihapus / dicabut (revoked)</strong> di dashboard segera setelah kelas selesai!
           </div>
         </div>
       </div>
