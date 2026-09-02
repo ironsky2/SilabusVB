@@ -1955,6 +1955,21 @@
             <span style="font-size:10px; color:#787774;">▾</span>
           </button>
           <div class="dropdown-content">
+            <a href="teori_integrasi_api_eksternal.html" class="dropdown-item">
+              <span>🌐</span>
+              <div>
+                <strong>Teori API Eksternal (P11)</strong>
+                <div style="font-size:11px; color:#787774;">Konsep, JSON &amp; Prompting</div>
+              </div>
+            </a>
+            <a href="praktikum_integrasi_api_eksternal.html" class="dropdown-item">
+              <span>🧪</span>
+              <div>
+                <strong>Lab API Eksternal (P11)</strong>
+                <div style="font-size:11px; color:#787774;">Praktikum Kurs &amp; Cuaca</div>
+              </div>
+            </a>
+            <div class="dropdown-divider"></div>
             <a href="praktikum_git_sebelum_coding.html" class="dropdown-item">
               <span>🌳</span>
               <div>
@@ -2173,9 +2188,15 @@
               </tr>
               <tr>
                 <td class="ov-num"><span style="background:#02C39A;">11</span></td>
-                <td class="ov-title"><a href="#p11">Menyambung ke Layanan Luar (API)</a></td>
+                <td class="ov-title">
+                  <a href="#p11">Menyambung ke Layanan Luar (API)</a>
+                  <div style="margin-top:4px; font-size:11.5px; display:flex; gap:8px; flex-wrap:wrap;">
+                    <a href="teori_integrasi_api_eksternal.html" style="font-weight:600; color:#028090;">📖 Modul Teori (P11) →</a>
+                    <a href="praktikum_integrasi_api_eksternal.html" style="font-weight:600; color:#047857;">🧪 Lab Praktikum (P11) →</a>
+                  </div>
+                </td>
                 <td class="ov-block">Interaktif &amp; Data</td>
-                <td class="ov-out">Fitur request data eksternal lengkap dengan status loading dan error handling.</td>
+                <td class="ov-out">Aplikasi integrasi API publik live (ExchangeRate/OpenWeather), parsing JSON, state loading/error, dan penanganan API key.</td>
               </tr>
               <tr>
                 <td class="ov-num"><span style="background:#02C39A;">12</span></td>
@@ -3038,62 +3059,47 @@ Tambahkan komentar di setiap bagian kode yang penting.</pre>
             <div class="session-head">
               <div class="session-badge" style="background:#02C39A;">11</div>
               <div class="session-headtext">
-                <h3>Menyambung ke Layanan Luar (API &amp; Cloud Client)</h3>
+                <h3>Menyambung ke Layanan Luar (Integrasi API Eksternal)</h3>
                 <div class="session-meta">
                   <span class="meta-chip">Interaktif &amp; Data</span>
-                  <span class="meta-chip">120 menit</span>
+                  <span class="meta-chip">120–180 menit</span>
+                  <span class="meta-chip" style="background:#ECFDF5; color:#047857; font-weight:600;">Teori &amp; Praktikum Terpisah</span>
                 </div>
               </div>
             </div>
-            <p class="session-goal"><b>Tujuan:</b> Aplikasi bisa berkomunikasi dengan backend cloud secara aman tanpa
-              membocorkan kredensial.</p>
-            <div class="session-two-col">
-              <div class="teori-col">
-                <h4 class="col-title">&#128218; Teori</h4>
-                <ul class="plain-list">
-                  <li>Bagaimana aplikasi "berbicara" dengan server di internet (konsep API)</li>
-                  <li>Kode status: 200 = sukses, 401 = belum login, 403 = dilarang, 500 = error server</li>
-                  <li>Pentingnya menangani kondisi gagal: lambat, offline, atau data kosong</li>
-                </ul>
-              </div>
-              <div class="praktikum-col">
-                <h4 class="col-title">&#129489;&#8205;&#128187; Praktikum &#8212; Prompt AI</h4>
-                <p class="prompt-hint">&#128161; Salin prompt ini lalu paste ke Antigravity AI / AI Assistant kamu.</p>
-                <div class="ai-prompt-box">
-                  <div class="ai-prompt-label">
-                    <span>&#129302; PROMPT KE AI ASSISTANT</span>
-                    <span style="font-weight:400;font-size:10.5px;color:#7A9AA3;">Pertemuan 11</span>
-                  </div>
-                  <pre>Aku ingin menghubungkan aplikasiku ke Supabase untuk menyimpan data secara online.
-Ini kode aplikasiku:
-[PASTE KODE APLIKASI KAMU DI SINI]
+            <p class="session-goal"><b>Tujuan:</b> Peserta memahami mental model API eksternal (analogi pelayan restoran), format data JSON, status code, menyusun prompt 5 elemen, dan membangun aplikasi live (Kurs Mata Uang &amp; Cuaca) dengan penanganan error serta keamanan API key.</p>
 
-Tolong bantu aku:
-1. Jelaskan apa itu API dan bagaimana aplikasiku "berbicara" dengan Supabase — pakai analogi yang mudah
-2. Tambahkan kode untuk membaca data dari tabel Supabase (fitur baca dulu)
-3. Tambahkan tampilan loading saat data sedang dimuat
-4. Tambahkan pesan ramah jika koneksi gagal
-
-Pastikan kunci API tidak ditulis langsung di kode. Jelaskan cara menyimpannya dengan aman.</pre>
+            <!-- ACTION CARD DEDICATED MODULES (TEORI & PRAKTIKUM) -->
+            <div style="background: linear-gradient(135deg, #01656F 0%, #028090 100%); border-radius: 12px; padding: 18px 20px; margin: 18px 0; color: #fff; box-shadow: 0 4px 14px rgba(2, 128, 144, 0.2);">
+              <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                <div>
+                  <div style="font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #A7F3D0; margin-bottom: 2px;">⚡ Modul Mandiri Pertemuan 11</div>
+                  <div style="font-size: 15px; font-weight: 700; color: #fff;">Materi Lengkap Tersedia di Halaman Khusus:</div>
+                </div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                  <a href="teori_integrasi_api_eksternal.html" target="_blank" class="btn-nav btn-nav-primary" style="background:#FFFFFF; color:#01656F; border:none; font-weight:700; padding:8px 16px; border-radius:6px; font-size:12.5px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+                    <span>📖 Buka Modul Teori (P11)</span>
+                  </a>
+                  <a href="praktikum_integrasi_api_eksternal.html" target="_blank" class="btn-nav btn-nav-primary" style="background:#02C39A; color:#013A40; border:none; font-weight:700; padding:8px 16px; border-radius:6px; font-size:12.5px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+                    <span>🧪 Buka Lab Praktikum (P11)</span>
+                  </a>
                 </div>
               </div>
             </div>
+
+           
             <div class="warn-box">
               <div class="warn-mark">!</div>
-              <p>Kunci API dan credentials jangan pernah ditulis langsung di kode yang di-commit. Simpan di
-                <code>.env.local</code> dan pastikan file tersebut masuk ke <code>.gitignore</code>.
-              </p>
+              <p>Kunci API (API Key) bersifat rahasia seperti kunci rumah. Jangan pernah menuliskan API key asli di kode yang diunggah ke publik (GitHub). Selalu pelajari penggunaan Environment Variables untuk keamanan.</p>
             </div>
             <div class="session-foot">
               <div class="foot-item foot-output">
                 <span class="foot-label">Output pertemuan</span>
-                <span class="foot-text">Integrasi client cloud berfungsi, lengkap dengan penanganan status loading dan
-                  error.</span>
+                <span class="foot-text">Aplikasi web live terhubung API publik real-time, lengkap dengan parsing JSON, tombol refresh, error handling, dan pemahaman keamanan API key.</span>
               </div>
               <div class="foot-item foot-pitfall">
                 <span class="foot-label">Kesalahan yang sering terjadi</span>
-                <span class="foot-text">Hanya menguji skenario sukses — aplikasi langsung crash saat koneksi
-                  offline.</span>
+                <span class="foot-text">Hanya menguji saat internet lancar — tidak menyiapkan penanganan error (try/catch) saat koneksi terputus atau endpoint down.</span>
               </div>
             </div>
             <div class="nav-step-bar">

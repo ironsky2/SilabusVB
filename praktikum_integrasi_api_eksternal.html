@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorium Praktikum Integrasi API Eksternal — Pertemuan 11 | Vibe Coding Masterclass</title>
+  <meta name="description" content="Modul Praktikum Lengkap Integrasi API Eksternal untuk Pemula Non-IT: Studi Kasus Aplikasi Web Kurs Mata Uang Real-Time, Master Prompt AI, Debugging Console Browser, dan Manajemen Kunci API OpenWeather.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #028090;
+      --seafoam: #00A896;
+      --mint: #02C39A;
+      --deep: #01656F;
+      --amber: #B45309;
+      --amber-bg: #FEF3C7;
+      --rose: #BE123C;
+      --rose-bg: #FFF1F2;
+      --emerald: #047857;
+      --emerald-bg: #ECFDF5;
+      --indigo: #4F46E5;
+      --indigo-bg: #EEF2FF;
+      --ink: #37352F;
+      --ink-mid: #5A5852;
+      --ink-soft: #787774;
+      --line: #EDECE9;
+      --line-soft: #F1F0ED;
+      --bg: #FFFFFF;
+      --bg-soft: #F7F6F3;
+      --bg-tint: #EAF6F4;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 110px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .brand-title, .hero-title, .part-title {
+      font-family: 'Newsreader', Georgia, serif;
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: .15s;
+    }
+
+    a:hover {
+      color: var(--deep);
+      text-decoration: underline;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88em;
+      background: #F2F1EE;
+      color: #EB5757;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    ::selection {
+      background: var(--mint);
+      color: #fff;
+    }
+
+    /* ---------- NAVIGATION ---------- */
+    header.nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      height: 56px;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner {
+      max-width: 1160px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.2);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 17.5px;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-pill {
+      font-size: 11.5px;
+      font-weight: 600;
+      background: var(--emerald);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Popover Dropdown */
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-dropdown-btn {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #37352F;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-dropdown-btn:hover {
+      background: #F7F6F3;
+      border-color: #D3D1CB;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      background: #FFFFFF;
+      min-width: 280px;
+      box-shadow: 0 10px 28px rgba(15, 15, 15, 0.12), 0 0 0 1px rgba(15, 15, 15, 0.05);
+      border-radius: 10px;
+      padding: 6px;
+      z-index: 110;
+      animation: dropFade 0.15s ease;
+    }
+
+    .nav-dropdown:hover .dropdown-content,
+    .nav-dropdown:focus-within .dropdown-content {
+      display: block;
+    }
+
+    @keyframes dropFade {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #37352F;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .dropdown-item:hover {
+      background: #F1F0ED;
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    .dropdown-item.active {
+      background: var(--bg-tint);
+      color: var(--deep);
+      font-weight: 700;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 4px 6px;
+    }
+
+    .nav-cta-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: var(--deep);
+      border: 1px solid var(--deep);
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-cta-btn:hover {
+      background: #028090;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      background: linear-gradient(180deg, #ECFDF5 0%, #F8FAFC 60%, var(--bg) 100%);
+      border-bottom: 1px solid var(--line);
+      padding: 56px 24px 40px;
+    }
+
+    .wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--emerald);
+      background: var(--emerald-bg);
+      border: 1px solid #A7F3D0;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    h1.hero-title {
+      font-size: 38px;
+      line-height: 1.2;
+      max-width: 900px;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+
+    .lede {
+      font-size: 16.5px;
+      color: var(--ink-mid);
+      max-width: 860px;
+      line-height: 1.65;
+    }
+
+    .meta-badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .meta-badge {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      color: var(--ink-mid);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 1px 2px rgba(20, 30, 30, .03);
+    }
+
+    .meta-badge strong {
+      color: var(--ink);
+    }
+
+    /* ---------- LAB QUICK FILTER NAV ---------- */
+    .lab-nav-sticky {
+      position: sticky;
+      top: 56px;
+      z-index: 90;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 0;
+    }
+
+    .lab-nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+    }
+
+    .lab-nav-pill {
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-mid);
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      padding: 5px 12px;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: all .15s;
+    }
+
+    .lab-nav-pill:hover, .lab-nav-pill.active {
+      background: var(--emerald);
+      color: #fff;
+      border-color: var(--emerald);
+      text-decoration: none;
+    }
+
+    /* ---------- ARCHITECTURE BANNER ---------- */
+    .arch-card {
+      background: linear-gradient(135deg, #064E3B 0%, #047857 60%, #059669 100%);
+      color: #fff;
+      border-radius: 16px;
+      padding: 32px 30px;
+      margin: 36px 0 28px;
+      box-shadow: 0 6px 20px rgba(4, 120, 87, 0.2);
+    }
+
+    .arch-card h3 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .arch-diagram {
+      background: rgba(3, 40, 30, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 18px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #A7F3D0;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .arch-insight {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13.5px;
+      color: #fff;
+      border-left: 3px solid #6EE7B7;
+    }
+
+    /* ---------- LAB STEPS / SECTIONS ---------- */
+    .lab-step {
+      padding: 44px 0 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .lab-step:last-child {
+      border-bottom: none;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .step-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--emerald);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .step-header-text h2 {
+      font-size: 26px;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .step-header-text p {
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+
+    /* PRD Structured Parts (A, B, C) */
+    .part-box {
+      margin-bottom: 24px;
+    }
+
+    .part-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Prompt Card & Code Block */
+    .prompt-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 16px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .prompt-header {
+      background: #0F172A;
+      color: #F8FAFC;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .btn-copy {
+      background: #334155;
+      color: #F8FAFC;
+      border: 1px solid #475569;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all .15s;
+    }
+
+    .btn-copy:hover {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #fff;
+    }
+
+    .prompt-content {
+      background: #1E293B;
+      color: #E2E8F0;
+      padding: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.8px;
+      line-height: 1.65;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 0;
+    }
+
+    /* Instruction / Action List */
+    .action-list {
+      list-style: none;
+      margin: 14px 0;
+    }
+
+    .action-list li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: var(--ink-mid);
+    }
+
+    .action-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--emerald);
+      font-weight: 800;
+    }
+
+    /* Output & Pitfall Boxes */
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .res-box {
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .res-box strong {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .res-output {
+      background: var(--emerald-bg);
+      border: 1px solid #A7F3D0;
+      color: #065F46;
+    }
+
+    .res-pitfall {
+      background: var(--rose-bg);
+      border: 1px solid #FECDD3;
+      color: #9F1239;
+    }
+
+    /* Exercises Cards */
+    .exercise-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 22px;
+      margin-bottom: 16px;
+      transition: all 0.15s ease;
+    }
+
+    .exercise-card:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .exercise-card h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .exercise-card p {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+    }
+
+    /* Checklist Section */
+    .checklist-card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .check-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .check-box-ui {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--emerald);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 10000;
+      pointer-events: none;
+      border: 1px solid #334155;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Footer */
+    footer {
+      background: #F7F6F3;
+      border-top: 1px solid var(--line);
+      padding: 40px 24px;
+      margin-top: 60px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-mid);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOAST ALERT -->
+  <div id="toast">✅ Prompt berhasil disalin ke clipboard!</div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="silabus-vibe-coding-16-pertemuan.html#p11" class="brand">
+        <span class="dot"></span>
+        <span class="brand-title">Vibe Coding · Lab Praktikum API</span>
+        <span class="brand-pill">Pertemuan 11</span>
+      </a>
+
+      <div class="nav-actions">
+        <!-- Dropdown: Modul Terkait -->
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">
+            <span>📚 Modul Masterclass</span>
+            <span style="font-size:10px; color:#787774;">▾</span>
+          </button>
+          <div class="dropdown-content">
+            <a href="silabus-vibe-coding-16-pertemuan.html" class="dropdown-item">
+              <span>📖</span>
+              <div><strong>Silabus Utama</strong><div style="font-size:11px; color:#787774;">16 Pertemuan Vibe Coding</div></div>
+            </a>
+            <a href="teori_integrasi_api_eksternal.html" class="dropdown-item">
+              <span>🌐</span>
+              <div><strong>Teori API Eksternal (P11)</strong><div style="font-size:11px; color:#787774;">Konsep, JSON &amp; Prompting</div></div>
+            </a>
+            <a href="praktikum_integrasi_api_eksternal.html" class="dropdown-item active">
+              <span>🧪</span>
+              <div><strong>Lab API Eksternal (P11)</strong><div style="font-size:11px; color:#787774;">Praktikum Kurs &amp; Cuaca</div></div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="laboratorium_lengkap_supabase.html" class="dropdown-item">
+              <span>🔬</span>
+              <div><strong>Lab Supabase (9 Lab)</strong><div style="font-size:11px; color:#787774;">SQL, RLS, Auth &amp; Realtime</div></div>
+            </a>
+            <a href="praktikum_git_sebelum_coding.html" class="dropdown-item">
+              <span>🌿</span>
+              <div><strong>Git Lokal (P5)</strong><div style="font-size:11px; color:#787774;">Safety Net &amp; Recovery</div></div>
+            </a>
+            <a href="panduan_push_github.html" class="dropdown-item">
+              <span>🚀</span>
+              <div><strong>Push GitHub (P6)</strong><div style="font-size:11px; color:#787774;">Remote &amp; Branch Cloud</div></div>
+            </a>
+            <a href="panduan_deploy_vercel.html" class="dropdown-item">
+              <span>▲</span>
+              <div><strong>Deploy Vercel (P15)</strong><div style="font-size:11px; color:#787774;">Produksi Cloud &amp; CI/CD</div></div>
+            </a>
+            <a href="panduan_vibecoding_owasp.html" class="dropdown-item">
+              <span>🛡️</span>
+              <div><strong>Panduan OWASP</strong><div style="font-size:11px; color:#787774;">Keamanan AI Coding</div></div>
+            </a>
+          </div>
+        </div>
+
+        <a href="teori_integrasi_api_eksternal.html" class="nav-cta-btn">📖 Modul Teori (P11)</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <div class="hero">
+    <div class="wrap">
+      <span class="eyebrow">🧪 Product Requirements Document (PRD) — Modul Praktikum</span>
+      <h1 class="hero-title">Laboratorium Integrasi API Eksternal:<br>Membangun Web Kurs Mata Uang &amp; API Key</h1>
+      <p class="lede">
+        Panduan langkah demi langkah bagi pemula non-IT untuk membuat aplikasi web live yang mengonsumsi data API publik gratis ExchangeRate, menguji fungsionalitas, menambahkan fitur interaktif bertahap, melakukan debugging lewat Console Browser, dan mengamankan API key.
+      </p>
+
+      <div class="meta-badge-row">
+        <div class="meta-badge"><span>⏱️</span> <strong>Durasi Praktikum:</strong> ± 90 - 120 Menit</div>
+        <div class="meta-badge"><span>🌐</span> <strong>API Target:</strong> <code>open.er-api.com</code> (Gratis tanpa key)</div>
+        <div class="meta-badge"><span>🌦️</span> <strong>Studi Lanjutan:</strong> OpenWeatherMap (API Key Security)</div>
+        <div class="meta-badge"><span>💻</span> <strong>File Output:</strong> <code>index.html</code> (Single-File App)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY QUICK-FILTER NAV -->
+  <div class="lab-nav-sticky">
+    <div class="wrap">
+      <div class="lab-nav-inner">
+        <a href="#langkah-0" class="lab-nav-pill">Langkah 0: Persiapan</a>
+        <a href="#langkah-1" class="lab-nav-pill">Langkah 1: Prompt Awal Kurs</a>
+        <a href="#langkah-2" class="lab-nav-pill">Langkah 2: Uji Hasil</a>
+        <a href="#langkah-3" class="lab-nav-pill">Langkah 3: Iterasi Fitur</a>
+        <a href="#langkah-4" class="lab-nav-pill">Langkah 4: Debugging Console</a>
+        <a href="#langkah-5" class="lab-nav-pill">Langkah 5: API Key &amp; Cuaca</a>
+        <a href="#latihan-mandiri" class="lab-nav-pill">Bagian 3: Latihan Mandiri</a>
+        <a href="#checklist-evaluasi" class="lab-nav-pill">Bagian 4: Checklist Evaluasi</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN WRAPPER -->
+  <div class="wrap">
+
+    <!-- ARCHITECTURE CALLOUT -->
+    <div class="arch-card">
+      <h3>🎯 Alur Kerja Praktikum Vibe Coding Hari Ini</h3>
+      <p style="font-size:14px; opacity:0.9;">
+        Kita akan mempraktikkan alur kerja profesional: Mulai dari kerangka dasar, pengujian browser, iterasi fitur baru, investigasi error lewat Console DevTools, hingga manajemen kunci rahasia API Key.
+      </p>
+
+      <div class="arch-diagram">
+[ LANGKAH 0: Setup Folder ] ---> [ LANGKAH 1: Prompt AI Kurs Dasar ] ---> [ LANGKAH 2: Live Browser Test ]
+                                                                                   |
+                                                                                   v
+[ LANGKAH 5: API Key Cuaca ] <--- [ LANGKAH 4: Debug Console ] <--- [ LANGKAH 3: Fitur Dropdown & Update ]
+      </div>
+
+      <div class="arch-insight">
+        ✨ <strong>Kunci Sukses Praktikum:</strong> Setiap prompt AI di bawah ini telah dirancang dengan format 5 elemen. Salin langsung menggunakan tombol copy, tempel ke AI assistant Anda (Claude, ChatGPT, Antigravity AI, Cursor), dan lihat bagaimana aplikasi Anda terbentuk!
+      </div>
+    </div>
+
+    <!-- LANGKAH 0: PERSIAPAN -->
+    <section class="lab-step" id="langkah-0">
+      <div class="step-header">
+        <div class="step-badge">00</div>
+        <div class="step-header-text">
+          <h2>Langkah 0 — Persiapan Lingkungan Kerja</h2>
+          <p>Mempersiapkan folder proyek dan endpoint API gratis yang siap dipakai.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">📋 Checklist Persiapan Sebelum Memulai</h3>
+        <ul class="action-list">
+          <li><strong>Buka Endpoint Publik Gratis:</strong> Endpoint yang kita gunakan tidak memerlukan registrasi ataupun API key: <code>https://open.er-api.com/v6/latest/USD</code></li>
+          <li><strong>Buka AI Coding Assistant:</strong> Siapkan tab browser dengan ChatGPT, Claude.ai, atau Antigravity AI IDE.</li>
+          <li><strong>Siapkan Folder Proyek:</strong> Buat sebuah folder baru di komputer Anda dengan nama <code>kurs-mata-uang</code>. Di dalam folder inilah nanti file <code>index.html</code> akan disimpan.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- LANGKAH 1: PROMPT AWAL -->
+    <section class="lab-step" id="langkah-1">
+      <div class="step-header">
+        <div class="step-badge">01</div>
+        <div class="step-header-text">
+          <h2>Langkah 1 — Prompt Awal: Kerangka Aplikasi Kurs Mata Uang</h2>
+          <p>Meminta AI membangun halaman web single-file dengan integrasi live API.</p>
+        </div>
+      </div>
+
+      <!-- Part A: Teori & Instruksi -->
+      <div class="part-box">
+        <h3 class="part-title">Part A · Instruksi &amp; Sasaran</h3>
+        <p style="font-size:14px; color:var(--ink-mid);">
+          Kita akan meminta AI membuat halaman web bernama <strong>"Kurs Mata Uang Hari Ini"</strong> yang langsung melakukan fetching ke endpoint <code>open.er-api.com</code> saat dibuka, menampilkan kurs USD ke IDR, EUR, JPY, dan SGD, serta memiliki tombol Refresh manual.
+        </p>
+      </div>
+
+      <!-- Part B: Master Prompt -->
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompt AI Siap Pakai</h3>
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🤖 PROMPT 1: KERANGKA APLIKASI KURS MATA UANG</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-step1')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-step1">Saya pemula, belum pernah coding sama sekali. Saya ingin membuat halaman web sederhana bernama "Kurs Mata Uang Hari Ini" menggunakan HTML, CSS, dan JavaScript polos (tanpa framework), dalam satu file HTML saja.
+
+Halaman ini harus:
+1. Mengambil data kurs mata uang secara real-time dari API gratis ini:
+   https://open.er-api.com/v6/latest/USD
+   (tidak perlu API key)
+2. Menampilkan kurs USD terhadap IDR, EUR, JPY, dan SGD dalam bentuk kartu-kartu yang rapi dan modern.
+3. Ada tombol "Refresh" untuk mengambil data terbaru.
+4. Menampilkan animasi/pesan loading saat data sedang diambil, dan pesan yang ramah jika terjadi error (misalnya koneksi internet bermasalah).
+
+Tolong:
+- Tulis kode lengkap dalam satu file HTML.
+- Beri komentar di setiap bagian kode dengan bahasa yang mudah dipahami orang non-programmer.
+- Jelaskan langkah demi langkah cara menyimpan dan membuka file ini di browser.</pre>
+        </div>
+      </div>
+
+      <!-- Part C: Verifikasi & Pitfall -->
+      <div class="part-box">
+        <h3 class="part-title">Part C · Output &amp; Verifikasi Kesiapan</h3>
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Output yang Diharapkan</strong>
+            AI memberikan satu blok kode utuh. Simpan kode tersebut dengan nama <code>index.html</code> di dalam folder <code>kurs-mata-uang</code>.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Kesalahan Umum</strong>
+            Menyimpan dengan ekstensi <code>index.html.txt</code> karena Notepad otomatis menambahkan <code>.txt</code>. Pastikan tipe file saat Save As adalah "All Files (*.*)".
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LANGKAH 2: PENGUJIAN -->
+    <section class="lab-step" id="langkah-2">
+      <div class="step-header">
+        <div class="step-badge">02</div>
+        <div class="step-header-text">
+          <h2>Langkah 2 — Menguji Hasil Aplikasi di Web Browser</h2>
+          <p>Memverifikasi aliran data dari server API eksternal ke layar laptop Anda.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Langkah Pengujian</h3>
+        <ul class="action-list">
+          <li>Buka file <code>index.html</code> dengan cara double-click atau drag-and-drop file tersebut ke Google Chrome / Microsoft Edge.</li>
+          <li>Amati apakah angka kurs muncul (misal: 1 USD = Rp 16.000+).</li>
+          <li>Klik tombol <strong>Refresh</strong> dan pastikan status memuat ulang berjalan lancar tanpa membuat halaman crash.</li>
+        </ul>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Indikator Berhasil</strong>
+            Kartu mata uang USD → IDR, EUR, JPY, dan SGD terisi nilai angka riil yang bersumber dari API publik.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Jika Angka Kosong</strong>
+            Pastikan laptop terhubung ke jaringan internet aktif, karena API membutuhkan koneksi untuk mengunduh data kurs terbaru.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LANGKAH 3: ITERASI FITUR -->
+    <section class="lab-step" id="langkah-3">
+      <div class="step-header">
+        <div class="step-badge">03</div>
+        <div class="step-header-text">
+          <h2>Langkah 3 — Prompt Lanjutan: Menambahkan Fitur Dropdown &amp; Timestamp</h2>
+          <p>Melatih teknik iterasi bertahap pada kode yang sudah berjalan.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Skenario Penambahan Fitur</h3>
+        <p style="font-size:14px; color:var(--ink-mid);">
+          Aplikasi dasar sudah berhasil. Sekarang kita ingin pengguna bisa memilih mata uang asal (misal: ingin melihat dari IDR, EUR, atau JPY) serta menampilkan waktu pembaruan terakhir data (<code>time_last_update_utc</code>).
+        </p>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompt AI Siap Pakai</h3>
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🤖 PROMPT 2: ITERASI DROPDOWN &amp; TIMESTAMP UPDATE</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-step3')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-step3">Aplikasi kurs mata uang saya sudah berjalan dengan baik. Sekarang saya ingin menambahkan beberapa fitur baru:
+
+1. Dropdown pilihan untuk memilih mata uang asal (bukan hanya USD), pilihannya: USD, IDR, EUR, JPY, SGD.
+2. Saat mata uang asal diganti di dropdown, data kurs otomatis diambil ulang dari API dengan endpoint dinamis:
+   https://open.er-api.com/v6/latest/{KODE_MATA_UANG}
+3. Tampilkan waktu terakhir data di-update (ambil dari field "time_last_update_utc" pada response JSON API) di bagian bawah kartu.
+
+Tolong perbarui kode saya (saya lampirkan kode lengkap saat ini di bawah) dan jelaskan bagian mana saja yang Anda modifikasi agar saya paham:
+
+[TEMPEL KODE index.html KAMU DI SINI]</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part C · Output &amp; Verifikasi Kesiapan</h3>
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Output yang Diharapkan</strong>
+            Saat Anda memilih mata uang "EUR" di dropdown, halaman secara otomatis mengirim request ke endpoint <code>.../latest/EUR</code> dan memperbarui nilai kurs secara instan.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Kesalahan Umum</strong>
+            Lupa menempelkan kode lama di bagian <code>[TEMPEL KODE ...]</code>, sehingga AI membuat ulang dengan desain yang berbeda dari versi awal Anda.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LANGKAH 4: DEBUGGING CONSOLE -->
+    <section class="lab-step" id="langkah-4">
+      <div class="step-header">
+        <div class="step-badge">04</div>
+        <div class="step-header-text">
+          <h2>Langkah 4 — Prompt Debugging: Simulasi Error &amp; Console Browser</h2>
+          <p>Keahlian paling krusial bagi Vibe Coder: Membuka DevTools dan meminta AI menyelesaikan masalah.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Cara Membuka Console Browser (F12)</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          Ketika aplikasi web tidak menampilkan data (hanya berputar di status "Loading..."), informasi penyebab error sebenarnya tercatat di Console Browser:
+        </p>
+        <ul class="action-list">
+          <li>Klik kanan di mana saja pada halaman website di browser, lalu pilih <strong>Inspect</strong> (atau tekan tombol keyboard <code>F12</code>).</li>
+          <li>Pilih tab <strong>Console</strong> di bagian atas panel Developer Tools.</li>
+          <li>Perhatikan teks berwarna merah (misal: <code>Failed to load resource: net::ERR_NAME_NOT_RESOLVED</code> atau <code>TypeError: Failed to fetch</code>). Salin teks merah tersebut!</li>
+        </ul>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompt Debugging</h3>
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛠️ PROMPT 3: DEBUGGING ERROR INTEGRASI API</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-step4')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-step4">Aplikasi kurs mata uang saya tidak menampilkan data kurs, hanya muncul tulisan "Loading..." yang tidak pernah berubah menjadi data.
+
+Yang sudah saya periksa:
+- Koneksi internet saya aktif dan lancar.
+- Saya membuka file index.html langsung di Google Chrome.
+
+Ini pesan error berwarna merah yang muncul di tab Console browser saya:
+[TEMPEL PESAN ERROR DARI CONSOLE DI SINI]
+
+Ini kode index.html saya saat ini:
+[TEMPEL KODE index.html LENGKAP DI SINI]
+
+Tolong jelaskan kemungkinan penyebab error tersebut dengan bahasa yang mudah dipahami pemula, dan berikan kode perbaikannya secara lengkap.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Solusi AI</strong>
+            AI akan mendiagnosis apakah masalah berasal dari typo URL, kesalahan membaca struktur JSON, atau aturan CORS, lalu memberikan perbaikan kode yang tepat.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Jangan Lakukan Ini</strong>
+            Hanya memberi prompt *"Aplikasi saya error tolong benerin"* tanpa menyertakan pesan error console dan kode yang sedang dipakai.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LANGKAH 5: API KEY & OPENWEATHER -->
+    <section class="lab-step" id="langkah-5">
+      <div class="step-header">
+        <div class="step-badge">05</div>
+        <div class="step-header-text">
+          <h2>Langkah 5 — Integrasi API yang Membutuhkan Kunci Rahasia (API Key)</h2>
+          <p>Studi kasus OpenWeatherMap dan edukasi keamanan kredensial.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Mengapa Butuh API Key?</h3>
+        <p style="font-size:14px; color:var(--ink-mid);">
+          Sebagian besar API komersial mewajibkan pendaftaran akun gratis untuk mendapatkan <strong>API Key</strong> pribadi. API key ini dikirimkan bersama request untuk menghitung kuota pemakaian Anda.
+        </p>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompt Pembuatan Widget Cuaca</h3>
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🌦️ PROMPT 4: WIDGET CUACA DENGAN API KEY</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-step5')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-step5">Saya sudah mendaftar akun gratis di OpenWeatherMap dan mendapatkan API key pribadi: [API_KEY_SAYA]
+
+Saya ingin membuat halaman web widget cuaca sederhana yang menampilkan kondisi cuaca hari ini untuk kota Jakarta, menggunakan endpoint resmi berikut:
+https://api.openweathermap.org/data/2.5/weather?q=Jakarta&appid=API_KEY_SAYA&units=metric
+
+Tolong:
+1. Buatkan kode lengkap dalam satu file HTML (HTML + CSS + JS).
+2. Tampilkan nama kota, suhu saat ini (°C), ikon kondisi cuaca, dan tingkat kelembapan dalam bentuk kartu modern yang elegan.
+3. PENTING: Jelaskan kepada saya cara terbaik menjaga keamanan API key ini agar tidak disalahgunakan orang lain jika suatu saat nanti proyek ini saya unggah ke GitHub atau internet publik.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>🔐 Edukasi Keamanan Kunci</strong>
+            API Key = Kunci Rumah Anda. Jangan pernah mengunggah file kode yang berisi API key asli ke repositori publik di GitHub. Gunakan file <code>.env</code> jika menggunakan backend / server.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Risiko Kunci Bocor</strong>
+            Jika API key berbayar bocor ke publik, orang asing bisa menghabiskan kuota atau menagih biaya kartu kredit Anda!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BAGIAN 3: LATIHAN MANDIRI -->
+    <section class="lab-step" id="latihan-mandiri">
+      <div class="step-header">
+        <div class="step-badge">03</div>
+        <div class="step-header-text">
+          <h2>Bagian 3 — Tiga Tantangan Latihan Mandiri</h2>
+          <p>Uji kemandirian Anda menyusun prompt integrasi API dari awal.</p>
+        </div>
+      </div>
+
+      <div class="exercise-card">
+        <h4>💡 Tantangan 1: Generator Kutipan Motivasi Harian</h4>
+        <p>
+          Gunakan API gratis <code>https://api.quotable.io/random</code> untuk menampilkan kartu kutipan inspiratif acak beserta nama penulisnya, dilengkapi tombol <em>"Kutipan Baru"</em>.
+        </p>
+      </div>
+
+      <div class="exercise-card">
+        <h4>🧠 Tantangan 2: Generator Fakta Unik Dunia</h4>
+        <p>
+          Gunakan API gratis <code>https://uselessfacts.jsph.pl/api/v2/facts/random?language=en</code> untuk menampilkan fakta trivia unik setiap kali tombol ditekan.
+        </p>
+      </div>
+
+      <div class="exercise-card">
+        <h4>🌍 Tantangan 3: Ensiklopedia Pencarian Negara</h4>
+        <p>
+          Gunakan API <code>https://restcountries.com/v3.1/name/{nama_negara}</code> untuk menampilkan informasi negara (gambar bendera, ibu kota, jumlah populasi, dan mata uang resmi) saat pengguna mengetik nama negara di kotak pencarian.
+        </p>
+      </div>
+
+      <div class="part-box" style="margin-top:20px;">
+        <h4 style="font-size:15px; font-weight:700; color:var(--ink); margin-bottom:8px;">Instruksi Pelaksanaan Latihan:</h4>
+        <ul class="action-list">
+          <li>Tulis prompt awal sendiri menggunakan panduan <strong>Kerangka 5 Elemen</strong> dari Modul Teori.</li>
+          <li>Simpan dan jalankan hasilnya di browser.</li>
+          <li>Jika ada kendala/error, buka tab Console browser, salin pesan error, dan susun prompt debugging ke AI.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- BAGIAN 4: CHECKLIST EVALUASI -->
+    <section class="lab-step" id="checklist-evaluasi">
+      <div class="step-header">
+        <div class="step-badge">04</div>
+        <div class="step-header-text">
+          <h2>Bagian 4 — Checklist Evaluasi &amp; Penilaian Mandiri</h2>
+          <p>Gunakan checklist ini untuk mengukur pemahaman Anda setelah menyelesaikan praktikum.</p>
+        </div>
+      </div>
+
+      <div class="checklist-card">
+        <div class="check-item">
+          <div class="check-box-ui">✓</div>
+          <div>Saya dapat menjelaskan konsep Request (permintaan) dan Response (jawaban JSON) dengan kata-kata sendiri.</div>
+        </div>
+        <div class="check-item">
+          <div class="check-box-ui">✓</div>
+          <div>Saya memahami fungsi dan pentingnya menjaga kerahasiaan API Key.</div>
+        </div>
+        <div class="check-item">
+          <div class="check-box-ui">✓</div>
+          <div>Saya berhasil membuat dan menjalankan minimal satu aplikasi web live yang mengambil data dari API eksternal.</div>
+        </div>
+        <div class="check-item">
+          <div class="check-box-ui">✓</div>
+          <div>Saya mampu menyusun prompt AI integrasi API menggunakan kerangka 5 elemen (konteks, endpoint, data, tampilan, batasan).</div>
+        </div>
+        <div class="check-item">
+          <div class="check-box-ui">✓</div>
+          <div>Saya tahu cara membuka Developer Tools (F12) tab Console browser dan menyalin pesan error untuk prompt debugging ke AI.</div>
+        </div>
+        <div class="check-item">
+          <div class="check-box-ui">✓</div>
+          <div>Saya telah menyelesaikan minimal satu tantangan latihan mandiri di Bagian 3.</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-links">
+        <a href="silabus-vibe-coding-16-pertemuan.html">📖 Silabus Utama</a>
+        <a href="teori_integrasi_api_eksternal.html">🌐 Teori API (P11)</a>
+        <a href="praktikum_integrasi_api_eksternal.html">🧪 Lab Praktikum (P11)</a>
+        <a href="laboratorium_lengkap_supabase.html">🔬 Lab Supabase</a>
+        <a href="panduan_deploy_vercel.html">▲ Deploy Vercel</a>
+        <a href="panduan_vibecoding_owasp.html">🛡️ OWASP Security</a>
+      </div>
+      <p>© 2026 Vibe Coding Masterclass — Modul Praktikum Integrasi API Eksternal untuk Pemula Non-IT.</p>
+    </div>
+  </footer>
+
+  <script>
+    function copySnippet(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      });
+    }
+  </script>
+</body>
+
+</html>

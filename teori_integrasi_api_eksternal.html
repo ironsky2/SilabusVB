@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teori Integrasi API Eksternal — Pertemuan 11 | Vibe Coding Masterclass</title>
+  <meta name="description" content="Modul Teori Lengkap Integrasi API Eksternal untuk Pemula Non-IT: Konsep API, Analogi Pelayan Restoran, Request-Response, Format JSON, HTTP Method & Status Code, API Key, dan 5 Elemen Prompt AI yang Efektif.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #028090;
+      --seafoam: #00A896;
+      --mint: #02C39A;
+      --deep: #01656F;
+      --amber: #B45309;
+      --amber-bg: #FEF3C7;
+      --rose: #BE123C;
+      --rose-bg: #FFF1F2;
+      --emerald: #047857;
+      --emerald-bg: #ECFDF5;
+      --indigo: #4F46E5;
+      --indigo-bg: #EEF2FF;
+      --ink: #37352F;
+      --ink-mid: #5A5852;
+      --ink-soft: #787774;
+      --line: #EDECE9;
+      --line-soft: #F1F0ED;
+      --bg: #FFFFFF;
+      --bg-soft: #F7F6F3;
+      --bg-tint: #EAF6F4;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 110px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .brand-title, .hero-title, .section-heading {
+      font-family: 'Newsreader', Georgia, serif;
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: .15s;
+    }
+
+    a:hover {
+      color: var(--deep);
+      text-decoration: underline;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88em;
+      background: #F2F1EE;
+      color: #EB5757;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    ::selection {
+      background: var(--mint);
+      color: #fff;
+    }
+
+    /* ---------- NAVIGATION ---------- */
+    header.nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      height: 56px;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner {
+      max-width: 1160px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #028090;
+      box-shadow: 0 0 0 3px rgba(2, 128, 144, 0.2);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 17.5px;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-pill {
+      font-size: 11.5px;
+      font-weight: 600;
+      background: var(--teal);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Popover Dropdown */
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-dropdown-btn {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #37352F;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-dropdown-btn:hover {
+      background: #F7F6F3;
+      border-color: #D3D1CB;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      background: #FFFFFF;
+      min-width: 280px;
+      box-shadow: 0 10px 28px rgba(15, 15, 15, 0.12), 0 0 0 1px rgba(15, 15, 15, 0.05);
+      border-radius: 10px;
+      padding: 6px;
+      z-index: 110;
+      animation: dropFade 0.15s ease;
+    }
+
+    .nav-dropdown:hover .dropdown-content,
+    .nav-dropdown:focus-within .dropdown-content {
+      display: block;
+    }
+
+    @keyframes dropFade {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #37352F;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .dropdown-item:hover {
+      background: #F1F0ED;
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    .dropdown-item.active {
+      background: var(--bg-tint);
+      color: var(--deep);
+      font-weight: 700;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 4px 6px;
+    }
+
+    .nav-cta-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: var(--deep);
+      border: 1px solid var(--deep);
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-cta-btn:hover {
+      background: #028090;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      background: linear-gradient(180deg, #F0FDF4 0%, #F8FAFC 50%, var(--bg) 100%);
+      border-bottom: 1px solid var(--line);
+      padding: 56px 24px 40px;
+    }
+
+    .wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--deep);
+      background: var(--bg-tint);
+      border: 1px solid #C8E8E4;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    h1.hero-title {
+      font-size: 38px;
+      line-height: 1.2;
+      max-width: 900px;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+
+    .lede {
+      font-size: 16.5px;
+      color: var(--ink-mid);
+      max-width: 860px;
+      line-height: 1.65;
+    }
+
+    .meta-badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .meta-badge {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      color: var(--ink-mid);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 1px 2px rgba(20, 30, 30, .03);
+    }
+
+    .meta-badge strong {
+      color: var(--ink);
+    }
+
+    /* ---------- QUICK FILTER NAV STICKY ---------- */
+    .lab-nav-sticky {
+      position: sticky;
+      top: 56px;
+      z-index: 90;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 0;
+    }
+
+    .lab-nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+    }
+
+    .lab-nav-pill {
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-mid);
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      padding: 5px 12px;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: all .15s;
+    }
+
+    .lab-nav-pill:hover, .lab-nav-pill.active {
+      background: var(--teal);
+      color: #fff;
+      border-color: var(--teal);
+      text-decoration: none;
+    }
+
+    /* ---------- ARCHITECTURE BANNER ---------- */
+    .arch-card {
+      background: linear-gradient(135deg, #013A40 0%, #01656F 60%, #028090 100%);
+      color: #fff;
+      border-radius: 16px;
+      padding: 32px 30px;
+      margin: 36px 0 28px;
+      box-shadow: 0 6px 20px rgba(1, 101, 111, 0.2);
+    }
+
+    .arch-card h3 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .arch-diagram {
+      background: rgba(1, 35, 38, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 18px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #A7F3D0;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .arch-insight {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13.5px;
+      color: #fff;
+      border-left: 3px solid #02C39A;
+    }
+
+    /* ---------- CONTENT SECTIONS & CARDS ---------- */
+    .content-section {
+      padding: 44px 0 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .content-section:last-child {
+      border-bottom: none;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .section-num-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--teal);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .section-header-text h2 {
+      font-size: 26px;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .section-header-text p {
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 768px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .feature-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 22px;
+      transition: all 0.15s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .feature-card:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-card h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-card p {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.6;
+    }
+
+    /* Analogy Box */
+    .analogy-box {
+      background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+      border: 1px solid #FDE68A;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+    }
+
+    .analogy-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #92400E;
+      margin-bottom: 12px;
+    }
+
+    .analogy-content {
+      font-size: 14px;
+      color: #78350F;
+      line-height: 1.7;
+    }
+
+    .analogy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .analogy-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .analogy-item {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .analogy-item .role {
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #92400E;
+      margin-bottom: 4px;
+    }
+
+    .analogy-item .desc {
+      font-size: 12.5px;
+      color: #78350F;
+    }
+
+    /* Concept Table */
+    .table-container {
+      overflow-x: auto;
+      margin: 18px 0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      text-align: left;
+    }
+
+    table.data-table th {
+      background: #F8FAFC;
+      color: #334155;
+      font-weight: 700;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    table.data-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line-soft);
+      color: var(--ink-mid);
+      vertical-align: top;
+    }
+
+    table.data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    table.data-table tr:hover td {
+      background: #FAFAFA;
+    }
+
+    /* JSON Interactive Display */
+    .json-box {
+      background: #0F172A;
+      border-radius: 12px;
+      padding: 20px;
+      color: #F8FAFC;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      margin: 18px 0;
+      overflow-x: auto;
+      line-height: 1.6;
+      border: 1px solid #334155;
+    }
+
+    .json-key {
+      color: #38BDF8;
+    }
+
+    .json-string {
+      color: #4ADE80;
+    }
+
+    .json-num {
+      color: #FBBF24;
+    }
+
+    .json-comment {
+      color: #94A3B8;
+      font-style: italic;
+    }
+
+    /* Callout Boxes */
+    .callout {
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 13.5px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .callout-info {
+      background: var(--bg-tint);
+      border: 1px solid #C8E8E4;
+      color: var(--deep);
+    }
+
+    .callout-warn {
+      background: var(--amber-bg);
+      border: 1px solid #FDE68A;
+      color: #92400E;
+    }
+
+    .callout-rose {
+      background: var(--rose-bg);
+      border: 1px solid #FECDD3;
+      color: #9F1239;
+    }
+
+    /* Prompt Anatomy Card */
+    .prompt-template-card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+    }
+
+    .prompt-element-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed #E2E8F0;
+    }
+
+    .prompt-element-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .elem-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--deep);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .elem-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .elem-desc {
+      font-size: 13px;
+      color: var(--ink-mid);
+    }
+
+    /* Next Step CTA Banner */
+    .next-step-banner {
+      background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+      border: 1px solid #A7F3D0;
+      border-radius: 16px;
+      padding: 32px;
+      margin: 40px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .next-step-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .next-step-text h3 {
+      font-size: 22px;
+      color: var(--emerald);
+      margin-bottom: 6px;
+    }
+
+    .next-step-text p {
+      font-size: 14px;
+      color: #065F46;
+      max-width: 600px;
+    }
+
+    .btn-lab-launch {
+      background: var(--emerald);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(4, 120, 87, 0.25);
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .btn-lab-launch:hover {
+      background: #065F46;
+      color: #FFFFFF;
+      text-decoration: none;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(4, 120, 87, 0.35);
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 10000;
+      pointer-events: none;
+      border: 1px solid #334155;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Footer */
+    footer {
+      background: #F7F6F3;
+      border-top: 1px solid var(--line);
+      padding: 40px 24px;
+      margin-top: 60px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-mid);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOAST ALERT -->
+  <div id="toast">✅ Teks berhasil disalin ke clipboard!</div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="silabus-vibe-coding-16-pertemuan.html#p11" class="brand">
+        <span class="dot"></span>
+        <span class="brand-title">Vibe Coding · Teori Integrasi API</span>
+        <span class="brand-pill">Pertemuan 11</span>
+      </a>
+
+      <div class="nav-actions">
+        <!-- Dropdown: Modul Terkait -->
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">
+            <span>📚 Modul Masterclass</span>
+            <span style="font-size:10px; color:#787774;">▾</span>
+          </button>
+          <div class="dropdown-content">
+            <a href="silabus-vibe-coding-16-pertemuan.html" class="dropdown-item">
+              <span>📖</span>
+              <div><strong>Silabus Utama</strong><div style="font-size:11px; color:#787774;">16 Pertemuan Vibe Coding</div></div>
+            </a>
+            <a href="teori_integrasi_api_eksternal.html" class="dropdown-item active">
+              <span>🌐</span>
+              <div><strong>Teori API Eksternal (P11)</strong><div style="font-size:11px; color:#787774;">Konsep, JSON &amp; Prompting</div></div>
+            </a>
+            <a href="praktikum_integrasi_api_eksternal.html" class="dropdown-item">
+              <span>🧪</span>
+              <div><strong>Lab API Eksternal (P11)</strong><div style="font-size:11px; color:#787774;">Praktikum Kurs &amp; Cuaca</div></div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="laboratorium_lengkap_supabase.html" class="dropdown-item">
+              <span>🔬</span>
+              <div><strong>Lab Supabase (9 Lab)</strong><div style="font-size:11px; color:#787774;">SQL, RLS, Auth &amp; Realtime</div></div>
+            </a>
+            <a href="praktikum_git_sebelum_coding.html" class="dropdown-item">
+              <span>🌿</span>
+              <div><strong>Git Lokal (P5)</strong><div style="font-size:11px; color:#787774;">Safety Net &amp; Recovery</div></div>
+            </a>
+            <a href="panduan_push_github.html" class="dropdown-item">
+              <span>🚀</span>
+              <div><strong>Push GitHub (P6)</strong><div style="font-size:11px; color:#787774;">Remote &amp; Branch Cloud</div></div>
+            </a>
+            <a href="panduan_deploy_vercel.html" class="dropdown-item">
+              <span>▲</span>
+              <div><strong>Deploy Vercel (P15)</strong><div style="font-size:11px; color:#787774;">Produksi Cloud &amp; CI/CD</div></div>
+            </a>
+            <a href="panduan_vibecoding_owasp.html" class="dropdown-item">
+              <span>🛡️</span>
+              <div><strong>Panduan OWASP</strong><div style="font-size:11px; color:#787774;">Keamanan AI Coding</div></div>
+            </a>
+          </div>
+        </div>
+
+        <a href="praktikum_integrasi_api_eksternal.html" class="nav-cta-btn">🧪 Buka Praktikum (P11) →</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <div class="hero">
+    <div class="wrap">
+      <span class="eyebrow">📘 Modul Pedagogis &amp; Mental Model — Pertemuan 11</span>
+      <h1 class="hero-title">Teori Integrasi API Eksternal:<br>Menyambungkan Aplikasi ke Layanan Dunia Luar</h1>
+      <p class="lede">
+        Panduan komprehensif bagi pemula non-IT untuk memahami bagaimana aplikasi modern meminta dan menerima data dari server eksternal, membaca struktur JSON, memahami status code &amp; keamanan API key, serta merancang prompt AI yang presisi.
+      </p>
+
+      <div class="meta-badge-row">
+        <div class="meta-badge"><span>⏱️</span> <strong>Durasi:</strong> ± 60 Menit Teori</div>
+        <div class="meta-badge"><span>🎯</span> <strong>Target:</strong> Pemula Tanpa Latar Belakang IT</div>
+        <div class="meta-badge"><span>🤖</span> <strong>Metode:</strong> Vibe Coding (Prompt-Driven Architecture)</div>
+        <div class="meta-badge"><span>🔑</span> <strong>Fokus:</strong> Endpoint, Request-Response, JSON, API Key</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY QUICK-FILTER NAV -->
+  <div class="lab-nav-sticky">
+    <div class="wrap">
+      <div class="lab-nav-inner">
+        <a href="#mental-model" class="lab-nav-pill">🍽️ Mental Model &amp; Analogi</a>
+        <a href="#apa-itu-api" class="lab-nav-pill">1.1 Konsep API Eksternal</a>
+        <a href="#istilah-dasar" class="lab-nav-pill">1.2 Glosarium 8 Istilah Kunci</a>
+        <a href="#anatomi-json" class="lab-nav-pill">1.3 Membedah Format JSON</a>
+        <a href="#mengapa-non-it" class="lab-nav-pill">1.4 Kenapa Non-IT Wajib Paham</a>
+        <a href="#anatomi-prompt" class="lab-nav-pill">1.5 Kerangka 5 Elemen Prompt</a>
+        <a href="#glosarium-lengkap" class="lab-nav-pill">📑 Glosarium Lengkap</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN WRAPPER -->
+  <div class="wrap">
+
+    <!-- ARCHITECTURE & MENTAL MODEL BANNER -->
+    <div class="arch-card" id="mental-model">
+      <h3>🏛️ Mental Model: Bagaimana Aplikasi Bertukar Informasi di Internet</h3>
+      <p style="font-size:14px; opacity:0.9;">
+        Aplikasi Anda di laptop tidak perlu membuat satelit cuaca, database perbankan, atau server kurs valuta asing sendiri. Cukup hubungi "Pelayan" (API) penyedia layanan tersebut.
+      </p>
+
+      <div class="arch-diagram">
++--------------------+            HTTP Request (GET/POST)             +-----------------------+
+|  APLIKASI KITA     | ---------------------------------------------> |   API SERVER LUAR     |
+| (Frontend Webpage) |                                                | (OpenWeather/Currency)|
+|                    | <--------------------------------------------- |                       |
++--------------------+        HTTP Response (JSON + Status Code)      +-----------------------+
+        |                                                                         |
+        v                                                                         v
+   Render Kartu                                                              Ambil Data
+   di Layar Web                                                              dari Database
+      </div>
+
+      <div class="arch-insight">
+        💡 <strong>Prinsip Inti Vibe Coding:</strong> Anda tidak perlu mengetik fungsi <code>fetch()</code> atau <code>async/await</code> manual. Cukup pahami dari mana data berasal (Endpoint) dan apa format yang dikembalikan (JSON), lalu minta AI menuliskannya untuk Anda!
+      </div>
+    </div>
+
+    <!-- SEKSI 1.1: APA ITU API -->
+    <section class="content-section" id="apa-itu-api">
+      <div class="section-header">
+        <div class="section-num-badge">1.1</div>
+        <div class="section-header-text">
+          <h2>Apa itu API Eksternal?</h2>
+          <p>Memahami peran jembatan komunikasi antar-aplikasi digital.</p>
+        </div>
+      </div>
+
+      <p style="font-size:15px; color:var(--ink); margin-bottom:16px;">
+        <strong>API</strong> adalah singkatan dari <strong>Application Programming Interface</strong>. Secara sederhana, API adalah penerjemah dan penghubung resmi yang mengizinkan dua sistem software yang berbeda untuk saling berbicara dan bertukar informasi secara teratur dan aman.
+      </p>
+
+      <!-- ANALOGI PELAYAN RESTORAN -->
+      <div class="analogy-box">
+        <div class="analogy-header">
+          <span>🍽️ Analogi Nyata: Pelayan di Restoran Modern</span>
+        </div>
+        <div class="analogy-content">
+          Bayangkan Anda sedang makan di sebuah restoran mewah:
+          <div class="analogy-grid">
+            <div class="analogy-item">
+              <div class="role">👤 Tamu Restoran</div>
+              <div class="desc"><strong>(Aplikasi Kita)</strong><br>Duduk di meja, melihat menu, dan ingin memesan makanan tertentu.</div>
+            </div>
+            <div class="analogy-item">
+              <div class="role">🤵 Pelayan Restoran</div>
+              <div class="desc"><strong>(API)</strong><br>Membawa pesanan ke dapur, memastikan pesanan valid, lalu membawa makanan ke meja.</div>
+            </div>
+            <div class="analogy-item">
+              <div class="role">🍳 Dapur Restoran</div>
+              <div class="desc"><strong>(Server Eksternal)</strong><br>Pusat data &amp; sistem pihak ketiga yang memproses dan menyiapkan pesanan.</div>
+            </div>
+          </div>
+          <p style="margin-top:14px; font-size:13px;">
+            Anda sebagai tamu <strong>tidak boleh dan tidak perlu masuk langsung ke dapur</strong> untuk mengambil daging mentah. Anda hanya berbicara dengan pelayan melalui daftar menu resmi. Begitulah cara kerja API menjaga keamanan server penyedia data!
+          </p>
+        </div>
+      </div>
+
+      <h3 style="font-size:20px; margin:24px 0 12px; color:var(--ink);">Contoh Nyata API Eksternal Populer</h3>
+      <p style="font-size:14px; color:var(--ink-mid); margin-bottom:14px;">
+        Berikut adalah beberapa layanan API pihak ketiga yang sering diintegrasikan ke dalam produk digital sehari-hari:
+      </p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Penyedia Layanan API</th>
+              <th>Fungsi &amp; Data yang Disediakan</th>
+              <th>Contoh Penggunaan Nyata</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>OpenWeatherMap</strong></td>
+              <td>Data prakiraan cuaca, suhu, kelembapan, kecepatan angin global</td>
+              <td>Widget cuaca di website portal berita atau aplikasi jadwal travel.</td>
+            </tr>
+            <tr>
+              <td><strong>ExchangeRate-API</strong></td>
+              <td>Konversi dan kurs mata uang asing real-time (USD, IDR, EUR, dll)</td>
+              <td>Kalkulator belanja impor dan dashboard konversi e-commerce.</td>
+            </tr>
+            <tr>
+              <td><strong>Google Maps API</strong></td>
+              <td>Peta interaktif, pencarian rute terdekat, dan geocoding lokasi</td>
+              <td>Pelacakan kurir pengiriman dan penunjuk lokasi toko fisik.</td>
+            </tr>
+            <tr>
+              <td><strong>Payment Gateway (Midtrans, Xendit)</strong></td>
+              <td>Pemrosesan pembayaran QRIS, Virtual Account, &amp; Kartu Kredit</td>
+              <td>Checkout otomatis toko online tanpa cek mutasi bank manual.</td>
+            </tr>
+            <tr>
+              <td><strong>WhatsApp Business API</strong></td>
+              <td>Pengiriman pesan notifikasi otomatis via nomor WhatsApp resmi</td>
+              <td>Notifikasi OTP login, struk belanjaan, dan reminder tiket pesawat.</td>
+            </tr>
+            <tr>
+              <td><strong>Open Trivia DB / Quotable</strong></td>
+              <td>Bank soal kuis gratis dan generator kutipan inspiratif harian</td>
+              <td>Aplikasi game edukasi ringan dan widget motivasi pagi hari.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SEKSI 1.2: ISTILAH DASAR -->
+    <section class="content-section" id="istilah-dasar">
+      <div class="section-header">
+        <div class="section-num-badge">1.2</div>
+        <div class="section-header-text">
+          <h2>8 Istilah Dasar yang Wajib Dipahami</h2>
+          <p>Kosakata fundamental agar Anda dapat berdiskusi dan memberikan prompt presisi ke AI.</p>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="feature-card">
+          <h4>📍 1. Endpoint</h4>
+          <p>
+            Alamat URL spesifik tujuan pengiriman permintaan data. Seperti alamat rumah yang dituju oleh kurir.<br>
+            <code>https://open.er-api.com/v6/latest/USD</code>
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h4>📨 2. Request (Permintaan)</h4>
+          <p>
+            Pesan yang dikirim aplikasi Anda ke server API. Berisi instruksi seperti *"Tolong berikan data kurs mata uang USD terbaru"*.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h4>📬 3. Response (Jawaban)</h4>
+          <p>
+            Jawaban atau kiriman balik yang diberikan oleh server API ke aplikasi Anda setelah memproses request, biasanya dalam format terstruktur <strong>JSON</strong>.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h4>📦 4. JSON (JavaScript Object Notation)</h4>
+          <p>
+            Format teks standar pertukaran data yang terdiri dari pasangan <code>"kunci": "nilai"</code>. Sangat ringan, mudah dibaca manusia, dan mudah diolah mesin.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h4>🔑 5. API Key (Kunci Izin)</h4>
+          <p>
+            Deretan karakter rahasia yang berfungsi seperti <em>kartu akses VIP</em>. Membuktikan identitas aplikasi Anda berhak mengambil data dari server tersebut.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h4>🚦 6. HTTP Methods (GET &amp; POST)</h4>
+          <p>
+            Tipe tindakan yang diminta:<br>
+            • <strong>GET:</strong> Hanya meminta/mengambil data (read-only).<br>
+            • <strong>POST:</strong> Mengirim data baru untuk disimpan/diproses di server.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h4>🏷️ 7. Status Code (Kode Hasil)</h4>
+          <p>
+            Angka 3 digit standar internasional penanda status keberhasilan:<br>
+            • <code>200 OK</code> = Sukses<br>
+            • <code>401 Unauthorized</code> = API Key salah/hilang<br>
+            • <code>404 Not Found</code> = Alamat Endpoint salah<br>
+            • <code>500 Server Error</code> = Server penyedia sedang tumbang
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h4>⏱️ 8. Rate Limit (Batas Kuota)</h4>
+          <p>
+            Batas maksimal frekuensi permintaan yang diizinkan penyedia API dalam kurun waktu tertentu (misal: gratis 60 request/menit) untuk mencegah server kewalahan.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKSI 1.3: MEMBEDAH FORMAT JSON -->
+    <section class="content-section" id="anatomi-json">
+      <div class="section-header">
+        <div class="section-num-badge">1.3</div>
+        <div class="section-header-text">
+          <h2>Membedah Format Data JSON</h2>
+          <p>Membaca dan memetakan struktur data yang dikirim oleh API.</p>
+        </div>
+      </div>
+
+      <p style="font-size:15px; color:var(--ink); margin-bottom:14px;">
+        Format JSON selalu menggunakan pasangan <code>"kunci": nilai</code> diapit kurung kurawal <code>{ }</code>. Mari kita bedah contoh response cuaca dan response kurs mata uang berikut:
+      </p>
+
+      <div class="card-grid">
+        <div>
+          <h4 style="font-size:14px; font-weight:700; color:var(--deep); margin-bottom:6px;">Contoh Response JSON Cuaca:</h4>
+          <div class="json-box">
+{
+  <span class="json-key">"kota"</span>: <span class="json-string">"Jakarta"</span>,          <span class="json-comment">// Teks string</span>
+  <span class="json-key">"suhu"</span>: <span class="json-num">31.5</span>,                 <span class="json-comment">// Angka desimal (°C)</span>
+  <span class="json-key">"kelembapan"</span>: <span class="json-num">78</span>,             <span class="json-comment">// Angka persen (%)</span>
+  <span class="json-key">"kondisi"</span>: <span class="json-string">"Cerah Berawan"</span>,   <span class="json-comment">// Status cuaca</span>
+  <span class="json-key">"is_hujan"</span>: <span class="json-num">false</span>             <span class="json-comment">// Boolean (Ya/Tidak)</span>
+}
+          </div>
+        </div>
+
+        <div>
+          <h4 style="font-size:14px; font-weight:700; color:var(--deep); margin-bottom:6px;">Contoh Response JSON ExchangeRate API:</h4>
+          <div class="json-box">
+{
+  <span class="json-key">"result"</span>: <span class="json-string">"success"</span>,
+  <span class="json-key">"base_code"</span>: <span class="json-string">"USD"</span>,
+  <span class="json-key">"rates"</span>: {
+    <span class="json-key">"IDR"</span>: <span class="json-num">16250.50</span>,            <span class="json-comment">// Kurs Rupiah</span>
+    <span class="json-key">"EUR"</span>: <span class="json-num">0.92</span>,                <span class="json-comment">// Kurs Euro</span>
+    <span class="json-key">"JPY"</span>: <span class="json-num">155.20</span>,              <span class="json-comment">// Kurs Yen Jepang</span>
+    <span class="json-key">"SGD"</span>: <span class="json-num">1.34</span>                 <span class="json-comment">// Kurs Dolar Singapura</span>
+  }
+}
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <span style="font-size:20px;">💡</span>
+        <div>
+          <strong>Cara Membaca yang Benar:</strong> Dalam bahasa pemrograman, saat Anda ingin menampilkan harga Rupiah dari response kurs di atas, cukup minta AI: <em>"Tampilkan nilai dari <code>rates.IDR</code> pada kartu kurs Indonesia Rupiah"</em>. AI akan langsung memahami navigasi objek bertingkat tersebut!
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKSI 1.4: KENAPA NON-IT PERLU PAHAM -->
+    <section class="content-section" id="mengapa-non-it">
+      <div class="section-header">
+        <div class="section-num-badge">1.4</div>
+        <div class="section-header-text">
+          <h2>Mengapa Non-IT Tetap Wajib Paham Konsep Ini?</h2>
+          <p>Memahami batasan antara peran Anda sebagai arsitek ide dan AI sebagai koder.</p>
+        </div>
+      </div>
+
+      <p style="font-size:15px; color:var(--ink); margin-bottom:16px;">
+        Dalam paradigma <em>Vibe Coding</em>, Anda tidak dituntut menulis baris kode pemrograman secara manual. Namun, AI bukanlah peramal pikiran. Tanpa pemahaman konsep dasar API, Anda akan menemui 3 hambatan kritis:
+      </p>
+
+      <div class="card-grid">
+        <div class="feature-card" style="border-left:4px solid var(--teal);">
+          <h4>🎯 1. Mengetahui Apa yang Harus Diminta</h4>
+          <p>
+            Jika Anda hanya berkata *"Buatkan aplikasi kurs"*, AI mungkin membuat angka statis palsu (dummy). Tapi jika Anda berkata *"Hubungkan ke API open.er-api.com dan ambil field rates.IDR"*, hasilnya langsung akurat dan hidup.
+          </p>
+        </div>
+
+        <div class="feature-card" style="border-left:4px solid var(--emerald);">
+          <h4>📖 2. Mampu Membaca Dokumentasi API</h4>
+          <p>
+            Penyedia API selalu menyertakan dokumentasi URL endpoint dan parameter. Anda cukup membaca sekilas bagian URL dan API key, lalu menyalin tautan tersebut ke dalam prompt AI Anda.
+          </p>
+        </div>
+
+        <div class="feature-card" style="border-left:4px solid var(--amber);">
+          <h4>🔍 3. Mampu Mengidentifikasi Error</h4>
+          <p>
+            Ketika website Anda macet dan hanya memunculkan layar putih atau animasi loading berputar tanpa henti, Anda tahu cara mengecek status code (misal <code>401 Unauthorized</code>) dan meneruskannya ke AI untuk diperbaiki.
+          </p>
+        </div>
+
+        <div class="feature-card" style="border-left:4px solid var(--rose);">
+          <h4>🔐 4. Menjaga Keamanan Kredensial</h4>
+          <p>
+            Anda paham bahwa API Key pribadi adalah rahasia seperti nomor PIN ATM yang tidak boleh di-hardcode di file publik atau di-commit ke GitHub tanpa brankas env.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKSI 1.5: ANATOMI PROMPT 5 ELEMEN -->
+    <section class="content-section" id="anatomi-prompt">
+      <div class="section-header">
+        <div class="section-num-badge">1.5</div>
+        <div class="section-header-text">
+          <h2>Anatomi 5 Elemen Prompt Integrasi API yang Efektif</h2>
+          <p>Formula terstruktur menyusun prompt agar AI menghasilkan kode yang berfungsi pada percobaan pertama.</p>
+        </div>
+      </div>
+
+      <div class="prompt-template-card">
+        <div class="prompt-element-item">
+          <div class="elem-num">1</div>
+          <div>
+            <div class="elem-title">Konteks &amp; Tujuan Aplikasi</div>
+            <div class="elem-desc">Jelaskan aplikasi apa yang ingin dibangun (misal: Web single-file HTML widget konverter mata uang real-time).</div>
+          </div>
+        </div>
+
+        <div class="prompt-element-item">
+          <div class="elem-num">2</div>
+          <div>
+            <div class="elem-title">Nama &amp; Endpoint URL API</div>
+            <div class="elem-desc">Berikan alamat endpoint yang valid secara eksplisit (misal: <code>https://open.er-api.com/v6/latest/USD</code>).</div>
+          </div>
+        </div>
+
+        <div class="prompt-element-item">
+          <div class="elem-num">3</div>
+          <div>
+            <div class="elem-title">Spesifikasi Data yang Diambil</div>
+            <div class="elem-desc">Sebutkan field spesifik dari response JSON yang ingin ditampilkan (misal: kurs IDR, EUR, JPY, dan SGD).</div>
+          </div>
+        </div>
+
+        <div class="prompt-element-item">
+          <div class="elem-num">4</div>
+          <div>
+            <div class="elem-title">Format Tampilan Visual &amp; State</div>
+            <div class="elem-desc">Instruksikan cara penyajian (kartu grid modern, tombol refresh, spinner saat loading, dan pesan ramah jika gagal koneksi).</div>
+          </div>
+        </div>
+
+        <div class="prompt-element-item">
+          <div class="elem-num">5</div>
+          <div>
+            <div class="elem-title">Batasan Teknis &amp; Dokumentasi Kode</div>
+            <div class="elem-desc">Minta AI menggunakan Vanilla HTML/CSS/JS tanpa framework rumit, disertai komentar bahasa awam di setiap baris kodenya.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GLOSARIUM LENGKAP -->
+    <section class="content-section" id="glosarium-lengkap">
+      <div class="section-header">
+        <div class="section-num-badge">📑</div>
+        <div class="section-header-text">
+          <h2>Glosarium Lengkap Istilah API &amp; Web</h2>
+          <p>Referensi cepat istilah teknis yang sering Anda temui saat bekerja dengan AI.</p>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:25%;">Istilah</th>
+              <th>Penjelasan Singkat Bahasa Awam</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>API</code></td>
+              <td>Penghubung atau antarmuka yang memungkinkan dua aplikasi saling bertukar data dan layanan secara terstandarisasi.</td>
+            </tr>
+            <tr>
+              <td><code>Endpoint</code></td>
+              <td>Alamat link URL spesifik yang disediakan server untuk menerima request data tertentu.</td>
+            </tr>
+            <tr>
+              <td><code>Request</code></td>
+              <td>Paket permintaan yang dikirim oleh web browser/aplikasi ke server tujuan.</td>
+            </tr>
+            <tr>
+              <td><code>Response</code></td>
+              <td>Paket jawaban dan data kiriman balik dari server kepada aplikasi pemohon.</td>
+            </tr>
+            <tr>
+              <td><code>JSON</code></td>
+              <td>Format teks universal berupa pasangan <code>"kunci": "nilai"</code> untuk pertukaran data antar-sistem.</td>
+            </tr>
+            <tr>
+              <td><code>API Key</code></td>
+              <td>Kunci kode unik otentikasi identitas akun untuk mendapatkan hak akses ke server API.</td>
+            </tr>
+            <tr>
+              <td><code>GET</code></td>
+              <td>Metode HTTP untuk sekadar membaca/mengambil data tanpa mengubah kondisi server.</td>
+            </tr>
+            <tr>
+              <td><code>POST</code></td>
+              <td>Metode HTTP untuk mengirim data baru dari form/inputan agar diproses atau disimpan di server.</td>
+            </tr>
+            <tr>
+              <td><code>Status 200 OK</code></td>
+              <td>Kode status HTTP yang menandakan permintaan sukses diproses dan data berhasil dikirim.</td>
+            </tr>
+            <tr>
+              <td><code>Status 401 Unauthorized</code></td>
+              <td>Kode error yang menandakan API Key belum dimasukkan, salah ketik, atau masa berlaku habis.</td>
+            </tr>
+            <tr>
+              <td><code>Status 404 Not Found</code></td>
+              <td>Kode error yang menandakan URL endpoint salah ketik atau data yang dicari tidak ada.</td>
+            </tr>
+            <tr>
+              <td><code>Status 500 Internal Server Error</code></td>
+              <td>Kode error yang menandakan terjadi kerusakan/gangguan pada server penyedia API.</td>
+            </tr>
+            <tr>
+              <td><code>Rate Limit</code></td>
+              <td>Kebijakan kuota maksimal jumlah request per menit/hari agar server tidak kelebihan beban.</td>
+            </tr>
+            <tr>
+              <td><code>CORS (Cross-Origin Resource Sharing)</code></td>
+              <td>Mekanisme keamanan browser yang mengatur apakah sebuah website diizinkan mengambil data dari domain luar yang berbeda.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- BANNER NEXT STEP KE PRAKTIKUM -->
+    <div class="next-step-banner">
+      <div class="next-step-text">
+        <h3>🚀 Siap Mempraktikkan Teori Ini?</h3>
+        <p>
+          Lanjutkan ke modul <strong>Laboratorium Praktikum Pertemuan 11</strong> untuk membuat aplikasi web live "Kurs Mata Uang Hari Ini", mempraktikkan master prompts AI, debugging via Browser Console, dan proteksi API Key OpenWeather!
+        </p>
+      </div>
+      <a href="praktikum_integrasi_api_eksternal.html" class="btn-lab-launch">
+        <span>🧪 Buka Lab Praktikum P11</span>
+        <span>→</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-links">
+        <a href="silabus-vibe-coding-16-pertemuan.html">📖 Silabus Utama</a>
+        <a href="teori_integrasi_api_eksternal.html">🌐 Teori API (P11)</a>
+        <a href="praktikum_integrasi_api_eksternal.html">🧪 Lab Praktikum (P11)</a>
+        <a href="laboratorium_lengkap_supabase.html">🔬 Lab Supabase</a>
+        <a href="panduan_deploy_vercel.html">▲ Deploy Vercel</a>
+        <a href="panduan_vibecoding_owasp.html">🛡️ OWASP Security</a>
+      </div>
+      <p>© 2026 Vibe Coding Masterclass — Modul Teori Integrasi API Eksternal untuk Pemula Non-IT.</p>
+    </div>
+  </footer>
+
+  <script>
+    function copySnippet(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      });
+    }
+  </script>
+</body>
+
+</html>
