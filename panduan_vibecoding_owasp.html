@@ -900,25 +900,237 @@ Berikan daftar temuan dan cara perbaikannya, urutkan dari yang paling berbahaya.
         <div class="owasp-badge">A03</div>
         <div class="section-header-text">
           <h2>Injection (SQL Injection &amp; Command Injection)</h2>
-          <p>Mencegah input berbahaya dari user disalahartikan sebagai perintah program.</p>
+          <p>Mencegah manipulasi input berbahaya dari user yang disalahartikan sebagai sintaks perintah database.</p>
         </div>
       </div>
 
+      <!-- PART A: TEORI & ARSITEKTUR -->
       <div class="part-box">
-        <h3 class="part-title">Part A · Teori &amp; Mengapa Bahaya Buat Vibe Coder</h3>
+        <h3 class="part-title">Part A · Teori, Arsitektur &amp; Bahaya bagi Vibe Coder</h3>
         <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
-          <strong>Teori:</strong> Terjadi jika input dari user dipercaya begitu saja dan digabung langsung ke perintah database. Contoh legendaris: penyerang mengetik <code>' OR '1'='1</code> di kolom login dan berhasil masuk tanpa mengetahui password asli.
+          <strong>Apa itu SQL Injection (SQLi)?</strong> Celah keamanan di mana penyerang (<em>attacker</em>) menyisipkan perintah SQL berbahaya melalui input pengguna (form pencarian, filter kategori, parameter URL) yang kemudian dieksekusi langsung oleh interpreter database.
         </p>
+
+        <!-- Diagram Alur Kerentanan -->
+        <div style="background:#0F172A; color:#E2E8F0; padding:16px 20px; border-radius:10px; font-family:'JetBrains Mono', monospace; font-size:12.5px; line-height:1.6; margin:14px 0; overflow-x:auto;">
+          <span style="color:#38BDF8;">[Input Pengguna: ' OR '1'='1]</span> ➔ <span style="color:#FBBF24;">[Digabung Manual ke String Query]</span> ➔ <span style="color:#F87171;">[Sintaks Logika SQL Rusak / Selalu TRUE]</span> ➔ <span style="color:#EF4444;">[Seluruh Database Bocor] ❌</span>
+        </div>
+
         <div class="danger-box">
           <div class="danger-title">⚠️ Kenapa Bahaya Buat Vibe Coder?</div>
           <div class="danger-content">
-            AI sering membuat query dengan cara menggabungkan teks (string concatenation: <code>"SELECT * WHERE user = '" + input + "'"</code>) karena itu cara tercepat. Tanpa instruksi eksplisit untuk memakai parameterized query, aplikasi Anda sangat rentan dieksploitasi.
+            AI sering membuat query dengan cara menggabungkan string langsung (<em>string concatenation</em>: <code>`SELECT * FROM products WHERE name LIKE '%${q}%'`</code>) karena itu cara paling cepat dan mudah dipahami. Tanpa instruksi eksplisit untuk menerapkan <em>Parameterized Query</em> atau memanfaatkan SDK Supabase, aplikasi Anda otomatis menjadi santapan empuk peretas!
+          </div>
+        </div>
+
+        <!-- Tabel Komparasi Mode Rentan vs Mode Aman Supabase -->
+        <div style="margin:20px 0;">
+          <h4 style="font-size:15px; font-weight:700; color:var(--ink); margin-bottom:10px;">📊 Tabel Komparasi: Mode Rentan vs Mode Aman Supabase</h4>
+          <div class="table-container" style="overflow-x:auto; border:1px solid var(--line); border-radius:10px;">
+            <table class="data-table" style="width:100%; border-collapse:collapse; font-size:13px;">
+              <thead>
+                <tr style="background:#F1F5F9;">
+                  <th style="padding:10px 14px; text-align:left; border-bottom:1px solid var(--line); width:24%;">Aspek</th>
+                  <th style="padding:10px 14px; text-align:left; border-bottom:1px solid var(--line); width:38%; color:#DC2626;">🔴 Mode Rentan (Raw SQL Concatenation)</th>
+                  <th style="padding:10px 14px; text-align:left; border-bottom:1px solid var(--line); width:38%; color:#047857;">🟢 Mode Aman (Supabase Parameterized)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft); font-weight:600;">Metode Pembuatan Query</td>
+                  <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);"><code>SELECT * FROM products WHERE name LIKE '%` + q + `%'</code></td>
+                  <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);"><code>SELECT * FROM products WHERE name ILIKE $1</code></td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft); font-weight:600;">Penanganan Input <code>' OR '1'='1</code></td>
+                  <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft); color:#DC2626;">Dianggap sebagai <strong>perintah kode SQL</strong> tambahan.</td>
+                  <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft); color:#047857;">Dianggap murni sebagai <strong>data teks (string)</strong> pencarian.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft); font-weight:600;">Hasil Eksekusi</td>
+                  <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft); color:#DC2626;">Kondisi <code>1=1</code> bernilai <code>TRUE</code> ➔ Seluruh tabel bocor!</td>
+                  <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft); color:#047857;">Mencari teks harfiah <code>"' OR '1'='1"</code> ➔ 0 hasil (Aman).</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft); font-weight:600;">Standar Industri</td>
+                  <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);"><span style="color:#DC2626; font-weight:700;">❌ Sangat Berbahaya</span> (Anti-pattern).</td>
+                  <td style="padding:10px 14px; border-bottom:1px solid var(--line-soft);"><span style="color:#047857; font-weight:700;">✅ Sesuai Standar OWASP</span> &amp; Supabase Default.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
 
+      <!-- PART B: MODUL PRAKTIKUM TERPADU (STUDI KASUS MYORDER) -->
+      <div class="part-box" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:14px; padding:24px; margin:24px 0;">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+          <div>
+            <span style="display:inline-block; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#047857; background:#DCFCE7; padding:3px 10px; border-radius:20px; margin-bottom:6px;">
+              📘 MODUL PRAKTIKUM SPESIAL
+            </span>
+            <h3 style="font-size:20px; font-weight:800; color:#0F172A; margin:0;">
+              Simulasi SQL Injection: Mode Rentan vs Mode Aman Supabase
+            </h3>
+          </div>
+          <div style="font-size:12px; color:#64748B;">
+            <strong>Studi Kasus:</strong> MyOrder App (Portal Cek Pesanan Belanja) | <strong>Stack:</strong> Node.js, Express, Supabase (PostgreSQL)
+          </div>
+        </div>
+
+        <!-- 🎯 1. Tujuan Pembelajaran -->
+        <div style="background:#FFFFFF; border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-bottom:20px;">
+          <h4 style="font-size:14.5px; font-weight:700; color:#0F172A; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+            <span>🎯</span> Tujuan Pembelajaran Praktikum
+          </h4>
+          <ol style="margin-left:20px; font-size:13.5px; color:var(--ink-mid); line-height:1.6;">
+            <li>Memahami konsep dasar kerentanan <strong>SQL Injection (OWASP A03: Injection)</strong> pada aplikasi web interaktif.</li>
+            <li>Menganalisis perbedaan mendasar antara <strong>Raw SQL String Concatenation</strong> (Rentan) dan <strong>Parameterized Query / Prepared Statement</strong> (Aman).</li>
+            <li>Melakukan simulasi serangan injeksi boolean (<code>' OR '1'='1</code>) dan komentar (<code>--</code>) secara etis pada lingkungan <em>local lab</em>.</li>
+            <li>Memahami bagaimana <strong>Supabase SDK / PostgreSQL Driver</strong> melindungi aplikasi dari manipulasi query secara <em>default</em>.</li>
+            <li>Menggunakan teknik <strong>Prompting AI</strong> untuk mendeteksi celah dan menuliskan kode remediasi (<em>security patch</em>).</li>
+          </ol>
+        </div>
+
+        <!-- 🗄️ 2. Persiapan Database Supabase -->
+        <div style="margin-bottom:20px;">
+          <h4 style="font-size:15px; font-weight:700; color:#0F172A; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+            <span>🗄️</span> Persiapan Database Supabase (DDL &amp; Data Sampel)
+          </h4>
+          <p style="font-size:13.5px; color:var(--ink-mid); margin-bottom:10px;">
+            Jika menghubungkan langsung ke cloud Supabase, jalankan skrip berikut pada tab <strong>SQL Editor</strong> di Dashboard Supabase Anda:
+          </p>
+          <div class="prompt-card" style="margin:0;">
+            <div class="prompt-header">
+              <span>SQL · SCHEMA &amp; DUMMY PRODUCTS</span>
+              <button class="btn-copy" onclick="copySnippet('sql-prep-a03')">📋 Salin SQL</button>
+            </div>
+            <pre class="prompt-content" id="sql-prep-a03">-- 1. Buat Tabel Produk
+CREATE TABLE IF NOT EXISTS products (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    category TEXT NOT NULL,
+    price NUMERIC NOT NULL,
+    rating NUMERIC DEFAULT 4.5,
+    review_count INT DEFAULT 0,
+    stock INT DEFAULT 10,
+    image TEXT,
+    description TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 2. Masukkan Data Sampel Produk
+INSERT INTO products (id, name, category, price, rating, review_count, stock, image, description)
+VALUES
+('PRD-001', 'Wireless Headphones Pro', 'Elektronik', 849000, 4.8, 320, 25, 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500', 'Headphone nirkabel ANC.'),
+('PRD-002', 'Mechanical Gaming Keyboard', 'Komputer', 625000, 4.7, 185, 14, 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500', 'Keyboard mekanikal RGB.'),
+('PRD-003', 'Sepatu Sneakers Pria', 'Fashion', 450000, 4.9, 540, 38, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500', 'Sneakers kasual empuk.'),
+('PRD-004', 'Smartwatch Fitness Tracker', 'Elektronik', 799000, 4.6, 210, 19, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500', 'Jam tangan pintar OLED.')
+ON CONFLICT (id) DO NOTHING;</pre>
+          </div>
+        </div>
+
+        <!-- 🧪 3. Skenario Hands-on Lab -->
+        <div style="margin-bottom:20px;">
+          <h4 style="font-size:15px; font-weight:700; color:#0F172A; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+            <span>🧪</span> Langkah Praktikum: 3 Skenario Uji Coba Interaktif
+          </h4>
+          <p style="font-size:13px; color:var(--ink-soft); margin-bottom:12px;">
+            Jalankan server aplikasi lokal (<code>npm start</code>) lalu buka halaman <code>http://localhost:3000/products.html</code>.
+          </p>
+
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <!-- Skenario 1 -->
+            <div style="background:#FFF5F5; border:1px solid #FECDD3; border-left:4px solid #DC2626; border-radius:8px; padding:14px 16px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <strong style="color:#991B1B; font-size:13.5px;">🔴 Skenario 1: Uji Penyerangan Boolean (Mode Rentan)</strong>
+                <span style="font-family:'JetBrains Mono', monospace; font-size:11.5px; background:#FEE2E2; color:#B91C1C; padding:2px 8px; border-radius:4px; font-weight:bold;">Payload: ' OR '1'='1</span>
+              </div>
+              <p style="font-size:13px; color:#7F1D1D; margin:6px 0;">
+                <strong>Hasil Interpreter:</strong> <code>SELECT * FROM products WHERE name ILIKE '%' OR '1'='1%' OR category ILIKE '%' OR '1'='1%';</code>
+              </p>
+              <p style="font-size:12.5px; color:#4B5563; margin:0; line-height:1.5;">
+                <strong>Analisis:</strong> Tanda kutip tunggal (<code>'</code>) menutup string pencarian lebih awal, dan operator <code>OR '1'='1'</code> menyuntikkan klausa yang <strong>selalu bernilai BENAR (TRUE)</strong>. Akibatnya database mengabaikan filter dan mengembalikan <strong>semua data produk</strong> tanpa terkecuali!
+              </p>
+            </div>
+
+            <!-- Skenario 2 -->
+            <div style="background:#FFFBEB; border:1px solid #FDE68A; border-left:4px solid #D97706; border-radius:8px; padding:14px 16px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <strong style="color:#92400E; font-size:13.5px;">🔴 Skenario 2: Injeksi Komentar / Comment-out Attack (Mode Rentan)</strong>
+                <span style="font-family:'JetBrains Mono', monospace; font-size:11.5px; background:#FEF3C7; color:#B45309; padding:2px 8px; border-radius:4px; font-weight:bold;">Payload: ' OR 1=1 --</span>
+              </div>
+              <p style="font-size:12.5px; color:#4B5563; margin:6px 0 0; line-height:1.5;">
+                <strong>Analisis:</strong> Tanda <code>--</code> dalam dialek SQL (PostgreSQL/SQLite/MySQL) berfungsi sebagai <strong>komentar</strong>. Seluruh sisa karakter query setelah <code>--</code> langsung dipangkas dan diabaikan oleh database engine, memotong pengecekan logika selanjutnya.
+              </p>
+            </div>
+
+            <!-- Skenario 3 -->
+            <div style="background:#F0FDF4; border:1px solid #BBF7D0; border-left:4px solid #16A34A; border-radius:8px; padding:14px 16px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <strong style="color:#166534; font-size:13.5px;">🟢 Skenario 3: Uji Pertahanan (Mode Aman Supabase SDK)</strong>
+                <span style="font-family:'JetBrains Mono', monospace; font-size:11.5px; background:#DCFCE7; color:#15803D; padding:2px 8px; border-radius:4px; font-weight:bold;">Payload: ' OR '1'='1</span>
+              </div>
+              <p style="font-size:13px; color:#14532D; margin:6px 0;">
+                <strong>Hasil Interpreter:</strong> <code>SELECT * FROM products WHERE name ILIKE $1 OR category ILIKE $1; -- Bound Parameter $1 = "%' OR '1'='1%"</code>
+              </p>
+              <p style="font-size:12.5px; color:#4B5563; margin:0; line-height:1.5;">
+                <strong>Analisis:</strong> Status menampilkan <strong>0 Produk Ditemukan (Aman)</strong>. Mesin database memperlakukan seluruh teks <code>' OR '1'='1</code> murni sebagai nilai parameter literal <code>$1</code>. Tidak ada manipulasi sintaks yang bisa ditembus!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 💻 4. Bedah Kode Backend (server.js) -->
+        <div>
+          <h4 style="font-size:15px; font-weight:700; color:#0F172A; margin-bottom:10px; display:flex; align-items:center; gap:6px;">
+            <span>💻</span> Bedah Kode Backend (server.js): Komparasi Kode Rentan vs Kode Aman
+          </h4>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;">
+            <!-- Rentan -->
+            <div class="prompt-card" style="margin:0; border-color:#FECDD3;">
+              <div class="prompt-header" style="background:#881337;">
+                <span>❌ KODE RENTAN (JANGAN DITIRU!)</span>
+              </div>
+              <pre class="prompt-content" style="background:#4C0519; color:#FFE4E6; font-size:12px; padding:14px;">// RENTAN: String Concatenation via ${q}
+app.get('/api/lab/search-vulnerable', (req, res) => {
+  const { q } = req.query;
+  
+  // BAHAYA: Menggabungkan input langsung ke SQL
+  const rawQuery = `SELECT * FROM products 
+    WHERE name ILIKE '%${q}%' 
+    OR category ILIKE '%${q}%';`;
+  
+  // Eksekusi langsung ke database...
+});</pre>
+            </div>
+
+            <!-- Aman -->
+            <div class="prompt-card" style="margin:0; border-color:#A7F3D0;">
+              <div class="prompt-header" style="background:#065F46;">
+                <span>✅ KODE AMAN (STANDAR SUPABASE / OWASP)</span>
+              </div>
+              <pre class="prompt-content" style="background:#022C22; color:#D1FAE5; font-size:12px; padding:14px;">// AMAN: Parameterized Query / Supabase SDK
+app.get('/api/lab/search-secure', (req, res) => {
+  const { q } = req.query;
+  
+  // Opsi A: Prepared Statement ($1)
+  const query = `SELECT * FROM products 
+    WHERE name ILIKE $1 OR category ILIKE $1;`;
+  const params = [`%${q}%`];
+
+  // Opsi B: Supabase Client SDK bawaan
+  // const { data } = await supabase.from('products')
+  //   .select().ilike('name', `%${q}%`);
+});</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PART C: MASTER PROMPTS AI SIAP PAKAI -->
       <div class="part-box">
-        <h3 class="part-title">Part B · Master Prompts AI Siap Pakai</h3>
+        <h3 class="part-title">Part C · Master Prompts AI Siap Pakai (Vibe-Coding Aman)</h3>
         
         <div class="prompt-card">
           <div class="prompt-header">
@@ -934,29 +1146,30 @@ Syarat wajib keamanan (OWASP A03):
 
         <div class="prompt-card">
           <div class="prompt-header">
-            <span>🔍 PROMPT A03.2: SCANNING INJECTION PADA KODE</span>
+            <span>🔍 PROMPT A03.2: AUDIT &amp; SCANNING KERENTANAN SQL INJECTION</span>
             <button class="btn-copy" onclick="copySnippet('prompt-a03-check')">📋 Salin Prompt</button>
           </div>
-          <pre class="prompt-content" id="prompt-a03-check">Cek kode ini khusus untuk kerentanan Injection (OWASP A03):
+          <pre class="prompt-content" id="prompt-a03-check">Bertindaklah sebagai Senior Application Security Engineer. Tolong audit endpoint Express.js berikut apakah memiliki potensi celah SQL Injection (OWASP A03):
 [TEMPEL KODE ANDA DI SINI]
 
 - Cari semua baris yang menggabungkan input user langsung ke query database, command shell, atau innerHTML tanpa sanitasi.
-- Untuk tiap temuan, berikan contoh input jahat yang bisa dipakai menyerang serta kode perbaikannya.</pre>
+- Jelaskan bagaimana penyerang dapat mengeksploitasinya dan berikan contoh payload-nya.
+- Berikan kode perbaikan lengkapnya.</pre>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🩹 PROMPT A03.3: PEMBUATAN PATCH PARAMETERIZED QUERY (SUPABASE / POSTGRESQL)</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-a03-patch')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-a03-patch">Ubah query database mentah berikut ke dalam bentuk Parameterized Query / Prepared Statement menggunakan library `@supabase/supabase-js` atau `pg` PostgreSQL agar kebal dari serangan SQL Injection dan sesuai standar OWASP Top 10:
+[TEMPEL KODE QUERY MENTAH DI SINI]
+
+Pastikan semua parameter diikat aman menggunakan placeholder ($1, $2, dst.) atau query builder SDK.</pre>
         </div>
       </div>
 
-      <div class="part-box">
-        <div class="result-grid">
-          <div class="res-box res-output">
-            <strong>✅ Proteksi yang Benar</strong>
-            Menggunakan placeholder: <code>db.query('SELECT * FROM users WHERE email = $1', [userEmail])</code>.
-          </div>
-          <div class="res-box res-pitfall">
-            <strong>⚠️ Kesalahan Fatal</strong>
-            Menulis template literal: <code>`SELECT * FROM users WHERE email = '${userEmail}'`</code>.
-          </div>
-        </div>
-      </div>
+     
     </section>
 
     <!-- ==================== A04 ==================== -->
