@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laboratorium Praktikum Integrasi API Eksternal — Pertemuan 11 | Vibe Coding Masterclass</title>
-  <meta name="description" content="Modul Praktikum Lengkap Integrasi API Eksternal untuk Pemula Non-IT: Studi Kasus Aplikasi Web Kurs Mata Uang Real-Time, Master Prompt AI, Debugging Console Browser, dan Manajemen Kunci API OpenWeather.">
+  <title>Laboratorium Praktikum Integrasi API Eksternal &amp; Berbayar — Pertemuan 11 | Vibe Coding Masterclass</title>
+  <meta name="description" content="Modul Praktikum Lengkap Integrasi API Eksternal & API Berbayar untuk Pemula Non-IT: Kurs Mata Uang Real-Time, Widget Cuaca OpenWeather, Aplikasi AI Asisten Aduan, Penanganan Error 429, 5 Pengaman Biaya, dan Kalkulasi Tagihan Operasional.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
@@ -23,6 +23,8 @@
       --emerald-bg: #ECFDF5;
       --indigo: #4F46E5;
       --indigo-bg: #EEF2FF;
+      --purple: #7E22CE;
+      --purple-bg: #FAF5FF;
       --ink: #37352F;
       --ink-mid: #5A5852;
       --ink-soft: #787774;
@@ -404,9 +406,34 @@
       border-left: 3px solid #6EE7B7;
     }
 
+    /* Module Section Header Banner */
+    .module-badge-header {
+      background: #0F172A;
+      color: #fff;
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin: 40px 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-left: 6px solid var(--mint);
+    }
+
+    .module-badge-header h3 {
+      font-size: 20px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .module-badge-header p {
+      font-size: 13px;
+      color: #94A3B8;
+    }
+
     /* ---------- LAB STEPS / SECTIONS ---------- */
     .lab-step {
-      padding: 44px 0 24px;
+      padding: 38px 0 24px;
       border-bottom: 1px solid var(--line);
     }
 
@@ -437,7 +464,7 @@
     }
 
     .step-header-text h2 {
-      font-size: 26px;
+      font-size: 24px;
       line-height: 1.25;
       color: var(--ink);
       margin-bottom: 4px;
@@ -454,7 +481,7 @@
     }
 
     .part-title {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       color: var(--ink);
       margin-bottom: 10px;
@@ -583,6 +610,50 @@
       color: #9F1239;
     }
 
+    .res-info {
+      background: var(--bg-tint);
+      border: 1px solid #C8E8E4;
+      color: var(--deep);
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 18px 0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      text-align: left;
+    }
+
+    table.data-table th {
+      background: #F8FAFC;
+      color: #334155;
+      font-weight: 700;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    table.data-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line-soft);
+      color: var(--ink-mid);
+      vertical-align: top;
+    }
+
+    table.data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    table.data-table tr:hover td {
+      background: #FAFAFA;
+    }
+
     /* Exercises Cards */
     .exercise-card {
       background: #FFFFFF;
@@ -647,6 +718,35 @@
       cursor: pointer;
       flex-shrink: 0;
       margin-top: 2px;
+    }
+
+    /* Callouts */
+    .callout {
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 18px 0;
+      font-size: 13.5px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .callout-warn {
+      background: var(--amber-bg);
+      border: 1px solid #FDE68A;
+      color: #92400E;
+    }
+
+    .callout-rose {
+      background: var(--rose-bg);
+      border: 1px solid #FECDD3;
+      color: #9F1239;
+    }
+
+    .callout-info {
+      background: var(--bg-tint);
+      border: 1px solid #C8E8E4;
+      color: var(--deep);
     }
 
     /* Toast */
@@ -726,11 +826,11 @@
             </a>
             <a href="teori_integrasi_api_eksternal.html" class="dropdown-item">
               <span>🌐</span>
-              <div><strong>Teori API Eksternal (P11)</strong><div style="font-size:11px; color:#787774;">Konsep, JSON &amp; Prompting</div></div>
+              <div><strong>Teori API Eksternal &amp; Berbayar (P11)</strong><div style="font-size:11px; color:#787774;">Konsep, Biaya &amp; Prompting</div></div>
             </a>
             <a href="praktikum_integrasi_api_eksternal.html" class="dropdown-item active">
               <span>🧪</span>
-              <div><strong>Lab API Eksternal (P11)</strong><div style="font-size:11px; color:#787774;">Praktikum Kurs &amp; Cuaca</div></div>
+              <div><strong>Lab API Eksternal &amp; AI (P11)</strong><div style="font-size:11px; color:#787774;">Kurs, Cuaca &amp; Asisten Aduan</div></div>
             </a>
             <div class="dropdown-divider"></div>
             <a href="laboratorium_lengkap_supabase.html" class="dropdown-item">
@@ -765,16 +865,16 @@
   <div class="hero">
     <div class="wrap">
       <span class="eyebrow">🧪 Product Requirements Document (PRD) — Modul Praktikum</span>
-      <h1 class="hero-title">Laboratorium Integrasi API Eksternal:<br>Membangun Web Kurs Mata Uang &amp; API Key</h1>
+      <h1 class="hero-title">Laboratorium Integrasi API Eksternal &amp; Berbayar:<br>Dari API Publik Gratis ke Aplikasi AI "Asisten Aduan"</h1>
       <p class="lede">
-        Panduan langkah demi langkah bagi pemula non-IT untuk membuat aplikasi web live yang mengonsumsi data API publik gratis ExchangeRate, menguji fungsionalitas, menambahkan fitur interaktif bertahap, melakukan debugging lewat Console Browser, dan mengamankan API key.
+        Panduan praktikum terpadu bagi pemula non-IT untuk membangun aplikasi web live yang mengonsumsi data API publik gratis ExchangeRate, menguji fungsionalitas di browser, melakukan debugging Console DevTools, mengamankan API key OpenWeather &amp; Gemini AI, menabrak rate limit 429, serta memasang 5 sistem pengaman biaya operasional.
       </p>
 
       <div class="meta-badge-row">
-        <div class="meta-badge"><span>⏱️</span> <strong>Durasi Praktikum:</strong> ± 90 - 120 Menit</div>
-        <div class="meta-badge"><span>🌐</span> <strong>API Target:</strong> <code>open.er-api.com</code> (Gratis tanpa key)</div>
-        <div class="meta-badge"><span>🌦️</span> <strong>Studi Lanjutan:</strong> OpenWeatherMap (API Key Security)</div>
-        <div class="meta-badge"><span>💻</span> <strong>File Output:</strong> <code>index.html</code> (Single-File App)</div>
+        <div class="meta-badge"><span>⏱️</span> <strong>Durasi Praktikum:</strong> 90 – 120 Menit</div>
+        <div class="meta-badge"><span>🌐</span> <strong>Modul 1:</strong> API Kurs (Gratis) &amp; Cuaca (API Key)</div>
+        <div class="meta-badge"><span>🤖</span> <strong>Modul 2:</strong> API AI Berbayar / Free Tier (Asisten Aduan)</div>
+        <div class="meta-badge"><span>🛡️</span> <strong>Proteksi:</strong> Penanganan Error 429 &amp; Pengaman Biaya</div>
       </div>
     </div>
   </div>
@@ -783,14 +883,24 @@
   <div class="lab-nav-sticky">
     <div class="wrap">
       <div class="lab-nav-inner">
-        <a href="#persiapan" class="lab-nav-pill">🛠️ Tahap Persiapan</a>
-        <a href="#langkah-1" class="lab-nav-pill">Langkah 1: Prompt Awal Kurs</a>
-        <a href="#langkah-2" class="lab-nav-pill">Langkah 2: Uji Hasil</a>
-        <a href="#langkah-3" class="lab-nav-pill">Langkah 3: Iterasi Fitur</a>
-        <a href="#langkah-4" class="lab-nav-pill">Langkah 4: Debugging Console</a>
-        <a href="#langkah-5" class="lab-nav-pill">Langkah 5: API Key &amp; Cuaca</a>
-        <a href="#latihan-mandiri" class="lab-nav-pill">Bagian 3: Latihan Mandiri</a>
-        <a href="#checklist-evaluasi" class="lab-nav-pill">Bagian 4: Checklist Evaluasi</a>
+        <a href="#lab1-persiapan" class="lab-nav-pill">🛠️ Modul 1: Setup &amp; Kurs</a>
+        <a href="#lab1-langkah1" class="lab-nav-pill">Langkah 1: Prompt Kurs</a>
+        <a href="#lab1-langkah2" class="lab-nav-pill">Langkah 2: Uji Browser</a>
+        <a href="#lab1-langkah3" class="lab-nav-pill">Langkah 3: Iterasi Dropdown</a>
+        <a href="#lab1-langkah4" class="lab-nav-pill">Langkah 4: Debug Console F12</a>
+        <a href="#lab1-langkah5" class="lab-nav-pill">Langkah 5: API Key Cuaca</a>
+        <a href="#lab2-overview" class="lab-nav-pill">🤖 Modul 2: Asisten Aduan AI</a>
+        <a href="#lab2-tahap0" class="lab-nav-pill">Tahap 0: Ambil API Key</a>
+        <a href="#lab2-tahap1" class="lab-nav-pill">Tahap 1: Tampilan Dummy</a>
+        <a href="#lab2-tahap2" class="lab-nav-pill">Tahap 2: Sambung API AI</a>
+        <a href="#lab2-tahap3" class="lab-nav-pill">Tahap 3: Error &amp; Biaya Rp</a>
+        <a href="#lab2-tahap4" class="lab-nav-pill">Tahap 4: Sabotase Error 429</a>
+        <a href="#lab2-tahap5" class="lab-nav-pill">Tahap 5: 5 Pengaman Biaya</a>
+        <a href="#kalkulasi-biaya" class="lab-nav-pill">📊 Lembar Kalkulasi Biaya</a>
+        <a href="#latihan-mandiri" class="lab-nav-pill">💡 Latihan Mandiri</a>
+        <a href="#bank-prompt" class="lab-nav-pill">📑 Bank Prompt Ekstra</a>
+        <a href="#troubleshooting" class="lab-nav-pill">🔍 Troubleshooting</a>
+        <a href="#checklist-evaluasi" class="lab-nav-pill">✅ Checklist &amp; Rubrik</a>
       </div>
     </div>
   </div>
@@ -800,25 +910,43 @@
 
     <!-- ARCHITECTURE CALLOUT -->
     <div class="arch-card">
-      <h3>🎯 Alur Kerja Praktikum Vibe Coding Hari Ini</h3>
+      <h3>🎯 Alur Kerja Praktikum Integrasi API Komprehensif</h3>
       <p style="font-size:14px; opacity:0.9;">
-        Kita akan mempraktikkan alur kerja profesional: Mulai dari tahap persiapan, pengujian browser, iterasi fitur baru, investigasi error lewat Console DevTools, hingga manajemen kunci rahasia API Key.
+        Praktikum ini terbagi menjadi dua level progresif: Level 1 membangun fondasi dengan API publik gratis tanpa kunci, lalu Level 2 menaikkan keahlian ke integrasi API AI berbayar dengan manajemen kunci aman, mitigasi error 429, dan kalkulasi tagihan.
       </p>
 
       <div class="arch-diagram">
-[ 🛠️ TAHAP PERSIAPAN: Setup Folder ] ---> [ LANGKAH 1: Prompt AI Kurs Dasar ] ---> [ LANGKAH 2: Live Browser Test ]
-                                                                                   |
-                                                                                   v
-[ LANGKAH 5: API Key Cuaca ] <--- [ LANGKAH 4: Debug Console ] <--- [ LANGKAH 3: Fitur Dropdown & Update ]
++----------------------------------------------------------------------------------------------------+
+|  LEVEL 1: API PUBLIK GRATIS &amp; DEBUGGING BROWSER                                                    |
+|  [ Setup Folder ] -> [ Prompt 1: Kurs ] -> [ Live Test ] -> [ Iterasi Dropdown ] -> [ Debug F12 ]  |
++----------------------------------------------------------------------------------------------------+
+                                                  │
+                                                  ▼
++----------------------------------------------------------------------------------------------------+
+|  LEVEL 2: API AI BERBAYAR &amp; SISTEM PENGAMAN BIAYA ("Asisten Aduan")                                |
+|  [ Ambil Key ] -> [ Mock UI ] -> [ Sambung AI (Node/.env) ] -> [ Biaya Rp ] -> [ Sabotase 429 ]   |
+|                                                                                └-> [ 5 Pengaman ]  |
++----------------------------------------------------------------------------------------------------+
       </div>
 
       <div class="arch-insight">
-        ✨ <strong>Kunci Sukses Praktikum:</strong> Setiap prompt AI di bawah ini telah dirancang dengan format 5 elemen. Salin langsung menggunakan tombol copy, tempel ke AI assistant Anda (Claude, ChatGPT, Antigravity AI, Cursor), dan lihat bagaimana aplikasi Anda terbentuk!
+        ✨ <strong>Aturan Emas Prompting:</strong> Gunakan tombol <strong>📋 Salin Prompt</strong> di setiap kartu, tempel ke AI assistant Anda (Claude, ChatGPT, Antigravity AI, atau Cursor), dan pelajari struktur jawaban yang dihasilkan!
       </div>
     </div>
 
+    <!-- ========================================================================= -->
+    <!-- BAGIAN 1: MODUL DASAR (KURS MATA UANG & CUACA OPENWEATHER)                 -->
+    <!-- ========================================================================= -->
+    <div class="module-badge-header" id="lab1-persiapan">
+      <div>
+        <h3>LEVEL 1: Integrasi API Publik Gratis &amp; Debugging Console</h3>
+        <p>Membangun Web Kurs Mata Uang Real-Time &amp; Widget Cuaca OpenWeatherMap</p>
+      </div>
+      <span style="font-size:24px;">🌐</span>
+    </div>
+
     <!-- TAHAP PERSIAPAN -->
-    <section class="lab-step" id="persiapan">
+    <section class="lab-step">
       <div class="step-header">
         <div class="step-badge" style="background:#0F172A; font-size:22px;">🛠️</div>
         <div class="step-header-text">
@@ -838,7 +966,7 @@
     </section>
 
     <!-- LANGKAH 1: PROMPT AWAL -->
-    <section class="lab-step" id="langkah-1">
+    <section class="lab-step" id="lab1-langkah1">
       <div class="step-header">
         <div class="step-badge">01</div>
         <div class="step-header-text">
@@ -847,7 +975,6 @@
         </div>
       </div>
 
-      <!-- Part A: Teori & Instruksi -->
       <div class="part-box">
         <h3 class="part-title">Part A · Instruksi &amp; Sasaran</h3>
         <p style="font-size:14px; color:var(--ink-mid);">
@@ -855,7 +982,6 @@
         </p>
       </div>
 
-      <!-- Part B: Master Prompt -->
       <div class="part-box">
         <h3 class="part-title">Part B · Master Prompt AI Siap Pakai</h3>
         <div class="prompt-card">
@@ -880,7 +1006,6 @@ Tolong:
         </div>
       </div>
 
-      <!-- Part C: Verifikasi & Pitfall -->
       <div class="part-box">
         <h3 class="part-title">Part C · Output &amp; Verifikasi Kesiapan</h3>
         <div class="result-grid">
@@ -897,7 +1022,7 @@ Tolong:
     </section>
 
     <!-- LANGKAH 2: PENGUJIAN -->
-    <section class="lab-step" id="langkah-2">
+    <section class="lab-step" id="lab1-langkah2">
       <div class="step-header">
         <div class="step-badge">02</div>
         <div class="step-header-text">
@@ -930,7 +1055,7 @@ Tolong:
     </section>
 
     <!-- LANGKAH 3: ITERASI FITUR -->
-    <section class="lab-step" id="langkah-3">
+    <section class="lab-step" id="lab1-langkah3">
       <div class="step-header">
         <div class="step-badge">03</div>
         <div class="step-header-text">
@@ -982,7 +1107,7 @@ Tolong perbarui kode saya (saya lampirkan kode lengkap saat ini di bawah) dan je
     </section>
 
     <!-- LANGKAH 4: DEBUGGING CONSOLE -->
-    <section class="lab-step" id="langkah-4">
+    <section class="lab-step" id="lab1-langkah4">
       <div class="step-header">
         <div class="step-badge">04</div>
         <div class="step-header-text">
@@ -1041,7 +1166,7 @@ Tolong jelaskan kemungkinan penyebab error tersebut dengan bahasa yang mudah dip
     </section>
 
     <!-- LANGKAH 5: API KEY & OPENWEATHER -->
-    <section class="lab-step" id="langkah-5">
+    <section class="lab-step" id="lab1-langkah5">
       <div class="step-header">
         <div class="step-badge">05</div>
         <div class="step-header-text">
@@ -1090,81 +1215,747 @@ Tolong:
       </div>
     </section>
 
-    <!-- BAGIAN 3: LATIHAN MANDIRI -->
-    <section class="lab-step" id="latihan-mandiri">
+    <!-- ========================================================================= -->
+    <!-- BAGIAN 2: MODUL LANJUTAN (API BERBAYAR & APLIKASI ASISTEN ADUAN AI)        -->
+    <!-- ========================================================================= -->
+    <div class="module-badge-header" id="lab2-overview" style="background:#013A40; border-left-color:var(--amber);">
+      <div>
+        <h3>LEVEL 2: Integrasi API Berbayar &amp; AI Assistant ("Asisten Aduan")</h3>
+        <p>Studi Kasus Pemrosesan Teks Bebas, Penanganan Error 429, &amp; 5 Sistem Pengaman Biaya</p>
+      </div>
+      <span style="font-size:24px;">🤖</span>
+    </div>
+
+    <!-- OVERVIEW LEVEL 2 -->
+    <section class="lab-step">
+      <div class="step-header">
+        <div class="step-badge" style="background:var(--amber);">🎯</div>
+        <div class="step-header-text">
+          <h2>Studi Kasus: Aplikasi "Asisten Aduan Masyarakat"</h2>
+          <p>Membangun aplikasi otomatisasi yang meringkas teks bebas, menentukan kategori topik, dan mengukur tingkat urgensi.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <p style="font-size:14.5px; color:var(--ink); margin-bottom:14px;">
+          <strong>Masalah Nyata:</strong> Petugas pelayanan publik menerima puluhan teks aduan warga setiap hari dengan bahasa bebas yang panjang dan bertele-tele. Membaca satu per satu memakan waktu berjam-jam.
+        </p>
+        <p style="font-size:14px; color:var(--ink-mid);">
+          <strong>Solusi yang Dibangun:</strong> Halaman web di mana petugas menempelkan teks aduan &rarr; menekan tombol "Proses" &rarr; AI mengembalikan 3 hasil instan: <strong>Ringkasan Satu Kalimat</strong>, <strong>Kategori Layanan</strong>, dan <strong>Tingkat Urgensi (Rendah/Sedang/Tinggi)</strong>.
+        </p>
+      </div>
+
+      <div class="callout callout-info">
+        <span style="font-size:20px;">🛡️</span>
+        <div>
+          <strong>Rumus Emas K-T-B-H &amp; 3 Kalimat Wajib:</strong><br>
+          Setiap prompt di modul ini menggunakan formula <strong>Konteks – Tugas – Batasan – Hasil</strong> serta menyertakan kalimat pengaman:<br>
+          <code>• Saya BUKAN programmer. Gunakan bahasa Indonesia sederhana.</code><br>
+          <code>• Jelaskan singkat apa yang akan kamu lakukan SEBELUM menulis kode.</code><br>
+          <code>• Jangan menjalankan perintah yang menghapus file atau membocorkan kredensial.</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAHAP 0: AMBIL API KEY -->
+    <section class="lab-step" id="lab2-tahap0">
+      <div class="step-header">
+        <div class="step-badge">00</div>
+        <div class="step-header-text">
+          <h2>Tahap 0 — Mengambil API Key &amp; Membaca Kuota Free Tier</h2>
+          <p>Mendapatkan kredensial otentikasi resmi dan memahami dashboard pemakaian akun.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Langkah Pengambilan Kunci</h3>
+        <ul class="action-list">
+          <li>Buka situs penyedia API AI: <code>aistudio.google.com/apikey</code> (untuk Gemini API) menggunakan akun Google Anda.</li>
+          <li>Klik <strong>Create API Key</strong> &rarr; Salin deretan kunci yang muncul menggunakan tombol <em>Copy</em>.</li>
+          <li><strong>Tempel sementara di aplikasi Notepad lokal</strong> (JANGAN kirim ke chat grup atau WhatsApp).</li>
+          <li>Periksa bagian kuota di dashboard: Catat berapa batas RPM (Request Per Minute) dan RPD (Request Per Day) yang diberikan secara gratis.</li>
+        </ul>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Keterampilan Kunci</strong>
+            Mampu membaca grafik pemakaian dan kuota sendiri di dashboard resmi penyedia API.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Aturan Keamanan</strong>
+            Kunci yang Anda buat di sesi latihan ini <strong>wajib dihapus (revoke)</strong> sebelum Anda menutup laptop di akhir sesi!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAHAP 1: BANGUN TAMPILAN DULU TANPA API -->
+    <section class="lab-step" id="lab2-tahap1">
+      <div class="step-header">
+        <div class="step-badge">01</div>
+        <div class="step-header-text">
+          <h2>Tahap 1 — Bangun Tampilan Dulu, TANPA API (Mock Data)</h2>
+          <p>Prinsip hemat biaya: Selesaikan UI terlebih dahulu agar tidak membuang saldo saat memperbaiki layout.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Filosofi "Zero-Cost Prototyping"</h3>
+        <p style="font-size:14px; color:var(--ink-mid);">
+          Jangan pernah menyambungkan API saat tampilan masih berantakan. Setiap kali Anda merefresh halaman untuk membetulkan warna tombol atau margin teks, Anda membayar untuk hal yang sama sekali tidak berhubungan dengan API!
+        </p>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompt 1 (Tampilan Dummy)</h3>
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🤖 PROMPT AI-1: TAMPILAN UI DENGAN DATA PALSU</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-ai1')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-ai1">Saya BUKAN programmer. Gunakan bahasa Indonesia sederhana.
+Jelaskan singkat apa yang akan kamu lakukan sebelum menulis kode.
+Jangan menjalankan perintah yang menghapus file.
+
+KONTEKS:
+Saya membuat aplikasi web satu halaman untuk membantu petugas mengolah teks aduan masyarakat.
+
+TUGAS:
+Buat satu file bernama index.html berisi HTML, CSS, dan JavaScript:
+1. Judul aplikasi: "Asisten Aduan Masyarakat"
+2. Kotak teks besar (textarea) untuk menempelkan isi aduan
+3. Tombol "Proses Aduan"
+4. Area hasil yang menampilkan tiga baris rapi: Ringkasan, Kategori Topik, dan Tingkat Urgensi
+
+BATASAN:
+- TAHAP INI JANGAN memanggil API apa pun. Isi hasilnya dengan data palsu (dummy) yang kamu tulis langsung di dalam kode.
+- Jangan pakai library atau framework rumit dari internet.
+- Beri komentar berbahasa Indonesia pada baris yang nanti akan diganti dengan panggilan API sungguhan.
+
+HASIL YANG SAYA INGINKAN:
+Satu file index.html yang bisa langsung saya buka di browser dan sudah terlihat rapi & modern. Di akhir, beri tahu cara membukanya.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part C · Output &amp; Verifikasi</h3>
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Checkpoint 1</strong>
+            Halaman web terbuka di browser, tombol Proses berfungsi memunculkan kartu hasil dummy. Belum ada biaya token sama sekali!
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Periksa Layout</strong>
+            Pastikan tampilan kotak teks cukup lega untuk menampung paragraf aduan yang panjang.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAHAP 2: SAMBUNGKAN KE API SUNGGUHAN -->
+    <section class="lab-step" id="lab2-tahap2">
+      <div class="step-header">
+        <div class="step-badge">02</div>
+        <div class="step-header-text">
+          <h2>Tahap 2 — Sambungkan ke API AI Sungguhan</h2>
+          <p>Mengganti data dummy dengan integrasi model kecerdasan buatan sesungguhnya.</p>
+        </div>
+      </div>
+
+      <!-- Jalur Utama -->
+      <div class="part-box">
+        <h3 class="part-title">Jalur Utama (Disarankan) — Server Backend Kecil &amp; File .env</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          Ini adalah praktik standar industri: API Key disimpan aman di file <code>.env</code> di dalam server lokal Node.js, bukan di file HTML yang bisa diintip pengunjung browser.
+        </p>
+        
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🤖 PROMPT AI-2 (JALUR UTAMA): BACKEND SERVER &amp; ENV AMAN</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-ai2')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-ai2">Saya BUKAN programmer. Gunakan bahasa Indonesia sederhana.
+Jelaskan singkat apa yang akan kamu lakukan sebelum menulis kode.
+
+KONTEKS:
+Lanjutkan aplikasi index.html yang tadi. Sekarang saya ingin data palsu diganti dengan panggilan ke API AI yang sesungguhnya.
+
+BATASAN KEAMANAN (Paling Penting):
+- API key TIDAK BOLEH ada di file yang dibuka browser.
+- Simpan API key di file .env
+- Buat file .gitignore yang mengabaikan .env
+- Sebelum menulis kode, periksa dulu nama model yang MASIH AKTIF di dokumentasi resmi (misal: gemini-1.5-flash / gemini-2.5-flash). Jangan mengarang nama model.
+
+TUGAS:
+1. Buat server kecil dengan Node.js yang:
+   - menyajikan index.html
+   - punya satu alamat POST /api/proses
+   - alamat itu menerima teks aduan dari halaman, memanggil API AI, lalu mengembalikan JSON berisi tiga isian: ringkasan (1 kalimat), kategori, dan urgensi
+2. Minta AI menjawab dalam format JSON murni agar mudah ditampilkan.
+3. Ubah index.html agar tombol "Proses" memanggil /api/proses, bukan data palsu.
+
+HASIL YANG SAYA INGINKAN:
+- Tuliskan langkah persis yang harus saya ketik di terminal untuk menjalankannya.
+- Beri tahu di mana saya menempelkan API key saya.
+- Beri tahu cara menguji bahwa sambungannya sudah berhasil.</pre>
+        </div>
+      </div>
+
+      <!-- Jalur Cadangan -->
+      <div class="part-box" style="margin-top:24px;">
+        <h3 class="part-title" style="color:var(--amber);">Jalur Cadangan (Plan B) — Jika Komputer Mengalami Masalah Node.js</h3>
+        <div class="callout callout-rose">
+          <span style="font-size:20px;">⚠️</span>
+          <div>
+            <strong>Peringatan Tegas:</strong> Cara ini menempelkan API key langsung di file browser. <strong>HANYA</strong> boleh dipakai untuk latihan mandiri di laptop sendiri, <strong>DILARANG KERAS</strong> diunggah ke internet/GitHub, dan kunci <strong>WAJIB DIHAPUS</strong> setelah latihan!
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🤖 PROMPT AI-2B (PLAN B): DIRECT BROWSER CALL DENGAN WARNING</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-ai2b')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-ai2b">Saya BUKAN programmer. Gunakan bahasa Indonesia sederhana.
+
+Node.js tidak bisa saya jalankan di laptop saya. Untuk latihan hari ini saja, ubah agar index.html memanggil API AI langsung dari browser, dengan API key saya tempel di satu variabel di baris paling atas file.
+
+Saya sadar cara ini tidak aman dan hanya untuk latihan lokal sementara.
+Tambahkan komentar peringatan besar di atas variabel itu bahwa file ini tidak boleh dibagikan atau diunggah ke internet.
+
+Sisanya sama: minta AI menjawab dalam format JSON berisi ringkasan, kategori, dan urgensi dari teks aduan yang dimasukkan pengguna.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="result-grid">
+          <div class="res-box res-output">
+            <strong>✅ Momen Panggilan API Berbayar Pertama</strong>
+            Satu teks aduan asli diproses &rarr; Hasil ringkasan riil muncul! Buka dashboard AI Studio Anda: Perhatikan angka kuota/grafik pemakaian yang bertambah 1 transaksi.
+          </div>
+          <div class="res-box res-pitfall">
+            <strong>⚠️ Model Deprecated</strong>
+            Jika muncul error 404 Model Not Found, minta AI mengecek nama model terkini (misal: <code>gemini-1.5-flash</code>).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAHAP 3: ERROR RAMAH & BIAYA TERLIHAT -->
+    <section class="lab-step" id="lab2-tahap3">
       <div class="step-header">
         <div class="step-badge">03</div>
         <div class="step-header-text">
-          <h2>Bagian 3 — Tiga Tantangan Latihan Mandiri</h2>
-          <p>Uji kemandirian Anda menyusun prompt integrasi API dari awal.</p>
+          <h2>Tahap 3 — Penanganan Error Ramah Awam &amp; Indikator Biaya Rupiah</h2>
+          <p>Membangun antarmuka yang transparan biaya dan ramah terhadap pengguna non-teknis.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompt 3 (Error Awam &amp; Biaya Rp)</h3>
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🤖 PROMPT AI-3: PESAN ERROR JELAS &amp; KALKULATOR BIAYA</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-ai3')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-ai3">Sekarang buat aplikasi Asisten Aduan ini layak dipakai oleh pengguna umum.
+
+TUGAS 1 — PESAN ERROR BAHASA INDONESIA YANG RAMAH:
+Ganti semua pesan error teknis mentah dengan kalimat bahasa Indonesia yang jelas untuk kondisi berikut:
+- API key salah, kosong, atau sudah dicabut
+- Kuota atau batas kecepatan habis (error 429)
+- Komputer offline / tidak ada koneksi internet
+- Teks aduan masih kosong saat tombol ditekan
+Setiap pesan error harus memberi tahu tindakan apa yang harus dilakukan pengguna berikutnya.
+
+TUGAS 2 — INDIKATOR PENGGUNAAN TOKEN &amp; BIAYA RUPIAH:
+Setelah setiap pemrosesan berhasil, tampilkan di bawah kartu hasil:
+- Jumlah Token Masuk (Input)
+- Jumlah Token Keluar (Output)
+- Estimasi Biaya dalam Rupiah (Rp)
+Buat variabel harga per 1 juta token dan kurs USD ke IDR di bagian atas file dengan komentar agar saya bisa mengisinya sendiri. JANGAN mengarang angka tagihan.
+
+TUGAS 3 — STATE LOADING &amp; ANTI-DOUBLE CLICK:
+Saat menunggu jawaban API, ubah tombol menjadi "Sedang Menganalisis...", beri animasi loading, dan NONAKTIFKAN (disable) tombol tersebut agar pengguna tidak menekan berkali-kali.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="callout callout-warn">
+          <span style="font-size:20px;">💡</span>
+          <div>
+            <strong>Catatan Penting Pengajar:</strong> Angka estimasi Rupiah yang muncul di layar adalah kalkulasi internal berdasarkan harga unit yang Anda setel di kode — bukan membaca tagihan resmi bank. Tagihan riil tetap mengacu pada dashboard resmi penyedia API!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAHAP 4: SENGAJA DIRUSAK (BELAJAR DARI ERROR 429) -->
+    <section class="lab-step" id="lab2-tahap4">
+      <div class="step-header">
+        <div class="step-badge" style="background:var(--rose);">04</div>
+        <div class="step-header-text">
+          <h2>Tahap 4 — Sengaja Dirusak: Simulasi Sabotase &amp; Error 429</h2>
+          <p>Merasakan secara langsung bagaimana sistem bereaksi saat kuota habis atau kunci tidak valid.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part A · Tiga Skenario Sabotase Terkendali</h3>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Tindakan Sabotase Peserta</th>
+                <th>Respon yang Seharusnya Muncul</th>
+                <th>Pelajaran Berharga yang Didapat</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><strong>Hapus 3 karakter terakhir</strong> dari API key di file <code>.env</code>, lalu jalankan.</td>
+                <td>Muncul kartu merah: <em>"Kunci API tidak valid. Periksa kembali API key Anda."</em></td>
+                <td>Kunci salah tidak membuat aplikasi hancur lebur jika ditangani dengan baik.</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Kembalikan kunci benar, lalu <strong>klik tombol Proses 15–20 kali secepat mungkin!</strong></td>
+                <td>Muncul pesan Error 429: <em>"Terlalu banyak permintaan! Kuota kecepatan habis. Silakan tunggu 1 menit."</em></td>
+                <td><strong>Inilah rasanya kuota habis (Rate Limit 429).</strong> Di akun berbayar komersial, menekan 20 kali berarti membayar 20 kali lipat!</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><strong>Kosongkan kotak teks</strong> lalu tekan tombol Proses.</td>
+                <td>Muncul peringatan: <em>"Teks aduan belum diisi. Masukkan teks sebelum memproses."</em></td>
+                <td>Validasi input di browser mencegah panggilan API sia-sia yang tetap memotong saldo Anda.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Pola Baku Prompt Perbaikan Error Seumur Hidup</h3>
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛠️ PROMPT AI-4: POLA BAKU INVESTIGASI ERROR</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-ai4')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-ai4">Saya mendapat pesan error berikut saat menjalankan aplikasi saya:
+
+[TEMPEL PESAN ERROR PERSIS SEPERTI YANG MUNCUL DI LAYAR / CONSOLE]
+
+Ini kode aplikasi saya saat ini:
+[TEMPEL KODE index.html / server.js]
+
+Tolong:
+1. Jelaskan dalam bahasa Indonesia sederhana apa penyebab pasti dari error ini.
+2. Sebutkan kemungkinan penyebabnya, urutkan dari yang paling sering terjadi.
+3. Berikan kode perbaikannya secara lengkap.
+4. Jelaskan cara saya menguji bahwa perbaikan ini sudah 100% berhasil.</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAHAP 5: PENGAMAN BIAYA -->
+    <section class="lab-step" id="lab2-tahap5">
+      <div class="step-header">
+        <div class="step-badge" style="background:var(--purple);">05</div>
+        <div class="step-header-text">
+          <h2>Tahap 5 — Memasang 5 Sistem Pengaman Biaya (Cost Guardrails)</h2>
+          <p>Fitur wajib sebelum aplikasi apa pun dirilis atau dibagikan ke pengguna umum.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <h3 class="part-title">Part B · Master Prompt 5 (5 Pengaman Biaya)</h3>
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span>🛡️ PROMPT AI-5: 5 SISTEM PENGAMAN BIAYA KELAS PRODUKSI</span>
+            <button class="btn-copy" onclick="copySnippet('prompt-ai5')">📋 Salin Prompt</button>
+          </div>
+          <pre class="prompt-content" id="prompt-ai5">Tambahkan 5 sistem pengaman biaya berikut ke aplikasi Asisten Aduan saya, dan beri penjelasan singkat di mana penghematan terjadi untuk setiap fitur:
+
+1. BATAS KARAKTER MASUKAN:
+   Batasi teks aduan maksimal 2.000 karakter. Tampilkan indikator sisa karakter di bawah kotak teks (misal: "Sisa 1.850 karakter"). Kunci input jika melewati batas.
+
+2. BATASI PANJANG JAWABAN (MAX OUTPUT TOKEN):
+   Setel parameter max_output_tokens ke maksimal 300 token di konfigurasi API. Jelaskan kenapa memotong token keluar menghemat biaya terbesar.
+
+3. MEMORI PENYIMPANAN SEMENTARA (IN-MEMORY CACHING):
+   Jika pengguna memproses teks aduan yang PERSIS SAMA dengan yang baru saja diproses, ambil hasil dari memori browser/server dan JANGAN memanggil API ulang. Berikan label hijau: "⚡ Diambil dari simpanan cache (Tanpa Biaya API)".
+
+4. BATAS MAKSIMAL SESI (SESSION LIMITER):
+   Batasi maksimal 20 panggilan API per sesi pengguna. Setelah mencapai 20 panggilan, kunci tombol dan tampilkan: "Batas pemrosesan sesi tercapai untuk keamanan biaya."
+
+5. TOTAL BIAYA KUMULATIF:
+   Tampilkan total akumulasi biaya rupiah yang telah digunakan sejak halaman web dibuka.</pre>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="callout callout-info">
+          <span style="font-size:20px;">💰</span>
+          <div>
+            <strong>Analisis Penghematan Biaya:</strong> Dari kelima fitur pengaman di atas, kombinasi <strong>Nomor 2 (Max Output Token)</strong> dan <strong>Nomor 3 (In-Memory Cache)</strong> memberikan efisiensi anggaran hingga 70–90%! Token output adalah komponen paling mahal, dan caching memangkas panggilan duplikat menjadi 0 Rupiah.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- BAGIAN 3: LEMBAR KALKULASI BIAYA & BANK TEKS ADUAN                         -->
+    <!-- ========================================================================= -->
+    <section class="lab-step" id="kalkulasi-biaya">
+      <div class="step-header">
+        <div class="step-badge" style="background:#0F172A;">📊</div>
+        <div class="step-header-text">
+          <h2>Lembar Kalkulasi Biaya Operasional (Simulasi 1.000 Aduan/Bulan)</h2>
+          <p>Latihan numerik untuk memproyeksikan anggaran nyata sebelum aplikasi di-deploy.</p>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:14px;">
+          Mari hitung estimasi biaya operasional jika aplikasi "Asisten Aduan" digunakan oleh satu instansi/kelurahan dengan rata-rata <strong>1.000 laporan aduan per bulan</strong>:
+        </p>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:5%;">No</th>
+                <th>Komponen Perhitungan</th>
+                <th>Rumus / Formula</th>
+                <th>Estimasi Nilai</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>a</td>
+                <td>Token masuk per aduan</td>
+                <td>± Panjang teks aduan ÷ 4 karakter</td>
+                <td><strong>~ 250 Token</strong></td>
+              </tr>
+              <tr>
+                <td>b</td>
+                <td>Token keluar per aduan</td>
+                <td>± Panjang jawaban ringkasan &amp; kategori</td>
+                <td><strong>~ 100 Token</strong></td>
+              </tr>
+              <tr>
+                <td>c</td>
+                <td>Total Token Masuk per Bulan</td>
+                <td>250 token × 1.000 aduan</td>
+                <td><strong>250.000 Token</strong></td>
+              </tr>
+              <tr>
+                <td>d</td>
+                <td>Total Token Keluar per Bulan</td>
+                <td>100 token × 1.000 aduan</td>
+                <td><strong>100.000 Token</strong></td>
+              </tr>
+              <tr>
+                <td>e</td>
+                <td>Harga Token Masuk (per 1 Juta Token)</td>
+                <td>Lihat halaman Pricing model resmi</td>
+                <td>± $0.075 USD / 1M</td>
+              </tr>
+              <tr>
+                <td>f</td>
+                <td>Harga Token Keluar (per 1 Juta Token)</td>
+                <td>Lihat halaman Pricing model resmi</td>
+                <td>± $0.30 USD / 1M</td>
+              </tr>
+              <tr>
+                <td>g</td>
+                <td>Biaya Masuk Bulanan</td>
+                <td>(250.000 ÷ 1.000.000) × $0.075</td>
+                <td>$0.01875 USD</td>
+              </tr>
+              <tr>
+                <td>h</td>
+                <td>Biaya Keluar Bulanan</td>
+                <td>(100.000 ÷ 1.000.000) × $0.30</td>
+                <td>$0.03000 USD</td>
+              </tr>
+              <tr>
+                <td>i</td>
+                <td>Total Biaya USD Bulanan</td>
+                <td>g + h</td>
+                <td><strong>$0.04875 USD</strong></td>
+              </tr>
+              <tr>
+                <td>j</td>
+                <td>Kurs USD ke IDR</td>
+                <td>Kurs acuan hari ini</td>
+                <td>Rp 16.200 / USD</td>
+              </tr>
+              <tr style="background:#ECFDF5; font-weight:700; color:#065F46;">
+                <td>k</td>
+                <td>TOTAL BIAYA OPERASIONAL BULANAN</td>
+                <td>Total USD × Kurs IDR</td>
+                <td>Rp 789,75 / Bulan (~ Rp 800)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-info" style="margin-top:16px;">
+          <span style="font-size:20px;">💡</span>
+          <div>
+            <strong>Insight Mengejutkan:</strong> Untuk 1.000 aduan per bulan dengan model ringan (Flash), biayanya bahkan <em>di bawah Rp 1.000 per bulan</em> (dan sepenuhnya gratis jika masih dalam batas Free Tier). Namun jika aplikasi diserang bot looping tanpa pengaman dan volume naik 100.000x, tagihan bisa melonjak menjadi puluhan juta Rupiah jika memakai pay-as-you-go tanpa spend limit!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BANK CONTOH TEKS ADUAN -->
+    <section class="lab-step">
+      <div class="step-header">
+        <div class="step-badge" style="background:#0F172A;">📝</div>
+        <div class="step-header-text">
+          <h2>Bank Contoh Teks Aduan untuk Pengujian</h2>
+          <p>Gunakan variasi teks berikut untuk menguji ketahanan dan akurasi aplikasi Anda.</p>
         </div>
       </div>
 
       <div class="exercise-card">
-        <h4>💡 Tantangan 1: Generator Kutipan Motivasi Harian</h4>
-        <p>
-          Gunakan API gratis <code>https://api.quotable.io/random</code> untuk menampilkan kartu kutipan inspiratif acak beserta nama penulisnya, dilengkapi tombol <em>"Kutipan Baru"</em>.
+        <h4>1. Teks Pendek (Kasus Sederhana)</h4>
+        <p style="font-style:italic; background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid var(--line);">
+          "Lampu penerangan jalan umum di Jl. Melati RT 04 padam sudah dua minggu, sangat gelap dan rawan kejahatan di malam hari."
         </p>
       </div>
 
       <div class="exercise-card">
-        <h4>🧠 Tantangan 2: Generator Fakta Unik Dunia</h4>
-        <p>
-          Gunakan API gratis <code>https://uselessfacts.jsph.pl/api/v2/facts/random?language=en</code> untuk menampilkan fakta trivia unik setiap kali tombol ditekan.
+        <h4>2. Teks Sedang (Kasus Layanan Publik)</h4>
+        <p style="font-style:italic; background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid var(--line);">
+          "Selamat pagi, saya warga Perumahan Griya Asri Blok C. Sejak awal bulan, air PDAM di wilayah kami hanya mengalir pukul 11 malam sampai 3 pagi. Warga terpaksa membeli air galon untuk kebutuhan mandi dan mencuci. Sudah dilaporkan ke pihak kelurahan tapi belum ada penanganan nyata. Mohon segera ditindaklanjuti karena banyak balita dan lansia di lingkungan kami."
         </p>
       </div>
 
       <div class="exercise-card">
-        <h4>🌍 Tantangan 3: Ensiklopedia Pencarian Negara</h4>
-        <p>
-          Gunakan API <code>https://restcountries.com/v3.1/name/{nama_negara}</code> untuk menampilkan informasi negara (gambar bendera, ibu kota, jumlah populasi, dan mata uang resmi) saat pengguna mengetik nama negara di kotak pencarian.
+        <h4>3. Teks Panjang / Multi-Isu (Kasus Kompleks)</h4>
+        <p style="font-style:italic; background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid var(--line);">
+          "Saya mau mengadu sekaligus bertanya. Pertama, trotoar di depan pasar tradisional rusak parah berlubang dan memakan korban 2 pejalan kaki jatuh minggu lalu. Kedua, saya sudah mengajukan surat permohonan keterangan domisili sejak 3 minggu lalu di loket pelayanan namun petugas bilang sistemnya masih perbaikan terus, padahal berkas itu syarat penting beasiswa sekolah anak saya. Ketiga, apakah ada jadwal pembagian bantuan modal UMKM bulan ini? Terima kasih atas tanggapannya."
         </p>
-      </div>
-
-      <div class="part-box" style="margin-top:20px;">
-        <h4 style="font-size:15px; font-weight:700; color:var(--ink); margin-bottom:8px;">Instruksi Pelaksanaan Latihan:</h4>
-        <ul class="action-list">
-          <li>Tulis prompt awal sendiri menggunakan panduan <strong>Kerangka 5 Elemen</strong> dari Modul Teori.</li>
-          <li>Simpan dan jalankan hasilnya di browser.</li>
-          <li>Jika ada kendala/error, buka tab Console browser, salin pesan error, dan susun prompt debugging ke AI.</li>
-        </ul>
       </div>
     </section>
 
-    <!-- BAGIAN 4: CHECKLIST EVALUASI -->
+    <!-- LATIHAN MANDIRI -->
+    <section class="lab-step" id="latihan-mandiri">
+      <div class="step-header">
+        <div class="step-badge" style="background:var(--teal);">💡</div>
+        <div class="step-header-text">
+          <h2>Bagian 4 — Tantangan Latihan Mandiri</h2>
+          <p>Pilih minimal satu tantangan integrasi API untuk melatih kemandirian prompting Anda.</p>
+        </div>
+      </div>
+
+      <div class="exercise-card">
+        <h4>Tantangan A: Generator Kutipan Motivasi Harian (API Publik)</h4>
+        <p>Gunakan API <code>https://api.quotable.io/random</code> untuk membuat kartu kutipan inspiratif acak beserta nama penulisnya, dilengkapi tombol "Kutipan Baru".</p>
+      </div>
+
+      <div class="exercise-card">
+        <h4>Tantangan B: Ensiklopedia Pencarian Negara (API Publik)</h4>
+        <p>Gunakan API <code>https://restcountries.com/v3.1/name/{nama_negara}</code> untuk menampilkan bendera negara, ibu kota, populasi, dan mata uang saat pengguna mengetik nama negara.</p>
+      </div>
+
+      <div class="exercise-card">
+        <h4>Tantangan C: Asisten Pekerjaan Kantor Mandiri (API AI Berbayar)</h4>
+        <p>Ganti studi kasus Asisten Aduan dengan kebutuhan spesifik di kantor/pekerjaan Anda sendiri (misal: pengklasifikasi disposisi surat dinas, pembuat notulen rapat, atau penilai kelengkapan berkas lamaran).</p>
+      </div>
+    </section>
+
+    <!-- BANK PROMPT EKSTRA -->
+    <section class="lab-step" id="bank-prompt">
+      <div class="step-header">
+        <div class="step-badge" style="background:#0F172A;">📑</div>
+        <div class="step-header-text">
+          <h2>Bank Prompt Tambahan yang Sering Dibutuhkan</h2>
+          <p>Prompt penyelamat untuk mengendalikan perilaku agen AI saat pengerjaan proyek.</p>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-header">
+          <span>A-1: MEMAKSA AGEN MENJELASKAN SEBELUM MENULIS KODE</span>
+          <button class="btn-copy" onclick="copySnippet('prompt-a1')">📋 Salin Prompt</button>
+        </div>
+        <pre class="prompt-content" id="prompt-a1">Sebelum menulis atau mengubah kode apa pun, jelaskan terlebih dahulu dalam maksimal 4 kalimat bahasa Indonesia sederhana: apa persisnya yang akan kamu ubah, di file mana, dan apa risiko perubahannya. Tunggu saya membalas "Lanjut" baru kamu boleh menuliskan kode.</pre>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-header">
+          <span>A-2: KEMBALI KE KONDISI TERAKHIR YANG BERFUNGSI (REVERT)</span>
+          <button class="btn-copy" onclick="copySnippet('prompt-a2')">📋 Salin Prompt</button>
+        </div>
+        <pre class="prompt-content" id="prompt-a2">Perubahan terakhir membuat aplikasi saya error dan tidak bisa dibuka. Tolong kembalikan kode ke kondisi persis seperti sebelum perubahan terakhir, lalu jelaskan apa yang salah. Jangan menambahkan fitur baru apa pun saat ini.</pre>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-header">
+          <span>A-3: AUDIT KEAMANAN KEBOCORAN KUNCI SEBELUM SHARE / PUSH</span>
+          <button class="btn-copy" onclick="copySnippet('prompt-a3')">📋 Salin Prompt</button>
+        </div>
+        <pre class="prompt-content" id="prompt-a3">Periksa seluruh file di proyek ini. Apakah ada API key, kata sandi, token rahasia, atau informasi sensitif yang tertulis langsung di dalam file kode atau file yang berpotensi ikut terunggah ke internet? Sebutkan nama file dan nomor barisnya. JANGAN tampilkan teks kuncinya di jawabanmu.</pre>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-header">
+          <span>A-4: MENERJEMAHKAN DOKUMENTASI API KE BAHASA AWAM</span>
+          <button class="btn-copy" onclick="copySnippet('prompt-a4')">📋 Salin Prompt</button>
+        </div>
+        <pre class="prompt-content" id="prompt-a4">Saya menempelkan potongan dokumentasi API di bawah ini. Saya bukan programmer. Jelaskan dalam bahasa Indonesia sederhana:
+1. Apa data yang harus saya kirim (Request)?
+2. Apa data yang akan saya terima balik (Response)?
+3. Bagaimana layanan ini menghitung biaya / tagihan?
+4. Batas kuota apa saja yang berlaku?
+
+[TEMPEL DOKUMENTASI API DI SINI]</pre>
+      </div>
+    </section>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="lab-step" id="troubleshooting">
+      <div class="step-header">
+        <div class="step-badge" style="background:var(--amber);">🔍</div>
+        <div class="step-header-text">
+          <h2>Tabel Troubleshooting &amp; Diagnosa Mandiri</h2>
+          <p>Solusi cepat saat Anda menghadapi kendala teknis.</p>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Gejala / Pesan Error</th>
+              <th>Kemungkinan Penyebab Utama</th>
+              <th>Tindakan Perbaikan Tercepat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>401 Unauthorized</code> / Invalid API Key</td>
+              <td>Kunci salah salin, ada spasi di ujung, atau sudah dicabut di dashboard.</td>
+              <td>Salin ulang kunci menggunakan tombol Copy di dashboard penyedia API.</td>
+            </tr>
+            <tr>
+              <td><code>429 Too Many Requests</code> / Quota Exceeded</td>
+              <td>Batas kecepatan per menit (RPM) atau kuota harian habis terpakai.</td>
+              <td>Tunggu jeda 1 menit, kurangi frekuensi klik, atau aktifkan fitur caching.</td>
+            </tr>
+            <tr>
+              <td><code>404 Not Found</code> / Model Not Found</td>
+              <td>Nama model AI lama sudah dipensiunkan oleh Google/OpenAI.</td>
+              <td>Minta agen AI memeriksa nama model aktif resmi di dokumentasi terkini.</td>
+            </tr>
+            <tr>
+              <td><code>Failed to Fetch</code> / CORS Error di Browser</td>
+              <td>Browser memblokir request langsung ke server eksternal karena kebijakan keamanan.</td>
+              <td>Pindahkan pemanggilan API ke server backend Node.js (Jalur Utama).</td>
+            </tr>
+            <tr>
+              <td>Tampilan loading berputar tanpa henti</td>
+              <td>Terjadi kesalahan JavaScript atau sintaks JSON tidak valid.</td>
+              <td>Buka tab Console (F12), salin teks error merah, dan kirim ke Prompt AI-4.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CHECKLIST PENUTUP & RUBRIK PENILAIAN -->
     <section class="lab-step" id="checklist-evaluasi">
       <div class="step-header">
-        <div class="step-badge">04</div>
+        <div class="step-badge" style="background:var(--emerald);">✅</div>
         <div class="step-header-text">
-          <h2>Bagian 4 — Checklist Evaluasi &amp; Penilaian Mandiri</h2>
-          <p>Gunakan checklist ini untuk mengukur pemahaman Anda setelah menyelesaikan praktikum.</p>
+          <h2>Checklist Penutup &amp; Rubrik Kelulusan Sesi</h2>
+          <p>Standar evaluasi kompetensi sebelum mengakhiri sesi praktikum.</p>
         </div>
       </div>
 
       <div class="checklist-card">
+        <h4 style="font-size:16px; font-weight:700; color:var(--ink); margin-bottom:14px;">⚠️ Checklist Penutup Wajib (Sebelum Pulang / Menutup IDE):</h4>
+        
         <div class="check-item">
           <div class="check-box-ui">✓</div>
-          <div>Saya dapat menjelaskan konsep Request (permintaan) dan Response (jawaban JSON) dengan kata-kata sendiri.</div>
+          <div>API Key latihan sudah <strong>dihapus / dicabut (revoked)</strong> dari dashboard Google AI Studio / OpenWeather.</div>
         </div>
         <div class="check-item">
           <div class="check-box-ui">✓</div>
-          <div>Saya memahami fungsi dan pentingnya menjaga kerahasiaan API Key.</div>
+          <div>File <code>.env</code> dipastikan <strong>tidak ikut diunggah</strong> ke GitHub (sudah terdaftar di <code>.gitignore</code>).</div>
         </div>
         <div class="check-item">
           <div class="check-box-ui">✓</div>
-          <div>Saya berhasil membuat dan menjalankan minimal satu aplikasi web live yang mengambil data dari API eksternal.</div>
+          <div>Peserta berhasil menjalankan minimal satu aplikasi yang mengambil data dari API eksternal secara live.</div>
         </div>
         <div class="check-item">
           <div class="check-box-ui">✓</div>
-          <div>Saya mampu menyusun prompt AI integrasi API menggunakan kerangka 5 elemen (konteks, endpoint, data, tampilan, batasan).</div>
+          <div>Peserta memahami cara membaca dashboard pemakaian &amp; kalkulasi biaya operasional.</div>
         </div>
-        <div class="check-item">
-          <div class="check-box-ui">✓</div>
-          <div>Saya tahu cara membuka Developer Tools (F12) tab Console browser dan menyalin pesan error untuk prompt debugging ke AI.</div>
-        </div>
-        <div class="check-item">
-          <div class="check-box-ui">✓</div>
-          <div>Saya telah menyelesaikan minimal satu tantangan latihan mandiri di Bagian 3.</div>
+      </div>
+
+      <h3 style="font-size:18px; margin:24px 0 12px; color:var(--ink);">Rubrik Penilaian Kompetensi Peserta:</h3>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Aspek Penilaian</th>
+              <th>Bobot</th>
+              <th>Skor 1 (Kurang)</th>
+              <th>Skor 2 (Cukup)</th>
+              <th>Skor 3 (Baik)</th>
+              <th>Skor 4 (Sangat Baik)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Fungsionalitas Aplikasi</strong></td>
+              <td>25%</td>
+              <td>Aplikasi tidak berjalan.</td>
+              <td>Hanya jalan dengan data dummy.</td>
+              <td>Terhubung API, hasil muncul akurat.</td>
+              <td>Terhubung API + UI modern &amp; responsif.</td>
+            </tr>
+            <tr>
+              <td><strong>2. Keamanan API Key</strong></td>
+              <td>30%</td>
+              <td>Kunci di-hardcode &amp; disebar.</td>
+              <td>Kunci di kode, sadar risikonya.</td>
+              <td>Kunci di <code>.env</code> + <code>.gitignore</code>.</td>
+              <td>Kunci di <code>.env</code> + dicabut di akhir sesi.</td>
+            </tr>
+            <tr>
+              <td><strong>3. Penanganan Error</strong></td>
+              <td>20%</td>
+              <td>Tidak ada pesan error.</td>
+              <td>Pesan error teknis bahasa Inggris.</td>
+              <td>Semua skenario error ditangani rapi.</td>
+              <td>Pesan ramah bahasa Indonesia + solusi lanjut.</td>
+            </tr>
+            <tr>
+              <td><strong>4. Kesadaran Biaya</strong></td>
+              <td>25%</td>
+              <td>Tidak paham ada biaya.</td>
+              <td>Tahu ada biaya tapi abai.</td>
+              <td>Lembar kalkulasi biaya terisi benar.</td>
+              <td>Menerapkan 5 pengaman biaya + argumen efisiensi.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warn" style="margin-top:16px;">
+        <span style="font-size:20px;">🎓</span>
+        <div>
+          <strong>Syarat Kelulusan Sesi:</strong> Nilai rata-rata minimal 2,75 <strong>DAN</strong> Aspek Keamanan API Key minimal skor 3. Peserta yang aplikasinya mewah tapi membocorkan kunci rahasianya dinyatakan belum memenuhi standar integritas pengembang digital!
         </div>
       </div>
     </section>
@@ -1182,7 +1973,7 @@ Tolong:
         <a href="panduan_deploy_vercel.html">▲ Deploy Vercel</a>
         <a href="panduan_vibecoding_owasp.html">🛡️ OWASP Security</a>
       </div>
-      <p>© 2026 Vibe Coding Masterclass — Modul Praktikum Integrasi API Eksternal untuk Pemula Non-IT.</p>
+      <p>© 2026 Vibe Coding Masterclass — Modul Praktikum Integrasi API Eksternal &amp; Berbayar untuk Pemula Non-IT.</p>
     </div>
   </footer>
 

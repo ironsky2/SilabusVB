@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teori Integrasi API Eksternal — Pertemuan 11 | Vibe Coding Masterclass</title>
-  <meta name="description" content="Modul Teori Lengkap Integrasi API Eksternal untuk Pemula Non-IT: Konsep API, Analogi Pelayan Restoran, Request-Response, Format JSON, HTTP Method & Status Code, API Key, dan 5 Elemen Prompt AI yang Efektif.">
+  <title>Teori Integrasi API Eksternal &amp; Berbayar — Pertemuan 11 | Vibe Coding Masterclass</title>
+  <meta name="description" content="Modul Teori Lengkap Integrasi API Eksternal & API Berbayar untuk Pemula Non-IT: Konsep API, Analogi Restoran & Fotokopi, Request-Response, Format JSON, HTTP Method & Status Code, 4 Model Biaya, Satuan Token Input/Output, Dua Lapis Biaya Vibe Coding, 5 Dosa Besar API Key, dan Rumus Prompt 5 Elemen & K-T-B-H.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
@@ -23,6 +23,8 @@
       --emerald-bg: #ECFDF5;
       --indigo: #4F46E5;
       --indigo-bg: #EEF2FF;
+      --purple: #7E22CE;
+      --purple-bg: #FAF5FF;
       --ink: #37352F;
       --ink-mid: #5A5852;
       --ink-soft: #787774;
@@ -647,6 +649,12 @@
       color: #9F1239;
     }
 
+    .callout-purple {
+      background: var(--purple-bg);
+      border: 1px solid #E9D5FF;
+      color: #6B21A8;
+    }
+
     /* Prompt Anatomy Card */
     .prompt-template-card {
       background: #F8FAFC;
@@ -829,11 +837,11 @@
             </a>
             <a href="teori_integrasi_api_eksternal.html" class="dropdown-item active">
               <span>🌐</span>
-              <div><strong>Teori API Eksternal (P11)</strong><div style="font-size:11px; color:#787774;">Konsep, JSON &amp; Prompting</div></div>
+              <div><strong>Teori API Eksternal &amp; Berbayar (P11)</strong><div style="font-size:11px; color:#787774;">Konsep, Biaya &amp; Prompting</div></div>
             </a>
             <a href="praktikum_integrasi_api_eksternal.html" class="dropdown-item">
               <span>🧪</span>
-              <div><strong>Lab API Eksternal (P11)</strong><div style="font-size:11px; color:#787774;">Praktikum Kurs &amp; Cuaca</div></div>
+              <div><strong>Lab API Eksternal &amp; AI (P11)</strong><div style="font-size:11px; color:#787774;">Kurs, Cuaca &amp; Asisten Aduan</div></div>
             </a>
             <div class="dropdown-divider"></div>
             <a href="laboratorium_lengkap_supabase.html" class="dropdown-item">
@@ -868,16 +876,16 @@
   <div class="hero">
     <div class="wrap">
       <span class="eyebrow">📘 Modul Pedagogis &amp; Mental Model — Pertemuan 11</span>
-      <h1 class="hero-title">Teori Integrasi API Eksternal:<br>Menyambungkan Aplikasi ke Layanan Dunia Luar</h1>
+      <h1 class="hero-title">Teori Integrasi API Eksternal &amp; API Berbayar:<br>Arsitektur, Model Biaya, &amp; Keamanan</h1>
       <p class="lede">
-        Panduan komprehensif bagi pemula non-IT untuk memahami bagaimana aplikasi modern meminta dan menerima data dari server eksternal, membaca struktur JSON, memahami status code &amp; keamanan API key, serta merancang prompt AI yang presisi.
+        Panduan komprehensif bagi pemula non-IT untuk memahami bagaimana aplikasi meminta dan menerima data dari server eksternal, membaca struktur JSON, menguasai 4 model biaya API berbayar, membedakan 2 lapis biaya vibe coding, menghindari 5 dosa besar API key, serta merancang prompt presisi dengan formula 5 Elemen &amp; K-T-B-H.
       </p>
 
       <div class="meta-badge-row">
-        <div class="meta-badge"><span>⏱️</span> <strong>Durasi:</strong> ± 60 Menit Teori</div>
-        <div class="meta-badge"><span>🎯</span> <strong>Target:</strong> Pemula Tanpa Latar Belakang IT</div>
-        <div class="meta-badge"><span>🤖</span> <strong>Metode:</strong> Vibe Coding (Prompt-Driven Architecture)</div>
-        <div class="meta-badge"><span>🔑</span> <strong>Fokus:</strong> Endpoint, Request-Response, JSON, API Key</div>
+        <div class="meta-badge"><span>⏱️</span> <strong>Durasi Teori:</strong> ± 60 Menit</div>
+        <div class="meta-badge"><span>🎯</span> <strong>Target Peserta:</strong> Pemula Non-IT (Belum pernah ngoding)</div>
+        <div class="meta-badge"><span>🤖</span> <strong>Tools &amp; Paradigma:</strong> Vibe Coding (Prompt-Driven Architecture)</div>
+        <div class="meta-badge"><span>💰</span> <strong>Keahlian Inti:</strong> Manajemen Biaya Token, Free Tier, &amp; Keamanan API Key</div>
       </div>
     </div>
   </div>
@@ -886,12 +894,17 @@
   <div class="lab-nav-sticky">
     <div class="wrap">
       <div class="lab-nav-inner">
-        <a href="#mental-model" class="lab-nav-pill">🍽️ Mental Model &amp; Analogi</a>
+        <a href="#mental-model" class="lab-nav-pill">🏛️ Mental Model &amp; Analogi</a>
         <a href="#apa-itu-api" class="lab-nav-pill">1.1 Konsep API Eksternal</a>
         <a href="#istilah-dasar" class="lab-nav-pill">1.2 Glosarium 8 Istilah Kunci</a>
         <a href="#anatomi-json" class="lab-nav-pill">1.3 Membedah Format JSON</a>
-        <a href="#mengapa-non-it" class="lab-nav-pill">1.4 Kenapa Non-IT Wajib Paham</a>
-        <a href="#anatomi-prompt" class="lab-nav-pill">1.5 Kerangka 5 Elemen Prompt</a>
+        <a href="#kenapa-butuh-uang" class="lab-nav-pill">1.4 Mengapa API Butuh Biaya?</a>
+        <a href="#model-biaya" class="lab-nav-pill">1.5 Empat Model Biaya API</a>
+        <a href="#satuan-token" class="lab-nav-pill">1.6 Satuan Biaya &amp; Token AI</a>
+        <a href="#dua-lapis-biaya" class="lab-nav-pill">1.7 Dua Lapis Biaya Vibe Coding</a>
+        <a href="#dosa-api-key" class="lab-nav-pill">1.8 Lima Dosa Besar API Key</a>
+        <a href="#kapan-tidak-perlu" class="lab-nav-pill">1.9 Kapan API TIDAK Perlu</a>
+        <a href="#anatomi-prompt" class="lab-nav-pill">1.10 Formula Prompt (5 Elemen &amp; KTBH)</a>
         <a href="#glosarium-lengkap" class="lab-nav-pill">📑 Glosarium Lengkap</a>
       </div>
     </div>
@@ -902,25 +915,26 @@
 
     <!-- ARCHITECTURE & MENTAL MODEL BANNER -->
     <div class="arch-card" id="mental-model">
-      <h3>🏛️ Mental Model: Bagaimana Aplikasi Bertukar Informasi di Internet</h3>
+      <h3>🏛️ Mental Model: Bagaimana Aplikasi Bertukar Informasi &amp; Menghitung Biaya di Internet</h3>
       <p style="font-size:14px; opacity:0.9;">
-        Aplikasi Anda di laptop tidak perlu membuat satelit cuaca, database perbankan, atau server kurs valuta asing sendiri. Cukup hubungi "Pelayan" (API) penyedia layanan tersebut.
+        Aplikasi Anda di laptop tidak perlu membuat satelit cuaca, database perbankan, atau model kecerdasan buatan triliunan parameter sendiri. Cukup hubungi "Pelayan" (API) penyedia layanan tersebut.
       </p>
 
       <div class="arch-diagram">
 +--------------------+            HTTP Request (GET/POST)             +-----------------------+
 |  APLIKASI KITA     | ---------------------------------------------> |   API SERVER LUAR     |
-| (Frontend Webpage) |                                                | (OpenWeather/Currency)|
+| (Frontend Webpage) |         [Header: Authorization: API_Key]       | (Gemini, Weather, FX) |
+|                    |                                                |                       |
 |                    | <--------------------------------------------- |                       |
 +--------------------+        HTTP Response (JSON + Status Code)      +-----------------------+
         |                                                                         |
         v                                                                         v
-   Render Kartu                                                              Ambil Data
-   di Layar Web                                                              dari Database
+   Render Kartu                                                              Ambil Data / AI
+   &amp; Hitung Biaya                                                            &amp; Catat Meteran Billing
       </div>
 
       <div class="arch-insight">
-        💡 <strong>Prinsip Inti Vibe Coding:</strong> Anda tidak perlu mengetik fungsi <code>fetch()</code> atau <code>async/await</code> manual. Cukup pahami dari mana data berasal (Endpoint) dan apa format yang dikembalikan (JSON), lalu minta AI menuliskannya untuk Anda!
+        💡 <strong>Prinsip Inti Vibe Coding:</strong> Anda tidak perlu mengetik fungsi <code>fetch()</code> atau backend server manual. Cukup pahami dari mana data berasal (Endpoint), apa format yang dikembalikan (JSON), dan bagaimana kuota dihitung, lalu minta agen AI menuliskannya secara aman!
       </div>
     </div>
 
@@ -930,21 +944,21 @@
         <div class="section-num-badge">1.1</div>
         <div class="section-header-text">
           <h2>Apa itu API Eksternal?</h2>
-          <p>Memahami peran jembatan komunikasi antar-aplikasi digital.</p>
+          <p>Memahami peran jembatan komunikasi resmi antar-aplikasi digital.</p>
         </div>
       </div>
 
       <p style="font-size:15px; color:var(--ink); margin-bottom:16px;">
-        <strong>API</strong> adalah singkatan dari <strong>Application Programming Interface</strong>. Secara sederhana, API adalah penerjemah dan penghubung resmi yang mengizinkan dua sistem software yang berbeda untuk saling berbicara dan bertukar informasi secara teratur dan aman.
+        <strong>API</strong> adalah singkatan dari <strong>Application Programming Interface</strong>. Secara sederhana: <strong>API adalah cara satu aplikasi memesan jasa atau data ke aplikasi lain</strong>. Itu saja intinya, selebihnya adalah detail teknis.
       </p>
 
-      <!-- ANALOGI PELAYAN RESTORAN -->
+      <!-- ANALOGI 1: PELAYAN RESTORAN -->
       <div class="analogy-box">
         <div class="analogy-header">
-          <span>🍽️ Analogi Nyata: Pelayan di Restoran Modern</span>
+          <span>🍽️ Analogi 1: Pelayan di Restoran Modern (Alur Request &amp; Response)</span>
         </div>
         <div class="analogy-content">
-          Bayangkan Anda sedang makan di sebuah restoran mewah:
+          Bayangkan Anda sedang makan di sebuah restoran:
           <div class="analogy-grid">
             <div class="analogy-item">
               <div class="role">👤 Tamu Restoran</div>
@@ -952,63 +966,107 @@
             </div>
             <div class="analogy-item">
               <div class="role">🤵 Pelayan Restoran</div>
-              <div class="desc"><strong>(API)</strong><br>Membawa pesanan ke dapur, memastikan pesanan valid, lalu membawa makanan ke meja.</div>
+              <div class="desc"><strong>(API)</strong><br>Membawa pesanan ke dapur, memastikan pesanan valid, lalu membawakan makanan kembali.</div>
             </div>
             <div class="analogy-item">
               <div class="role">🍳 Dapur Restoran</div>
-              <div class="desc"><strong>(Server Eksternal)</strong><br>Pusat data &amp; sistem pihak ketiga yang memproses dan menyiapkan pesanan.</div>
+              <div class="desc"><strong>(Server Eksternal)</strong><br>Pusat data &amp; sistem pihak ketiga yang memproses dan menyiapkan data Anda.</div>
             </div>
           </div>
           <p style="margin-top:14px; font-size:13px;">
-            Anda sebagai tamu <strong>tidak boleh dan tidak perlu masuk langsung ke dapur</strong> untuk mengambil daging mentah. Anda hanya berbicara dengan pelayan melalui daftar menu resmi. Begitulah cara kerja API menjaga keamanan server penyedia data!
+            Anda sebagai tamu <strong>tidak boleh dan tidak perlu masuk langsung ke dapur</strong> untuk mengambil bahan mentah. Anda hanya berbicara dengan pelayan melalui daftar menu resmi. Begitulah cara API menjaga keamanan server penyedia data!
           </p>
         </div>
       </div>
 
-      <h3 style="font-size:20px; margin:24px 0 12px; color:var(--ink);">Contoh Nyata API Eksternal Populer</h3>
-      <p style="font-size:14px; color:var(--ink-mid); margin-bottom:14px;">
-        Berikut adalah beberapa layanan API pihak ketiga yang sering diintegrasikan ke dalam produk digital sehari-hari:
-      </p>
+      <!-- ANALOGI 2: WARUNG FOTOKOPI -->
+      <div class="analogy-box" style="background:linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border-color:#BFDBFE;">
+        <div class="analogy-header" style="color:#1E40AF;">
+          <span>🖨️ Analogi 2: Warung Fotokopi (Alur Komponen API Berbayar)</span>
+        </div>
+        <div class="analogy-content" style="color:#1E3A8A;">
+          Anda punya naskah, tapi tidak punya mesin fotokopi. Anda datang ke warung fotokopi komersial:
+          <div class="table-container" style="margin-top:12px; background:#fff;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Di Warung Fotokopi</th>
+                  <th>Di Dunia API Modern</th>
+                  <th>Penjelasan Sederhana</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Alamat Warung</strong></td>
+                  <td><code>Endpoint</code></td>
+                  <td>Alamat URL internet tempat layanan berada.</td>
+                </tr>
+                <tr>
+                  <td><strong>Kartu Member / Nama di Nota</strong></td>
+                  <td><code>API Key</code></td>
+                  <td>Kartu identitas Anda yang menempel langsung pada tagihan.</td>
+                </tr>
+                <tr>
+                  <td><strong>Naskah yang Diserahkan</strong></td>
+                  <td><code>Request</code></td>
+                  <td>Data atau teks masukan yang dikirim aplikasi kita.</td>
+                </tr>
+                <tr>
+                  <td><strong>Hasil Fotokopi yang Diterima</strong></td>
+                  <td><code>Response</code></td>
+                  <td>Jawaban atau data hasil pemrosesan (biasanya format JSON).</td>
+                </tr>
+                <tr>
+                  <td><strong>"Maksimal 50 lembar per orang ya!"</strong></td>
+                  <td><code>Rate Limit</code></td>
+                  <td>Batas pemakaian agar server tidak tumbang/kewalahan.</td>
+                </tr>
+                <tr>
+                  <td><strong>Rp 500 / lembar, bayar di kasir</strong></td>
+                  <td><code>Billing / Tagihan</code></td>
+                  <td>Biaya operasional sesuai volume data yang diproses.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
+      <h3 style="font-size:20px; margin:24px 0 12px; color:var(--ink);">Contoh Nyata API Eksternal Populer di Industri</h3>
       <div class="table-container">
         <table class="data-table">
           <thead>
             <tr>
               <th>Penyedia Layanan API</th>
-              <th>Fungsi &amp; Data yang Disediakan</th>
+              <th>Kategori Layanan</th>
               <th>Contoh Penggunaan Nyata</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>OpenWeatherMap</strong></td>
-              <td>Data prakiraan cuaca, suhu, kelembapan, kecepatan angin global</td>
-              <td>Widget cuaca di website portal berita atau aplikasi jadwal travel.</td>
+              <td><strong>Google Gemini API / OpenAI</strong></td>
+              <td>Kecerdasan Buatan (LLM)</td>
+              <td>Meringkas aduan masyarakat, klasifikasi surat otomatis, chatbot customer service.</td>
             </tr>
             <tr>
               <td><strong>ExchangeRate-API</strong></td>
-              <td>Konversi dan kurs mata uang asing real-time (USD, IDR, EUR, dll)</td>
-              <td>Kalkulator belanja impor dan dashboard konversi e-commerce.</td>
+              <td>Data Finansial Real-Time</td>
+              <td>Konversi kurs mata uang otomatis di kasir online e-commerce internasional.</td>
             </tr>
             <tr>
-              <td><strong>Google Maps API</strong></td>
-              <td>Peta interaktif, pencarian rute terdekat, dan geocoding lokasi</td>
-              <td>Pelacakan kurir pengiriman dan penunjuk lokasi toko fisik.</td>
+              <td><strong>OpenWeatherMap / BMKG</strong></td>
+              <td>Geospasial &amp; Cuaca</td>
+              <td>Widget perkiraan cuaca dan suhu otomatis pada aplikasi jadwal penerbangan.</td>
             </tr>
             <tr>
               <td><strong>Payment Gateway (Midtrans, Xendit)</strong></td>
-              <td>Pemrosesan pembayaran QRIS, Virtual Account, &amp; Kartu Kredit</td>
-              <td>Checkout otomatis toko online tanpa cek mutasi bank manual.</td>
+              <td>Fintech &amp; Transaksi</td>
+              <td>Verifikasi pembayaran QRIS dan Virtual Account tanpa perlu cek mutasi rekening manual.</td>
             </tr>
             <tr>
-              <td><strong>WhatsApp Business API</strong></td>
-              <td>Pengiriman pesan notifikasi otomatis via nomor WhatsApp resmi</td>
-              <td>Notifikasi OTP login, struk belanjaan, dan reminder tiket pesawat.</td>
-            </tr>
-            <tr>
-              <td><strong>Open Trivia DB / Quotable</strong></td>
-              <td>Bank soal kuis gratis dan generator kutipan inspiratif harian</td>
-              <td>Aplikasi game edukasi ringan dan widget motivasi pagi hari.</td>
+              <td><strong>WhatsApp Business API / Twilio</strong></td>
+              <td>Komunikasi &amp; SMS</td>
+              <td>Kirim kode OTP login, struk belanjaan, dan tiket pesawat langsung ke nomor HP pengguna.</td>
             </tr>
           </tbody>
         </table>
@@ -1030,14 +1088,14 @@
           <h4>📍 1. Endpoint</h4>
           <p>
             Alamat URL spesifik tujuan pengiriman permintaan data. Seperti alamat rumah yang dituju oleh kurir.<br>
-            <code>https://open.er-api.com/v6/latest/USD</code>
+            Contoh: <code>https://open.er-api.com/v6/latest/USD</code>
           </p>
         </div>
 
         <div class="feature-card">
           <h4>📨 2. Request (Permintaan)</h4>
           <p>
-            Pesan yang dikirim aplikasi Anda ke server API. Berisi instruksi seperti *"Tolong berikan data kurs mata uang USD terbaru"*.
+            Pesan yang dikirim aplikasi Anda ke server API. Berisi instruksi atau data masukan seperti teks aduan atau kode mata uang.
           </p>
         </div>
 
@@ -1056,9 +1114,9 @@
         </div>
 
         <div class="feature-card">
-          <h4>🔑 5. API Key (Kunci Izin)</h4>
+          <h4>🔑 5. API Key (Kunci Izin &amp; Meteran)</h4>
           <p>
-            Deretan karakter rahasia yang berfungsi seperti <em>kartu akses VIP</em>. Membuktikan identitas aplikasi Anda berhak mengambil data dari server tersebut.
+            Deretan karakter rahasia yang berfungsi seperti <em>kartu akses VIP yang menempel pada tagihan Anda</em>. Membuktikan hak akses dan pencatatan kuota.
           </p>
         </div>
 
@@ -1067,7 +1125,7 @@
           <p>
             Tipe tindakan yang diminta:<br>
             • <strong>GET:</strong> Hanya meminta/mengambil data (read-only).<br>
-            • <strong>POST:</strong> Mengirim data baru untuk disimpan/diproses di server.
+            • <strong>POST:</strong> Mengirim data baru untuk dianalisis/disimpan di server.
           </p>
         </div>
 
@@ -1076,16 +1134,17 @@
           <p>
             Angka 3 digit standar internasional penanda status keberhasilan:<br>
             • <code>200 OK</code> = Sukses<br>
-            • <code>401 Unauthorized</code> = API Key salah/hilang<br>
+            • <code>401 Unauthorized</code> = Kunci API salah/hilang<br>
             • <code>404 Not Found</code> = Alamat Endpoint salah<br>
-            • <code>500 Server Error</code> = Server penyedia sedang tumbang
+            • <code>429 Too Many Requests</code> = Kuota/kecepatan habis<br>
+            • <code>500 Server Error</code> = Server penyedia sedang bermasalah
           </p>
         </div>
 
         <div class="feature-card">
-          <h4>⏱️ 8. Rate Limit (Batas Kuota)</h4>
+          <h4>⏱️ 8. Rate Limit (Batas Kuota Kecepatan)</h4>
           <p>
-            Batas maksimal frekuensi permintaan yang diizinkan penyedia API dalam kurun waktu tertentu (misal: gratis 60 request/menit) untuk mencegah server kewalahan.
+            Batas maksimal frekuensi permintaan yang diizinkan penyedia API dalam kurun waktu tertentu (misal: 15 request per menit) untuk mencegah server kewalahan.
           </p>
         </div>
       </div>
@@ -1097,30 +1156,17 @@
         <div class="section-num-badge">1.3</div>
         <div class="section-header-text">
           <h2>Membedah Format Data JSON</h2>
-          <p>Membaca dan memetakan struktur data yang dikirim oleh API.</p>
+          <p>Membaca dan memetakan struktur data yang dikirimkan oleh API.</p>
         </div>
       </div>
 
       <p style="font-size:15px; color:var(--ink); margin-bottom:14px;">
-        Format JSON selalu menggunakan pasangan <code>"kunci": nilai</code> diapit kurung kurawal <code>{ }</code>. Mari kita bedah contoh response cuaca dan response kurs mata uang berikut:
+        Format JSON selalu menggunakan pasangan <code>"kunci": nilai</code> diapit kurung kurawal <code>{ }</code>. Mari kita bedah contoh response kurs mata uang dan response dari API AI Peringkas Aduan:
       </p>
 
       <div class="card-grid">
         <div>
-          <h4 style="font-size:14px; font-weight:700; color:var(--deep); margin-bottom:6px;">Contoh Response JSON Cuaca:</h4>
-          <div class="json-box">
-{
-  <span class="json-key">"kota"</span>: <span class="json-string">"Jakarta"</span>,          <span class="json-comment">// Teks string</span>
-  <span class="json-key">"suhu"</span>: <span class="json-num">31.5</span>,                 <span class="json-comment">// Angka desimal (°C)</span>
-  <span class="json-key">"kelembapan"</span>: <span class="json-num">78</span>,             <span class="json-comment">// Angka persen (%)</span>
-  <span class="json-key">"kondisi"</span>: <span class="json-string">"Cerah Berawan"</span>,   <span class="json-comment">// Status cuaca</span>
-  <span class="json-key">"is_hujan"</span>: <span class="json-num">false</span>             <span class="json-comment">// Boolean (Ya/Tidak)</span>
-}
-          </div>
-        </div>
-
-        <div>
-          <h4 style="font-size:14px; font-weight:700; color:var(--deep); margin-bottom:6px;">Contoh Response JSON ExchangeRate API:</h4>
+          <h4 style="font-size:14px; font-weight:700; color:var(--deep); margin-bottom:6px;">Contoh Response Kurs Mata Uang (ExchangeRate):</h4>
           <div class="json-box">
 {
   <span class="json-key">"result"</span>: <span class="json-string">"success"</span>,
@@ -1128,8 +1174,23 @@
   <span class="json-key">"rates"</span>: {
     <span class="json-key">"IDR"</span>: <span class="json-num">16250.50</span>,            <span class="json-comment">// Kurs Rupiah</span>
     <span class="json-key">"EUR"</span>: <span class="json-num">0.92</span>,                <span class="json-comment">// Kurs Euro</span>
-    <span class="json-key">"JPY"</span>: <span class="json-num">155.20</span>,              <span class="json-comment">// Kurs Yen Jepang</span>
-    <span class="json-key">"SGD"</span>: <span class="json-num">1.34</span>                 <span class="json-comment">// Kurs Dolar Singapura</span>
+    <span class="json-key">"JPY"</span>: <span class="json-num">155.20</span>               <span class="json-comment">// Kurs Yen Jepang</span>
+  },
+  <span class="json-key">"time_last_update_utc"</span>: <span class="json-string">"Wed, 02 Sep 2026"</span>
+}
+          </div>
+        </div>
+
+        <div>
+          <h4 style="font-size:14px; font-weight:700; color:var(--deep); margin-bottom:6px;">Contoh Response AI (Asisten Aduan):</h4>
+          <div class="json-box">
+{
+  <span class="json-key">"ringkasan"</span>: <span class="json-string">"Lampu jalan mati 2 minggu di RT 04."</span>,
+  <span class="json-key">"kategori"</span>: <span class="json-string">"Infrastruktur Publik"</span>,
+  <span class="json-key">"urgensi"</span>: <span class="json-string">"Tinggi"</span>,
+  <span class="json-key">"usage"</span>: {
+    <span class="json-key">"prompt_tokens"</span>: <span class="json-num">48</span>,
+    <span class="json-key">"completion_tokens"</span>: <span class="json-num">24</span>
   }
 }
           </div>
@@ -1139,105 +1200,327 @@
       <div class="callout callout-info">
         <span style="font-size:20px;">💡</span>
         <div>
-          <strong>Cara Membaca yang Benar:</strong> Dalam bahasa pemrograman, saat Anda ingin menampilkan harga Rupiah dari response kurs di atas, cukup minta AI: <em>"Tampilkan nilai dari <code>rates.IDR</code> pada kartu kurs Indonesia Rupiah"</em>. AI akan langsung memahami navigasi objek bertingkat tersebut!
+          <strong>Cara Membaca untuk Prompt AI:</strong> Anda tidak perlu menulis kode penguraian JSON. Cukup sebutkan nama field-nya dalam prompt: <em>"Ambil data dari <code>rates.IDR</code> untuk kartu kurs Rupiah, dan tampilkan <code>ringkasan</code> di area hasil."</em> AI akan mengurus logikanya!
         </div>
       </div>
     </section>
 
-    <!-- SEKSI 1.4: KENAPA NON-IT PERLU PAHAM -->
-    <section class="content-section" id="mengapa-non-it">
+    <!-- SEKSI 1.4: KENAPA BUTUH BIAYA -->
+    <section class="content-section" id="kenapa-butuh-uang">
       <div class="section-header">
         <div class="section-num-badge">1.4</div>
         <div class="section-header-text">
-          <h2>Mengapa Non-IT Tetap Wajib Paham Konsep Ini?</h2>
-          <p>Memahami batasan antara peran Anda sebagai arsitek ide dan AI sebagai koder.</p>
+          <h2>Kenapa Aplikasi Buatanmu Tiba-tiba Butuh Uang?</h2>
+          <p>Memahami garis batas antara komputasi lokal gratis dan layanan komputasi awan berbayar.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-warn">
+        <span style="font-size:20px;">💭</span>
+        <div>
+          <strong>Pertanyaan Pemantik:</strong> <em>"Di sesi-sesi sebelumnya kita membuat halaman web profil atau kalkulator. Semuanya gratis selamanya, kan? Mengapa ketika kita meminta aplikasi meringkas aduan atau mendeteksi gambar, tiba-tiba ada pembicaraan tentang biaya dan tagihan?"</em>
         </div>
       </div>
 
       <p style="font-size:15px; color:var(--ink); margin-bottom:16px;">
-        Dalam paradigma <em>Vibe Coding</em>, Anda tidak dituntut menulis baris kode pemrograman secara manual. Namun, AI bukanlah peramal pikiran. Tanpa pemahaman konsep dasar API, Anda akan menemui 3 hambatan kritis:
+        Jawabannya sederhana: <strong>Bukan komputer laptop Anda yang mengerjakan peringkasan itu.</strong>
       </p>
 
       <div class="card-grid">
-        <div class="feature-card" style="border-left:4px solid var(--teal);">
-          <h4>🎯 1. Mengetahui Apa yang Harus Diminta</h4>
-          <p>
-            Jika Anda hanya berkata *"Buatkan aplikasi kurs"*, AI mungkin membuat angka statis palsu (dummy). Tapi jika Anda berkata *"Hubungkan ke API open.er-api.com dan ambil field rates.IDR"*, hasilnya langsung akurat dan hidup.
-          </p>
-        </div>
-
         <div class="feature-card" style="border-left:4px solid var(--emerald);">
-          <h4>📖 2. Mampu Membaca Dokumentasi API</h4>
+          <h4>💻 Komputasi Komputer Sendiri (Gratis)</h4>
           <p>
-            Penyedia API selalu menyertakan dokumentasi URL endpoint dan parameter. Anda cukup membaca sekilas bagian URL dan API key, lalu menyalin tautan tersebut ke dalam prompt AI Anda.
-          </p>
-        </div>
-
-        <div class="feature-card" style="border-left:4px solid var(--amber);">
-          <h4>🔍 3. Mampu Mengidentifikasi Error</h4>
-          <p>
-            Ketika website Anda macet dan hanya memunculkan layar putih atau animasi loading berputar tanpa henti, Anda tahu cara mengecek status code (misal <code>401 Unauthorized</code>) dan meneruskannya ke AI untuk diperbaiki.
+            Kode HTML, CSS, dan logika matematika biasa (menjumlahkan angka, mengubah warna tombol) dijalankan langsung oleh prosesor di laptop Anda sendiri. Anda tidak perlu membayar siapa pun karena listrik dan memorinya milik Anda.
           </p>
         </div>
 
         <div class="feature-card" style="border-left:4px solid var(--rose);">
-          <h4>🔐 4. Menjaga Keamanan Kredensial</h4>
+          <h4>🏢 Jasa Komputer Pihak Ketiga (Berbayar)</h4>
           <p>
-            Anda paham bahwa API Key pribadi adalah rahasia seperti nomor PIN ATM yang tidak boleh di-hardcode di file publik atau di-commit ke GitHub tanpa brankas env.
+            Saat meminta AI meringkas surat, aplikasi mengirim data ke ribuan komputer super di data center Google/OpenAI. Mereka menyediakan chip GPU canggih dan listrik raksasa, sehingga mereka menagih biaya sewa komputasi tersebut kepada Anda.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- SEKSI 1.5: ANATOMI PROMPT 5 ELEMEN -->
-    <section class="content-section" id="anatomi-prompt">
+    <!-- SEKSI 1.5: 4 MODEL BIAYA -->
+    <section class="content-section" id="model-biaya">
       <div class="section-header">
         <div class="section-num-badge">1.5</div>
         <div class="section-header-text">
-          <h2>Anatomi 5 Elemen Prompt Integrasi API yang Efektif</h2>
-          <p>Formula terstruktur menyusun prompt agar AI menghasilkan kode yang berfungsi pada percobaan pertama.</p>
+          <h2>Empat Model Biaya API di Industri Digital</h2>
+          <p>Kenali model penetapan harga sebelum mendaftarkan akun di layanan API mana pun.</p>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Model Biaya</th>
+              <th>Cara Kerja Tagihan</th>
+              <th>Contoh Nyata</th>
+              <th>Risiko Utama bagi Pemula</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Free Tier Permanen</strong></td>
+              <td>Gratis sampai batas kuota tertentu per menit/hari. Jika kuota habis, permintaan ditolak (Error 429).</td>
+              <td>Google AI Studio (Gemini Free Tier), ExchangeRate Free</td>
+              <td>Aplikasi mati mendadak saat pengunjung ramai (bukan sekadar lambat).</td>
+            </tr>
+            <tr>
+              <td><strong>2. Pay-As-You-Go (Sesuai Pakai)</strong></td>
+              <td>Ditagih per satuan unit pemakaian (per token / per request). Tanpa batas atas otomatis jika tidak disetel.</td>
+              <td>Mayoritas API AI komersial, Google Maps, SMS Gateway</td>
+              <td><strong>Tagihan membengkak tanpa disadari</strong> jika aplikasi diserang bot atau looping kode.</td>
+            </tr>
+            <tr>
+              <td><strong>3. Langganan Berkuota</strong></td>
+              <td>Bayar nominal tetap bulanan untuk mendapatkan kuota sejumlah tertentu.</td>
+              <td>Layanan SaaS, Cloud Database Pro tier</td>
+              <td>Membayar penuh meskipun aplikasi sedang sepi dan kuota tidak terpakai.</td>
+            </tr>
+            <tr>
+              <td><strong>4. Freemium + Kartu Kredit</strong></td>
+              <td>Gratis untuk trial awal, namun wajib memasukkan nomor kartu kredit di awal pendaftaran.</td>
+              <td>Beberapa Cloud Provider &amp; Payment Gateway</td>
+              <td>Lupa membatalkan langganan sehingga langsung ditagih otomatis di bulan berikutnya.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <span style="font-size:20px;">🛡️</span>
+        <div>
+          <strong>3 Aturan Emas Memeriksa Halaman Pricing Sebelum Mendaftar:</strong><br>
+          1. Apakah ada fitur <strong>Spend Limit / Budget Cap</strong> (batas pengeluaran maksimal) yang bisa saya kunci sendiri?<br>
+          2. Apa yang terjadi jika kuota gratis habis — <strong>apakah ditolak</strong> atau <strong>langsung didebit dari kartu kredit</strong>?<br>
+          3. Apakah tombol <strong>Revoke / Hapus Kunci</strong> mudah diakses kapan saja?<br>
+          <em>Jika ketiga hal ini tidak jelas, jangan pernah memasukkan kartu kredit Anda!</em>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKSI 1.6: SATUAN BIAYA & TOKEN -->
+    <section class="content-section" id="satuan-token">
+      <div class="section-header">
+        <div class="section-num-badge">1.6</div>
+        <div class="section-header-text">
+          <h2>Satuan Biaya: Token Masuk vs Token Keluar</h2>
+          <p>Memahami bagaimana penyedia AI menghitung meteran tagihan Anda.</p>
+        </div>
+      </div>
+
+      <p style="font-size:15px; color:var(--ink); margin-bottom:16px;">
+        API berbayar tidak menagih "per website". Mereka menagih berdasarkan <strong>satuan pemakaian</strong>. Untuk API data/cuaca satuannya adalah <em>per Request</em>, untuk WhatsApp satuannya <em>per Pesan</em>, sedangkan untuk API AI satuannya adalah <strong>TOKEN</strong>.
+      </p>
+
+      <div class="card-grid">
+        <div class="feature-card">
+          <h4>📥 1. Token Masuk (Input / Prompt)</h4>
+          <p>
+            Semua teks yang Anda kirim ke AI (instruksi prompt + teks dokumen aduan yang ingin diringkas).<br>
+            <strong>Harga: Relatif Sangat Murah.</strong> AI hanya membaca informasi yang sudah ada.
+          </p>
+        </div>
+
+        <div class="feature-card" style="border-left:4px solid var(--amber);">
+          <h4>📤 2. Token Keluar (Output / Completion)</h4>
+          <p>
+            Semua teks jawaban yang dihasilkan oleh AI huruf demi huruf.<br>
+            <strong>Harga: 5× hingga 10× Lebih Mahal!</strong> AI harus melakukan kalkulasi probabilitas kata yang sangat berat secara komputasi.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout callout-purple">
+        <span style="font-size:20px;">💡</span>
+        <div>
+          <strong>Konsekuensi Praktis Penghematan Biaya:</strong><br>
+          Menyuruh AI membaca dokumen panjang itu murah. Namun membiarkan AI menjawab bertele-tele dan berpanjang lebar itu mahal! Karena itu, <strong>membatasi panjang jawaban (misal: "ringkas dalam maksimal 1 kalimat")</strong> adalah strategi penghematan biaya nomor satu yang paling ampuh.
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKSI 1.7: DUA LAPIS BIAYA -->
+    <section class="content-section" id="dua-lapis-biaya">
+      <div class="section-header">
+        <div class="section-num-badge">1.7</div>
+        <div class="section-header-text">
+          <h2>Dua Lapis Biaya dalam Vibe Coding</h2>
+          <p>Konsep paling krusial yang sering membingungkan pemula non-IT.</p>
+        </div>
+      </div>
+
+      <div class="arch-diagram" style="background:#0F172A; color:#F8FAFC;">
+┌────────────────────────────────────────────────────────────────────────┐
+│  LAPIS 1 — Biaya ALAT NGODING (IDE / Agen AI)                          │
+│  Antigravity / Claude Code memakai kuota AI akun pengembang Anda       │
+│  hanya untuk MENULISKAN baris kode aplikasi.                           │
+│  • Habis kuota = Anda tidak bisa lanjut ngoding hari itu.              │
+│  • Aplikasi yang sudah selesai dibuat TETAP BERJALAN normal.           │
+└────────────────────────────────────────────────────────────────────────┘
+                                    ⬇  menghasilkan
+┌────────────────────────────────────────────────────────────────────────┐
+│  LAPIS 2 — Biaya API DI DALAM APLIKASI (Runtime Production)             │
+│  Aplikasi hasil buatan memakai API KEY milik Anda setiap kali          │
+│  PENGGUNA / MASYARAKAT menekan tombol di website.                      │
+│  • Habis kuota / saldo = APLIKASI ANDA yang mati/error 429.            │
+│  • Biaya ini berjalan terus 24 jam sehari selama aplikasi dipakai.     │
+└────────────────────────────────────────────────────────────────────────┘
+      </div>
+
+      <div class="callout callout-info">
+        <span style="font-size:20px;">🏢</span>
+        <div>
+          <strong>Analogi Nyata:</strong> Lapis 1 adalah <em>ongkos menyewa tukang bangunan untuk mendirikan warung kopi Anda</em> (sekali bayar saat pengerjaan). Lapis 2 adalah <em>tagihan listrik dan pasokan biji kopi harian warung Anda</em> (harus dibayar terus menerus setiap kali ada pembeli yang datang). Keduanya tidak saling menggantikan!
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKSI 1.8: 5 DOSA BESAR API KEY -->
+    <section class="content-section" id="dosa-api-key">
+      <div class="section-header">
+        <div class="section-num-badge" style="background:var(--rose);">1.8</div>
+        <div class="section-header-text">
+          <h2>Lima Dosa Besar Pemula dengan API Key</h2>
+          <p>Kesalahan fatal yang sering menyebabkan kebocoran saldo dan kerugian finansial nyata.</p>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:5%;">#</th>
+              <th>Dosa / Kesalahan Fatal</th>
+              <th>Akibat / Kerugian yang Terjadi</th>
+              <th>Cara Pencegahan yang Benar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>Menulis API Key langsung di file HTML / JS publik</strong></td>
+              <td>Siapa pun yang membuka browser bisa klik <em>Inspect Element</em>, menyalin kunci Anda, dan memakai saldo Anda sampai habis.</td>
+              <td>Gunakan server backend kecil (Node.js) atau file lingkungan <code>.env</code>.</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>Mengunggah kode ke GitHub tanpa <code>.gitignore</code></strong></td>
+              <td>Robot pemindai (bot crawler) di internet akan mencuri kunci Anda dalam hitungan 2–3 menit setelah commit publik.</td>
+              <td>Selalu cantumkan <code>.env</code> di dalam file <code>.gitignore</code> sebelum git push.</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>Membagikan kunci di grup WhatsApp / Telegram "biar cepat"</strong></td>
+              <td>Kunci menyebar tak terkendali ke puluhan orang dan riwayat chat tersimpan di cloud orang lain.</td>
+              <td>Gunakan manajemen izin tim resmi di dashboard penyedia API.</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>Menampilkan kunci saat live screen-sharing atau screenshot</strong></td>
+              <td>Sama saja menyiarkan kartu kredit Anda ke seluruh peserta rapat/rekaman video.</td>
+              <td>Gunakan ekstensi penyembunyi kunci atau tutup jendela credential sebelum share screen.</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>Tidak pernah menghapus (revoke) kunci lama yang sudah selesai latihan</strong></td>
+              <td>Meninggalkan "pintu belakang" terbuka tanpa pengawasan yang bisa disalahgunakan di kemudian hari.</td>
+              <td>Biasakan ritual <strong>hapus / cabut kunci</strong> di dashboard segera setelah sesi praktikum selesai.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SEKSI 1.9: KAPAN TIDAK PERLU API BERBAYAR -->
+    <section class="content-section" id="kapan-tidak-perlu">
+      <div class="section-header">
+        <div class="section-num-badge">1.9</div>
+        <div class="section-header-text">
+          <h2>Kapan API Berbayar / AI TIDAK Diperlukan?</h2>
+          <p>Latih kepekaan arsitektur agar tidak memboroskan anggaran untuk hal yang bisa diselesaikan logika biasa.</p>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="feature-card" style="border-left:4px solid #94A3B8;">
+          <h4>❌ TIDAK Perlu API Berbayar Jika:</h4>
+          <p>
+            • Tugasnya berpola matematis tetap (menghitung diskon, format tanggal, urut nama).<br>
+            • Datanya sedikit dan statis (cukup simpan di array/tabel lokal).<br>
+            • Hanya dipakai sendiri sesekali (cukup salin manual ke chat web ChatGPT/Gemini).
+          </p>
+        </div>
+
+        <div class="feature-card" style="border-left:4px solid var(--emerald);">
+          <h4>✅ BARU Perlu API Berbayar Jika:</h4>
+          <p>
+            1. Menuntut pemahaman bahasa manusia bebas / visi gambar yang tidak berpola tetap.<br>
+            2. Harus berjalan otomatis 24 jam di aplikasi tanpa operator manual.<br>
+            3. Volumenya sangat besar sehingga pengerjaan manusia menjadi tidak realistis.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKSI 1.10: FORMULA PROMPT -->
+    <section class="content-section" id="anatomi-prompt">
+      <div class="section-header">
+        <div class="section-num-badge">1.10</div>
+        <div class="section-header-text">
+          <h2>Formula Prompt Integrasi API: 5 Elemen &amp; Rumus K–T–B–H</h2>
+          <p>Standar penyusunan prompt terstruktur agar agen AI bekerja akurat, hemat, dan aman.</p>
         </div>
       </div>
 
       <div class="prompt-template-card">
+        <h4 style="font-size:16px; font-weight:700; color:var(--ink); margin-bottom:12px;">Rumus Emas Pemula: K – T – B – H</h4>
+        
         <div class="prompt-element-item">
-          <div class="elem-num">1</div>
+          <div class="elem-num">K</div>
           <div>
-            <div class="elem-title">Konteks &amp; Tujuan Aplikasi</div>
-            <div class="elem-desc">Jelaskan aplikasi apa yang ingin dibangun (misal: Web single-file HTML widget konverter mata uang real-time).</div>
+            <div class="elem-title">Konteks</div>
+            <div class="elem-desc">Siapa Anda, aplikasi apa yang sedang dibuat, dan kondisi kode saat ini (misal: "Saya pemula non-IT membuat web pengolah teks aduan").</div>
           </div>
         </div>
 
         <div class="prompt-element-item">
-          <div class="elem-num">2</div>
+          <div class="elem-num">T</div>
           <div>
-            <div class="elem-title">Nama &amp; Endpoint URL API</div>
-            <div class="elem-desc">Berikan alamat endpoint yang valid secara eksplisit (misal: <code>https://open.er-api.com/v6/latest/USD</code>).</div>
+            <div class="elem-title">Tugas</div>
+            <div class="elem-desc">Instruksi poin demi poin yang diminta secara spesifik (nama endpoint, data JSON yang diambil, dan tampilan UI).</div>
           </div>
         </div>
 
         <div class="prompt-element-item">
-          <div class="elem-num">3</div>
+          <div class="elem-num">B</div>
           <div>
-            <div class="elem-title">Spesifikasi Data yang Diambil</div>
-            <div class="elem-desc">Sebutkan field spesifik dari response JSON yang ingin ditampilkan (misal: kurs IDR, EUR, JPY, dan SGD).</div>
+            <div class="elem-title">Batasan (Guardrails)</div>
+            <div class="elem-desc">Hal yang <strong>DILARANG</strong> dilakukan oleh AI (jangan hapus file, jangan taruh API key di browser publik, batasi panjang jawaban max 300 token).</div>
           </div>
         </div>
 
         <div class="prompt-element-item">
-          <div class="elem-num">4</div>
+          <div class="elem-num">H</div>
           <div>
-            <div class="elem-title">Format Tampilan Visual &amp; State</div>
-            <div class="elem-desc">Instruksikan cara penyajian (kartu grid modern, tombol refresh, spinner saat loading, dan pesan ramah jika gagal koneksi).</div>
+            <div class="elem-title">Hasil</div>
+            <div class="elem-desc">Format keluaran akhir yang Anda inginkan serta petunjuk cara menguji dan menjalankannya di komputer lokal.</div>
           </div>
         </div>
+      </div>
 
-        <div class="prompt-element-item">
-          <div class="elem-num">5</div>
-          <div>
-            <div class="elem-title">Batasan Teknis &amp; Dokumentasi Kode</div>
-            <div class="elem-desc">Minta AI menggunakan Vanilla HTML/CSS/JS tanpa framework rumit, disertai komentar bahasa awam di setiap baris kodenya.</div>
-          </div>
+      <div class="callout callout-info">
+        <span style="font-size:20px;">🛡️</span>
+        <div>
+          <strong>3 Kalimat Pengaman Wajib yang Selalu Ditempel di Setiap Prompt Pemula:</strong><br>
+          <code>• Saya BUKAN programmer. Gunakan bahasa Indonesia sederhana.</code><br>
+          <code>• Jelaskan singkat apa yang akan kamu lakukan SEBELUM menulis kode.</code><br>
+          <code>• Jangan menjalankan perintah yang menghapus file atau menaruh kredensial di publik.</code>
         </div>
       </div>
     </section>
@@ -1248,7 +1531,7 @@
         <div class="section-num-badge">📑</div>
         <div class="section-header-text">
           <h2>Glosarium Lengkap Istilah API &amp; Web</h2>
-          <p>Referensi cepat istilah teknis yang sering Anda temui saat bekerja dengan AI.</p>
+          <p>Kamus istilah bahasa awam untuk referensi cepat Anda.</p>
         </div>
       </div>
 
@@ -1263,59 +1546,63 @@
           <tbody>
             <tr>
               <td><code>API</code></td>
-              <td>Penghubung atau antarmuka yang memungkinkan dua aplikasi saling bertukar data dan layanan secara terstandarisasi.</td>
+              <td>Penghubung atau antarmuka yang memungkinkan dua aplikasi saling bertukar data dan memesan layanan secara terstandarisasi.</td>
             </tr>
             <tr>
               <td><code>Endpoint</code></td>
               <td>Alamat link URL spesifik yang disediakan server untuk menerima request data tertentu.</td>
             </tr>
             <tr>
-              <td><code>Request</code></td>
-              <td>Paket permintaan yang dikirim oleh web browser/aplikasi ke server tujuan.</td>
-            </tr>
-            <tr>
-              <td><code>Response</code></td>
-              <td>Paket jawaban dan data kiriman balik dari server kepada aplikasi pemohon.</td>
+              <td><code>Request / Response</code></td>
+              <td>Paket pesanan yang dikirim aplikasi / paket jawaban dan data balasan yang dikembalikan server.</td>
             </tr>
             <tr>
               <td><code>JSON</code></td>
-              <td>Format teks universal berupa pasangan <code>"kunci": "nilai"</code> untuk pertukaran data antar-sistem.</td>
+              <td>Format teks rapi berupa pasangan <code>"kunci": "nilai"</code> untuk pertukaran data antar-sistem.</td>
             </tr>
             <tr>
               <td><code>API Key</code></td>
-              <td>Kunci kode unik otentikasi identitas akun untuk mendapatkan hak akses ke server API.</td>
+              <td>Kartu akses identitas unik yang mengotorisasi panggilan dan menempel langsung pada tagihan Anda.</td>
             </tr>
             <tr>
-              <td><code>GET</code></td>
-              <td>Metode HTTP untuk sekadar membaca/mengambil data tanpa mengubah kondisi server.</td>
-            </tr>
-            <tr>
-              <td><code>POST</code></td>
-              <td>Metode HTTP untuk mengirim data baru dari form/inputan agar diproses atau disimpan di server.</td>
-            </tr>
-            <tr>
-              <td><code>Status 200 OK</code></td>
-              <td>Kode status HTTP yang menandakan permintaan sukses diproses dan data berhasil dikirim.</td>
-            </tr>
-            <tr>
-              <td><code>Status 401 Unauthorized</code></td>
-              <td>Kode error yang menandakan API Key belum dimasukkan, salah ketik, atau masa berlaku habis.</td>
-            </tr>
-            <tr>
-              <td><code>Status 404 Not Found</code></td>
-              <td>Kode error yang menandakan URL endpoint salah ketik atau data yang dicari tidak ada.</td>
-            </tr>
-            <tr>
-              <td><code>Status 500 Internal Server Error</code></td>
-              <td>Kode error yang menandakan terjadi kerusakan/gangguan pada server penyedia API.</td>
+              <td><code>Token</code></td>
+              <td>Potongan kata; satuan tagihan pada API AI (kasarnya 1 token ≈ 4 karakter Latin).</td>
             </tr>
             <tr>
               <td><code>Rate Limit</code></td>
-              <td>Kebijakan kuota maksimal jumlah request per menit/hari agar server tidak kelebihan beban.</td>
+              <td>Batas kuota maksimal frekuensi request per menit/hari agar server tidak kelebihan beban.</td>
             </tr>
             <tr>
-              <td><code>CORS (Cross-Origin Resource Sharing)</code></td>
-              <td>Mekanisme keamanan browser yang mengatur apakah sebuah website diizinkan mengambil data dari domain luar yang berbeda.</td>
+              <td><code>Free Tier</code></td>
+              <td>Jatah kuota pemakaian gratis permanen yang disediakan untuk tahap belajar atau pengembangan.</td>
+            </tr>
+            <tr>
+              <td><code>Pay-As-You-Go</code></td>
+              <td>Sistem pembayaran pascabayar sesuai jumlah unit token/request yang benar-benar dikonsumsi.</td>
+            </tr>
+            <tr>
+              <td><code>.env &amp; .gitignore</code></td>
+              <td>File brankas rahasia lokal untuk menyimpan kunci &amp; daftar file terlarang yang tidak boleh diunggah ke GitHub.</td>
+            </tr>
+            <tr>
+              <td><code>Status 200 OK</code></td>
+              <td>Kode status HTTP penanda bahwa permintaan berhasil diproses sempurna.</td>
+            </tr>
+            <tr>
+              <td><code>Status 401 / 403</code></td>
+              <td>Kode error bahwa API key salah, tidak disertakan, atau akun tidak memiliki izin akses.</td>
+            </tr>
+            <tr>
+              <td><code>Status 429 Too Many Requests</code></td>
+              <td>Kode error bahwa batas kecepatan atau kuota gratis Anda telah habis terpakai.</td>
+            </tr>
+            <tr>
+              <td><code>Backend / Server</code></td>
+              <td>Bagian aplikasi yang berjalan di balik layar komputer, tempat paling aman untuk mengelola API key.</td>
+            </tr>
+            <tr>
+              <td><code>CORS (Cross-Origin)</code></td>
+              <td>Aturan keamanan browser yang membatasi panggilan langsung lintas domain situs luar.</td>
             </tr>
           </tbody>
         </table>
@@ -1325,9 +1612,9 @@
     <!-- BANNER NEXT STEP KE PRAKTIKUM -->
     <div class="next-step-banner">
       <div class="next-step-text">
-        <h3>🚀 Siap Mempraktikkan Teori Ini?</h3>
+        <h3>🚀 Siap Mempraktikkan Teori Ini di Laboratorium?</h3>
         <p>
-          Lanjutkan ke modul <strong>Laboratorium Praktikum Pertemuan 11</strong> untuk membuat aplikasi web live "Kurs Mata Uang Hari Ini", mempraktikkan master prompts AI, debugging via Browser Console, dan proteksi API Key OpenWeather!
+          Lanjutkan ke modul <strong>Laboratorium Praktikum Pertemuan 11</strong> untuk membangun Aplikasi Web Kurs Real-Time, Widget Cuaca OpenWeather, hingga Aplikasi AI "Asisten Aduan" lengkap dengan proteksi kuota &amp; kalkulator biaya!
         </p>
       </div>
       <a href="praktikum_integrasi_api_eksternal.html" class="btn-lab-launch">
@@ -1349,7 +1636,7 @@
         <a href="panduan_deploy_vercel.html">▲ Deploy Vercel</a>
         <a href="panduan_vibecoding_owasp.html">🛡️ OWASP Security</a>
       </div>
-      <p>© 2026 Vibe Coding Masterclass — Modul Teori Integrasi API Eksternal untuk Pemula Non-IT.</p>
+      <p>© 2026 Vibe Coding Masterclass — Modul Teori Integrasi API Eksternal &amp; Berbayar untuk Pemula Non-IT.</p>
     </div>
   </footer>
 
