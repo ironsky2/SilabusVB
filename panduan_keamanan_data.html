@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keamanan Data &amp; Validasi Input — Modul Pertemuan 12 | Vibe Coding Masterclass</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="Modul Praktikum Lengkap Keamanan Data & Validasi Input untuk Pemula Non-IT dan Pengusaha: Form Validation, Password Hashing Bcrypt, Proteksi SQL Injection & XSS, Anti-Spam CAPTCHA, Audit Keamanan AI, dan Kamus Istilah.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #028090;
+      --seafoam: #00A896;
+      --mint: #02C39A;
+      --deep: #01656F;
+      --amber: #B45309;
+      --amber-bg: #FEF3C7;
+      --rose: #BE123C;
+      --rose-bg: #FFF1F2;
+      --emerald: #047857;
+      --emerald-bg: #ECFDF5;
+      --indigo: #4F46E5;
+      --indigo-bg: #EEF2FF;
+      --ink: #37352F;
+      --ink-mid: #5A5852;
+      --ink-soft: #787774;
+      --line: #EDECE9;
+      --line-soft: #F1F0ED;
+      --bg: #FFFFFF;
+      --bg-soft: #F7F6F3;
+      --bg-tint: #EAF6F4;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 110px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .brand-title, .hero-title {
+      font-family: 'Newsreader', Georgia, serif;
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: .15s;
+    }
+
+    a:hover {
+      color: var(--deep);
+      text-decoration: underline;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88em;
+      background: #F2F1EE;
+      color: #EB5757;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    ::selection {
+      background: var(--mint);
+      color: #fff;
+    }
+
+    /* ---------- NAVIGATION ---------- */
+    header.nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand:hover {
+      text-decoration: none;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--rose);
+      box-shadow: 0 0 0 3px var(--rose-bg);
+      display: inline-block;
+    }
+
+    .brand-title {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .brand-pill {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      background: var(--rose-bg);
+      color: var(--rose);
+      padding: 3px 8px;
+      border-radius: 12px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .nav-dropdown-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink-mid);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: .15s;
+    }
+
+    .nav-dropdown-btn:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      margin-top: 6px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      width: 270px;
+      padding: 6px;
+      z-index: 120;
+    }
+
+    .nav-dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      color: var(--ink);
+      text-decoration: none;
+      transition: .15s;
+    }
+
+    .dropdown-item:hover {
+      background: var(--bg-soft);
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    .dropdown-item.active {
+      background: var(--rose-bg);
+      color: var(--rose);
+      font-weight: 600;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--line-soft);
+      margin: 4px 0;
+    }
+
+    .nav-cta-btn {
+      background: var(--deep);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: .15s;
+    }
+
+    .nav-cta-btn:hover {
+      background: var(--teal);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      background: linear-gradient(180deg, #FFF1F2 0%, #FFFFFF 100%);
+      border-bottom: 1px solid var(--line);
+      padding: 48px 24px 36px;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--rose);
+      background: rgba(190, 18, 60, 0.08);
+      padding: 4px 12px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-size: 38px;
+      line-height: 1.2;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    .lede {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--ink-mid);
+      max-width: 860px;
+      margin-bottom: 24px;
+    }
+
+    .meta-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .meta-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      color: var(--ink-mid);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .meta-badge strong {
+      color: var(--ink);
+    }
+
+    /* ---------- STICKY QUICK-FILTER BAR ---------- */
+    .lab-nav-sticky {
+      position: sticky;
+      top: 57px;
+      z-index: 90;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 24px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .lab-nav-sticky .wrap {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .lab-nav-pill {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: var(--bg-soft);
+      border: 1px solid var(--line-soft);
+      text-decoration: none;
+      transition: .15s;
+    }
+
+    .lab-nav-pill:hover {
+      background: var(--rose-bg);
+      color: var(--rose);
+      border-color: #FECDD3;
+      text-decoration: none;
+    }
+
+    /* ---------- MAIN CONTENT LAYOUT ---------- */
+    main.content {
+      padding: 36px 24px 80px;
+    }
+
+    .section-block {
+      margin-bottom: 54px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--line);
+    }
+
+    .section-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--rose-bg);
+      color: var(--rose);
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .section-sub {
+      font-size: 13.5px;
+      color: var(--ink-soft);
+      margin-top: 2px;
+    }
+
+    /* ---------- ARCHITECTURE / ROADMAP CARD ---------- */
+    .arch-card {
+      background: #0F172A;
+      color: #F8FAFC;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 28px;
+      border: 1px solid #334155;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+    }
+
+    .arch-card h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #38BDF8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .arch-diagram {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      background: #020617;
+      padding: 18px;
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      color: #E2E8F0;
+      border: 1px solid #1E293B;
+      margin-bottom: 14px;
+    }
+
+    .arch-insight {
+      font-size: 13px;
+      color: #94A3B8;
+      line-height: 1.6;
+    }
+
+    .arch-insight strong {
+      color: #FDE047;
+    }
+
+    /* ---------- THEORY & CARDS ---------- */
+    .theory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .theory-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      transition: .2s;
+    }
+
+    .theory-box:hover {
+      border-color: var(--teal);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+    }
+
+    .theory-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .theory-box h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .theory-box p {
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+    }
+
+    .analogy-box {
+      background: var(--bg-tint);
+      border-left: 4px solid var(--teal);
+      padding: 16px 20px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin: 20px 0;
+    }
+
+    .analogy-box strong {
+      color: var(--deep);
+      font-size: 14px;
+    }
+
+    .analogy-box p {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      margin-top: 6px;
+    }
+
+    /* ---------- PRAKTIKUM CARD (PART A, B, C) ---------- */
+    .lab-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      margin-bottom: 32px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    .lab-card-header {
+      background: linear-gradient(135deg, var(--bg-soft) 0%, #FFFFFF 100%);
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .lab-card-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lab-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--rose);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .lab-card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .lab-card-meta {
+      font-size: 12px;
+      color: var(--ink-soft);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .lab-card-body {
+      padding: 24px;
+    }
+
+    .part-box {
+      margin-bottom: 24px;
+    }
+
+    .part-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--deep);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ---------- PROMPT BOX ---------- */
+    .code-card {
+      background: #1E293B;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin: 14px 0;
+      border: 1px solid #334155;
+    }
+
+    .code-card-head {
+      background: #0F172A;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+    }
+
+    .code-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: #38BDF8;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-copy {
+      background: #334155;
+      color: #F8FAFC;
+      border: none;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: .15s;
+    }
+
+    .btn-copy:hover {
+      background: var(--teal);
+      color: #fff;
+    }
+
+    .code-card pre {
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      color: #E2E8F0;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* ---------- RESULT GRID (OUTPUT & PITFALL) ---------- */
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .res-output {
+      background: var(--emerald-bg);
+      border: 1px solid #A7F3D0;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+
+    .res-output h5 {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--emerald);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .res-output p, .res-output ul {
+      font-size: 12.5px;
+      color: #064E3B;
+      line-height: 1.5;
+    }
+
+    .res-pitfall {
+      background: var(--rose-bg);
+      border: 1px solid #FECDD3;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+
+    .res-pitfall h5 {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--rose);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .res-pitfall p, .res-pitfall ul {
+      font-size: 12.5px;
+      color: #881337;
+      line-height: 1.5;
+    }
+
+    /* ---------- TABLE STYLES ---------- */
+    .table-box {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    table.data-table th {
+      background: var(--bg-soft);
+      padding: 10px 14px;
+      font-weight: 700;
+      color: var(--ink);
+      border-bottom: 1px solid var(--line);
+    }
+
+    table.data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line-soft);
+      color: var(--ink-mid);
+    }
+
+    table.data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    table.data-table tr:hover td {
+      background: var(--bg-soft);
+    }
+
+    /* ---------- TOAST ---------- */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0F172A;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: .3s;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer.page-foot {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--line);
+      padding: 40px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    footer.page-foot a {
+      color: var(--teal);
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOAST ALERT -->
+  <div id="toast">✅ Prompt berhasil disalin ke clipboard!</div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="silabus-vibe-coding-16-pertemuan.html#p12" class="brand">
+        <span class="dot"></span>
+        <span class="brand-title">Vibe Coding · Keamanan Data &amp; Validasi Input</span>
+        <span class="brand-pill">Modul P12</span>
+      </a>
+
+      <div class="nav-actions">
+        <!-- Dropdown: Modul Terkait -->
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">
+            <span>📚 Daftar Modul Masterclass</span>
+            <span style="font-size:10px; color:#787774;">▾</span>
+          </button>
+          <div class="dropdown-content">
+            <a href="silabus-vibe-coding-16-pertemuan.html" class="dropdown-item">
+              <span>📖</span>
+              <div><strong>Silabus Utama</strong><div style="font-size:11px; color:#787774;">16 Pertemuan Vibe Coding</div></div>
+            </a>
+            <a href="praktikum_git_sebelum_coding.html" class="dropdown-item">
+              <span>🌿</span>
+              <div><strong>Git Lokal (P5)</strong><div style="font-size:11px; color:#787774;">Safety Net &amp; Recovery</div></div>
+            </a>
+            <a href="panduan_push_github.html" class="dropdown-item">
+              <span>🚀</span>
+              <div><strong>Push GitHub (P6)</strong><div style="font-size:11px; color:#787774;">Remote &amp; Branch Cloud</div></div>
+            </a>
+            <a href="teori_integrasi_api_eksternal.html" class="dropdown-item">
+              <span>🌐</span>
+              <div><strong>Teori API Eksternal (P10)</strong><div style="font-size:11px; color:#787774;">Konsep, JSON &amp; Prompting</div></div>
+            </a>
+            <a href="praktikum_integrasi_api_eksternal.html" class="dropdown-item">
+              <span>🧪</span>
+              <div><strong>Lab API Eksternal (P10)</strong><div style="font-size:11px; color:#787774;">Praktikum Kurs &amp; Cuaca</div></div>
+            </a>
+            <a href="panduan_keamanan_data.html" class="dropdown-item active">
+              <span>🔐</span>
+              <div><strong>Keamanan Data (P12)</strong><div style="font-size:11px; color:#787774;">Validasi, Hashing &amp; Anti-Spam</div></div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="laboratorium_lengkap_supabase.html" class="dropdown-item">
+              <span>🔬</span>
+              <div><strong>Lab Supabase (9 Lab)</strong><div style="font-size:11px; color:#787774;">SQL, RLS, Auth &amp; Realtime</div></div>
+            </a>
+            <a href="panduan_deploy_vercel.html" class="dropdown-item">
+              <span>▲</span>
+              <div><strong>Deploy ke Vercel (P15)</strong><div style="font-size:11px; color:#787774;">Panduan Pemula Non-IT</div></div>
+            </a>
+            <a href="panduan_vibecoding_owasp.html" class="dropdown-item">
+              <span>🛡️</span>
+              <div><strong>Panduan OWASP Top 10</strong><div style="font-size:11px; color:#787774;">Keamanan AI Coding</div></div>
+            </a>
+          </div>
+        </div>
+
+        <a href="silabus-vibe-coding-16-pertemuan.html#p12" class="nav-cta-btn">← Kembali ke Silabus (P12)</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <div class="hero">
+    <div class="wrap">
+      <span class="eyebrow">🛡️ Product Requirements Document (PRD) — Modul Pertemuan 12</span>
+      <h1 class="hero-title">Keamanan Data &amp; Validasi Input:<br>Benteng Pertahanan Aplikasi Bisnis bagi Vibe Coder</h1>
+      <p class="lede">
+        Panduan praktikum terpadu 90 menit bagi pemula non-IT dan pemilik bisnis untuk membangun form aplikasi web yang aman, anti-injeksi, kebal spam, mengenkripsi password dengan standar industri, serta mampu melakukan audit mandiri menggunakan AI Agent.
+      </p>
+
+      <div class="meta-badge-row">
+        <div class="meta-badge"><span>⏱️</span> <strong>Durasi:</strong> 90 Menit Terstruktur</div>
+        <div class="meta-badge"><span>💂</span> <strong>Analogi:</strong> Satpam Pintu Toko &amp; Brankas</div>
+        <div class="meta-badge"><span>🔐</span> <strong>Standar:</strong> Bcrypt &amp; Parameterized Query</div>
+        <div class="meta-badge"><span>🤖</span> <strong>AI Audit:</strong> Prompt "Hacker Baik"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY FILTER BAR -->
+  <div class="lab-nav-sticky">
+    <div class="wrap">
+      <a href="#peta" class="lab-nav-pill">🗺️ Peta 90 Menit</a>
+      <a href="#teori" class="lab-nav-pill">🧠 Teori Satpam &amp; 4 Pilar</a>
+      <a href="#praktikum-1" class="lab-nav-pill">💻 Lab 1: 5 Form Standar</a>
+      <a href="#praktikum-2" class="lab-nav-pill">🟡 Lab 2: Adaptasi Bisnis &amp; Audit</a>
+      <a href="#review" class="lab-nav-pill">📊 Evaluasi &amp; Kamus Istilah</a>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+    <div class="wrap">
+
+      <!-- SECTION 0: PETA 90 MENIT -->
+      <section class="section-block" id="peta">
+        <div class="section-head">
+          <div class="section-icon">🗺️</div>
+          <div>
+            <h2 class="section-title">Peta Perjalanan Belajar (90 Menit)</h2>
+            <p class="section-sub">Struktur alokasi waktu dan target kompetensi praktikum.</p>
+          </div>
+        </div>
+
+        <div class="table-box">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Segmen</th>
+                <th>Aktivitas Utama</th>
+                <th>Durasi</th>
+                <th>Output / Hasil Nyata</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>🧠 Teori Singkat</strong></td>
+                <td>Konsep keamanan data &amp; 4 pilar proteksi dengan analogi toko fisik</td>
+                <td>20 menit</td>
+                <td>Mental model "Jangan Percaya Input Pengguna"</td>
+              </tr>
+              <tr>
+                <td><strong>💻 Praktikum 1</strong></td>
+                <td>Copy-paste 5 prompt form siap pakai (Pendaftaran, Login, Pesanan, Kontak, Bayar)</td>
+                <td>25 menit</td>
+                <td>5 form dengan visual error handling Bahasa Indonesia</td>
+              </tr>
+              <tr>
+                <td><strong>💻 Praktikum 2</strong></td>
+                <td>Modifikasi template sesuai bisnis nyata &amp; audit keamanan "Hacker Baik"</td>
+                <td>25 menit</td>
+                <td>Form bisnis spesifik + Laporan Celah Keamanan</td>
+              </tr>
+              <tr>
+                <td><strong>🎯 Review &amp; Evaluasi</strong></td>
+                <td>Checklist evaluasi diri, prompt andalan, dan kamus istilah manusia</td>
+                <td>20 menit</td>
+                <td>SOP Bulanan &amp; Kesiapan Rilis Aplikasi</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ARCH DIAGRAM -->
+        <div class="arch-card">
+          <h3><span>🛡️</span> Mental Model: Arsitektur Satpam Validasi Data</h3>
+          <div class="arch-diagram">[Pengguna / Calon Hacker]
+         │
+         ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 🏪 FORM INPUT (Pintu Toko)                                  │
+│ - Nama, Email, Nomor HP, Password, Pesan, Nominal Transaksi  │
+└──────────────────────────────┬──────────────────────────────┘
+                               │ (Data Masuk)
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 💂 SATPAM VALIDASI & SANITASI (Validation Layer)            │
+│ 1. Cek Tipe Data & Format (Email regex, digit HP, min length)│
+│ 2. Sanitasi Karakter Jahat (Hapus &lt;script&gt;, escape HTML)     │
+│ 3. Rate Limiter & Anti-Spam (Lockout 5x login, Math CAPTCHA)│
+│ 4. Hashing Password (Bcrypt kode acak satu arah)            │
+└──────────────────────────────┬──────────────────────────────┘
+                               │ (Data Bersih & Aman)
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 🏦 DATABASE / LOCALSTORAGE (Brankas Toko)                   │
+│ - Parameterized Query (Bebas SQL Injection)                 │
+│ - Password Terenkripsi (Tidak bisa dibaca jika bocor)       │
+└─────────────────────────────────────────────────────────────┘</div>
+          <p class="arch-insight">
+            <strong>Prinsip Utama:</strong> Selalu validasi di dua sisi (Klien + Server). Jangan pernah menyimpan password dalam bentuk teks biasa (plaintext) dan jangan biarkan teks pengguna masuk ke database tanpa <em>sanitasi</em>.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 1: TEORI -->
+      <section class="section-block" id="teori">
+        <div class="section-head">
+          <div class="section-icon">🧠</div>
+          <div>
+            <h2 class="section-title">Bagian 1 · Teori Pedagogis (20 Menit)</h2>
+            <p class="section-sub">Memahami 4 pilar keamanan web tanpa pusing menghafal rumus teknis.</p>
+          </div>
+        </div>
+
+        <div class="analogy-box">
+          <strong>🏪 Analogi Toko Fisik vs Toko Online:</strong>
+          <p>
+            • <strong>Pintu masuk toko</strong> = Form input (pendaftaran, order, login)<br>
+            • <strong>Pelanggan yang masuk</strong> = Data yang diisi pengguna<br>
+            • <strong>Satpam di pintu</strong> = Validasi input &amp; sanitasi<br>
+            • <strong>Brankas toko</strong> = Database Supabase / penyimpanan data<br>
+            <em>Tanpa satpam, siapa saja bisa menyusup dan merusak isi brankas bisnismu!</em>
+          </p>
+        </div>
+
+        <div class="theory-grid">
+          <div class="theory-box">
+            <span class="theory-badge" style="background:var(--indigo-bg); color:var(--indigo);">Pilar 1</span>
+            <h4>Validasi Form Input</h4>
+            <p><strong>"Satpam Periksa KTP"</strong>: Memastikan email berformat <code>@</code> dan domain, nomor HP hanya angka Indonesia (08/62), dan nama tidak berisi simbol berbahaya agar database tidak penuh data sampah.</p>
+          </div>
+
+          <div class="theory-box">
+            <span class="theory-badge" style="background:var(--rose-bg); color:var(--rose);">Pilar 2</span>
+            <h4>Enkripsi Password</h4>
+            <p><strong>"Gembok Kode Acak"</strong>: Password tidak boleh disimpan apa adanya (<code>toko123</code>), melainkan di-hash menjadi kode acak Bcrypt (<code>$2b$10$Xk9...</code>) sehingga aman jika database diretas.</p>
+          </div>
+
+          <div class="theory-box">
+            <span class="theory-badge" style="background:var(--amber-bg); color:var(--amber);">Pilar 3</span>
+            <h4>Proteksi SQLi &amp; XSS</h4>
+            <p><strong>"Cegah Celah Tersembunyi"</strong>: Mencegah injeksi perintah database palsu (<code>' OR '1'='1</code>) via Parameterized Query, dan membersihkan script berbahaya (<code>&lt;script&gt;</code>) sebelum dirender ke layar.</p>
+          </div>
+
+          <div class="theory-box">
+            <span class="theory-badge" style="background:var(--emerald-bg); color:var(--emerald);">Pilar 4</span>
+            <h4>Validasi Transaksi</h4>
+            <p><strong>"Cek Ganda Sebelum Bayar"</strong>: Menolak harga nol/negatif, membatasi jumlah pesanan tidak melebihi stok, dan memverifikasi upload bukti bayar hanya file gambar asli (JPG/PNG &lt; 2MB).</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: PRAKTIKUM 1 -->
+      <section class="section-block" id="praktikum-1">
+        <div class="section-head">
+          <div class="section-icon">💻</div>
+          <div>
+            <h2 class="section-title">Bagian 2 · Praktikum 1: 5 Form Standar Siap Salin (25 Menit)</h2>
+            <p class="section-sub">Salin prompt ke AI Assistant di Antigravity IDE, jalankan preview, dan uji validasinya.</p>
+          </div>
+        </div>
+
+        <!-- LAB 1A -->
+        <div class="lab-card">
+          <div class="lab-card-header">
+            <div class="lab-card-title-wrap">
+              <span class="lab-number">1A</span>
+              <h3 class="lab-card-title">Form Pendaftaran Pelanggan dengan Validasi Lengkap</h3>
+            </div>
+            <div class="lab-card-meta">
+              <span>🎯 Level: Dasar</span>
+              <span>•</span>
+              <span>⏳ 5 Menit</span>
+            </div>
+          </div>
+          <div class="lab-card-body">
+            <div class="part-box">
+              <div class="part-label">🤖 Master Prompt AI (Salin ke Antigravity IDE)</div>
+              <div class="code-card">
+                <div class="code-card-head">
+                  <span class="code-tag"><span>📝</span> PROMPT 1A — REGISTRATION VALIDATOR</span>
+                  <button class="btn-copy" onclick="copySnippet('prompt-1a')">📋 Salin Prompt</button>
+                </div>
+                <pre id="prompt-1a">Buatkan saya form pendaftaran pelanggan untuk toko online dengan HTML dan JavaScript.
+Form ini harus memiliki validasi untuk:
+- Nama lengkap: wajib diisi, minimal 3 karakter, hanya huruf dan spasi
+- Email: wajib diisi, format email yang valid (harus ada @ dan domain)
+- Nomor HP: wajib diisi, hanya angka, panjang 10-13 digit (format Indonesia)
+- Password: minimal 8 karakter, harus mengandung huruf besar, huruf kecil, dan angka
+- Konfirmasi password: harus sama persis dengan password
+
+Tampilkan pesan error yang jelas dan ramah dalam Bahasa Indonesia di bawah setiap input.
+Buat tampilannya modern dan bersih dengan CSS bernuansa biru tua dan putih.</pre>
+              </div>
+            </div>
+
+            <div class="result-grid">
+              <div class="res-output">
+                <h5>✅ Yang Harus Terjadi (Expected Result)</h5>
+                <p>Saat klik daftar tanpa mengisi email atau menulis email tanpa <code>@</code>, muncul teks merah ramah di bawah input dan form menolak submit.</p>
+              </div>
+              <div class="res-pitfall">
+                <h5>⚠️ Coba Uji Sendiri (Refleksi)</h5>
+                <p>Ketik konfirmasi password yang berbeda 1 huruf. Pastikan sistem mendeteksi ketidakcocokan secara instan.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 1B -->
+        <div class="lab-card">
+          <div class="lab-card-header">
+            <div class="lab-card-title-wrap">
+              <span class="lab-number">1B</span>
+              <h3 class="lab-card-title">Form Login dengan Proteksi Brute-Force &amp; Pesan Aman</h3>
+            </div>
+            <div class="lab-card-meta">
+              <span>🎯 Level: Menengah</span>
+              <span>•</span>
+              <span>⏳ 5 Menit</span>
+            </div>
+          </div>
+          <div class="lab-card-body">
+            <div class="part-box">
+              <div class="part-label">🤖 Master Prompt AI (Salin ke Antigravity IDE)</div>
+              <div class="code-card">
+                <div class="code-card-head">
+                  <span class="code-tag"><span>📝</span> PROMPT 1B — SECURE LOGIN</span>
+                  <button class="btn-copy" onclick="copySnippet('prompt-1b')">📋 Salin Prompt</button>
+                </div>
+                <pre id="prompt-1b">Tambahkan halaman login ke proyek toko online saya dengan standar keamanan berikut:
+- Form login dengan field Email dan Password
+- Batasi percobaan login maksimal 5 kali (jika gagal 5 kali, kunci form selama 15 menit dengan countdown timer)
+- Gunakan pesan error GENERIK: tampilkan "Email atau password tidak valid" (jangan beritahu penyerang apakah email atau password-nya yang salah)
+- Tambahkan tombol toggle mata "Tampilkan / Sembunyikan Password"
+- Validasi: email wajib terisi format valid, password tidak boleh kosong
+
+Terapkan antarmuka berbahasa Indonesia yang ramah pengguna.</pre>
+              </div>
+            </div>
+
+            <div class="result-grid">
+              <div class="res-output">
+                <h5>✅ Kunci Keamanan Profesional</h5>
+                <p>Pesan error yang tidak spesifik mencegah hacker menebak apakah email tertentu sudah terdaftar atau belum (mencegah *User Enumeration*).</p>
+              </div>
+              <div class="res-pitfall">
+                <h5>⚠️ Simulasi Brute Force</h5>
+                <p>Klik tombol login 5 kali berturut-turut dengan data salah. Form harus langsung terkunci dengan pesan hitung mundur.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 1C -->
+        <div class="lab-card">
+          <div class="lab-card-header">
+            <div class="lab-card-title-wrap">
+              <span class="lab-number">1C</span>
+              <h3 class="lab-card-title">Form Pemesanan dengan Validasi Transaksi &amp; Live Summary</h3>
+            </div>
+            <div class="lab-card-meta">
+              <span>🎯 Level: Menengah</span>
+              <span>•</span>
+              <span>⏳ 5 Menit</span>
+            </div>
+          </div>
+          <div class="lab-card-body">
+            <div class="part-box">
+              <div class="part-label">🤖 Master Prompt AI (Salin ke Antigravity IDE)</div>
+              <div class="code-card">
+                <div class="code-card-head">
+                  <span class="code-tag"><span>📝</span> PROMPT 1C — ORDER & TRANSACTION VALIDATOR</span>
+                  <button class="btn-copy" onclick="copySnippet('prompt-1c')">📋 Salin Prompt</button>
+                </div>
+                <pre id="prompt-1c">Buatkan form pemesanan produk untuk toko online saya dengan validasi transaksi:
+- Pilihan Produk: dropdown dengan 3 opsi produk & harga simulasi
+- Jumlah Pembelian: hanya angka positif bulat, minimal 1, maksimal stok (maks 50)
+- Nama Penerima: wajib diisi, minimal 3 karakter
+- Alamat Pengiriman: wajib diisi, minimal 10 karakter
+- Nomor HP Penerima: format valid Indonesia (diawali 08 atau +62, panjang 10-13 digit)
+- Catatan Khusus: opsional, dibatasi maksimal 200 karakter
+
+Tampilkan ringkasan pesanan otomatis (Total Harga = Jumlah x Harga Produk) di samping form.
+Tampilkan semua pesan validasi dalam Bahasa Indonesia.</pre>
+              </div>
+            </div>
+
+            <div class="result-grid">
+              <div class="res-output">
+                <h5>✅ Integritas Data Keuangan</h5>
+                <p>Pengguna tidak bisa memasukkan jumlah `-5` atau `0`, sehingga total tagihan kalkulasi tidak pernah bernilai negatif atau nol.</p>
+              </div>
+              <div class="res-pitfall">
+                <h5>⚠️ Sanitasi Catatan</h5>
+                <p>Kolom catatan membatasi panjang teks sehingga tidak bisa digunakan untuk membanjiri memori database.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 1D -->
+        <div class="lab-card">
+          <div class="lab-card-header">
+            <div class="lab-card-title-wrap">
+              <span class="lab-number">1D</span>
+              <h3 class="lab-card-title">Form Kontak dengan Anti-Spam (Math CAPTCHA)</h3>
+            </div>
+            <div class="lab-card-meta">
+              <span>🎯 Level: Menengah</span>
+              <span>•</span>
+              <span>⏳ 5 Menit</span>
+            </div>
+          </div>
+          <div class="lab-card-body">
+            <div class="part-box">
+              <div class="part-label">🤖 Master Prompt AI (Salin ke Antigravity IDE)</div>
+              <div class="code-card">
+                <div class="code-card-head">
+                  <span class="code-tag"><span>📝</span> PROMPT 1D — ANTI-SPAM CONTACT FORM</span>
+                  <button class="btn-copy" onclick="copySnippet('prompt-1d')">📋 Salin Prompt</button>
+                </div>
+                <pre id="prompt-1d">Buatkan form kontak pengaduan pelanggan untuk website bisnis saya dengan:
+- Nama: wajib diisi, minimal 3 karakter
+- Email: wajib diisi format valid
+- Subjek: wajib diisi, minimal 5 karakter
+- Isi Pesan: wajib diisi minimal 20 karakter, maksimal 500 karakter
+- Tambahkan penghitung karakter real-time ("X / 500 karakter") di bawah textarea pesan
+- Tambahkan proteksi Math CAPTCHA sederhana acak (contoh: "Berapa 4 + 7?") yang berubah tiap kali di-load
+- Form tidak boleh terkirim jika jawaban CAPTCHA salah
+
+Gunakan antarmuka yang bersih, responsif, dan ramah pengguna.</pre>
+              </div>
+            </div>
+
+            <div class="result-grid">
+              <div class="res-output">
+                <h5>✅ Manfaat CAPTCHA</h5>
+                <p>Mencegah robot spammer mengirim ribuan pesan otomatis ke inbox email pemilik bisnis.</p>
+              </div>
+              <div class="res-pitfall">
+                <h5>⚠️ Live Counter</h5>
+                <p>Memberi feedback visual langsung kepada pengguna sehingga mereka tahu sisa batas karakter yang diizinkan.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 1E -->
+        <div class="lab-card">
+          <div class="lab-card-header">
+            <div class="lab-card-title-wrap">
+              <span class="lab-number">1E</span>
+              <h3 class="lab-card-title">Halaman Pembayaran Sederhana dengan Filter File Upload</h3>
+            </div>
+            <div class="lab-card-meta">
+              <span>🎯 Level: Mahir</span>
+              <span>•</span>
+              <span>⏳ 5 Menit</span>
+            </div>
+          </div>
+          <div class="lab-card-body">
+            <div class="part-box">
+              <div class="part-label">🤖 Master Prompt AI (Salin ke Antigravity IDE)</div>
+              <div class="code-card">
+                <div class="code-card-head">
+                  <span class="code-tag"><span>📝</span> PROMPT 1E — PAYMENT & FILE FILTER</span>
+                  <button class="btn-copy" onclick="copySnippet('prompt-1e')">📋 Salin Prompt</button>
+                </div>
+                <pre id="prompt-1e">Buatkan halaman ringkasan dan konfirmasi pembayaran toko online dengan validasi:
+- Pilihan Metode Pembayaran: Transfer Bank, QRIS, atau COD
+- Jika Transfer Bank dipilih: tampilkan upload bukti transfer (validasi ketat: HANYA format JPG/PNG dan ukuran maksimal 2MB)
+- Jika QRIS dipilih: tampilkan simulasi QR Code dan petunjuk bayar
+- Jika COD dipilih: tampilkan konfirmasi alamat pengiriman
+- Tambahkan checkbox wajib: "Saya telah membaca dan menyetujui syarat & ketentuan pembelian"
+- Tambahkan dialog modal konfirmasi sebelum submit: "Apakah Anda yakin ingin memproses pesanan senilai [Total]?"
+
+Gunakan pesan peringatan yang ramah dan jelas dalam Bahasa Indonesia.</pre>
+              </div>
+            </div>
+
+            <div class="result-grid">
+              <div class="res-output">
+                <h5>✅ Proteksi File Upload</h5>
+                <p>Menolak file <code>.exe</code>, <code>.php</code>, atau file raksasa di atas 2MB yang bisa membahayakan server hosting.</p>
+              </div>
+              <div class="res-pitfall">
+                <h5>⚠️ Konfirmasi Transaksi Ganda</h5>
+                <p>Mencegah pelanggan tidak sengaja menekan tombol bayar dua kali (double charge).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: PRAKTIKUM 2 -->
+      <section class="section-block" id="praktikum-2">
+        <div class="section-head">
+          <div class="section-icon">🟡</div>
+          <div>
+            <h2 class="section-title">Bagian 3 · Praktikum 2: Adaptasi Bisnis &amp; Audit Keamanan (25 Menit)</h2>
+            <p class="section-sub">Sesuaikan prompt dengan kebutuhan toko aslimu, lalu uji kekuatannya menggunakan prompt Hacker Baik.</p>
+          </div>
+        </div>
+
+        <!-- LAB 2A: TEMPLATE -->
+        <div class="lab-card">
+          <div class="lab-card-header">
+            <div class="lab-card-title-wrap">
+              <span class="lab-number">2A</span>
+              <h3 class="lab-card-title">Template Modifikasi Form Bisnis Mandiri</h3>
+            </div>
+            <div class="lab-card-meta">
+              <span>🎯 Kustomisasi Bisnis</span>
+            </div>
+          </div>
+          <div class="lab-card-body">
+            <div class="part-box">
+              <div class="part-label">📝 Template Prompt (Ganti bagian dalam tanda kurung)</div>
+              <div class="code-card">
+                <div class="code-card-head">
+                  <span class="code-tag"><span>⚙️</span> TEMPLATE PROMPT BISNIS</span>
+                  <button class="btn-copy" onclick="copySnippet('prompt-2a')">📋 Salin Template</button>
+                </div>
+                <pre id="prompt-2a">Buatkan form [JENIS FORM: misal Pemesanan Katering / Reservasi Meja / Pembelian Produk]
+untuk bisnis "[NAMA BISNIS KAMU]" yang bergerak di bidang [BIDANG BISNIS].
+
+Form ini harus memvalidasi data berikut:
+- [Field 1]: wajib diisi, aturan validasi [aturan]
+- [Field 2]: wajib diisi, aturan validasi [aturan]
+- [Field 3]: opsional / wajib, aturan validasi [aturan]
+
+Terapkan standar keamanan:
+- Validasi ketat format email & nomor HP Indonesia (+62/08)
+- Sanitasi input untuk mencegah script jahat
+- Batasi jumlah karakter teks dan ukuran file upload
+- Dialog konfirmasi sebelum submit pesanan
+
+Nuansa warna: [WARNA UTAMA] dan [WARNA SEKUNDER].
+Bahasa: Indonesia ramah pengguna.</pre>
+              </div>
+            </div>
+
+            <div class="analogy-box">
+              <strong>Contoh Nyata (Bisnis Katering "Dapur Bu Sari"):</strong>
+              <p>Validasi tanggal acara minimal 7 hari dari hari ini (agar sempat masak), jumlah tamu minimal 50 porsi, dan budget per orang minimal Rp 25.000. Aturan bisnis ini langsung diterjemahkan menjadi validasi kode oleh AI!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 2B: AUDIT HACKER BAIK -->
+        <div class="lab-card">
+          <div class="lab-card-header">
+            <div class="lab-card-title-wrap">
+              <span class="lab-number">2B</span>
+              <h3 class="lab-card-title">Audit Keamanan dengan Prompt "Hacker Baik" (AI Security Auditor)</h3>
+            </div>
+            <div class="lab-card-meta">
+              <span>🛡️ Security Simulation</span>
+            </div>
+          </div>
+          <div class="lab-card-body">
+            <div class="part-box">
+              <div class="part-label">🤖 Master Prompt Audit Keamanan (Jalankan setelah membuat form)</div>
+              <div class="code-card">
+                <div class="code-card-head">
+                  <span class="code-tag"><span>🕵️</span> PROMPT AUDIT HACKER BAIK</span>
+                  <button class="btn-copy" onclick="copySnippet('prompt-2b')">📋 Salin Prompt</button>
+                </div>
+                <pre id="prompt-2b">Saya sudah membuat kode form di atas. Sekarang berperanlah sebagai Ethical Hacker & Security Auditor. Tolong:
+
+1. Simulasikan 5 cara pengguna jahat / hacker mencoba menyalahgunakan form ini (misal: input negatif, tag script XSS, SQL injection palsu, flood klik, file berbahaya).
+2. Untuk setiap skenario, jelaskan apakah validasi yang ada saat ini sudah berhasil mencegahnya atau masih tembus.
+3. Jika masih ada celah keamanan, berikan perbaikan kodenya secara langsung.
+4. Buatkan laporan ringkas:
+   - ✅ Form ini sudah aman dari: [Daftar proteksi yang berhasil]
+   - ⚠️ Rekomendasi peningkatan: [Daftar saran keamanan lanjutan]
+
+Sampaikan seluruh penjelasan dalam bahasa yang mudah dipahami oleh pemilik bisnis non-teknis.</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 2C: MAINTENANCE -->
+        <div class="lab-card">
+          <div class="lab-card-header">
+            <div class="lab-card-title-wrap">
+              <span class="lab-number">2C</span>
+              <h3 class="lab-card-title">SOP Tanggap Darurat &amp; Checklist Bulanan</h3>
+            </div>
+            <div class="lab-card-meta">
+              <span>📋 SOP Operasional</span>
+            </div>
+          </div>
+          <div class="lab-card-body">
+            <div class="part-box">
+              <div class="part-label">🤖 Prompt SOP Keamanan Bisnis Online</div>
+              <div class="code-card">
+                <div class="code-card-head">
+                  <span class="code-tag"><span>📅</span> PROMPT SOP BULANAN</span>
+                  <button class="btn-copy" onclick="copySnippet('prompt-2c')">📋 Salin Prompt</button>
+                </div>
+                <pre id="prompt-2c">Sebagai pemilik bisnis online non-teknis, buatkan saya:
+1. Checklist keamanan bulanan yang bisa saya lakukan sendiri tanpa coding untuk website saya
+2. Tanda-tanda bahaya (red flags) jika website terindikasi sedang diserang atau bocor
+3. Langkah pertama yang harus saya lakukan jika mencurigai ada kebocoran data pelanggan
+4. Rekomendasi tools gratis untuk mengecek kesehatan keamanan website
+
+Format dalam bentuk panduan ringkas siap cetak.</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: REVIEW & EVALUASI -->
+      <section class="section-block" id="review">
+        <div class="section-head">
+          <div class="section-icon">📊</div>
+          <div>
+            <h2 class="section-title">Bagian 4 · Review, Evaluasi Diri &amp; Kamus Istilah (20 Menit)</h2>
+            <p class="section-sub">Pastikan seluruh materi terserap dengan baik sebelum melangkah ke modul berikutnya.</p>
+          </div>
+        </div>
+
+        <!-- CHECKLIST -->
+        <div class="table-box">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:40px;">Status</th>
+                <th>Tolak Ukur Kompetensi Keamanan Vibe Coder</th>
+                <th>Tindakan Lanjutan Jika Belum</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>✅</td>
+                <td>Paham mengapa validasi input diibaratkan sebagai "Satpam Pintu Toko"</td>
+                <td>Baca kembali analogi toko fisik di Bagian 1</td>
+              </tr>
+              <tr>
+                <td>✅</td>
+                <td>Mampu menyusun prompt AI untuk form registrasi, login, dan pesanan dengan validasi</td>
+                <td>Gunakan template Prompt 1A &amp; 1C</td>
+              </tr>
+              <tr>
+                <td>✅</td>
+                <td>Tahu bahwa password pelanggan TIDAK BOLEH disimpan dalam bentuk teks biasa (wajib Bcrypt)</td>
+                <td>Selalu cantumkan instruksi Bcrypt di prompt database</td>
+              </tr>
+              <tr>
+                <td>✅</td>
+                <td>Mampu meminta AI Assistant mengaudit celah keamanan menggunakan prompt "Hacker Baik"</td>
+                <td>Jalankan Prompt 2B pada setiap halaman berform</td>
+              </tr>
+              <tr>
+                <td>✅</td>
+                <td>Paham bahaya SQL Injection dan XSS dalam bahasa sehari-hari</td>
+                <td>Pelajari kamus istilah di bawah ini</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- KAMUS ISTILAH -->
+        <h3 style="font-family:'Newsreader', serif; font-size:22px; margin:28px 0 12px; color:var(--ink);">📚 Kamus Istilah Keamanan (Bahasa Manusia)</h3>
+        <div class="table-box">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Istilah Teknis</th>
+                <th>Artinya untuk Pemilik Bisnis &amp; Vibe Coder</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Validasi Input</strong></td>
+                <td>Proses pemeriksaan apakah data yang diisi pembeli sudah lengkap dan sesuai format yang benar sebelum diproses.</td>
+              </tr>
+              <tr>
+                <td><strong>Enkripsi / Bcrypt Hashing</strong></td>
+                <td>Mengubah password rahasia menjadi kode acak satu arah sehingga tidak bisa dibaca manusia walaupun data dicuri.</td>
+              </tr>
+              <tr>
+                <td><strong>SQL Injection (SQLi)</strong></td>
+                <td>Trik penjahat yang menyelipkan teks perintah database palsu (misal <code>' OR 1=1</code>) di form login agar bisa masuk tanpa password.</td>
+              </tr>
+              <tr>
+                <td><strong>Cross-Site Scripting (XSS)</strong></td>
+                <td>Trik penjahat yang menyisipkan kode script jahat di kolom komentar atau ulasan agar menjebak pembeli lain yang membuka halaman.</td>
+              </tr>
+              <tr>
+                <td><strong>Sanitasi Input</strong></td>
+                <td>Proses mencuci/membersihkan karakter berbahaya (seperti tanda kurung siku <code>&lt; &gt;</code>) agar teks tampil murni sebagai teks biasa.</td>
+              </tr>
+              <tr>
+                <td><strong>Math CAPTCHA</strong></td>
+                <td>Pertanyaan logika/hitung sederhana yang hanya bisa dijawab manusia untuk mencegah robot spammer membanjiri website.</td>
+              </tr>
+              <tr>
+                <td><strong>Parameterized Query</strong></td>
+                <td>Teknik baku database untuk memisahkan antara perintah SQL dengan data pengguna sehingga kebal dari SQL Injection.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- WEAPON PROMPT CARD -->
+        <div class="lab-card" style="margin-top:32px; border-color:#F59E0B; background:#FFFBEB;">
+          <div class="lab-card-body">
+            <h4 style="color:#92400E; font-size:16px; font-weight:700; display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span>🛡️</span> Senjata Wajib: Master Prompt Keamanan Standar untuk Segala Form
+            </h4>
+            <p style="font-size:13px; color:#78350F; margin-bottom:12px;">
+              Simpan dan tempelkan instruksi ini setiap kali kamu meminta AI membuat form baru:
+            </p>
+            <div class="code-card" style="border-color:#FCD34D;">
+              <div class="code-card-head" style="background:#78350F;">
+                <span class="code-tag" style="color:#FDE047;"><span>⚡</span> UNIVERSAL FORM SECURITY PROMPT</span>
+                <button class="btn-copy" onclick="copySnippet('prompt-universal')">📋 Salin</button>
+              </div>
+              <pre id="prompt-universal">Buatkan [JENIS FORM] dengan standar keamanan wajib berikut:
+1. Validasi semua field sebelum form disubmit (tampilkan pesan error merah yang ramah dalam Bahasa Indonesia)
+2. Sanitasi input teks untuk mencegah serangan XSS dan karakter berbahaya
+3. Pesan error login/auth bersifat generik (tidak membocorkan apakah email atau password yang salah)
+4. Password (jika ada) harus memenuhi minimal 8 karakter dan di-hash aman
+5. Batasi format upload hanya file gambar asli (JPG/PNG maks 2MB)
+6. Tambahkan dialog konfirmasi sebelum mengeksekusi aksi penting
+7. Berikan komentar di setiap baris kode yang menjelaskan fungsi keamanannya</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- NAV BOTTOM -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-top:40px; padding-top:20px; border-top:1px solid var(--line);">
+          <a href="silabus-vibe-coding-16-pertemuan.html#p11" class="lab-nav-pill" style="padding:10px 18px; font-size:13px;">← Kembali ke P11 (Arsitektur &amp; Refactor)</a>
+          <a href="silabus-vibe-coding-16-pertemuan.html#p12" class="nav-cta-btn" style="padding:10px 20px; font-size:13px;">Kembali ke Silabus Pertemuan 12 →</a>
+          <a href="laboratorium_lengkap_supabase.html" class="lab-nav-pill" style="padding:10px 18px; font-size:13px; background:var(--emerald-bg); color:var(--emerald); border-color:#A7F3D0;">Lanjut ke Lab Supabase Backend →</a>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="page-foot">
+    <div class="wrap">
+      <p style="margin-bottom:8px;"><strong>Vibe Coding Masterclass — Modul Keamanan Data &amp; Validasi Input (Pertemuan 12)</strong></p>
+      <p>Didesain untuk Pemula Non-IT, Pengusaha, dan Vibe Coder modern menggunakan Antigravity AI IDE &amp; Supabase.</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT FOR COPY AND TOAST -->
+  <script>
+    function copySnippet(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2500);
+      });
+    }
+  </script>
+
+</body>
+
+</html>
