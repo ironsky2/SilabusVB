@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modul Praktikum: Vibe Coding Flutter &amp; Supabase dengan Antigravity IDE</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="Modul Praktikum Vibe Coding: Membuat Aplikasi Android &amp; Web dengan Flutter + Supabase menggunakan Antigravity AI Agent untuk Profesional Non-IT.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #028090;
+      --seafoam: #00A896;
+      --mint: #02C39A;
+      --deep: #01656F;
+      --amber: #B45309;
+      --amber-bg: #FEF3C7;
+      --rose: #BE123C;
+      --rose-bg: #FFF1F2;
+      --emerald: #047857;
+      --emerald-bg: #ECFDF5;
+      --indigo: #4F46E5;
+      --indigo-bg: #EEF2FF;
+      --purple: #7E22CE;
+      --purple-bg: #FAF5FF;
+      --cyan: #0891B2;
+      --cyan-bg: #ECFEFF;
+      --ink: #37352F;
+      --ink-mid: #5A5852;
+      --ink-soft: #787774;
+      --line: #EDECE9;
+      --line-soft: #F1F0ED;
+      --bg: #FFFFFF;
+      --bg-soft: #F7F6F3;
+      --bg-tint: #EAF6F4;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 100px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .brand-title, .hero-title, .section-heading {
+      font-family: 'Newsreader', Georgia, serif;
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: .15s;
+    }
+
+    a:hover {
+      color: var(--deep);
+      text-decoration: underline;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88em;
+      background: #F2F1EE;
+      color: #EB5757;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    ::selection {
+      background: var(--mint);
+      color: #fff;
+    }
+
+    /* ---------- NAVIGATION ---------- */
+    header.nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      height: 56px;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner {
+      max-width: 1160px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #028090;
+      box-shadow: 0 0 0 3px rgba(2, 128, 144, 0.2);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 17.5px;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-pill {
+      font-size: 11.5px;
+      font-weight: 600;
+      background: var(--teal);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Popover Dropdown */
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-dropdown-btn {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #37352F;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-dropdown-btn:hover {
+      background: #F7F6F3;
+      border-color: #D3D1CB;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      background: #FFFFFF;
+      min-width: 270px;
+      box-shadow: 0 10px 28px rgba(15, 15, 15, 0.12), 0 0 0 1px rgba(15, 15, 15, 0.05);
+      border-radius: 10px;
+      padding: 6px;
+      z-index: 110;
+      animation: dropFade 0.15s ease;
+    }
+
+    .nav-dropdown:hover .dropdown-content,
+    .nav-dropdown:focus-within .dropdown-content {
+      display: block;
+    }
+
+    @keyframes dropFade {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #37352F;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .dropdown-item:hover {
+      background: #F1F0ED;
+      color: #028090;
+      text-decoration: none;
+    }
+
+    .dropdown-item.active {
+      background: #EAF6F4;
+      color: #028090;
+      font-weight: 600;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 4px 6px;
+    }
+
+    .nav-cta-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: #028090;
+      border: 1px solid #028090;
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-cta-btn:hover {
+      background: #01656F;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    /* ---------- HERO SECTION ---------- */
+    .hero {
+      background: radial-gradient(circle at 50% 0%, rgba(2, 128, 144, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+      border-bottom: 1px solid var(--line);
+      padding: 48px 24px 36px;
+    }
+
+    .hero-container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--teal);
+      background: var(--bg-tint);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: 38px;
+      line-height: 1.22;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.8px;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span {
+      color: var(--teal);
+    }
+
+    .lede {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--ink-mid);
+      margin-bottom: 24px;
+      max-width: 820px;
+    }
+
+    .meta-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--ink-mid);
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      padding: 5px 12px;
+      border-radius: 6px;
+    }
+
+    /* ---------- STICKY QUICK NAV ---------- */
+    .lab-nav-sticky {
+      position: sticky;
+      top: 56px;
+      z-index: 90;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 0;
+    }
+
+    .lab-nav-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .lab-nav-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .lab-nav-pill {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-mid);
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      padding: 5px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+
+    .lab-nav-pill:hover {
+      background: var(--bg-tint);
+      color: var(--teal);
+      border-color: rgba(2, 128, 144, 0.3);
+      text-decoration: none;
+    }
+
+    /* ---------- MAIN CONTAINER ---------- */
+    .main-layout {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ---------- CARDS & CALLOUTS ---------- */
+    .analogy-box {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-left: 4px solid var(--amber);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      margin: 24px 0;
+    }
+
+    .analogy-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #92400E;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .arch-card {
+      background: #1E293B;
+      color: #F8FAFC;
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin: 28px 0;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    .arch-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .arch-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #38BDF8;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .arch-diagram {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #E2E8F0;
+      overflow-x: auto;
+      white-space: pre;
+      padding: 8px 0;
+    }
+
+    .arch-insight {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px dashed #334155;
+      font-size: 13px;
+      color: #94A3B8;
+      line-height: 1.6;
+    }
+
+    .arch-insight strong {
+      color: #F1F5F9;
+    }
+
+    /* ---------- SECTION & TRIPARTITE STYLING ---------- */
+    .module-section {
+      margin-bottom: 56px;
+      padding-top: 20px;
+    }
+
+    .section-badge {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--teal);
+      background: var(--bg-tint);
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .section-heading {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.4px;
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      font-size: 15.5px;
+      color: var(--ink-mid);
+      margin-bottom: 24px;
+    }
+
+    .part-box {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--bg);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .part-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 3px 9px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    .part-tag.a {
+      background: var(--indigo-bg);
+      color: var(--indigo);
+    }
+
+    .part-tag.b {
+      background: var(--purple-bg);
+      color: var(--purple);
+    }
+
+    .part-tag.c {
+      background: var(--emerald-bg);
+      color: var(--emerald);
+    }
+
+    .part-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ---------- PROMPT & CODE CARDS ---------- */
+    .prompt-card {
+      background: #FAF5FF;
+      border: 1px solid #E9D5FF;
+      border-radius: var(--radius-md);
+      padding: 18px;
+      margin: 16px 0;
+      position: relative;
+    }
+
+    .prompt-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .prompt-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #6B21A8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .prompt-content {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #3B0764;
+      background: #FFFFFF;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid #F3E8FF;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .code-card {
+      background: #0F172A;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin: 16px 0;
+      border: 1px solid #334155;
+    }
+
+    .code-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: #1E293B;
+      border-bottom: 1px solid #334155;
+      font-size: 12px;
+      font-weight: 600;
+      color: #94A3B8;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .code-content {
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #F8FAFC;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .btn-copy {
+      font-size: 11.5px;
+      font-weight: 600;
+      background: #FFFFFF;
+      color: var(--ink-mid);
+      border: 1px solid var(--line);
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+
+    .btn-copy:hover {
+      background: #F1F0ED;
+      color: var(--ink);
+    }
+
+    .code-card .btn-copy {
+      background: #334155;
+      color: #E2E8F0;
+      border-color: #475569;
+    }
+
+    .code-card .btn-copy:hover {
+      background: #475569;
+      color: #FFFFFF;
+    }
+
+    /* ---------- RESULT & PITFALLS GRID ---------- */
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .res-output {
+      background: var(--emerald-bg);
+      border: 1px solid #A7F3D0;
+      border-left: 4px solid var(--emerald);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .res-output-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #065F46;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .res-pitfall {
+      background: var(--rose-bg);
+      border: 1px solid #FECDD3;
+      border-left: 4px solid var(--rose);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .res-pitfall-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #9F1239;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .res-text {
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    /* ---------- DATA TABLES ---------- */
+    .table-container {
+      overflow-x: auto;
+      margin: 18px 0;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      text-align: left;
+    }
+
+    th {
+      background: var(--bg-soft);
+      padding: 10px 14px;
+      font-weight: 600;
+      color: var(--ink);
+      border-bottom: 1px solid var(--line);
+    }
+
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line-soft);
+      color: var(--ink-mid);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: #FAFAFA;
+    }
+
+    /* ---------- CHECKLIST ---------- */
+    .checklist-card {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .checklist-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checklist-group {
+      margin-bottom: 20px;
+    }
+
+    .checklist-group-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .check-item input[type="checkbox"] {
+      margin-top: 4px;
+      accent-color: var(--teal);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    /* ---------- TOAST NOTIFICATION ---------- */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1E293B;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all 0.25s ease;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer.site-footer {
+      border-top: 1px solid var(--line);
+      background: var(--bg-soft);
+      padding: 40px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    footer.site-footer p {
+      margin-bottom: 6px;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 28px;
+      }
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+      .main-layout {
+        padding: 24px 16px 60px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Sticky Navigation -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="silabus-vibe-coding-16-pertemuan.html" class="brand">
+        <span class="dot"></span>
+        <span class="brand-title">Vibe Coding</span>
+        <span class="brand-pill">Flutter + Supabase</span>
+      </a>
+
+      <div class="nav-actions">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">
+            📚 Navigasi Modul Masterclass ▾
+          </button>
+          <div class="dropdown-content">
+            <a href="silabus-vibe-coding-16-pertemuan.html" class="dropdown-item">📊 Dashboard &amp; Silabus 16 Pertemuan</a>
+            <a href="praktikum_git_sebelum_coding.html" class="dropdown-item">🛠️ Modul 01: Git &amp; GitHub Setup</a>
+            <a href="panduan_push_github.html" class="dropdown-item">🚀 Modul 02: Panduan Push GitHub</a>
+            <a href="teori_integrasi_api_eksternal.html" class="dropdown-item">💡 Modul 03: Teori Mental Model API</a>
+            <a href="praktikum_integrasi_api_eksternal.html" class="dropdown-item">⚡ Modul 04: Praktikum Integrasi API</a>
+            <a href="panduan_keamanan_data.html" class="dropdown-item">🛡️ Modul 05: Keamanan Data &amp; Env Vars</a>
+            <a href="laboratorium_lengkap_supabase.html" class="dropdown-item">🗄️ Modul 06: Lab Fullstack Supabase PWA</a>
+            <a href="praktikum_flutter_supabase.html" class="dropdown-item active">📱 Modul 07: Vibe Coding Flutter + Supabase</a>
+            <a href="panduan_deploy_vercel.html" class="dropdown-item">🌐 Modul 08: Deploy Web App ke Vercel</a>
+            <a href="panduan_vibecoding_owasp.html" class="dropdown-item">🔒 Modul 09: Standar Keamanan OWASP</a>
+            <div class="dropdown-divider"></div>
+            <a href="kurikulum_vibe_coding_pwa_supabase.html" class="dropdown-item">📋 Kurikulum Ringkas PWA</a>
+          </div>
+        </div>
+
+        <a href="silabus-vibe-coding-16-pertemuan.html" class="nav-cta-btn">
+          ← Kembali ke Silabus
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Quick-Jump Bar -->
+  <div class="lab-nav-sticky">
+    <div class="lab-nav-inner">
+      <a href="#bagian-1" class="lab-nav-pill">1. Persiapan SDK</a>
+      <a href="#bagian-2" class="lab-nav-pill">2. Antigravity IDE</a>
+      <a href="#bagian-3" class="lab-nav-pill">3. Teknik Prompt</a>
+      <a href="#bagian-4" class="lab-nav-pill">4. Setup Project</a>
+      <a href="#bagian-5" class="lab-nav-pill">5. Desain UI</a>
+      <a href="#bagian-6" class="lab-nav-pill">6. Supabase Setup</a>
+      <a href="#bagian-7" class="lab-nav-pill">7. Fitur CRUD</a>
+      <a href="#bagian-8" class="lab-nav-pill">8. Auth User</a>
+      <a href="#bagian-9" class="lab-nav-pill">9. Test di HP/Web</a>
+      <a href="#bagian-10" class="lab-nav-pill">10. Iterasi UI</a>
+      <a href="#bagian-11" class="lab-nav-pill">11. Troubleshooting</a>
+      <a href="#checklist" class="lab-nav-pill">🎯 Checklist</a>
+    </div>
+  </div>
+
+  <!-- Hero Header -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="eyebrow">
+        <span>📱</span> MODUL PRAKTIKUM MOBILE VIBE CODING
+      </div>
+      <h1 class="hero-title">
+        Membangun Aplikasi Android &amp; Web dengan <span>Flutter + Supabase</span> via Antigravity IDE
+      </h1>
+      <p class="lede">
+        Panduan langkah-demi-langkah bagi profesional non-IT untuk merancang, meng-generate UI responsif, menghubungkan database cloud real-time, dan menguji aplikasi langsung di smartphone Android tanpa menulis kode manual dari nol.
+      </p>
+
+      <div class="meta-badge-row">
+        <div class="meta-badge">🎯 Target: Profesional Non-IT / Pemula</div>
+        <div class="meta-badge">🤖 AI Agent: Antigravity IDE</div>
+        <div class="meta-badge">⏱️ Estimasi: 3–4 Jam</div>
+        <div class="meta-badge">📦 Output: App Android (.apk) &amp; Web Chrome</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="main-layout">
+
+    <!-- Analogi & Mental Model Callout -->
+    <div class="analogy-box">
+      <div class="analogy-title">
+        💡 Mental Model: Apa itu Vibe Coding Flutter?
+      </div>
+      <p style="font-size: 14.5px; color: #78350F; line-height: 1.6;">
+        <strong>Vibe Coding</strong> bukanlah menghafal ribuan baris sintaksis Dart atau widget Flutter. Anda bertindak sebagai <strong>Arsitek &amp; Manajer Produk</strong>: Anda menentukan kebutuhan bisnis dan alur visual dalam bahasa natural, sementara <strong>Antigravity AI Agent</strong> bertindak sebagai <em>developer pribadi 24 jam</em> yang menulis kode, memperbaiki bug, dan menghubungkan backend Supabase secara otomatis.
+      </p>
+    </div>
+
+    <!-- Architecture Roadmap -->
+    <div class="arch-card">
+      <div class="arch-header">
+        <div class="arch-title">
+          🗺️ Arsitektur Alur Kerja Vibe Coding Mobile
+        </div>
+        <span style="font-size: 11.5px; color: #94A3B8; font-family: 'JetBrains Mono', monospace;">Antigravity Engine v2.0</span>
+      </div>
+      <div class="arch-diagram">
+┌─────────────────┐       Prompt Natural       ┌────────────────────────┐       Generate Dart       ┌───────────────────┐
+│  Anda (Non-IT)  │ ─────────────────────────> │  Antigravity AI Agent  │ ────────────────────────> │  Flutter Project  │
+│  Product Owner  │ <───────────────────────── │  (Explorer + Chat SDK) │ <──────────────────────── │  (lib/ & widgets) │
+└─────────────────┘      Review & Iterasi      └────────────────────────┘       Hot Reload (r)      └─────────┬─────────┘
+                                                                                                              │
+                                                                    Koneksi REST / WebSocket API              │
+                                                               ┌──────────────────────────────────────────────┘
+                                                               ▼
+                                                ┌──────────────────────────────┐
+                                                │   Supabase Cloud Backend     │
+                                                │   • PostgreSQL Database      │
+                                                │   • Auth (Email/Password)    │
+                                                │   • Realtime Subscriptions   │
+                                                └──────────────────────────────┘</div>
+      <div class="arch-insight">
+        <strong>Poin Kunci:</strong> Anda hanya perlu melakukan setup lingkungan 1x di awal (Part 1). Setelah itu, 100% proses penambahan halaman, styling warna, query database, hingga autentikasi dikerjakan via prompting ke AI.
+      </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- BAGIAN 1: PERSIAPAN ENVIRONMENT -->
+    <!-- ================================================================= -->
+    <section id="bagian-1" class="module-section">
+      <span class="section-badge">Fase 1 · Prasyarat</span>
+      <h2 class="section-heading">Bagian 1: Persiapan Environment (Setup 1x)</h2>
+      <p class="section-desc">
+        Satu-satunya tahapan manual dalam modul ini. Diperlukan untuk memastikan komputer Anda memiliki SDK Flutter dan Android toolchain yang valid.
+      </p>
+
+      <div class="part-box">
+        <div class="part-tag a">Part A · Software yang Dibutuhkan</div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Software</th>
+                <th>Download Link</th>
+                <th>Peran dalam Project</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Flutter SDK</strong></td>
+                <td><a href="https://flutter.dev" target="_blank">flutter.dev</a></td>
+                <td>Framework UI multiplatform utama Google</td>
+              </tr>
+              <tr>
+                <td><strong>Android Command Line Tools</strong></td>
+                <td><a href="https://developer.android.com/studio#command-line-tools-only" target="_blank">developer.android.com</a></td>
+                <td>Android SDK ringan tanpa harus install Android Studio berat</td>
+              </tr>
+              <tr>
+                <td><strong>Antigravity IDE</strong></td>
+                <td>Terinstall di PC</td>
+                <td>Editor + AI Agent dengan kapabilitas baca/tulis file otomatis</td>
+              </tr>
+              <tr>
+                <td><strong>Akun Supabase</strong></td>
+                <td><a href="https://supabase.com" target="_blank">supabase.com</a></td>
+                <td>Database PostgreSQL cloud dan autentikasi instan</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="part-tag b">Part B · Perintah Eksekusi Terminal (CMD)</div>
+        <p style="font-size: 14px; margin-bottom: 12px; color: var(--ink-mid);">
+          Jalankan perintah berikut di Command Prompt (Administrator) untuk mengatur path dan lisensi:
+        </p>
+
+        <div class="code-card">
+          <div class="code-card-header">
+            <span>TERMINAL COMMAND PROMPT</span>
+            <button class="btn-copy" onclick="copySnippet('cmd-setup')">📋 Salin Perintah</button>
+          </div>
+          <div class="code-content" id="cmd-setup"># 1. Install Android SDK Platform & Build-tools
+D:\Projects\Android\cmdline-tools\latest\bin\sdkmanager.bat ^
+  --sdk_root=D:\Projects\Android ^
+  "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+
+# 2. Hubungkan SDK ke Flutter & Setujui Lisensi
+flutter config --android-sdk D:\Projects\Android
+flutter doctor --android-licenses
+# (Ketik 'y' dan tekan Enter untuk semua pertanyaan)
+
+# 3. Verifikasi Status Kesiapan
+flutter doctor</div>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="part-tag c">Part C · Verifikasi & Troubleshooting</div>
+        <div class="result-grid">
+          <div class="res-output">
+            <div class="res-output-title">✅ Output Sukses yang Diharapkan</div>
+            <div class="res-text">
+              Perintah <code>flutter doctor</code> menampilkan tanda centang hijau pada <code>[✓] Android toolchain</code> dan <code>[✓] Connected device</code>.
+            </div>
+          </div>
+          <div class="res-pitfall">
+            <div class="res-pitfall-title">⚠️ Jebakan Umum (Pitfall)</div>
+            <div class="res-text">
+              Folder instalasi ditaruh di direktori yang mengandung spasi (misal <code>C:\Program Files\flutter</code>). <strong>Solusi:</strong> Pindahkan ke folder tanpa spasi seperti <code>D:\flutter</code>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- BAGIAN 2: MENGENAL ANTIGRAVITY IDE -->
+    <!-- ================================================================= -->
+    <section id="bagian-2" class="module-section">
+      <span class="section-badge">Fase 2 · Tooling</span>
+      <h2 class="section-heading">Bagian 2: Mengenal Antigravity IDE &amp; AI Sidebar</h2>
+      <p class="section-desc">
+        Antigravity IDE menggabungkan editor kode modern dengan agen AI yang memiliki izin membaca repositori, menulis file Dart, dan mengeksekusi terminal secara mandiri.
+      </p>
+
+      <div class="part-box">
+        <div class="part-tag a">Part A · Fitur Kunci Vibe Coding</div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Fitur</th>
+                <th>Shortcut / Aksi</th>
+                <th>Kegunaan untuk Pemula</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Agent Chat Mode</strong></td>
+                <td><code>Ctrl+Shift+I</code></td>
+                <td>AI membuat dan memodifikasi banyak file project secara otonom</td>
+              </tr>
+              <tr>
+                <td><strong>Inline Edit</strong></td>
+                <td><code>Ctrl+I</code> di file editor</td>
+                <td>Mengubah blok fungsi atau widget tertentu tanpa membuka chat</td>
+              </tr>
+              <tr>
+                <td><strong>Integrated Terminal</strong></td>
+                <td><code>Ctrl+J</code></td>
+                <td>Mengeksekusi <code>flutter run</code> dan mengamati logs</td>
+              </tr>
+              <tr>
+                <td><strong>Auto Accept Diff</strong></td>
+                <td>Tombol <em>Accept All</em></td>
+                <td>Menyetujui kode yang dihasilkan AI setelah ditinjau</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- BAGIAN 3: TEKNIK MENULIS PROMPT -->
+    <!-- ================================================================= -->
+    <section id="bagian-3" class="module-section">
+      <span class="section-badge">Fase 3 · Pedagogi Prompt</span>
+      <h2 class="section-heading">Bagian 3: Lima Prinsip Prompting Vibe Coding</h2>
+      <p class="section-desc">
+        Kualitas kode yang dihasilkan AI bergantung langsung pada seberapa terstruktur prompt yang Anda berikan.
+      </p>
+
+      <div class="part-box">
+        <div class="part-tag a">Part A · Panduan Perbandingan Prompt</div>
+        
+        <div class="result-grid">
+          <div class="res-pitfall">
+            <div class="res-pitfall-title">❌ Prompt Buruk (Terlalu Ambigu)</div>
+            <div class="res-text">
+              <em>"Buatkan halaman login."</em><br><br>
+              <strong>Kekurangan:</strong> AI tidak tahu field apa saja yang dibutuhkan, tema warna apa yang dipakai, atau validasi apa yang harus diterapkan.
+            </div>
+          </div>
+          <div class="res-output">
+            <div class="res-output-title">✅ Prompt Efektif (Spesifik &amp; Terstruktur)</div>
+            <div class="res-text">
+              <em>"Buatkan halaman login Flutter di lib/screens/login_screen.dart dengan: field email (validasi email), field password (toggle hide/show), tombol masuk biru tua (#028090), dan link ke halaman register."</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="analogy-box" style="margin-top: 16px;">
+          <div class="analogy-title">📐 Rumus Prompt 5 Elemen (K-T-B-H)</div>
+          <p style="font-size: 13.5px; color: #78350F;">
+            <strong>1. Konteks:</strong> "Di aplikasi Flutter dengan database Supabase..."<br>
+            <strong>2. Target File:</strong> "Di file <code>lib/services/data_service.dart</code>..."<br>
+            <strong>3. Batasan Teknis:</strong> "Gunakan <code>StatefulWidget</code> dan tangani error dengan <code>try-catch</code>..."<br>
+            <strong>4. Hasil yang Diinginkan:</strong> "Kembalikan data dalam bentuk <code>List&lt;Map&gt;</code> dan tampilkan loading indicator."
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- BAGIAN 4: SETUP PROJECT FLUTTER -->
+    <!-- ================================================================= -->
+    <section id="bagian-4" class="module-section">
+      <span class="section-badge">Fase 4 · Inisialisasi</span>
+      <h2 class="section-heading">Bagian 4: Setup Project Flutter via Prompting</h2>
+      <p class="section-desc">
+        Membuat proyek Flutter baru di terminal lalu meminta AI menyusun arsitektur folder profesional beserta dependensi Supabase.
+      </p>
+
+      <div class="part-box">
+        <div class="part-tag b">Part B · Master Prompts AI</div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-label">🤖 PROMPT 4.1 — Struktur Folder Arsitektur Bersih</span>
+            <button class="btn-copy" onclick="copySnippet('p-4-1')">📋 Salin Prompt</button>
+          </div>
+          <div class="prompt-content" id="p-4-1">Saya baru membuat project Flutter bernama my_app.
+Tolong atur struktur folder yang rapi dan modular di dalam lib/ untuk aplikasi CRUD + Supabase:
+- lib/screens/ (untuk halaman UI utama)
+- lib/widgets/ (untuk komponen UI reusable)
+- lib/services/ (untuk koneksi API dan Supabase service)
+- lib/models/ (untuk struktur data model)
+- lib/config/ (untuk file konfigurasi global)
+
+Buatkan file placeholder di setiap folder agar struktur terlihat jelas dan jelaskan fungsinya.</div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-label">🤖 PROMPT 4.2 — Install Package supabase_flutter</span>
+            <button class="btn-copy" onclick="copySnippet('p-4-2')">📋 Salin Prompt</button>
+          </div>
+          <div class="prompt-content" id="p-4-2">Tambahkan package Supabase ke project Flutter saya:
+1. Update pubspec.yaml dengan dependensi 'supabase_flutter: ^2.8.0'
+2. Setup inisialisasi awal di lib/main.dart dengan placeholder URL dan anonKey
+3. Pastikan MaterialApp membungkus SplashScreen sebagai initial route</div>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="part-tag c">Part C · Output File `main.dart`</div>
+        <div class="code-card">
+          <div class="code-card-header">
+            <span>lib/main.dart</span>
+            <button class="btn-copy" onclick="copySnippet('code-main')">📋 Salin Kode</button>
+          </div>
+          <div class="code-content" id="code-main">import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'screens/splash_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  await Supabase.initialize(
+    url: 'https://YOUR_PROJECT_ID.supabase.co',
+    anonKey: 'YOUR_ANON_PUBLIC_KEY',
+  );
+
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Vibe Coding App',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF028090)),
+        useMaterial3: true,
+      ),
+      home: const SplashScreen(),
+    );
+  }
+}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- BAGIAN 5: MEMBUAT UI APLIKASI -->
+    <!-- ================================================================= -->
+    <section id="bagian-5" class="module-section">
+      <span class="section-badge">Fase 5 · Antarmuka Visual</span>
+      <h2 class="section-heading">Bagian 5: Membangun UI Aplikasi via Prompting</h2>
+      <p class="section-desc">
+        Menghasilkan 4 halaman visual utama: Splash Screen, Login Screen, Home Dashboard, dan Daftar Data.
+      </p>
+
+      <div class="part-box">
+        <div class="part-tag b">Part B · Master Prompts Desain UI</div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-label">🤖 PROMPT 5.1 — Splash Screen (lib/screens/splash_screen.dart)</span>
+            <button class="btn-copy" onclick="copySnippet('p-5-1')">📋 Salin Prompt</button>
+          </div>
+          <div class="prompt-content" id="p-5-1">Buatkan file lib/screens/splash_screen.dart dengan ketentuan:
+- Background warna tema Teal (#028090)
+- Icon aplikasi di tengah (Icons.rocket_launch, warna putih, size: 72)
+- Teks judul 'Vibe Coding Flutter' font tebal warna putih ukuran 22
+- Tampilkan CircularProgressIndicator warna putih di bagian bawah
+- Delay 2 detik menggunakan Timer, kemudian navigasi otomatis ke LoginScreen (ganti seluruh route)</div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-label">🤖 PROMPT 5.2 — Login Screen Form (lib/screens/login_screen.dart)</span>
+            <button class="btn-copy" onclick="copySnippet('p-5-2')">📋 Salin Prompt</button>
+          </div>
+          <div class="prompt-content" id="p-5-2">Buatkan file lib/screens/login_screen.dart:
+- Tampilan form modern di dalam SingleChildScrollView agar tidak overflow keyboard
+- Header icon gembok (Icons.lock_person_outlined, warna #028090, size: 64)
+- Judul 'Selamat Datang' dan subjudul 'Masuk ke akun Vibe Coding Anda'
+- TextFormField Email dengan validasi format email
+- TextFormField Password dengan tombol icon mata (toggle show/hide password)
+- Tombol elevated 'MASUK KE APLIKASI' warna Teal (#028090) dengan ukuran full-width
+- Tautan teks 'Belum punya akun? Daftar Sekarang' di bagian bawah
+- Buat variabel GlobalKey&lt;FormState&gt; untuk menangani validasi form</div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-label">🤖 PROMPT 5.3 — Home Dashboard (lib/screens/home_screen.dart)</span>
+            <button class="btn-copy" onclick="copySnippet('p-5-3')">📋 Salin Prompt</button>
+          </div>
+          <div class="prompt-content" id="p-5-3">Buatkan file lib/screens/home_screen.dart:
+- AppBar dengan judul 'Dashboard Utama' dan icon button Logout di pojok kanan
+- Greeting card berlatar gradien Teal yang menampilkan sapaan: 'Halo, Selamat Datang!'
+- GridView 2 kolom berisi 4 Menu Cards interaktif (Card dengan InkWell &amp; elevation halus):
+  1. 'Daftar Data' (Icon: Icons.inventory_2, navigasi ke DataListScreen)
+  2. 'Tambah Item' (Icon: Icons.add_circle_outline, navigasi ke AddItemScreen)
+  3. 'Laporan' (Icon: Icons.analytics_outlined)
+  4. 'Profil Akun' (Icon: Icons.account_circle_outlined)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- BAGIAN 6: KONEKSI KE SUPABASE -->
+    <!-- ================================================================= -->
+    <section id="bagian-6" class="module-section">
+      <span class="section-badge">Fase 6 · Database Cloud</span>
+      <h2 class="section-heading">Bagian 6: Konfigurasi Database Supabase</h2>
+      <p class="section-desc">
+        Menghubungkan aplikasi Flutter ke tabel PostgreSQL Supabase melalui arsitektur Service Layer yang bersih.
+      </p>
+
+      <div class="part-box">
+        <div class="part-tag a">Part A · Schema Tabel SQL di Supabase</div>
+        <p style="font-size: 14px; margin-bottom: 12px; color: var(--ink-mid);">
+          Jalankan perintah SQL berikut di menu <strong>SQL Editor</strong> dashboard Supabase Anda:
+        </p>
+        <div class="code-card">
+          <div class="code-card-header">
+            <span>SUPABASE SQL EDITOR</span>
+            <button class="btn-copy" onclick="copySnippet('sql-table')">📋 Salin SQL</button>
+          </div>
+          <div class="code-content" id="sql-table">-- Buat tabel items untuk menyimpan data aplikasi
+CREATE TABLE public.items (
+  id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+  judul TEXT NOT NULL,
+  deskripsi TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE
+);
+
+-- Aktifkan Row Level Security (RLS)
+ALTER TABLE public.items ENABLE ROW LEVEL SECURITY;
+
+-- Kebijakan Akses: Pengguna hanya dapat mengelola datanya sendiri
+CREATE POLICY "Users can manage their own items" 
+ON public.items 
+FOR ALL 
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);</div>
+        </div>
+      </div>
+
+      <div class="part-box">
+        <div class="part-tag b">Part B · Master Prompt Service Layer</div>
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-label">🤖 PROMPT 6.1 — Supabase DataService (lib/services/data_service.dart)</span>
+            <button class="btn-copy" onclick="copySnippet('p-6-1')">📋 Salin Prompt</button>
+          </div>
+          <div class="prompt-content" id="p-6-1">Buatkan file lib/services/data_service.dart dengan class DataService:
+Gunakan `Supabase.instance.client` untuk membuat 4 fungsi CRUD lengkap:
+1. getAllItems() -> mengambil semua data dari tabel 'items', urutkan created_at descending, return List&lt;Map&lt;String, dynamic&gt;&gt;
+2. addItem(String judul, String deskripsi) -> insert record baru dengan menyertakan user_id yang sedang login
+3. updateItem(int id, String judul, String deskripsi) -> update judul dan deskripsi berdasarkan id
+4. deleteItem(int id) -> hapus item dari tabel berdasarkan id
+
+Semua fungsi harus memiliki penanganan blok try-catch dan logging error yang jelas.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- BAGIAN 7: FITUR CRUD VIA PROMPTING -->
+    <!-- ================================================================= -->
+    <section id="bagian-7" class="module-section">
+      <span class="section-badge">Fase 7 · Operasi Data</span>
+      <h2 class="section-heading">Bagian 7: Implementasi Fitur CRUD Interaktif</h2>
+      <p class="section-desc">
+        Menghubungkan halaman antarmuka visual ke fungsi database untuk menampilkan list, menambah, mengedit, dan menghapus item.
+      </p>
+
+      <div class="part-box">
+        <div class="part-tag b">Part B · Master Prompts Halaman CRUD</div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-label">🤖 PROMPT 7.1 — Menampilkan Data List Realtime</span>
+            <button class="btn-copy" onclick="copySnippet('p-7-1')">📋 Salin Prompt</button>
+          </div>
+          <div class="prompt-content" id="p-7-1">Update lib/screens/data_list_screen.dart:
+- Ubah menjadi StatefulWidget yang memanggil DataService().getAllItems() saat initState()
+- Tampilkan CircularProgressIndicator saat memuat data
+- Tampilkan Empty State ilustrasi jika data masih kosong (0 item)
+- Gunakan ListView.builder untuk merender Card setiap item:
+  * Judul item (Bold font)
+  * Deskripsi item & tanggal dibuat
+  * Tombol Edit (icon pensil oranye) -> buka EditItemScreen
+  * Tombol Hapus (icon sampah merah) -> tampilkan dialog konfirmasi sebelum hapus
+- Sediakan RefreshIndicator agar pengguna bisa tarik layar ke bawah (pull-to-refresh)</div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-label">🤖 PROMPT 7.2 — Form Tambah &amp; Edit Data</span>
+            <button class="btn-copy" onclick="copySnippet('p-7-2')">📋 Salin Prompt</button>
+          </div>
+          <div class="prompt-content" id="p-7-2">Buatkan dua file form di lib/screens/:
+1. add_item_screen.dart: Form input judul (wajib, min 3 karakter) dan deskripsi (multiline). Saat tombol 'Simpan Item' ditekan, panggil DataService().addItem(), tampilkan SnackBar sukses, dan kembali ke halaman list dengan sinyal refresh.
+2. edit_item_screen.dart: Menerima parameter awal (id, judul, deskripsi). Tampilkan data awal pada form. Saat disimpan, panggil DataService().updateItem().</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- BAGIAN 8: AUTENTIKASI PENGGUNA -->
+    <!-- ================================================================= -->
+    <section id="bagian-8" class="module-section">
+      <span class="section-badge">Fase 8 · Keamanan &amp; Akun</span>
+      <h2 class="section-heading">Bagian 8: Autentikasi Pengguna Supabase Auth</h2>
+      <p class="section-desc">
+        Menerapkan login, register, proteksi rute (Auth Guard), serta manajemen sesi pengguna.
+      </p>
+
+      <div class="part-box">
+        <div class="part-tag b">Part B · Master Prompts Auth Service &amp; Guard</div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-label">🤖 PROMPT 8.1 — AuthService (lib/services/auth_service.dart)</span>
+            <button class="btn-copy" onclick="copySnippet('p-8-1')">📋 Salin Prompt</button>
+          </div>
+          <div class="prompt-content" id="p-8-1">Buatkan file lib/services/auth_service.dart dengan class AuthService:
+- signUp(String email, String password): mendaftarkan akun baru menggunakan supabase.auth.signUp()
+- signIn(String email, String password): login akun menggunakan supabase.auth.signInWithPassword()
+- signOut(): keluar akun menggunakan supabase.auth.signOut()
+- currentUser: getter untuk mendapatkan data user yang sedang aktif
+- isLoggedIn: bool getter untuk mengecek apakah sesi user masih aktif</div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-label">🤖 PROMPT 8.2 — Auth Guard di Splash Screen</span>
+            <button class="btn-copy" onclick="copySnippet('p-8-2')">📋 Salin Prompt</button>
+          </div>
+          <div class="prompt-content" id="p-8-2">Update SplashScreen di lib/screens/splash_screen.dart:
+Setelah delay 2 detik, lakukan pengecekan sesi dengan AuthService().isLoggedIn:
+- Jika user SUDAH login -> langsung navigasi ke HomeScreen
+- Jika user BELUM login -> navigasi ke LoginScreen
+Pastikan user tidak bisa kembali ke Splash Screen dengan tombol back (gunakan Navigator.pushReplacement).</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- BAGIAN 9: TEST DI HP ANDROID & BROWSER -->
+    <!-- ================================================================= -->
+    <section id="bagian-9" class="module-section">
+      <span class="section-badge">Fase 9 · Uji Coba &amp; Eksekusi</span>
+      <h2 class="section-heading">Bagian 9: Menjalankan Aplikasi di HP Android &amp; Chrome</h2>
+      <p class="section-desc">
+        Langkah menghubungkan smartphone fisik melalui USB Debugging atau menjalankan simulasi cepat di Web Chrome.
+      </p>
+
+      <div class="part-box">
+        <div class="part-tag a">Part A · Langkah Aktivasi USB Debugging Android</div>
+        <ol style="padding-left: 20px; font-size: 14.5px; color: var(--ink); line-height: 1.8;">
+          <li>Buka <strong>Pengaturan (Settings)</strong> → <strong>Tentang Ponsel (About Phone)</strong>.</li>
+          <li>Ketuk <strong>Nomor Build (Build Number)</strong> sebanyak <strong>7 kali</strong> hingga muncul pesan <em>"Anda sekarang adalah developer!"</em>.</li>
+          <li>Masuk ke <strong>Pengaturan Tambahan</strong> → <strong>Opsi Pengembang (Developer Options)</strong> → Aktifkan <strong>USB Debugging</strong>.</li>
+          <li>Hubungkan HP ke komputer dengan kabel data USB. Pada layar HP, pilih <strong>Transfer File (MTP)</strong> dan ketuk <strong>"Izinkan Selalu"</strong> pada pop-up otorisasi debug komputer.</li>
+        </ol>
+      </div>
+
+      <div class="part-box">
+        <div class="part-tag b">Part B · Perintah Eksekusi di Terminal</div>
+        <div class="code-card">
+          <div class="code-card-header">
+            <span>TERMINAL ANTIGRAVITY IDE</span>
+            <button class="btn-copy" onclick="copySnippet('cmd-run')">📋 Salin Perintah</button>
+          </div>
+          <div class="code-content" id="cmd-run"># 1. Cek daftar perangkat HP yang terhubung
+adb devices
+
+# 2. Jalankan aplikasi langsung ke HP Android
+flutter run
+
+# 3. ATAU jalankan di Browser Web Chrome
+flutter run -d chrome</div>
+        </div>
+
+        <div class="analogy-box" style="margin-top: 16px;">
+          <div class="analogy-title">⚡ Tombol Rahasia Selama Aplikasi Berjalan di Terminal</div>
+          <p style="font-size: 13.5px; color: #78350F;">
+            Tekan <code>r</code> pada keyboard terminal untuk <strong>Hot Reload</strong> (update tampilan instan dalam &lt; 1 detik).<br>
+            Tekan <code>R</code> (huruf besar) untuk <strong>Hot Restart</strong> (mengulang aplikasi dari awal).<br>
+            Tekan <code>q</code> untuk keluar / menghentikan sesi.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- BAGIAN 10: TIPS ITERASI & PERBAIKAN -->
+    <!-- ================================================================= -->
+    <section id="bagian-10" class="module-section">
+      <span class="section-badge">Fase 10 · Siklus Pengembangan</span>
+      <h2 class="section-heading">Bagian 10: Pola Iterasi &amp; Penyesuaian Desain via AI</h2>
+      <p class="section-desc">
+        Vibe coding adalah proses kolaboratif berkelanjutan. Saat hasil belum sesuai selera, komunikasikan poin perbaikan secara spesifik ke AI.
+      </p>
+
+      <div class="part-box">
+        <div class="part-tag b">Part B · Template Prompt Iterasi</div>
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-label">🤖 Template Prompt Koreksi Visual / Fitur</span>
+            <button class="btn-copy" onclick="copySnippet('p-10-1')">📋 Salin Template</button>
+          </div>
+          <div class="prompt-content" id="p-10-1">Hasil tampilan di lib/screens/home_screen.dart sudah bagus, namun tolong ubah beberapa hal berikut:
+1. Ganti warna AppBar menjadi Putih dengan teks hitam tebal dan elevasi 0
+2. Tambahkan badge jumlah total item di atas icon Daftar Data
+3. Tambahkan efek animasi fade-in saat kartu menu dimuat
+4. Ganti font seluruh aplikasi menggunakan Google Fonts 'Inter'</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- BAGIAN 11: TROUBLESHOOTING VIA PROMPTING -->
+    <!-- ================================================================= -->
+    <section id="bagian-11" class="module-section">
+      <span class="section-badge">Fase 11 · Solusi Masalah</span>
+      <h2 class="section-heading">Bagian 11: Diagnosa Masalah &amp; Troubleshooting</h2>
+      <p class="section-desc">
+        Jangan panik saat melihat error di terminal. Cukup salin seluruh teks pesan error dan kirimkan ke chat AI Antigravity.
+      </p>
+
+      <div class="part-box">
+        <div class="part-tag a">Part A · 4 Kasus Masalah Paling Sering Terjadi</div>
+        
+        <div class="result-grid">
+          <div class="res-pitfall">
+            <div class="res-pitfall-title">1. Permission Internet Belum Diatur</div>
+            <div class="res-text">
+              Aplikasi crash saat memanggil Supabase di HP Android asli.<br>
+              <strong>Solusi:</strong> Pastikan tag <code>&lt;uses-permission android:name="android.permission.INTERNET"/&gt;</code> ada di <code>android/app/src/main/AndroidManifest.xml</code>.
+            </div>
+          </div>
+
+          <div class="res-pitfall">
+            <div class="res-pitfall-title">2. Policy RLS Supabase Mengunci Query</div>
+            <div class="res-text">
+              Data berhasil disimpan di dashboard Supabase tapi tidak muncul di aplikasi Flutter.<br>
+              <strong>Solusi:</strong> Periksa tab Authentication &amp; RLS di Supabase, pastikan ada Policy <code>SELECT</code> yang aktif untuk role <code>authenticated</code>.
+            </div>
+          </div>
+        </div>
+
+        <div class="prompt-card" style="margin-top: 16px;">
+          <div class="prompt-header">
+            <span class="prompt-label">🤖 PROMPT — Diagnosa Otomatis Error ke AI</span>
+            <button class="btn-copy" onclick="copySnippet('p-11-1')">📋 Salin Prompt</button>
+          </div>
+          <div class="prompt-content" id="p-11-1">Saya mengalami error saat menjalankan aplikasi Flutter ke HP Android:
+[PASTE SELURUH PESAN ERROR DARI TERMINAL DI SINI]
+
+Tolong jelaskan akar penyebab masalahnya dengan bahasa sederhana, dan langsung perbaiki file kode yang bermasalah.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- CHECKLIST PENYELESAIAN -->
+    <!-- ================================================================= -->
+    <section id="checklist" class="module-section">
+      <div class="checklist-card">
+        <div class="checklist-title">
+          🎯 Checklist Evaluasi Mandiri Mahasiswa
+        </div>
+        <p style="font-size: 14px; color: var(--ink-mid); margin-bottom: 20px;">
+          Centang setiap pencapaian berikut untuk memastikan seluruh kompetensi modul telah Anda kuasai dengan baik:
+        </p>
+
+        <div class="checklist-group">
+          <div class="checklist-group-title">1. Persiapan &amp; Tooling</div>
+          <label class="check-item"><input type="checkbox"> <span>Flutter doctor terverifikasi hijau (Android toolchain &amp; cmdline tools)</span></label>
+          <label class="check-item"><input type="checkbox"> <span>Proyek Supabase telah dibuat dengan tabel <code>items</code> dan RLS aktif</span></label>
+          <label class="check-item"><input type="checkbox"> <span>Antigravity IDE terhubung dan memahami struktur folder <code>lib/</code></span></label>
+        </div>
+
+        <div class="checklist-group">
+          <div class="checklist-group-title">2. Antarmuka Visual &amp; Komponen</div>
+          <label class="check-item"><input type="checkbox"> <span>Halaman Splash Screen menampilkan transisi timer 2 detik</span></label>
+          <label class="check-item"><input type="checkbox"> <span>Halaman Login &amp; Register memiliki validasi form email dan password</span></label>
+          <label class="check-item"><input type="checkbox"> <span>Home Dashboard menampilkan grid menu responsif</span></label>
+        </div>
+
+        <div class="checklist-group">
+          <div class="checklist-group-title">3. Koneksi Supabase &amp; CRUD</div>
+          <label class="check-item"><input type="checkbox"> <span>Data dari PostgreSQL Supabase berhasil dimuat ke dalam ListView</span></label>
+          <label class="check-item"><input type="checkbox"> <span>Form tambah dan form edit data berhasil memperbarui database cloud</span></label>
+          <label class="check-item"><input type="checkbox"> <span>Fitur hapus data disertai dialog konfirmasi keamanan</span></label>
+          <label class="check-item"><input type="checkbox"> <span>Autentikasi Supabase (Sign Up, Sign In, Sign Out, Auth Guard) berfungsi lancar</span></label>
+        </div>
+
+        <div class="checklist-group">
+          <div class="checklist-group-title">4. Pengujian &amp; Build</div>
+          <label class="check-item"><input type="checkbox"> <span>Aplikasi berhasil dijalankan di smartphone Android fisik via USB Debugging</span></label>
+          <label class="check-item"><input type="checkbox"> <span>Hot reload (<code>r</code>) berjalan lancar saat melakukan eksperimen styling UI</span></label>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Notification Popup -->
+  <div id="toast">
+    <span>✅</span>
+    <span id="toast-msg">Teks berhasil disalin ke clipboard!</span>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <p><strong>Vibe Coding Masterclass — Flutter &amp; Supabase Integration</strong></p>
+    <p>Dirancang khusus untuk Profesional Non-IT &amp; Pembelajar Mandiri • September 2026</p>
+    <p><a href="silabus-vibe-coding-16-pertemuan.html">← Kembali ke Silabus Utama 16 Pertemuan</a></p>
+  </footer>
+
+  <!-- JavaScript Functions -->
+  <script>
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      toastMsg.innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    function copySnippet(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Snippet berhasil disalin ke clipboard!');
+      }).catch(err => {
+        console.error('Gagal menyalin:', err);
+      });
+    }
+  </script>
+</body>
+
+</html>

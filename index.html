@@ -1934,7 +1934,7 @@
         <!-- Dropdown 1: Lompat ke Blok -->
         <div class="nav-dropdown">
           <button class="nav-dropdown-btn">
-            <span>📑 Lompat ke Blok</span>
+            <span>📑 Lompat ke Sesi</span>
             <span style="font-size:10px; color:#787774;">▾</span>
           </button>
           <div class="dropdown-content">
@@ -1949,10 +1949,26 @@
           </div>
         </div>
 
-        <!-- Link Panduan OWASP -->
-        <a href="panduan_vibecoding_owasp.html" class="nav-dropdown-btn" style="text-decoration:none;">
-          <span>🛡️ Panduan OWASP</span>
-        </a>
+        <!-- Dropdown 2: Modul Praktikum Masterclass -->
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">
+            <span>📚 Modul Praktikum</span>
+            <span style="font-size:10px; color:#787774;">▾</span>
+          </button>
+          <div class="dropdown-content">
+            <a href="praktikum_git_sebelum_coding.html" class="dropdown-item">🛠️ Modul 01: Git &amp; GitHub Setup</a>
+            <a href="panduan_push_github.html" class="dropdown-item">🚀 Modul 02: Panduan Push GitHub</a>
+            <a href="teori_integrasi_api_eksternal.html" class="dropdown-item">💡 Modul 03: Teori Mental Model API</a>
+            <a href="praktikum_integrasi_api_eksternal.html" class="dropdown-item">⚡ Modul 04: Lab Integrasi API</a>
+            <a href="panduan_keamanan_data.html" class="dropdown-item">🛡️ Modul 05: Keamanan Data &amp; Env</a>
+            <a href="laboratorium_lengkap_supabase.html" class="dropdown-item">🔬 Modul 06: Lab Fullstack Supabase (9 Lab)</a>
+            <a href="praktikum_flutter_supabase.html" class="dropdown-item">📱 Modul 07: Vibe Coding Flutter + Supabase</a>
+            <a href="panduan_deploy_vercel.html" class="dropdown-item">▲ Modul 08: Panduan Deploy Vercel</a>
+            <a href="panduan_vibecoding_owasp.html" class="dropdown-item">🔒 Modul 09: Standar OWASP Top 10</a>
+            <div class="dropdown-divider"></div>
+            <a href="kurikulum_vibe_coding_pwa_supabase.html" class="dropdown-item">📋 Kurikulum PWA Offline</a>
+          </div>
+        </div>
 
         <!-- CTA Action -->
         <a href="#ringkasan" class="nav-cta-btn">⭐ Mulai Belajar</a>
@@ -2153,16 +2169,17 @@
                 <td class="ov-block"><b>Interaktif &amp; Data</b></td>
                 <td class="ov-out"><b>Validasi form input ketat, enkripsi password Bcrypt, proteksi SQLi/XSS, anti-spam CAPTCHA &amp; audit AI.</b></td>
               </tr>
-              <tr style="background:#EAF6F4;">
+              <tr style="background:#EAF6F4; border-left: 3px solid #01656F;">
                 <td class="ov-num"><span style="background:#01656F;">★</span></td>
                 <td class="ov-title">
-                  <a href="#supabase-lab" style="color:#01656F; font-weight:bold;">Laboratorium Praktikum Supabase Penuh</a>
+                  <a href="#supabase-lab" style="color:#01656F; font-weight:bold;">Laboratorium Praktikum Supabase Penuh &amp; Mobile</a>
                   <div style="margin-top:4px; font-size:11.5px; display:flex; gap:8px; flex-wrap:wrap;">
-                    <a href="laboratorium_lengkap_supabase.html" style="font-weight:600; color:#01656F;">🔬 Lab Supabase (9 Lab) →</a>
+                    <a href="laboratorium_lengkap_supabase.html" style="font-weight:600; color:#01656F;">🔬 Lab Supabase Web (9 Lab) →</a>
+                    <a href="praktikum_flutter_supabase.html" style="font-weight:600; color:#028090;">📱 Lab Flutter Mobile + Supabase →</a>
                   </div>
                 </td>
-                <td class="ov-block"><b>Modul Spesial Backend</b></td>
-                <td class="ov-out"><b>Skema SQL DDL, RLS Policies, AuthContext, ProtectedRoute &amp; Realtime Hook.</b></td>
+                <td class="ov-block"><b>Modul Spesial Backend &amp; Mobile</b></td>
+                <td class="ov-out"><b>Skema SQL DDL, RLS Policies, AuthContext, ProtectedRoute, Realtime Hook &amp; App Android Flutter.</b></td>
               </tr>
               <tr>
                 <td class="ov-num"><span style="background:#01656F;">13</span></td>
@@ -3995,6 +4012,18 @@ Terapkan standar validasi &amp; keamanan:
               Lab Supabase →</a>
           </div>
 
+          <div class="resource-card">
+            <div>
+              <span
+                style="font-size:11.5px; font-weight:700; color:#028090; background:var(--bg-tint); padding:3px 8px; border-radius:12px;">Mobile
+                &amp; Flutter</span>
+              <h4 style="margin-top:10px;">Praktikum Flutter + Supabase</h4>
+              <p>Membuat aplikasi Android &amp; Web menggunakan Flutter, Supabase Auth &amp; CRUD melalui prompting Antigravity AI.</p>
+            </div>
+            <a href="praktikum_flutter_supabase.html" class="btn-nav btn-nav-primary"
+              style="text-align:center; justify-content:center; background:#028090; border-color:#028090;">Buka Modul Flutter Mobile →</a>
+          </div>
+
         </div>
       </section>
 
@@ -4007,6 +4036,7 @@ Terapkan standar validasi &amp; keamanan:
       <div class="footer-links">
         <a href="#ringkasan">Kembali ke Atas ↑</a>
         <a href="laboratorium_lengkap_supabase.html">PRD 9 Lab Supabase</a>
+        <a href="praktikum_flutter_supabase.html">Modul Flutter Mobile</a>
         <a href="panduan_vibecoding_owasp.html">Panduan OWASP</a>
         <a href="kurikulum_vibe_coding_pwa_supabase.html">Kurikulum PWA</a>
       </div>
