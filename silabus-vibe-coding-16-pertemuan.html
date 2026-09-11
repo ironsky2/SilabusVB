@@ -3660,33 +3660,33 @@ Terapkan standar validasi &amp; keamanan:
 
           <!-- P13 -->
           <!-- ═══════════════════════════════════════════════════════ -->
-          <!-- PERTEMUAN 13 — MENGUJI HASIL AKHIR (MATERI LENGKAP)    -->
+          <!-- PERTEMUAN 13 — MENGUJI HASIL AKHIR                     -->
           <!-- ═══════════════════════════════════════════════════════ -->
           <article class="session" id="p13" data-block="produksi"
             style="border-left:4px solid #028090; background:#fbfefe;">
             <div class="session-head">
               <div class="session-badge" style="background:linear-gradient(135deg,#01656F,#028090);">13</div>
               <div class="session-headtext">
-                <h3>Pertemuan 13: Menguji Hasil Akhir &amp; Berburu Bug (Testing, QA &amp; Atomic Fixing)</h3>
+                <h3>Pertemuan 13: Menguji Hasil Akhir</h3>
                 <div class="session-meta">
                   <span class="meta-chip">Uji, Rilis &amp; Proyek Akhir</span>
                   <span class="meta-chip">120 menit</span>
-                  <span class="meta-chip" style="background:#ECFDF5; color:#047857; font-weight:600;">Praktikum QA &amp; Bug Tracker</span>
+                  <span class="meta-chip" style="background:#ECFDF5; color:#047857; font-weight:600;">Tools: Antigravity IDE (AGY)</span>
                 </div>
               </div>
             </div>
-            <p class="session-goal"><b>Tujuan:</b> Peserta mampu menyusun matriks skenario uji berbasis PRD, mengeksekusi pengujian manual fungsional &amp; 6 edge cases ekstrem, mencatat tiket bug berstandar industri ke <code>test-plan.md</code>, dan menerapkan perbaikan <em>Atomic Bug Fixing</em> bersama AI tanpa merusak kode lama.</p>
+            <p class="session-goal"><b>Tujuan:</b> Peserta <strong>menguji apa yang dilihat pengguna</strong>, bukan sekadar percaya kode sudah benar.</p>
 
             <!-- ACTION CARD DEDICATED MODULES (TESTING & QA) -->
             <div style="background: linear-gradient(135deg, #01656F 0%, #028090 100%); border-radius: 12px; padding: 18px 20px; margin: 18px 0; color: #fff; box-shadow: 0 4px 14px rgba(2, 128, 144, 0.25);">
               <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
                 <div>
                   <div style="font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #A7F3D0; margin-bottom: 2px;">🧪 Modul Mandiri Pertemuan 13</div>
-                  <div style="font-size: 15px; font-weight: 700; color: #fff;">Panduan Lengkap Test Plan, 6 Edge Cases &amp; Atomic Fix:</div>
+                  <div style="font-size: 15px; font-weight: 700; color: #fff;">Panduan Lengkap Pengujian, Skenario PRD &amp; test-plan.md:</div>
                 </div>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                   <a href="praktikum_menguji_hasil_akhir.html" target="_blank" class="btn-nav btn-nav-primary" style="background:#02C39A; color:#013A40; border:none; font-weight:700; padding:8px 16px; border-radius:6px; font-size:12.5px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-                    <span>🧪 Buka Lab Pengujian &amp; QA (P13)</span>
+                    <span>🧪 Buka Lab Pengujian Hasil Akhir (P13)</span>
                   </a>
                 </div>
               </div>
@@ -3696,122 +3696,92 @@ Terapkan standar validasi &amp; keamanan:
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; margin:16px 0 20px;">
               <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:14px;">
                 <strong style="color:#0F172A; font-size:13px; display:flex; align-items:center; gap:6px;">
-                  <span>🏠 vs 🔍 Tukang Bangunan vs Inspektur QA</span>
+                  <span>🏠 Analogi Tukang Bangunan</span>
                 </strong>
                 <p style="font-size:12px; color:#475569; margin:6px 0 0; line-height:1.5;">
-                  AI adalah tukang yang membangun dinding dan pipa sesuai gambar. Manusia adalah inspektur yang masuk ke rumah: membuka setiap pintu, menyalakan keran &amp; saklar listrik bersamaan untuk memastikan tidak ada kebocoran.
+                  AI seperti tukang bangunan yang membangun rumah sesuai denah. Testing adalah saat kita masuk: buka setiap pintu, nyalakan lampu, dan pastikan kran air berfungsi.
                 </p>
               </div>
 
               <div style="background:#FEF3C7; border:1px solid #FDE68A; border-radius:10px; padding:14px;">
                 <strong style="color:#92400E; font-size:13px; display:flex; align-items:center; gap:6px;">
-                  <span>⚡ Happy Path vs 6 Edge Cases</span>
+                  <span>⚡ Happy Path vs Edge Case</span>
                 </strong>
                 <p style="font-size:12px; color:#78350F; margin:6px 0 0; line-height:1.5;">
-                  Jangan hanya uji saat semua lancar! Wajib uji kasus tepi: input kosong, batas angka, injeksi script XSS, double-click cepat, refresh saat edit data, dan simulasi internet offline.
+                  <strong>Happy Path:</strong> Alur normal (login benar). <br>
+                  <strong>Edge Case:</strong> Kasus ekstrem (input kosong, angka negatif, karakter <code>!@#</code>, double-click cepat).
                 </p>
               </div>
 
               <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:10px; padding:14px;">
                 <strong style="color:#1E40AF; font-size:13px; display:flex; align-items:center; gap:6px;">
-                  <span>🎯 Prinsip Atomic Bug Fixing</span>
+                  <span>🎯 Fokus Hasil Fungsional</span>
                 </strong>
                 <p style="font-size:12px; color:#1E3A8A; margin:6px 0 0; line-height:1.5;">
-                  Perbaiki <strong>satu bug per satu prompt terarah</strong>. Menggabungkan 5 bug dalam satu perintah membuat AI merombak seluruh file dan memicu bug baru (<em>code regression</em>).
+                  Biarkan AI mengurus sintaks dan logika kode. Tugas Anda adalah memverifikasi apakah fitur berfungsi sesuai ekspektasi pengguna.
                 </p>
               </div>
-            </div>
-
-            <!-- DIAGRAM ALUR PENGUJIAN MONOSPACE -->
-            <div style="background:#1E293B; border-radius:10px; padding:14px 18px; margin:16px 0 20px; color:#E2E8F0; font-family:'JetBrains Mono',monospace; font-size:11.5px; line-height:1.5; overflow-x:auto;">
-              <div style="color:#38BDF8; font-weight:700; margin-bottom:6px;">🗺️ ALUR KERJA QA &amp; BUG HUNTING (3 FASE):</div>
-              <div>[ PRD / Fitur ] ──► (Fase 1: Generate Matriks Uji) ──► File: test-plan.md</div>
-              <div>                         │</div>
-              <div>                         ▼</div>
-              <div>                 (Fase 2: Uji Manual 6 Edge Cases) ──► Catat BUG-01, BUG-02</div>
-              <div>                         │</div>
-              <div>                         ▼</div>
-              <div>                 (Fase 3: Atomic AI Bug Fix) ──► Regression Check ──► [ Release Ready ✅ ]</div>
             </div>
 
             <div class="session-two-col">
               <div class="teori-col">
                 <h4 class="col-title">&#128218; Teori &amp; Konsep Kunci</h4>
                 <ul class="plain-list">
-                  <li><strong>Mental Model Vibe Testing:</strong> Uji apa yang dilihat &amp; dialami pengguna di layar; biarkan AI mengurus detail kode internal</li>
-                  <li><strong>Format Standar <code>test-plan.md</code>:</strong> Tabel terstruktur berisi kolom <em>ID, Fitur, Kategori, Skenario, Langkah, Hasil Diharapkan, Status (LULUS/GAGAL),</em> dan <em>Catatan</em></li>
-                  <li><strong>Matriks Derajat Keparahan Bug (Severity):</strong> 🔴 <em>Critical</em> (Crash/Blokir rilis), 🟠 <em>High</em> (Fitur utama macet), 🟡 <em>Medium</em> (Logika minor), 🔵 <em>Low</em> (Tampilan/Kosmetik)</li>
-                  <li><strong>Matriks 6 Edge Cases Wajib:</strong> Input kosong/spasi, batasan angka/teks panjang, karakter berbahaya (XSS/SQLi), double click cepat, refresh saat form aktif, dan simulasi offline</li>
-                  <li><strong>Uji Regresi (Regression Testing):</strong> Memastikan fitur lama tidak rusak setelah AI menerapkan perbaikan bug baru</li>
+                  <li><strong>Testing dalam Vibe Coding:</strong> AI menulis kode, manusia bertanggung jawab menguji pengalaman pengguna</li>
+                  <li><strong>Skenario Uji Berbasis PRD:</strong> Setiap fitur di <code>prd.md</code> memiliki minimal satu skenario uji (ID, Fitur, Skenario, Langkah, Hasil Diharapkan)</li>
+                  <li><strong>Kamus Istilah:</strong> <em>Bug</em> (kerusakan), <em>Happy Path</em> (alur ideal), <em>Edge Case</em> (kasus ekstrem), <em>Reproduksi Bug</em> (langkah memunculkan bug)</li>
+                  <li><strong>Struktur File <code>test-plan.md</code>:</strong> Informasi Pengujian, Tabel Skenario Uji, Log Temuan Bug (BUG-01), dan Ringkasan Status</li>
                 </ul>
               </div>
               <div class="praktikum-col">
-                <h4 class="col-title">&#129489;&#8205;&#128187; Praktikum &#8212; Master Prompt AI (Formula K-T-B-H)</h4>
-                <p class="prompt-hint">&#128161; Salin prompt berikut ke Antigravity IDE untuk menguji dan memperbaiki aplikasi Anda:</p>
+                <h4 class="col-title">&#129489;&#8205;&#128187; Praktik di Kelas (3 Langkah AGY)</h4>
+                <p class="prompt-hint">&#128161; Salin prompt berikut ke Antigravity IDE (AGY):</p>
 
                 <!-- Prompt 1 -->
                 <div class="ai-prompt-box" style="margin-bottom:12px;">
                   <div class="ai-prompt-label">
-                    <span>🤖 PROMPT 1: GENERATE TEST PLAN DARI PRD</span>
-                    <span style="font-weight:400;font-size:10.5px;color:#7A9AA3;">Fase 1 (Test Matrix)</span>
+                    <span>🤖 LANGKAH 1: GENERATE TEST PLAN DARI PRD</span>
+                    <span style="font-weight:400;font-size:10.5px;color:#7A9AA3;">25 Menit</span>
                   </div>
-                  <pre>Bertindaklah sebagai Senior QA Lead. Saya memiliki daftar fitur aplikasi berikut:
-[TEMPEL DAFTAR FITUR DARI prd.md]
+                  <pre>Saya punya aplikasi [nama aplikasi] dengan fitur-fitur berikut:
+[tempel daftar fitur dari prd.md]
 
-Tolong buatkan dokumen `test-plan.md` dalam format tabel Markdown berstandar industri:
-1. Skenario Happy Path (alur normal) dan Edge Cases (kasus ekstrem: input kosong, double click, input script)
-2. Kolom tabel: | ID | Fitur | Kategori | Skenario Uji | Langkah Pengujian | Hasil Diharapkan | Status | Catatan Bug |
-3. Beri status awal: "⚠️ BELUM DIUJI"
-4. Sertakan bagian "Log Temuan Bug" dan "Ringkasan Metrik Kelayakan Rilis".
-Simpan file ini ke root workspace.</pre>
+Tolong buatkan saya daftar skenario uji dalam format tabel markdown yang mencakup:
+1. Happy path (alur normal)
+2. Edge cases (kasus tepi) seperti input kosong, karakter khusus, klik cepat ganda
+3. Setiap baris berisi: ID, Fitur, Skenario, Langkah, Hasil yang Diharapkan, Status (isi dengan "⚠️ BELUM DIUJI"), Catatan
+
+Simpan hasilnya ke file test-plan.md</pre>
                 </div>
 
                 <!-- Prompt 2 -->
-                <div class="ai-prompt-box" style="margin-bottom:12px;">
-                  <div class="ai-prompt-label">
-                    <span>🤖 PROMPT 2: TARGETED ATOMIC BUG FIX</span>
-                    <span style="font-weight:400;font-size:10.5px;color:#7A9AA3;">Fase 3 (Perbaikan Terarah)</span>
-                  </div>
-                  <pre>Saya menemukan bug saat menjalankan test plan:
-- ID Bug / Skenario: [BUG-01 / TC-05]
-- Fitur: [Nama Fitur, contoh: Tombol Simpan Transaksi]
-- Langkah Reproduksi: [Klik tombol Simpan 3x sangat cepat]
-- Hasil Aktual: [Muncul data ganda / duplikat di database]
-- Hasil Diharapkan: [Hanya 1 data yang tersimpan, tombol otomatis disabled saat proses simpan]
-
-Instruksi:
-1. Perbaiki HANYA bagian fungsi atau file terkait masalah ini.
-2. JANGAN mengubah struktur komponen lain yang sudah berjalan.
-3. Jelaskan solusi dalam 2 kalimat, lalu tampilkan kode perbaikannya.</pre>
-                </div>
-
-                <!-- Prompt 3 -->
                 <div class="ai-prompt-box">
                   <div class="ai-prompt-label">
-                    <span>🤖 PROMPT 3: HITUNG SKOR KELAYAKAN RILIS</span>
-                    <span style="font-weight:400;font-size:10.5px;color:#7A9AA3;">Evaluasi Akhir</span>
+                    <span>🤖 LANGKAH 3: PERBAIKI TEMUAN BUG</span>
+                    <span style="font-weight:400;font-size:10.5px;color:#7A9AA3;">20 Menit</span>
                   </div>
-                  <pre>Baca seluruh isi tabel pada file `test-plan.md` di proyek saya.
-Hitung total skenario, jumlah status LULUS, GAGAL, dan BELUM DIUJI.
-Hitung persentase Pass Rate: (Lulus / Total) * 100%.
-Perbarui bagian 'Ringkasan Metrik' di `test-plan.md` dan tentukan apakah aplikasi ini sudah siap lanjut ke Pertemuan 14 (Merapikan Tampilan &amp; Performa) serta Pertemuan 15 (Deploy Vercel) atau belum.</pre>
+                  <pre>Saya menemukan bug: [jelaskan bug dari catatan test-plan.md]
+Langkah reproduksi: [tempel dari test-plan]
+Hasil aktual: [apa yang terjadi]
+Hasil diharapkan: [seharusnya apa]
+Tolong perbaiki bug ini.</pre>
                 </div>
               </div>
             </div>
 
             <div class="warn-box" style="border-left-color:#B45309; background:#FEF3C7; margin-top:16px;">
               <div class="warn-mark" style="color:#B45309;">!</div>
-              <p><b>Aturan Emas Pengujian:</b> Jangan pernah memperbaiki bug di tengah-tengah pengujian manual! Selesaikan seluruh skenario terlebih dahulu dan catat semua temuan di <code>test-plan.md</code>. Perbaiki bug satu per satu secara terisolasi (<em>Atomic Fix</em>) untuk mencegah kerusakan berantai.</p>
+              <p><b>🔑 Aturan Emas Testing:</b> Jangan perbaiki dulu saat sedang testing — selesaikan semua skenario di <code>test-plan.md</code> terlebih dahulu. Saat memperbaiki, perbaiki <strong>satu bug per satu</strong>, lalu <strong>uji ulang</strong> sebelum lanjut ke bug berikutnya!</p>
             </div>
 
             <div class="session-foot">
               <div class="foot-item foot-output">
                 <span class="foot-label">Output pertemuan</span>
-                <span class="foot-text">File <code>test-plan.md</code> lengkap terverifikasi (min. 10 skenario), log tiket bug terselesaikan, dan skor kelayakan rilis (Pass Rate &ge; 90%).</span>
+                <span class="foot-text">File <code>test-plan.md</code> berisi daftar lengkap skenario uji, status lulus/gagal, catatan temuan bug, dan status perbaikannya.</span>
               </div>
               <div class="foot-item foot-pitfall">
                 <span class="foot-label">Kesalahan yang sering terjadi</span>
-                <span class="foot-text">Hanya menguji alur ideal dan percaya 100% pada kode AI tanpa menguji kasus ekstrem — pengguna asli akan menemukan bug lebih dulu.</span>
+                <span class="foot-text">Hanya menguji alur ideal, langsung perbaiki saat menemukan bug pertama, dan percaya penuh pada kode AI tanpa memvalidasi pengalaman pengguna.</span>
               </div>
             </div>
             <div class="nav-step-bar">

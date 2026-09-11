@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Praktikum Menguji Hasil Akhir &amp; QA Testing — Pertemuan 13 | Vibe Coding Masterclass</title>
+  <title>Pertemuan 13: Menguji Hasil Akhir — Modul Praktikum Vibe Coding</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <meta name="description" content="Modul Praktikum Lengkap Pengujian Fungsional &amp; Edge Cases Berbasis PRD untuk Vibe Coder Non-IT: Matriks Uji, 6 Kasus Ekstrem, Logging Bug Tiket, Atomic Bug Fixing, dan Skor Kelayakan Rilis.">
+  <meta name="description" content="Modul Praktikum Pertemuan 13: Menguji Hasil Akhir. Belajar membuat skenario uji berbasis PRD, menguji kasus tepi (edge cases), mencatat temuan bug, dan menghasilkan file test-plan.md dengan Antigravity IDE.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
@@ -301,12 +301,15 @@
       letter-spacing: -0.5px;
     }
 
-    .hero-lede {
-      font-size: 16px;
-      color: var(--ink-mid);
-      max-width: 820px;
-      line-height: 1.6;
+    .hero-goal-box {
+      background: #FFFDF5;
+      border-left: 4px solid var(--amber);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 14px 18px;
       margin-bottom: 20px;
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.55;
     }
 
     .meta-badge-row {
@@ -338,7 +341,7 @@
       font-weight: 600;
     }
 
-    /* ---------- QUICK NAV STICKY ---------- */
+    /* ---------- STICKY QUICK NAV ---------- */
     .lab-nav-sticky {
       position: sticky;
       top: 57px;
@@ -383,106 +386,13 @@
       text-decoration: none;
     }
 
-    /* ---------- MAIN CONTENT LAYOUT ---------- */
+    /* ---------- MAIN CONTAINER ---------- */
     .container {
       max-width: 1160px;
       margin: 0 auto;
       padding: 0 24px 60px;
     }
 
-    /* ---------- ARCHITECTURE & ANALOGY BOXES ---------- */
-    .arch-card {
-      background: #1E293B;
-      color: #E2E8F0;
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-bottom: 32px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .arch-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-      border-bottom: 1px solid #334155;
-      padding-bottom: 10px;
-    }
-
-    .arch-header h3 {
-      font-size: 16px;
-      color: #38BDF8;
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .arch-diagram {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      line-height: 1.55;
-      overflow-x: auto;
-      color: #CBD5E1;
-      white-space: pre;
-    }
-
-    .arch-insight {
-      background: #0F172A;
-      border-left: 3px solid #38BDF8;
-      padding: 12px 16px;
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      margin-top: 16px;
-      font-size: 12.5px;
-      color: #94A3B8;
-      line-height: 1.5;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-
-    .analogy-box {
-      border-radius: var(--radius-md);
-      padding: 18px;
-      border: 1px solid var(--line);
-      background: var(--bg);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .analogy-box:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-    }
-
-    .analogy-box.amber { background: #FFFDF5; border-color: #FDE68A; }
-    .analogy-box.blue { background: #F8FBFE; border-color: #BFDBFE; }
-    .analogy-box.purple { background: #FAF5FF; border-color: #E9D5FF; }
-
-    .analogy-title {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .analogy-box.amber .analogy-title { color: var(--amber); }
-    .analogy-box.blue .analogy-title { color: #1E40AF; }
-    .analogy-box.purple .analogy-title { color: var(--purple); }
-
-    .analogy-text {
-      font-size: 12.5px;
-      color: var(--ink-mid);
-      line-height: 1.55;
-    }
-
-    /* ---------- SECTION STYLES ---------- */
     .section-block {
       margin-bottom: 48px;
       scroll-margin-top: 110px;
@@ -513,13 +423,46 @@
       color: var(--ink);
     }
 
-    /* ---------- TABLE STYLES ---------- */
+    /* ---------- CARDS, TABLES & BOXES ---------- */
+    .content-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .analogy-box {
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      border: 1px solid #FDE68A;
+      background: #FFFDF5;
+      margin: 16px 0;
+    }
+
+    .analogy-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--amber);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .analogy-text {
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+    }
+
     .table-card {
       background: #FFFFFF;
       border: 1px solid var(--line);
       border-radius: var(--radius-md);
       overflow: hidden;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     }
 
@@ -555,13 +498,39 @@
       background: #FAFAF9;
     }
 
+    .comparison-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .comp-item {
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .comp-wrong {
+      background: var(--rose-bg);
+      border: 1px solid #FECDD3;
+      color: #9F1239;
+    }
+
+    .comp-right {
+      background: var(--emerald-bg);
+      border: 1px solid #A7F3D0;
+      color: #065F46;
+    }
+
     /* ---------- PROMPT CARDS ---------- */
     .prompt-card {
       background: #FFFFFF;
       border: 1px solid var(--line);
       border-radius: var(--radius-md);
       overflow: hidden;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
 
@@ -577,7 +546,7 @@
     }
 
     .prompt-tag {
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 700;
       color: var(--indigo);
       display: flex;
@@ -618,157 +587,53 @@
       border-left: 3px solid var(--indigo);
     }
 
-    /* ---------- CODE COMPARISON CARDS ---------- */
-    .code-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .code-card {
+    .code-preview {
       background: #1E293B;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-    }
-
-    .code-card-header {
-      padding: 8px 14px;
-      font-size: 11.5px;
-      font-weight: 600;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .code-card-header.bad {
-      background: #881337;
-      color: #FECDD3;
-    }
-
-    .code-card-header.good {
-      background: #064E3B;
-      color: #A7F3D0;
-    }
-
-    .code-content {
-      padding: 14px;
-      font-family: 'JetBrains Mono', Consolas, monospace;
-      font-size: 11.5px;
-      line-height: 1.55;
       color: #E2E8F0;
-      overflow-x: auto;
-    }
-
-    /* ---------- RESULT VS PITFALL GRID ---------- */
-    .result-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .res-card {
-      border-radius: var(--radius-md);
       padding: 16px;
-      border: 1px solid;
+      border-radius: var(--radius-md);
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.55;
+      overflow-x: auto;
+      margin: 14px 0;
     }
 
-    .res-output {
-      background: var(--emerald-bg);
-      border-color: #A7F3D0;
-    }
-
-    .res-pitfall {
+    .warn-box {
       background: var(--rose-bg);
-      border-color: #FECDD3;
-    }
-
-    .res-title {
+      border-left: 4px solid var(--rose);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 14px 18px;
+      margin: 16px 0;
       font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 6px;
+      color: #881337;
+      line-height: 1.55;
+    }
+
+    .golden-rule-box {
+      background: #FFFDF5;
+      border: 1px solid #FDE68A;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #78350F;
+    }
+
+    /* ---------- CHECKLIST & REFLECTION ---------- */
+    .checklist-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13.5px;
+    }
+
+    .checklist-list li {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
-
-    .res-output .res-title { color: var(--emerald); }
-    .res-pitfall .res-title { color: var(--rose); }
-
-    .res-desc {
-      font-size: 12.5px;
-      color: var(--ink);
-      line-height: 1.5;
-    }
-
-    /* ---------- INTERACTIVE TEST PLAN SIMULATOR ---------- */
-    .sim-card {
-      background: #FFFFFF;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      margin-bottom: 32px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
-    }
-
-    .sim-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .progress-bar-wrap {
-      width: 100%;
-      height: 10px;
-      background: var(--line-soft);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 8px;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--teal), var(--mint));
-      width: 100%;
-      transition: width 0.3s;
-    }
-
-    .checklist-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12.5px;
-    }
-
-    .checklist-table th {
-      text-align: left;
-      padding: 8px 10px;
-      background: var(--bg-soft);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .checklist-table td {
-      padding: 10px;
-      border-bottom: 1px solid var(--line-soft);
-      vertical-align: middle;
-    }
-
-    .status-badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .status-pass { background: #DCFCE7; color: #166534; }
-    .status-fail { background: #FEE2E2; color: #991B1B; }
-    .status-pending { background: #FEF3C7; color: #92400E; }
 
     /* ---------- FOOTER & TOAST ---------- */
     footer.page-footer {
@@ -805,19 +670,10 @@
       opacity: 1;
     }
 
-    /* ---------- RESPONSIVENESS ---------- */
     @media (max-width: 768px) {
       .hero-title { font-size: 28px; }
-      .code-grid, .result-grid { grid-template-columns: 1fr; }
-      .grid-3 { grid-template-columns: 1fr; }
+      .comparison-box { grid-template-columns: 1fr; }
       .custom-table { display: block; overflow-x: auto; }
-    }
-
-    /* ---------- PRINT STYLES ---------- */
-    @media print {
-      header.nav, .lab-nav-sticky, .btn-copy, #toast, .nav-actions { display: none !important; }
-      body { background: #fff !important; color: #000 !important; }
-      .arch-card, .code-card { background: #f8f9fa !important; color: #000 !important; border: 1px solid #ccc !important; }
     }
   </style>
 </head>
@@ -830,7 +686,7 @@
       <a href="silabus-vibe-coding-16-pertemuan.html#p13" class="brand">
         <span class="dot"></span>
         <span class="brand-title">Vibe Coding</span>
-        <span class="brand-pill">Modul 13 · QA Testing</span>
+        <span class="brand-pill">Pertemuan 13 · Testing</span>
       </a>
 
       <div class="nav-actions">
@@ -847,11 +703,11 @@
             <a href="panduan_push_github.html" class="dropdown-item">🚀 Modul 02: Panduan Push GitHub</a>
             <a href="teori_integrasi_api_eksternal.html" class="dropdown-item">🔌 Modul 03: Teori API Eksternal</a>
             <a href="praktikum_integrasi_api_eksternal.html" class="dropdown-item">⚡ Modul 04: Praktikum Integrasi API</a>
-            <a href="panduan_keamanan_data.html" class="dropdown-item">🛡️ Modul 05: Keamanan &amp; Validasi Data</a>
+            <a href="panduan_keamanan_data.html" class="dropdown-item">🛡️ Modul 05: Keamanan Data &amp; Validasi Input</a>
             <a href="laboratorium_lengkap_supabase.html" class="dropdown-item">🗄️ Modul 06: Fullstack Supabase Lab</a>
             <a href="praktikum_flutter_supabase.html" class="dropdown-item">📱 Modul 07: Flutter Mobile App</a>
             <a href="panduan_vibecoding_owasp.html" class="dropdown-item">🔒 Modul 09: Standar OWASP Top 10</a>
-            <a href="praktikum_menguji_hasil_akhir.html" class="dropdown-item active">🧪 Modul 13: QA Testing &amp; Bug Fixing</a>
+            <a href="praktikum_menguji_hasil_akhir.html" class="dropdown-item active">🧪 Modul 13: Menguji Hasil Akhir</a>
             <a href="silabus-vibe-coding-16-pertemuan.html#p14" class="dropdown-item">🎨 Pertemuan 14: Merapikan Tampilan &amp; Performa</a>
             <a href="panduan_deploy_vercel.html" class="dropdown-item">🌐 Modul 15: Deploy Vercel &amp; Domain</a>
           </div>
@@ -866,478 +722,569 @@
 
   <!-- HERO SECTION -->
   <div class="hero-container">
-    <div class="eyebrow">🧪 PERTEMUAN 13 · QA TESTING &amp; BUG HUNTING</div>
-    <h1 class="hero-title">Praktikum Menguji Hasil Akhir: Black-Box QA, 6 Edge Cases &amp; Atomic Bug Fixing</h1>
-    <p class="hero-lede">
-      Panduan pengujian fungsional dan ketahanan aplikasi dari sudut pandang pengguna nyata tanpa harus membaca ribuan baris kode manual. Hasilkan dokumen <code>test-plan.md</code> berstandar industri dan bersihkan bug kritis sebelum melangkah ke tahap deployment produksi.
-    </p>
+    <div class="eyebrow">🧪 PERTEMUAN 13 · UJI, RILIS &amp; PROYEK AKHIR</div>
+    <h1 class="hero-title">Pertemuan 13: Menguji Hasil Akhir</h1>
+    
+    <div class="hero-goal-box">
+      <strong>🎯 Tujuan Pertemuan:</strong> Peserta <strong>menguji apa yang dilihat pengguna</strong>, bukan sekadar percaya kode sudah benar.
+    </div>
 
     <div class="meta-badge-row">
       <span class="meta-chip">⏱️ <strong>Durasi:</strong> 120 Menit</span>
-      <span class="meta-chip">🛠️ <strong>Tools:</strong> Antigravity IDE (AGY) &amp; Browser DevTools</span>
-      <span class="meta-chip">🎯 <strong>Sasaran:</strong> Mahasiswa / Vibe Coder Non-IT</span>
-      <span class="meta-chip highlight">📦 <strong>Output Wajib:</strong> test-plan.md (Pass Rate &ge; 90%)</span>
+      <span class="meta-chip">🛠️ <strong>Tools:</strong> Antigravity IDE (AGY)</span>
+      <span class="meta-chip highlight">📦 <strong>Output:</strong> File test-plan.md</span>
     </div>
   </div>
 
   <!-- STICKY QUICK NAV -->
   <div class="lab-nav-sticky">
     <div class="lab-nav-inner">
-      <a href="#arsitektur" class="lab-nav-pill">1. Konsep &amp; Arsitektur</a>
-      <a href="#fase-1" class="lab-nav-pill">2. Fase 1: Matriks PRD</a>
-      <a href="#fase-2" class="lab-nav-pill">3. Fase 2: 6 Edge Cases</a>
-      <a href="#fase-3" class="lab-nav-pill">4. Fase 3: Atomic Fix</a>
-      <a href="#prompts" class="lab-nav-pill">5. Master Prompts AI</a>
-      <a href="#simulator" class="lab-nav-pill">6. Simulator Test Plan</a>
-      <a href="#rubrik" class="lab-nav-pill">7. Rubrik Kelulusan</a>
+      <a href="#teori" class="lab-nav-pill">1. Teori Singkat</a>
+      <a href="#konsep" class="lab-nav-pill">2. Konsep Kunci</a>
+      <a href="#kamus" class="lab-nav-pill">3. Kamus Istilah</a>
+      <a href="#praktik" class="lab-nav-pill">4. Praktik di Kelas</a>
+      <a href="#kesalahan" class="lab-nav-pill">5. Kesalahan Umum</a>
+      <a href="#prompts" class="lab-nav-pill">6. Prompt Referensi AGY</a>
+      <a href="#checklist" class="lab-nav-pill">7. Checklist &amp; Refleksi</a>
     </div>
   </div>
 
-  <!-- MAIN CONTENT CONTAINER -->
+  <!-- MAIN CONTAINER -->
   <main class="container">
 
-    <!-- 1. KONSEP & ARSITEKTUR -->
-    <section class="section-block" id="arsitektur">
+    <!-- 1. TEORI SINGKAT -->
+    <section class="section-block" id="teori">
       <div class="section-header-row">
         <span class="section-badge">BAGIAN 1</span>
-        <h2 class="section-heading">Mental Model &amp; Arsitektur Alur Pengujian</h2>
+        <h2 class="section-heading">📖 Teori Singkat (15 menit)</h2>
       </div>
 
-      <!-- Architecture Card -->
-      <div class="arch-card">
-        <div class="arch-header">
-          <h3>🧭 Peta Konsep: Siklus Pengujian Fungsional Vibe Coding</h3>
-          <span style="font-size:11.5px; color:#94A3B8;">Standar Industri QA</span>
-        </div>
-        <div class="arch-diagram">┌──────────────────────────────────────────────────────────────────────────────────┐
-│                   ALUR PENGUJIAN &amp; BUG HUNTING VIBE CODING                       │
-└──────────────────────────────────────────────────────────────────────────────────┘
-   [ Dokumen PRD / Fitur ]
-              │
-              ▼
-   ┌──────────────────────┐
-   │ FASE 1: TEST MATRIX  │ ──► Generate Matriks Uji via AGY Prompt (Happy + Edge)
-   └──────────────────────┘     Simpan ke file: test-plan.md
-              │
-              ▼
-   ┌──────────────────────┐
-   │ FASE 2: MANUAL TEST  │ ──► Eksekusi Manual 6 Kategori Edge Case di Browser/HP
-   └──────────────────────┘     Logging Temuan: BUG-01, BUG-02 (Severity &amp; Steps)
-              │
-              ▼
-   ┌──────────────────────┐
-   │ FASE 3: ATOMIC FIX   │ ──► Perbaikan Satu per Satu via AI Agent Antigravity
-   └──────────────────────┘     Regression Testing &amp; Verifikasi Status [✅ LULUS]
-              │
-              ▼
-   [ Aplikasi Siap Rilis (Release Ready) ] ──► Masuk ke Pertemuan 14 (Tampilan &amp; Performa) &amp; 15 (Deploy)</div>
-        <div class="arch-insight">
-          💡 <strong>Prinsip Kunci:</strong> Jangan pernah memperbaiki bug saat sedang menguji manual. Selesaikan seluruh skenario terlebih dahulu untuk mengetahui kondisi kesehatan aplikasi secara utuh, baru lakukan perbaikan satu per satu secara terisolasi (<em>Atomic Fix</em>).
-        </div>
-      </div>
+      <div class="content-card">
+        <h3 style="font-size:16px; margin-bottom:8px;">Apa itu Testing dalam Vibe Coding?</h3>
+        <p style="font-size:14px; color:var(--ink-mid); line-height:1.6;">
+          Dalam vibe coding, kita menggunakan AI untuk <em>menulis kode</em>. Tapi <strong>AI tidak bisa merasakan pengalaman pengguna</strong>. Pengujian adalah tanggung jawab kita sebagai manusia.
+        </p>
 
-      <!-- 3 Grid Analogi -->
-      <div class="grid-3">
-        <div class="analogy-box amber">
-          <div class="analogy-title">🏠 Tukang vs Inspektur Bangunan</div>
+        <div class="analogy-box">
+          <div class="analogy-title">🏠 Analogi Tukang Bangunan</div>
           <div class="analogy-text">
-            AI adalah tukang bangunan cerdas yang memasang dinding dan instalasi pipa sesuai gambar denah. <strong>Pengujian manual adalah saat Anda masuk ke rumah: membuka setiap pintu, menyalakan keran air bersama saklar lampu, dan memastikan pipa tidak bocor.</strong>
+            AI seperti tukang bangunan yang membangun rumah sesuai gambar denah. Testing adalah saat kita masuk ke rumah itu dan coba buka setiap pintu, nyalakan setiap lampu, dan pastikan kamar mandinya berfungsi.
           </div>
         </div>
 
-        <div class="analogy-box blue">
-          <div class="analogy-title">⚡ Happy Path vs Edge Cases</div>
-          <div class="analogy-text">
-            <strong>Happy Path:</strong> Pengguna mengisi form dengan sempurna. <br>
-            <strong>Edge Cases:</strong> Pengguna mengklik tombol 5x cepat, submit field kosong, atau memasukkan karakter aneh. Pengguna nyata selalu menemukan kasus tepi lebih dulu!
-          </div>
+        <h3 style="font-size:16px; margin:20px 0 10px;">Dua Jenis Pengujian yang Perlu Dilakukan</h3>
+        <div class="table-card">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th style="width:25%;">Jenis</th>
+                <th style="width:40%;">Penjelasan</th>
+                <th style="width:35%;">Contoh</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Happy Path</strong></td>
+                <td>Alur normal seperti yang diharapkan</td>
+                <td>Login dengan username &amp; password benar</td>
+              </tr>
+              <tr>
+                <td><strong>Edge Case</strong></td>
+                <td>Situasi ekstrem / tidak terduga</td>
+                <td>Login dengan password kosong, karakter khusus <code>!@#</code></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <div class="analogy-box purple">
-          <div class="analogy-title">🎯 Prinsip Atomic Bug Fixing</div>
-          <div class="analogy-text">
-            Perbaiki <strong>satu bug per satu prompt terarah</strong>. Menggabungkan 5 keluhan bug dalam satu perintah membuat AI merombak seluruh file dan memicu bug baru (<em>code regression</em>).
-          </div>
-        </div>
+        <h3 style="font-size:16px; margin:16px 0 8px;">Mengapa Edge Case Penting?</h3>
+        <p style="font-size:13.5px; color:var(--ink-mid); margin-bottom:8px;">
+          Pengguna sungguhan <strong>tidak selalu menggunakan aplikasi seperti yang kita bayangkan</strong>. Mereka akan:
+        </p>
+        <ul style="padding-left:20px; font-size:13.5px; color:var(--ink-mid); line-height:1.7;">
+          <li>Mengklik tombol dua kali dengan cepat (<em>double-click</em>)</li>
+          <li>Mengosongkan input yang seharusnya diisi</li>
+          <li>Memasukkan angka negatif di form harga</li>
+          <li>Copy-paste teks panjang yang tidak terduga</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 2. KONSEP KUNCI -->
+    <section class="section-block" id="konsep">
+      <div class="section-header-row">
+        <span class="section-badge">BAGIAN 2</span>
+        <h2 class="section-heading">🧠 Konsep Kunci</h2>
       </div>
 
-      <!-- Komparasi Tabel -->
+      <div class="content-card">
+        <h3 style="font-size:16px; margin-bottom:8px;">1. Fokus pada Hasil Fungsional, Bukan Sintaks Kode</h3>
+        <div class="comparison-box">
+          <div class="comp-item comp-wrong">
+            <strong>❌ Salah:</strong><br>"Kode ini pasti benar karena AI yang membuatnya"
+          </div>
+          <div class="comp-item comp-right">
+            <strong>✅ Benar:</strong><br>"Fitur ini berfungsi sesuai yang diharapkan pengguna?"
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--ink-mid);">
+          Biarkan AI mengurus sintaks dan logika kode. Tugas Anda adalah <strong>memverifikasi pengalaman pengguna</strong>.
+        </p>
+
+        <h3 style="font-size:16px; margin:24px 0 8px;">2. Skenario Uji Berbasis PRD</h3>
+        <div style="background:var(--bg-tint); border:1px solid #C8E8E4; border-radius:8px; padding:12px 16px; margin-bottom:14px; font-size:13px; color:var(--deep);">
+          <strong>ℹ️ Apa itu <code>prd.md</code>?</strong><br>
+          <code>prd.md</code> adalah file daftar fitur aplikasi Anda — seperti "menu" dari apa saja yang bisa dilakukan aplikasi Anda. Biasanya dibuat di awal proyek. Jika Anda belum punya, cukup tulis daftar fitur aplikasi Anda di kertas atau di file teks biasa.
+        </div>
+        <p style="font-size:13px; color:var(--ink-mid); margin-bottom:10px;">
+          Setiap fitur yang tertulis di <code>prd.md</code> harus punya minimal satu skenario uji.
+        </p>
+        <p style="font-size:13px; color:var(--ink); font-weight:600; margin-bottom:8px;">
+          Contoh: Fitur <em>"Pengguna dapat menambahkan item ke keranjang belanja"</em>:
+        </p>
+
+        <div class="table-card">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th style="width:8%;">#</th>
+                <th style="width:28%;">Skenario</th>
+                <th style="width:34%;">Langkah</th>
+                <th style="width:30%;">Hasil yang Diharapkan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>T01</strong></td>
+                <td>Tambah item ke keranjang</td>
+                <td>Klik tombol "Tambah" pada produk</td>
+                <td>Item muncul di keranjang, jumlah +1</td>
+              </tr>
+              <tr>
+                <td><strong>T02</strong></td>
+                <td>Tambah item yang sama dua kali</td>
+                <td>Klik "Tambah" dua kali pada produk yang sama</td>
+                <td>Jumlah item menjadi 2, bukan duplikat</td>
+              </tr>
+              <tr>
+                <td><strong>T03</strong></td>
+                <td>Tambah item saat keranjang kosong</td>
+                <td>Keranjang kosong, lalu klik "Tambah"</td>
+                <td>Item pertama berhasil masuk keranjang</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:16px; margin:24px 0 8px;">3. Struktur File <code>test-plan.md</code></h3>
+        <p style="font-size:13px; color:var(--ink-mid);">
+          Output dari pertemuan ini adalah file <code>test-plan.md</code> dengan format:
+        </p>
+
+        <div class="code-preview"># Test Plan - [Nama Aplikasi]
+
+## Informasi
+- Tanggal: [tanggal]
+- Penguji: [nama]
+- Kondisi Saat Uji: [misal: "setelah fitur login selesai"]
+
+## Skenario Uji
+
+| ID | Fitur | Skenario | Langkah | Hasil Diharapkan | Status | Catatan |
+|----|-------|----------|---------|-----------------|--------|---------|
+| T01 | Login | Login sukses | 1. Buka halaman login 2. Isi username & password 3. Klik Login | Masuk ke dashboard | ✅ LULUS | - |
+| T02 | Login | Password salah | 1. Isi username benar 2. Isi password salah 3. Klik Login | Muncul pesan error | ❌ GAGAL | Tidak ada pesan error |
+| T03 | Login | Password kosong | 1. Isi username 2. Kosongkan password 3. Klik Login | Form tidak terkirim | ⚠️ BELUM DIUJI | - |
+
+## Temuan Bug
+
+### BUG-01: Tidak ada pesan error saat password salah
+- **Skenario:** T02
+- **Langkah Reproduksi:** Login dengan password salah
+- **Hasil Aktual:** Halaman loading terus, tidak ada feedback
+- **Hasil Diharapkan:** Muncul pesan "Password salah, silakan coba lagi"
+- **Status:** 🔧 Sedang diperbaiki / ✅ Sudah diperbaiki
+
+## Ringkasan
+- Total Skenario: X
+- Lulus: X
+- Gagal: X
+- Belum Diuji: X</div>
+      </div>
+    </section>
+
+    <!-- 3. KAMUS ISTILAH -->
+    <section class="section-block" id="kamus">
+      <div class="section-header-row">
+        <span class="section-badge">BAGIAN 3</span>
+        <h2 class="section-heading">📚 Kamus Istilah (Baca Sebelum Mulai)</h2>
+      </div>
+
       <div class="table-card">
         <table class="custom-table">
           <thead>
             <tr>
-              <th style="width: 25%;">Parameter Komparasi</th>
-              <th style="width: 37%;">Unit Testing Kode Tradisional</th>
-              <th style="width: 38%;">Behavioral QA Vibe Coding (User-Centric)</th>
+              <th style="width:30%;">Istilah</th>
+              <th style="width:70%;">Artinya dalam Bahasa Sehari-hari</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Fokus Pengujian</strong></td>
-              <td>Menguji kebenaran algoritma baris kode internal</td>
-              <td>Menguji apa yang dilihat dan dirasakan pengguna di layar</td>
+              <td><strong>Bug</strong></td>
+              <td>Kesalahan atau kerusakan pada aplikasi — sesuatu yang seharusnya berjalan tapi tidak</td>
             </tr>
             <tr>
-              <td><strong>Pelaksana Tes</strong></td>
-              <td>Skrip kode otomatis (Jest, PyTest, Mocha)</td>
-              <td>Penguji manusia yang menjalankan skenario nyata (Black-box)</td>
+              <td><strong>Testing / Pengujian</strong></td>
+              <td>Proses mencoba aplikasi sendiri untuk menemukan bug sebelum pengguna menemukannya</td>
             </tr>
             <tr>
-              <td><strong>Beban Belajar</strong></td>
-              <td>Tinggi (Harus paham sintaks &amp; mock database)</td>
-              <td><strong>Rendah &amp; Praktis (Fokus pada hasil fungsional)</strong></td>
+              <td><strong>Happy Path</strong></td>
+              <td>Skenario ideal — pengguna melakukan hal yang "benar" sesuai harapan kita</td>
             </tr>
             <tr>
-              <td><strong>Tolak Ukur Keberhasilan</strong></td>
-              <td>100% Code Coverage</td>
-              <td><strong>Aplikasi bebas crash, data konsisten, UX nyaman</strong></td>
+              <td><strong>Edge Case</strong></td>
+              <td>Skenario ekstrem atau tidak biasa — hal yang jarang terjadi tapi bisa menyebabkan masalah</td>
+            </tr>
+            <tr>
+              <td><strong>Reproduksi Bug</strong></td>
+              <td>Langkah-langkah untuk membuat bug tersebut muncul kembali, supaya bisa diperbaiki</td>
+            </tr>
+            <tr>
+              <td><strong>Sintaks Kode</strong></td>
+              <td>"Tata bahasa" dari kode — aturan penulisan yang harus diikuti agar kode bisa berjalan</td>
+            </tr>
+            <tr>
+              <td><strong>Feedback</strong></td>
+              <td>Respons dari aplikasi kepada pengguna — misal pesan error, notifikasi, atau perubahan tampilan</td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <!-- 2. FASE 1: MATRIKS PRD -->
-    <section class="section-block" id="fase-1">
+    <!-- 4. PRAKTIK DI KELAS -->
+    <section class="section-block" id="praktik">
       <div class="section-header-row">
-        <span class="section-badge">FASE 1</span>
-        <h2 class="section-heading">Dekonstruksi PRD ke Matriks Skenario Uji (25 Menit)</h2>
+        <span class="section-badge">BAGIAN 4</span>
+        <h2 class="section-heading">🛠️ Praktik di Kelas (90 menit)</h2>
       </div>
 
-      <p style="font-size:14px; color:var(--ink-mid); margin-bottom:16px;">
-        Setiap fitur yang tercantum pada dokumen <code>prd.md</code> Anda wajib memiliki minimal 2 skenario uji: 1 alur normal (<em>Happy Path</em>) dan minimal 1 kasus ekstrem (<em>Edge Case</em>).
-      </p>
-
-      <!-- Prompt Card 1 -->
-      <div class="prompt-card">
-        <div class="prompt-card-header">
-          <div class="prompt-tag">
-            <span>📋 MASTER PROMPT 1: GENERATE TEST PLAN DARI PRD</span>
-          </div>
-          <button class="btn-copy" onclick="copySnippet('prompt-p13-1')">
-            <span>📋 Salin Prompt</span>
-          </button>
-        </div>
-        <div class="prompt-content" id="prompt-p13-1">Bertindaklah sebagai Senior QA Lead &amp; Security Tester profesional.
-Saya memiliki dokumen PRD / daftar fitur aplikasi saya sebagai berikut:
-[TEMPELKAN DAFTAR FITUR DARI prd.md ATAU DESKRIPSI APLIKASI ANDA DI SINI]
-
-Tugas Anda:
-Buatkan file komprehensif `test-plan.md` dalam format tabel Markdown berstandar industri yang mencakup:
-1. Skenario Happy Path (alur normal setiap fitur)
-2. Skenario Edge Cases (input kosong, batasan angka, karakter aneh, double click)
-3. Skenario Penanganan Error &amp; Keamanan Dasar
-
-Format kolom tabel yang wajib digunakan:
-| ID | Fitur | Kategori | Skenario Uji | Langkah Pengujian | Hasil yang Diharapkan | Status | Catatan Bug |
-
-Instruksi Tambahan:
-- Beri status default: "⚠️ BELUM DIUJI"
-- Sertakan struktur bagian "Temuan Bug (Bug Log)" dan "Ringkasan Metrik Kelayakan Rilis" di bagian bawah file.
-- Simpan file ini langsung ke root workspace dengan nama `test-plan.md`.</div>
-      </div>
-
-      <!-- Result vs Pitfall Grid -->
-      <div class="result-grid">
-        <div class="res-card res-output">
-          <div class="res-title">✅ Output yang Benar (Sesuai Standar)</div>
-          <div class="res-desc">
-            File <code>test-plan.md</code> tersimpan di root dengan tabel terstruktur, mencakup minimal 10 skenario uji (fitur autentikasi, transaksi, form input, dan respon error).
-          </div>
-        </div>
-        <div class="res-card res-pitfall">
-          <div class="res-title">❌ Jebakan yang Harus Dihindari</div>
-          <div class="res-desc">
-            Membuat skenario yang terlalu umum seperti <em>"Coba semua tombol"</em> tanpa langkah reproduksi dan ekspektasi hasil yang jelas.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. FASE 2: 6 EDGE CASES -->
-    <section class="section-block" id="fase-2">
-      <div class="section-header-row">
-        <span class="section-badge">FASE 2</span>
-        <h2 class="section-heading">Eksekusi Pengujian Manual &amp; 6 Edge Cases Wajib (50 Menit)</h2>
-      </div>
-
-      <!-- 6 Kotak Kasus Ekstrem -->
-      <div class="table-card" style="padding: 16px; background: #FAF9F6;">
-        <h3 style="font-size:15px; font-weight:700; color:var(--ink); margin-bottom:12px;">⚡ 6 Kategori Kasus Ekstrem Wajib Uji:</h3>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
-          <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px;">
-            <strong style="color:var(--deep); font-size:13px;">1. Input Kosong &amp; Whitespace</strong>
-            <p style="font-size:12px; color:var(--ink-mid); margin-top:4px;">Kirim form tanpa isi apapun atau hanya spasi ("   "). Form wajib menolak!</p>
-          </div>
-          <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px;">
-            <strong style="color:var(--deep); font-size:13px;">2. Batasan Angka &amp; Teks</strong>
-            <p style="font-size:12px; color:var(--ink-mid); margin-top:4px;">Input angka `-1`, `0`, atau `999999999`. Paste 1000 karakter pada nama.</p>
-          </div>
-          <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px;">
-            <strong style="color:var(--deep); font-size:13px;">3. Karakter Berbahaya</strong>
-            <p style="font-size:12px; color:var(--ink-mid); margin-top:4px;">Ketik `&lt;script&gt;alert(1)&lt;/script&gt;` atau `' OR '1'='1`. Pastikan aman XSS.</p>
-          </div>
-          <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px;">
-            <strong style="color:var(--deep); font-size:13px;">4. Spam Klik Cepat (Double-Click)</strong>
-            <p style="font-size:12px; color:var(--ink-mid); margin-top:4px;">Klik tombol 'Simpan' / 'Bayar' 3x cepat. Cegah data kembar / double charge.</p>
-          </div>
-          <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px;">
-            <strong style="color:var(--deep); font-size:13px;">5. Refresh &amp; Navigasi Balik</strong>
-            <p style="font-size:12px; color:var(--ink-mid); margin-top:4px;">Tekan F5 saat form sedang diisi. Pastikan session dan state tidak crash.</p>
-          </div>
-          <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px;">
-            <strong style="color:var(--deep); font-size:13px;">6. Simulasi Offline (DevTools)</strong>
-            <p style="font-size:12px; color:var(--ink-mid); margin-top:4px;">Set Network ke Offline pada Chrome DevTools. Harus muncul pesan ramah.</p>
-          </div>
+      <!-- Persiapan -->
+      <div class="content-card" style="margin-bottom:16px;">
+        <h3 style="font-size:16px; margin-bottom:8px;">Persiapan (5 menit)</h3>
+        <p style="font-size:13px; color:var(--ink-mid); margin-bottom:8px;">Sebelum mulai, pastikan Anda memiliki:</p>
+        <ul style="padding-left:20px; font-size:13px; color:var(--ink-mid); line-height:1.7;">
+          <li>Antigravity IDE terbuka</li>
+          <li>Proyek aplikasi yang sudah dibangun di pertemuan sebelumnya</li>
+          <li>File <code>prd.md</code> (atau catatan fitur yang ingin dibangun)</li>
+        </ul>
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; padding:10px 14px; border-radius:6px; margin-top:10px; font-size:12.5px; color:#475569;">
+          💡 <strong>Jika belum punya `prd.md`:** Buat daftar fitur aplikasi Anda terlebih dahulu. Contoh: *"Aplikasi saya bisa: (1) tambah item, (2) hapus item, (3) simpan data"*
         </div>
       </div>
 
-      <!-- Severity Matrix -->
-      <div style="background:var(--bg-soft); border-radius:var(--radius-md); padding:16px; margin:20px 0; border:1px solid var(--line);">
-        <h3 style="font-size:14px; font-weight:700; margin-bottom:8px;">🚦 Matriks Derajat Keparahan Bug (Severity Matrix):</h3>
-        <div style="display:flex; flex-wrap:wrap; gap:8px;">
-          <span style="background:#FEE2E2; color:#991B1B; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700;">🔴 Critical (Blokir Rilis: Crash / Data Hilang)</span>
-          <span style="background:#FFEDD5; color:#9A3412; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700;">🟠 High (Fitur Utama Macet, Ada Workaround)</span>
-          <span style="background:#FEF3C7; color:#92400E; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700;">🟡 Medium (Logika / Format Pesan Salah)</span>
-          <span style="background:#E0F2FE; color:#075985; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700;">🔵 Low (Kosmetik / Typo / Geser 2px)</span>
-        </div>
-      </div>
+      <!-- Langkah 1 -->
+      <div class="content-card" style="margin-bottom:16px;">
+        <h3 style="font-size:16px; color:var(--teal); margin-bottom:4px;">Langkah 1: Buat Daftar Skenario Uji dengan AGY (25 menit)</h3>
+        <p style="font-size:13px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Tujuan:</strong> Gunakan AI untuk membantu membuat skenario uji yang komprehensif.
+        </p>
 
-      <!-- Prompt Card 2 -->
-      <div class="prompt-card">
-        <div class="prompt-card-header">
-          <div class="prompt-tag">
-            <span>📋 MASTER PROMPT 2: EKSPLORASI DEEP EDGE CASES</span>
+        <div class="prompt-card">
+          <div class="prompt-card-header">
+            <div class="prompt-tag">
+              <span>🤖 Prompt yang Digunakan di AGY:</span>
+            </div>
+            <button class="btn-copy" onclick="copySnippet('prompt-step1')">
+              <span>📋 Salin Prompt</span>
+            </button>
           </div>
-          <button class="btn-copy" onclick="copySnippet('prompt-p13-2')">
-            <span>📋 Salin Prompt</span>
-          </button>
-        </div>
-        <div class="prompt-content" id="prompt-p13-2">Aplikasi saya memiliki fitur: [JELASKAN FITUR, CONTOH: "Checkout Belanja &amp; Upload Bukti Pembayaran"].
+          <div class="prompt-content" id="prompt-step1">Saya punya aplikasi [nama aplikasi] dengan fitur-fitur berikut:
+[tempel daftar fitur dari prd.md]
 
-Tolong daftarkan 8 kasus ekstrem (edge cases) paling berbahaya yang berpotensi merusak fitur ini atau membuat data di database korup.
-Kategorikan berdasarkan:
-1. Validasi Input (Format, Tipe File, Batas Ukuran)
-2. Asinkron &amp; Jaringan (Timeout, Double Submit)
-3. Keamanan &amp; Izin Akses (RLS Supabase / Token Expired)
+Tolong buatkan saya daftar skenario uji dalam format tabel markdown yang mencakup:
+1. Happy path (alur normal)
+2. Edge cases (kasus tepi) seperti input kosong, karakter khusus, klik cepat ganda
+3. Setiap baris berisi: ID, Fitur, Skenario, Langkah, Hasil yang Diharapkan, Status (isi dengan "⚠️ BELUM DIUJI"), Catatan
 
-Format jawaban dalam tabel siap tempel ke file `test-plan.md`.</div>
-      </div>
-    </section>
-
-    <!-- 4. FASE 3: ATOMIC BUG FIX -->
-    <section class="section-block" id="fase-3">
-      <div class="section-header-row">
-        <span class="section-badge">FASE 3</span>
-        <h2 class="section-heading">Atomic Bug Fixing &amp; Uji Regresi (35 Menit)</h2>
-      </div>
-
-      <!-- Code Comparison -->
-      <div class="code-grid">
-        <div class="code-card">
-          <div class="code-card-header bad">
-            <span>❌ Kode Rentan (Sebelum Perbaikan)</span>
-            <span>Bug Double Submit</span>
-          </div>
-          <div class="code-content">// Masalah: Tombol tidak di-lock saat proses
-async function handleSaveData(payload) {
-  showSpinner();
-  // Jika user klik 3x cepat,
-  // request ini dikirim 3 kali!
-  const { data, error } = await supabase
-    .from('orders')
-    .insert(payload);
-  hideSpinner();
-  if (!error) showToast("Tersimpan!");
-}</div>
+Simpan hasilnya ke file test-plan.md</div>
         </div>
 
-        <div class="code-card">
-          <div class="code-card-header good">
-            <span>✅ Kode Aman (Atomic Lock Guard)</span>
-            <span>Anti Double Click</span>
-          </div>
-          <div class="code-content">let isSubmitting = false;
-
-async function handleSaveData(payload) {
-  if (isSubmitting) return; // Guard
-  isSubmitting = true;
-  const btn = document.getElementById('btn-submit');
-  if (btn) btn.disabled = true;
-
-  try {
-    showSpinner();
-    const { error } = await supabase
-      .from('orders')
-      .insert(payload);
-    if (error) throw error;
-    showToast("Berhasil disimpan!");
-  } finally {
-    isSubmitting = false;
-    if (btn) btn.disabled = false;
-    hideSpinner();
-  }
-}</div>
-        </div>
+        <p style="font-size:13px; font-weight:600; margin-bottom:6px;">Yang Harus Dilakukan:</p>
+        <ol style="padding-left:20px; font-size:13px; color:var(--ink-mid); line-height:1.6;">
+          <li>Buka Antigravity IDE</li>
+          <li>Ketik prompt di atas, sesuaikan dengan aplikasi Anda</li>
+          <li>Review dan tambahkan skenario yang menurut Anda penting tapi belum ada</li>
+          <li>Simpan file <code>test-plan.md</code></li>
+        </ol>
       </div>
 
-      <!-- Prompt Card 3 -->
-      <div class="prompt-card">
-        <div class="prompt-card-header">
-          <div class="prompt-tag">
-            <span>📋 MASTER PROMPT 3: TARGETED ATOMIC BUG FIX</span>
-          </div>
-          <button class="btn-copy" onclick="copySnippet('prompt-p13-3')">
-            <span>📋 Salin Prompt</span>
-          </button>
-        </div>
-        <div class="prompt-content" id="prompt-p13-3">Saya menemukan bug pada aplikasi saya saat menjalankan test plan:
-- ID Bug / Skenario: [BUG-01 / TC-05]
-- Fitur: [Nama Fitur, contoh: Tombol Simpan Transaksi]
-- Langkah Reproduksi: [Klik tombol Simpan 3x sangat cepat]
-- Hasil Aktual: [Muncul data ganda / duplikat di database]
-- Hasil Diharapkan: [Hanya 1 data yang tersimpan, tombol otomatis disabled saat proses simpan]
+      <!-- Langkah 2 -->
+      <div class="content-card" style="margin-bottom:16px;">
+        <h3 style="font-size:16px; color:var(--teal); margin-bottom:4px;">Langkah 2: Jalankan Pengujian Manual (45 menit)</h3>
+        <p style="font-size:13px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Tujuan:</strong> Eksekusi setiap skenario, catat semua yang gagal.
+        </p>
 
-Instruksi Perbaikan:
-1. Perbaiki HANYA bagian fungsi atau file yang bertanggung jawab atas masalah ini.
-2. JANGAN mengubah struktur komponen lain yang sudah berjalan normal.
-3. Jelaskan solusi dalam 2 kalimat, lalu tampilkan kode perbaikannya.</div>
-      </div>
-    </section>
-
-    <!-- 5. MASTER PROMPTS CHEAT SHEET -->
-    <section class="section-block" id="prompts">
-      <div class="section-header-row">
-        <span class="section-badge">PROMPTS</span>
-        <h2 class="section-heading">Kumpulan Master Prompt Evaluasi &amp; Sanity Check</h2>
-      </div>
-
-      <!-- Prompt Card 4 -->
-      <div class="prompt-card">
-        <div class="prompt-card-header">
-          <div class="prompt-tag">
-            <span>📋 MASTER PROMPT 4: HITUNG SKOR KELAYAKAN RILIS</span>
-          </div>
-          <button class="btn-copy" onclick="copySnippet('prompt-p13-4')">
-            <span>📋 Salin Prompt</span>
-          </button>
-        </div>
-        <div class="prompt-content" id="prompt-p13-4">Baca seluruh isi tabel pada file `test-plan.md` di proyek saya.
-Hitung total skenario, jumlah status LULUS, GAGAL, dan BELUM DIUJI.
-Hitung persentase Pass Rate: (Lulus / Total) * 100%.
-Perbarui bagian 'Ringkasan Metrik' di `test-plan.md` dan tentukan apakah aplikasi ini sudah siap lanjut ke Pertemuan 14 (Merapikan Tampilan &amp; Performa) serta Pertemuan 15 (Deploy Vercel) atau belum.</div>
-      </div>
-    </section>
-
-    <!-- 6. SIMULATOR TEST PLAN -->
-    <section class="section-block" id="simulator">
-      <div class="section-header-row">
-        <span class="section-badge">INTERAKTIF</span>
-        <h2 class="section-heading">Simulator Dokumentasi Test Plan &amp; Metric Tracker</h2>
-      </div>
-
-      <div class="sim-card">
-        <div class="sim-header">
-          <div>
-            <strong style="font-size:15px; color:var(--ink);">📊 Status Uji Coba Aplikasi (Live Preview)</strong>
-            <p style="font-size:12px; color:var(--ink-soft); margin-top:2px;">Contoh matriks uji coba interaktif di kelas</p>
-          </div>
-          <span style="font-size:13px; font-weight:700; color:var(--emerald);" id="pass-rate-text">Skor Kelulusan: 100% (Siap Rilis)</span>
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:14px; font-size:13px; line-height:1.6;">
+          <strong>Cara Pengujian yang Baik:</strong><br>
+          Untuk setiap baris di <code>test-plan.md</code>:<br>
+          1. Baca skenarionya<br>
+          2. Ikuti langkah-langkahnya <strong>PERSIS</strong> seperti yang tertulis<br>
+          3. Bandingkan hasil aktual dengan "Hasil yang Diharapkan"<br>
+          4. Update kolom Status: ✅ LULUS / ❌ GAGAL<br>
+          5. Jika GAGAL $\rightarrow$ tulis Catatan apa yang terjadi
         </div>
 
-        <div class="progress-bar-wrap">
-          <div class="progress-bar-fill" id="progress-fill"></div>
+        <div class="warn-box">
+          <strong>⚠️ Aturan Penting Saat Testing:</strong>
+          <ul style="margin-top:6px; padding-left:18px;">
+            <li><strong>Jangan skip edge case</strong> — justru di situlah bug tersembunyi</li>
+            <li><strong>Catat SEMUA yang aneh</strong>, walau bukan error besar</li>
+            <li><strong>Jangan perbaiki dulu</strong> saat testing — selesaikan semua skenario terlebih dahulu</li>
+          </ul>
         </div>
 
-        <div style="margin-top:16px; overflow-x:auto;">
-          <table class="checklist-table">
+        <h4 style="font-size:14px; margin:14px 0 8px;">Contoh Edge Case yang Wajib Dicoba:</h4>
+        <div class="table-card">
+          <table class="custom-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Fitur</th>
-                <th>Kategori</th>
-                <th>Skenario</th>
-                <th>Status</th>
+                <th style="width:35%;">Kategori</th>
+                <th style="width:65%;">Yang Dicoba</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>TC-01</strong></td>
-                <td>Autentikasi</td>
-                <td>Happy Path</td>
-                <td>Login email &amp; password valid</td>
-                <td><span class="status-badge status-pass">✅ LULUS</span></td>
+                <td><strong>Input Kosong</strong></td>
+                <td>Submit form tanpa mengisi apapun</td>
               </tr>
               <tr>
-                <td><strong>TC-02</strong></td>
-                <td>Autentikasi</td>
-                <td>Edge Case</td>
-                <td>Login dengan password salah (Toast error)</td>
-                <td><span class="status-badge status-pass">✅ LULUS</span></td>
+                <td><strong>Angka Negatif</strong></td>
+                <td>Masukkan <code>-1</code> atau <code>-999</code> di field angka</td>
               </tr>
               <tr>
-                <td><strong>TC-03</strong></td>
-                <td>CRUD Data</td>
-                <td>Edge Case</td>
-                <td>Double-click cepat tombol Simpan (No duplicate)</td>
-                <td><span class="status-badge status-pass">✅ SUDAH DIPERBAIKI</span></td>
+                <td><strong>Karakter Khusus</strong></td>
+                <td>Ketik <code>&lt;script&gt;</code>, <code>' OR 1=1</code>, <code>!@#$%^</code></td>
               </tr>
               <tr>
-                <td><strong>TC-04</strong></td>
-                <td>Keamanan</td>
-                <td>Edge Case</td>
-                <td>Input tag script `&lt;script&gt;` di form (Aman XSS)</td>
-                <td><span class="status-badge status-pass">✅ LULUS</span></td>
+                <td><strong>Klik Cepat Ganda</strong></td>
+                <td>Double-click tombol simpan / kirim</td>
               </tr>
               <tr>
-                <td><strong>TC-05</strong></td>
-                <td>Responsif</td>
-                <td>Edge Case</td>
-                <td>Tampilan tabel di viewport mobile HP (No overflow)</td>
-                <td><span class="status-badge status-pass">✅ LULUS</span></td>
+                <td><strong>Teks Sangat Panjang</strong></td>
+                <td>Paste 1000 karakter di satu input field</td>
+              </tr>
+              <tr>
+                <td><strong>Refresh Halaman</strong></td>
+                <td>Refresh saat sedang mengisi form</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+
+      <!-- Langkah 3 -->
+      <div class="content-card">
+        <h3 style="font-size:16px; color:var(--teal); margin-bottom:4px;">Langkah 3: Perbaiki Temuan Satu per Satu (20 menit)</h3>
+        <p style="font-size:13px; color:var(--ink-mid); margin-bottom:12px;">
+          <strong>Tujuan:</strong> Perbaiki bug secara sistematis, verifikasi setelah setiap perbaikan.
+        </p>
+
+        <div class="prompt-card">
+          <div class="prompt-card-header">
+            <div class="prompt-tag">
+              <span>🤖 Alur Perbaikan dengan AGY:</span>
+            </div>
+            <button class="btn-copy" onclick="copySnippet('prompt-step3')">
+              <span>📋 Salin Prompt</span>
+            </button>
+          </div>
+          <div class="prompt-content" id="prompt-step3">Saya menemukan bug: [jelaskan bug dari catatan test-plan.md]
+Langkah reproduksi: [tempel dari test-plan]
+Hasil aktual: [apa yang terjadi]
+Hasil diharapkan: [seharusnya apa]
+Tolong perbaiki bug ini.</div>
+        </div>
+
+        <div class="golden-rule-box">
+          🔑 <strong>Aturan Emas:</strong> Perbaiki <strong>satu bug per satu</strong>, lalu <strong>uji ulang</strong> sebelum lanjut ke bug berikutnya. Memperbaiki banyak bug sekaligus membuat kita tidak tahu perbaikan mana yang berhasil.
+        </div>
+      </div>
     </section>
 
-    <!-- 7. RUBRIK KELULUSAN -->
-    <section class="section-block" id="rubrik">
+    <!-- 5. OUTPUT & KESALAHAN UMUM -->
+    <section class="section-block" id="kesalahan">
       <div class="section-header-row">
-        <span class="section-badge">EVALUASI</span>
-        <h2 class="section-heading">Checklist Kelulusan Pertemuan 13</h2>
+        <span class="section-badge">BAGIAN 5</span>
+        <h2 class="section-heading">📦 Output Pertemuan &amp; ❌ Kesalahan yang Sering Terjadi</h2>
       </div>
 
-      <div class="table-card" style="padding:20px;">
-        <ul style="list-style:none; display:flex; flex-direction:column; gap:10px; font-size:13.5px; color:var(--ink);">
-          <li style="display:flex; align-items:center; gap:8px;">
-            <span>☑️</span> <span>File <code>test-plan.md</code> sudah tersimpan rapi di root proyek.</span>
-          </li>
-          <li style="display:flex; align-items:center; gap:8px;">
-            <span>☑️</span> <span>Minimal 10 skenario uji telah didefinisikan (Happy Path &amp; 6 Edge Cases).</span>
-          </li>
-          <li style="display:flex; align-items:center; gap:8px;">
-            <span>☑️</span> <span>Seluruh skenario telah dieksekusi manual (tidak ada status <em>⚠️ BELUM DIUJI</em>).</span>
-          </li>
-          <li style="display:flex; align-items:center; gap:8px;">
-            <span>☑️</span> <span>100% bug berstatus 🔴 Critical &amp; 🟠 High telah diselesaikan dengan <em>Atomic Fix</em>.</span>
-          </li>
-          <li style="display:flex; align-items:center; gap:8px;">
-            <span>☑️</span> <span>Tingkat kelulusan (Pass Rate) mencapai minimal <strong>90%</strong>.</span>
-          </li>
+      <div class="content-card">
+        <h3 style="font-size:16px; margin-bottom:8px;">Output Pertemuan</h3>
+        <p style="font-size:13px; color:var(--ink-mid); margin-bottom:10px;">
+          Di akhir kelas, Anda harus memiliki file <code>test-plan.md</code> yang berisi:
+        </p>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--ink);">
+          <li>✅ Daftar lengkap skenario uji (happy path + edge cases)</li>
+          <li>✅ Status setiap skenario (Lulus / Gagal / Belum Diuji)</li>
+          <li>✅ Catatan temuan bug</li>
+          <li>✅ Status perbaikan setiap bug</li>
         </ul>
+
+        <h3 style="font-size:16px; margin:24px 0 12px;">3 Kesalahan yang Sering Terjadi</h3>
+        
+        <div style="margin-bottom:14px;">
+          <strong style="font-size:13.5px;">1. Hanya Menguji Alur Ideal</strong>
+          <div class="comparison-box">
+            <div class="comp-item comp-wrong">
+              ❌ "Saya sudah test, bisa login dan tambah data. Selesai."
+            </div>
+            <div class="comp-item comp-right">
+              ✅ "Saya test login sukses, login gagal, login kosong, login karakter aneh..."
+            </div>
+          </div>
+          <p style="font-size:12.5px; color:var(--ink-soft);">Pengguna asli <strong>akan menemukan kasus tepi lebih dulu</strong> daripada Anda. Jangan beri mereka kesempatan itu.</p>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <strong style="font-size:13.5px;">2. Langsung Perbaiki Saat Menemukan Bug</strong>
+          <div class="comparison-box">
+            <div class="comp-item comp-wrong">
+              ❌ Temukan bug $\rightarrow$ langsung perbaiki $\rightarrow$ lanjut test $\rightarrow$ temukan bug lagi...
+            </div>
+            <div class="comp-item comp-right">
+              ✅ Selesaikan semua skenario dulu $\rightarrow$ catat semua bug $\rightarrow$ perbaiki satu per satu
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <strong style="font-size:13.5px;">3. Percaya Penuh pada AI</strong>
+          <div class="comparison-box">
+            <div class="comp-item comp-wrong">
+              ❌ "AI sudah bilang kodenya benar, pasti tidak ada bug."
+            </div>
+            <div class="comp-item comp-right">
+              ✅ "AI menulis kode, tapi saya yang memvalidasi pengalaman pengguna."
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. PROMPT REFERENSI -->
+    <section class="section-block" id="prompts">
+      <div class="section-header-row">
+        <span class="section-badge">BAGIAN 6</span>
+        <h2 class="section-heading">💬 Prompt Referensi untuk AGY</h2>
+      </div>
+
+      <p style="font-size:13.5px; color:var(--ink-mid); margin-bottom:16px;">
+        Simpan prompt-prompt ini untuk digunakan selama praktikum:
+      </p>
+
+      <!-- Prompt 1 -->
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <div class="prompt-tag">
+            <span>📋 Prompt 1: Generate Test Plan</span>
+          </div>
+          <button class="btn-copy" onclick="copySnippet('prompt-ref-1')">
+            <span>📋 Salin Prompt</span>
+          </button>
+        </div>
+        <div class="prompt-content" id="prompt-ref-1">"Buatkan test-plan.md untuk aplikasi [nama] dengan fitur [daftar fitur].
+Sertakan happy path dan edge cases. Format: tabel markdown."</div>
+      </div>
+
+      <!-- Prompt 2 -->
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <div class="prompt-tag">
+            <span>📋 Prompt 2: Perbaiki Bug</span>
+          </div>
+          <button class="btn-copy" onclick="copySnippet('prompt-ref-2')">
+            <span>📋 Salin Prompt</span>
+          </button>
+        </div>
+        <div class="prompt-content" id="prompt-ref-2">"Perbaiki bug berikut di aplikasi saya:
+- Deskripsi: [deskripsi bug]
+- Langkah reproduksi: [langkah]
+- Hasil aktual: [apa yang terjadi]
+- Hasil diharapkan: [seharusnya apa]"</div>
+      </div>
+
+      <!-- Prompt 3 -->
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <div class="prompt-tag">
+            <span>📋 Prompt 3: Tambah Edge Case</span>
+          </div>
+          <button class="btn-copy" onclick="copySnippet('prompt-ref-3')">
+            <span>📋 Salin Prompt</span>
+          </button>
+        </div>
+        <div class="prompt-content" id="prompt-ref-3">"Dari fitur [nama fitur] di aplikasi saya, edge case apa lagi yang
+belum saya uji? Tambahkan ke test-plan.md yang sudah ada."</div>
+      </div>
+
+      <!-- Prompt 4 -->
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <div class="prompt-tag">
+            <span>📋 Prompt 4: Update Status Test Plan</span>
+          </div>
+          <button class="btn-copy" onclick="copySnippet('prompt-ref-4')">
+            <span>📋 Salin Prompt</span>
+          </button>
+        </div>
+        <div class="prompt-content" id="prompt-ref-4">"Update test-plan.md: skenario T[XX] statusnya ubah menjadi ✅ LULUS.
+Bug BUG-[XX] statusnya ubah menjadi ✅ Sudah Diperbaiki."</div>
+      </div>
+    </section>
+
+    <!-- 7. CHECKLIST & REFLEKSI -->
+    <section class="section-block" id="checklist">
+      <div class="section-header-row">
+        <span class="section-badge">BAGIAN 7</span>
+        <h2 class="section-heading">✅ Checklist Akhir &amp; 📝 Refleksi</h2>
+      </div>
+
+      <div class="content-card">
+        <h3 style="font-size:16px; margin-bottom:10px;">Checklist Akhir Pertemuan</h3>
+        <p style="font-size:13px; color:var(--ink-mid); margin-bottom:10px;">Sebelum kelas selesai, pastikan:</p>
+        <ul class="checklist-list">
+          <li><span>☑️</span> <span>File <code>test-plan.md</code> sudah dibuat dan tersimpan di proyek</span></li>
+          <li><span>☑️</span> <span>Semua fitur utama sudah ada skenario ujinya</span></li>
+          <li><span>☑️</span> <span>Edge case sudah diuji (minimal: input kosong, klik cepat ganda, karakter khusus)</span></li>
+          <li><span>☑️</span> <span>Semua bug yang ditemukan sudah dicatat</span></li>
+          <li><span>☑️</span> <span>Minimal 50% bug yang ditemukan sudah diperbaiki dan diuji ulang</span></li>
+          <li><span>☑️</span> <span>Status setiap skenario di <code>test-plan.md</code> sudah diperbarui</span></li>
+        </ul>
+
+        <h3 style="font-size:16px; margin:24px 0 10px;">📝 Refleksi (5 menit terakhir)</h3>
+        <p style="font-size:13px; color:var(--ink-mid); margin-bottom:8px;">Diskusikan bersama kelas:</p>
+        <ol style="padding-left:20px; font-size:13px; color:var(--ink-mid); line-height:1.7;">
+          <li><strong>Bug apa yang paling mengejutkan</strong> yang Anda temukan hari ini?</li>
+          <li><strong>Edge case mana</strong> yang tidak terpikirkan sebelumnya?</li>
+          <li><strong>Apa yang berubah</strong> dari cara Anda melihat "aplikasi yang sudah selesai"?</li>
+        </ol>
+
+        <div style="background:#F8FAFC; border-left:4px solid var(--teal); border-radius:0 var(--radius-md) var(--radius-md) 0; padding:14px 18px; margin-top:20px; font-size:13.5px; font-style:italic; color:var(--ink);">
+          "Kode yang benar secara sintaks bukan berarti pengalaman pengguna yang benar. Testing adalah jembatan antara keduanya."
+        </div>
       </div>
 
       <!-- Action Footer -->
       <div style="background:linear-gradient(135deg, #01656F 0%, #028090 100%); border-radius:var(--radius-lg); padding:24px; color:#fff; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-top:30px;">
         <div>
           <div style="font-size:12px; font-weight:700; color:#A7F3D0; text-transform:uppercase; letter-spacing:1px;">Langkah Selanjutnya</div>
-          <div style="font-size:18px; font-weight:700; margin-top:2px;">Aplikasi Anda Sudah Teruji &amp; Bebas Bug Kritis!</div>
-          <div style="font-size:13px; color:#E0F2FE; margin-top:4px;">Lanjut ke Pertemuan 14: Merapikan Tampilan &amp; Performa (Audit Lighthouse &amp; Mobile Responsive).</div>
+          <div style="font-size:18px; font-weight:700; margin-top:2px;">Aplikasi Anda Sudah Teruji Fungsional!</div>
+          <div style="font-size:13px; color:#E0F2FE; margin-top:4px;">Lanjut ke Pertemuan 14: Merapikan Tampilan &amp; Performa.</div>
         </div>
         <a href="silabus-vibe-coding-16-pertemuan.html#p14" style="background:#02C39A; color:#013A40; font-weight:700; padding:10px 20px; border-radius:8px; font-size:13.5px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-          <span>🎨 Lanjut ke Pertemuan 14 (Merapikan Tampilan &amp; Performa) →</span>
+          <span>🎨 Lanjut ke Pertemuan 14 (Merapikan Tampilan) →</span>
         </a>
       </div>
     </section>
@@ -1348,7 +1295,7 @@ Perbarui bagian 'Ringkasan Metrik' di `test-plan.md` dan tentukan apakah aplikas
   <footer class="page-footer">
     <div style="max-width:1160px; margin:0 auto;">
       <p style="margin-bottom:6px;"><strong>Vibe Coding Masterclass — 16 Pertemuan &amp; Laboratorium Interaktif</strong></p>
-      <p style="font-size:12px;">Modul Praktikum Pertemuan 13: QA Testing, Edge Cases &amp; Atomic Bug Fixing.</p>
+      <p style="font-size:12px;">Modul Praktikum Pertemuan 13: Menguji Hasil Akhir.</p>
     </div>
   </footer>
 
