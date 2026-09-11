@@ -9,20 +9,30 @@ Dokumen ini adalah **Design System & UI/UX Guidelines resmi** yang merefleksikan
 
 Seluruh modul dan halaman web dalam proyek ini menerapkan standar desain **Notion-meets-Stripe Clean Aesthetic** dengan struktur pedagogis modular 3-bagian (*Tripartite Architecture*). 
 
-### 🗂️ Cakupan Halaman Aktif (13 File HTML):
+### 🗂️ Cakupan Halaman Web Aktif (13 File HTML):
 1. [index.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/index.html) / [silabus-vibe-coding-16-pertemuan.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/silabus-vibe-coding-16-pertemuan.html) — *Master Syllabus & Dashboard 16 Pertemuan*
 2. [kurikulum_vibe_coding_pwa_supabase.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/kurikulum_vibe_coding_pwa_supabase.html) — *Kurikulum PWA & Supabase*
-3. [praktikum_git_sebelum_coding.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_git_sebelum_coding.html) — *Modul 01: Git & GitHub Setup*
-4. [panduan_push_github.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_push_github.html) — *Modul 02: Panduan Praktis Push GitHub*
-5. [teori_integrasi_api_eksternal.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/teori_integrasi_api_eksternal.html) — *Modul 03: Teori & Mental Model API Eksternal*
-6. [praktikum_integrasi_api_eksternal.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_integrasi_api_eksternal.html) — *Modul 04: Praktikum Integrasi API Eksternal*
-7. [panduan_keamanan_data.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_keamanan_data.html) — *Modul 05: Keamanan Data, Env Vars & API Key*
-8. [laboratorium_lengkap_supabase.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/laboratorium_lengkap_supabase.html) — *Modul 06: Fullstack Database, Auth & PWA Supabase*
-9. [praktikum_flutter_supabase.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_flutter_supabase.html) — *Modul 07: Vibe Coding Mobile App Flutter + Supabase*
-10. [panduan_deploy_vercel.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_deploy_vercel.html) — *Modul 08: Deploy Web App ke Vercel*
-11. [panduan_vibecoding_owasp.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_vibecoding_owasp.html) — *Modul 09: Standar Keamanan OWASP Top 10*
-12. [praktikum_menguji_hasil_akhir.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_menguji_hasil_akhir.html) — *Modul 13: QA Testing, Edge Cases & Atomic Bug Fixing*
-13. [favicon.svg](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/favicon.svg) & [_redirects](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/_redirects) — *Aset Favicon & Konfigurasi Hosting / Routing*
+3. [praktikum_git_sebelum_coding.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_git_sebelum_coding.html) — *Modul Pertemuan 05: Git Lokal Sebelum Coding*
+4. [panduan_push_github.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_push_github.html) — *Modul Pertemuan 06: Panduan Praktis Push GitHub*
+5. [teori_integrasi_api_eksternal.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/teori_integrasi_api_eksternal.html) — *Modul Pertemuan 10: Teori & Mental Model API Eksternal*
+6. [praktikum_integrasi_api_eksternal.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_integrasi_api_eksternal.html) — *Modul Pertemuan 10: Praktikum Integrasi API Eksternal*
+7. [panduan_keamanan_data.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_keamanan_data.html) — *Modul Pertemuan 12: Keamanan Data & Validasi Input*
+8. [laboratorium_lengkap_supabase.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/laboratorium_lengkap_supabase.html) — *Modul Spesial: Fullstack Database, Auth & PWA Supabase (9 Lab)*
+9. [praktikum_flutter_supabase.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_flutter_supabase.html) — *Modul Spesial: Vibe Coding Mobile App Flutter + Supabase*
+10. [panduan_vibecoding_owasp.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_vibecoding_owasp.html) — *Modul Pengayaan: Standar Keamanan OWASP Top 10*
+11. [praktikum_menguji_hasil_akhir.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_menguji_hasil_akhir.html) — *Modul Pertemuan 13: QA Testing, 6 Edge Cases & Atomic Bug Fixing*
+12. [panduan_deploy_vercel.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_deploy_vercel.html) — *Modul Pertemuan 15: Deploy Web App ke Vercel & Supabase*
+13. [favicon.svg](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/favicon.svg), [_redirects](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/_redirects), & [vercel.json](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/vercel.json) — *Aset Favicon & Konfigurasi Hosting / Routing*
+
+### 📝 Cakupan Dokumen Modul Markdown (Folder `mdFile/`):
+* [pertemuan-13-menguji-hasil-akhir.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/pertemuan-13-menguji-hasil-akhir.md) — *Materi & Praktikum Pengujian Hasil Akhir (P13)*
+* [modul_vibe_coding_flutter_supabase.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/modul_vibe_coding_flutter_supabase.md) — *Modul Android Flutter + Supabase*
+* [owasp-top10-vibe-coding.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/owasp-top10-vibe-coding.md) — *Panduan OWASP Top 10 untuk Vibe Coder*
+* [MODUL_PRAKTIKUM_SQL_INJECTION.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/MODUL_PRAKTIKUM_SQL_INJECTION.md) — *Modul Praktikum Eksploitasi & Pencegahan SQL Injection*
+* [modul-keamanan-data.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/modul-keamanan-data.md) — *Panduan Validasi Form & Keamanan Data*
+* [Modul_Integrasi_API_Eksternal.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/Modul_Integrasi_API_Eksternal.md) & [Modul-Sesi-Integrasi-API-Berbayar.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/Modul-Sesi-Integrasi-API-Berbayar.md) — *Modul API Eksternal & Berbayar*
+* [prompt_deploy_vercel_nonIT.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/prompt_deploy_vercel_nonIT.md) — *Panduan Deploy Vercel Pemula Non-IT*
+* [prdsupabase.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/prdsupabase.md) — *Product Requirement Document (PRD) Laboratorium Supabase*
 
 ---
 

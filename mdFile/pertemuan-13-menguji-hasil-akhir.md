@@ -1,475 +1,308 @@
-# 🧪 Pertemuan 13: Menguji Hasil Akhir
-> **Kategori:** Uji, Rilis & Proyek Akhir · **Durasi:** 120 Menit  
-> **Target Peserta:** Mahasiswa / Vibe Coder Non-IT  
-> **Tools:** Antigravity IDE (AGY) · Browser DevTools  
-> **Prasyarat:** Proyek Aplikasi Web/PWA/Flutter (Pertemuan 1–12) & Dokumen `prd.md`  
-> **Output Utama:** Dokumen `test-plan.md` Terverifikasi + Log Bug + Aplikasi Bebas Bug Kritis
+# Pertemuan 13: Menguji Hasil Akhir
+> **Kategori:** Uji, Rilis & Proyek Akhir · **Durasi:** 120 menit  
+> **Tools:** Antigravity IDE (AGY)
 
 ---
 
-## 🎯 Tujuan Pembelajaran & Manfaat Pedagogis
+## 🎯 Tujuan Pertemuan
 
-> **Prinsip Utama:** *"Dalam Vibe Coding, AI menulis sintaks kode, namun manusia memvalidasi pengalaman pengguna (UX) dan integritas logika."*
+> Peserta **menguji apa yang dilihat pengguna**, bukan sekadar percaya kode sudah benar.
 
-Setelah menyelesaikan praktikum pada pertemuan ini, peserta mampu:
-1. **Menyusun Matriks Skenario Uji Komprehensif** berbasis dokumen PRD menggunakan AI Prompt Builder (*Happy Path* & *Edge Cases*).
-2. **Melakukan Pengujian Manual *Black-Box* Sistematis** mencakup 6 kategori kasus ekstrem (*empty inputs, rapid clicks, boundary limits, injection characters, network resilience, & state loss*).
-3. **Mendokumentasikan Temuan Bug Berstandar Industri** ke dalam file `test-plan.md` lengkap dengan status severity dan langkah reproduksi.
-4. **Mengeksekusi *Atomic Bug Fixing*** bersama Antigravity IDE tanpa merusak fitur lain yang sudah berjalan (*anti-regression*).
-5. **Menghasilkan Metrik Kelayakan Rilis (*Release Readiness Score*)** sebelum melangkah ke tahap perapian tampilan di Pertemuan 14 dan deployment produksi di Pertemuan 15.
+Setelah pertemuan ini, peserta mampu:
+- Membuat daftar skenario uji dari fitur aplikasi yang telah dibangun
+- Menjalankan pengujian manual secara sistematis
+- Mencatat temuan bug dan memperbaikinya dengan bantuan AI
+- Menghasilkan file `test-plan.md` sebagai dokumentasi pengujian
 
 ---
 
-## 🗺️ Peta Navigasi & Arsitektur Alur Pengujian
+## 📖 Teori Singkat (15 menit)
+
+### Apa itu Testing dalam Vibe Coding?
+
+Dalam vibe coding, kita menggunakan AI untuk *menulis kode*. Tapi **AI tidak bisa merasakan pengalaman pengguna**. Pengujian adalah tanggung jawab kita sebagai manusia.
+
+> **Analogi:** AI seperti tukang bangunan yang membangun rumah sesuai gambar denah. Testing adalah saat kita masuk ke rumah itu dan coba buka setiap pintu, nyalakan setiap lampu, dan pastikan kamar mandinya berfungsi.
+
+### Dua Jenis Pengujian yang Perlu Dilakukan
+
+| Jenis | Penjelasan | Contoh |
+|---|---|---|
+| **Happy Path** | Alur normal seperti yang diharapkan | Login dengan username & password benar |
+| **Edge Case** | Situasi ekstrem/tidak terduga | Login dengan password kosong, karakter khusus `!@#` |
+
+### Mengapa Edge Case Penting?
+
+Pengguna sungguhan **tidak selalu menggunakan aplikasi seperti yang kita bayangkan**. Mereka akan:
+- Mengklik tombol dua kali dengan cepat (*double-click*)
+- Mengosongkan input yang seharusnya diisi
+- Memasukkan angka negatif di form harga
+- Copy-paste teks panjang yang tidak terduga
+
+---
+
+## 🧠 Konsep Kunci
+
+### 1. Fokus pada Hasil Fungsional, Bukan Sintaks Kode
 
 ```
-┌──────────────────────────────────────────────────────────────────────────────────┐
-│                   ALUR PENGUJIAN & BUG HUNTING VIBE CODING                       │
-└──────────────────────────────────────────────────────────────────────────────────┘
-   [ Dokumen PRD / Fitur ]
-              │
-              ▼
-   ┌──────────────────────┐
-   │ FASE 1: TEST MATRIX  │ ──► Generate Matriks Uji via AGY Prompt (Happy + Edge)
-   └──────────────────────┘     Simpan ke file: test-plan.md
-              │
-              ▼
-   ┌──────────────────────┐
-   │ FASE 2: MANUAL TEST  │ ──► Eksekusi Manual 6 Kategori Edge Case di Browser/HP
-   └──────────────────────┘     Logging Temuan: BUG-01, BUG-02 (Severity & Steps)
-              │
-              ▼
-   ┌──────────────────────┐
-   │ FASE 3: ATOMIC FIX   │ ──► Perbaikan Satu per Satu via AI Agent Antigravity
-   └──────────────────────┘     Regression Testing & Verifikasi Status [✅ LULUS]
-              │
-              ▼
-   [ Aplikasi Siap Rilis (Release Ready) ] ──► Masuk ke Pertemuan 14 (Tampilan) & 15 (Deploy)
+❌ Salah: "Kode ini pasti benar karena AI yang membuatnya"
+✅ Benar: "Fitur ini berfungsi sesuai yang diharapkan pengguna?"
 ```
 
-> 💡 **Intisari Arsitektur:** Jangan pernah memperbaiki bug di tengah-tengah pengujian manual. Selesaikan seluruh skenario terlebih dahulu untuk mendapatkan gambaran kesehatan aplikasi secara utuh, baru lakukan perbaikan terisolasi (*atomic fix*).
+Biarkan AI mengurus sintaks dan logika kode. Tugas Anda adalah **memverifikasi pengalaman pengguna**.
 
----
+### 2. Skenario Uji Berbasis PRD
 
-## 🧭 Daftar Isi Modul
+> **Apa itu `prd.md`?**  
+> `prd.md` adalah file daftar fitur aplikasi Anda — seperti "menu" dari apa saja yang bisa dilakukan aplikasi Anda. Biasanya dibuat di awal proyek. Jika Anda belum punya, cukup tulis daftar fitur aplikasi Anda di kertas atau di file teks biasa.
 
-1. [Fase 1: Teori Pedagogis, Mental Model & Matriks Skenario Uji](#fase-1--part-a-teori-pedagogis-mental-model--matriks-skenario-uji-25-menit)
-2. [Fase 2: Eksekusi Pengujian Manual & 6 Kategori Edge Cases Wajib](#fase-2--part-b-eksekusi-pengujian-manual--6-kategori-edge-cases-wajib-50-menit)
-3. [Fase 3: Systematic Targeted Bug Fixing & Regression Verification](#fase-3--part-c-systematic-targeted-bug-fixing--regression-verification-35-menit)
-4. [Kumpulan Master Prompt AI Siap Pakai (Prompt Builder K-T-B-H)](#-kumpulan-master-prompt-ai-siap-pakai-prompt-builder-k-t-b-h)
-5. [Dosa Besar & Kesalahan Fatal Pengujian Vibe Coding](#-dosa-besar--kesalahan-fatal-pengujian-vibe-coding)
-6. [Checklist Akhir & Rubrik Evaluasi Kelayakan Rilis](#-checklist-akhir--rubrik-evaluasi-kelayakan-rilis)
+Setiap fitur yang tertulis di `prd.md` harus punya minimal satu skenario uji.
 
----
+**Contoh:**  
+Jika `prd.md` memiliki fitur: *"Pengguna dapat menambahkan item ke keranjang belanja"*, maka skenario ujinya adalah:
 
-## FASE 1 / PART A: Teori Pedagogis, Mental Model & Matriks Skenario Uji (25 Menit)
+| # | Skenario | Langkah | Hasil yang Diharapkan |
+|---|---|---|---|
+| T01 | Tambah item ke keranjang | Klik tombol "Tambah" pada produk | Item muncul di keranjang, jumlah +1 |
+| T02 | Tambah item yang sama dua kali | Klik "Tambah" dua kali pada produk yang sama | Jumlah item menjadi 2, bukan duplikat |
+| T03 | Tambah item saat keranjang kosong | Keranjang kosong, lalu klik "Tambah" | Item pertama berhasil masuk keranjang |
 
-### 1.1 Mental Model: Mengapa Pengujian Manual Mutlak Diperlukan?
+### 3. Struktur File `test-plan.md`
 
-Dalam pengembangan perangkat lunak berbasis AI (*Vibe Coding*), terjadi pergeseran peran:
-* **Tradisional:** Manusia menulis sintaks baris demi baris $\rightarrow$ Kompiler memeriksa error sintaks.
-* **Vibe Coding:** AI menulis seluruh implementasi kode $\rightarrow$ **Manusia berperan sebagai *Quality Assurance (QA) & Inspector Kelayakan Produk***.
-
-> 🏠 **Analogi Konstruksi Rumah:**  
-> AI adalah tukang bangunan cerdas yang memasang dinding, pintu, dan instalasi pipa sesuai gambar denah dalam hitungan detik. Namun, AI tidak pernah tinggal di rumah tersebut. **Pengujian manual adalah saat Anda masuk ke rumah tersebut, memutar kunci pintu, menyalakan keran air bersamaan dengan saklar lampu, dan memastikan pipa tidak bocor.**
-
-### 1.2 Perbedaan Pendekatan: Unit Test vs Behavioral Testing
-
-| Parameter | Pengujian Kode Tradisional (Unit Test) | Pengujian Perilaku Vibe Coding (User-Centric) |
-| :--- | :--- | :--- |
-| **Fokus Utama** | Menguji fungsi algoritma internal (`isEmailValid()`) | Menguji apa yang dilihat dan dirasakan pengguna di layar |
-| **Pelaksana** | Kode skrip pengujian otomatis (*Jest, PyTest*) | Penguji manusia yang menjalankan skenario nyata (*Black-box*) |
-| **Kecepatan** | Membutuhkan waktu berjam-jam menulis skrip tes | Sangat cepat dan intuitif menggunakan panduan tabel skenario |
-| **Sasaran Vibe Coder** | Terlalu rumit untuk pemula non-IT | **Fokus pada hasil fungsional dan pencegahan crash aplikasi** |
-
----
-
-### 1.3 Dua Pilar Skenario: Happy Path vs Edge Cases
-
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ 1. HAPPY PATH (Alur Bahagia / Normal)                                   │
-│    Alur di mana pengguna bertindak sempurna sesuai ekspektasi pembuat.  │
-│    Contoh: User login -> Input email valid -> Input password benar      │
-│    -> Berhasil masuk ke dashboard.                                      │
-├─────────────────────────────────────────────────────────────────────────┤
-│ 2. EDGE CASES & DESTRUCTIVE TESTING (Kasus Tepi & Ekstrem)              │
-│    Situasi tak terduga, kelalaian pengguna, atau manipulasi data.       │
-│    Contoh: Form submit kosong -> Klik tombol 5x cepat -> Input script   │
-│    -> Jaringan internet putus saat upload -> Aplikasi tetap aman & ramah│
-└─────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-### 1.4 Master Prompt 1: Generator Matriks Skenario Uji (`test-plan.md`)
-
-Gunakan prompt terstruktur berbasis formula **K-T-B-H** (*Karakter - Tugas - Batasan - Hasil*) untuk memerintahkan Antigravity IDE menyusun rencana uji lengkap dari dokumen PRD Anda:
+Output dari pertemuan ini adalah file `test-plan.md` dengan format:
 
 ```markdown
-### 📋 PROMPT BUILDER: GENERATE TEST PLAN DARI PRD
-Bertindaklah sebagai Senior QA Lead & Security Tester profesional.
-Saya memiliki dokumen PRD / daftar fitur aplikasi saya sebagai berikut:
-[TEMPELKAN DAFTAR FITUR DARI prd.md ATAU DESKRIPSI APLIKASI ANDA DI SINI]
+# Test Plan - [Nama Aplikasi]
 
-Tugas Anda:
-Buatkan file komprehensif `test-plan.md` dalam format tabel Markdown berstandar industri yang mencakup:
-1. Skenario Happy Path (alur normal setiap fitur)
-2. Skenario Edge Cases (input kosong, batasan angka, karakter aneh, double click)
-3. Skenario Penanganan Error & Keamanan Dasar
+## Informasi
+- Tanggal: [tanggal]
+- Penguji: [nama]
+- Kondisi Saat Uji: [misal: "setelah fitur login selesai"]
 
-Format kolom tabel yang wajib digunakan:
-| ID | Fitur | Kategori | Skenario Uji | Langkah Pengujian | Hasil yang Diharapkan | Status | Catatan Bug |
+## Skenario Uji
 
-Instruksi Tambahan:
-- Beri status default: "⚠️ BELUM DIUJI"
-- Sertakan struktur bagian "Temuan Bug (Bug Log)" dan "Ringkasan Metrik Kelayakan Rilis" di bagian bawah file.
-- Simpan file ini langsung ke root workspace dengan nama `test-plan.md`.
+| ID | Fitur | Skenario | Langkah | Hasil Diharapkan | Status | Catatan |
+|----|-------|----------|---------|-----------------|--------|---------|
+| T01 | Login | Login sukses | 1. Buka halaman login 2. Isi username & password 3. Klik Login | Masuk ke dashboard | ✅ LULUS | - |
+| T02 | Login | Password salah | 1. Isi username benar 2. Isi password salah 3. Klik Login | Muncul pesan error | ❌ GAGAL | Tidak ada pesan error |
+| T03 | Login | Password kosong | 1. Isi username 2. Kosongkan password 3. Klik Login | Form tidak terkirim | ⚠️ BELUM DIUJI | - |
+
+## Temuan Bug
+
+### BUG-01: Tidak ada pesan error saat password salah
+- **Skenario:** T02
+- **Langkah Reproduksi:** Login dengan password salah
+- **Hasil Aktual:** Halaman loading terus, tidak ada feedback
+- **Hasil Diharapkan:** Muncul pesan "Password salah, silakan coba lagi"
+- **Status:** 🔧 Sedang diperbaiki / ✅ Sudah diperbaiki
+
+## Ringkasan
+- Total Skenario: X
+- Lulus: X
+- Gagal: X
+- Belum Diuji: X
 ```
 
 ---
 
-### 1.5 Struktur Standar File `test-plan.md` yang Dihasilkan
+## 📚 Kamus Istilah (Baca Sebelum Mulai)
 
-Setelah prompt dijalankan di Antigravity IDE, file `test-plan.md` yang terbentuk akan memiliki format berikut:
+Berikut istilah yang akan sering muncul di pertemuan ini:
+
+| Istilah | Artinya dalam Bahasa Sehari-hari |
+|---|---|
+| **Bug** | Kesalahan atau kerusakan pada aplikasi — sesuatu yang seharusnya berjalan tapi tidak |
+| **Testing / Pengujian** | Proses mencoba aplikasi sendiri untuk menemukan bug sebelum pengguna menemukannya |
+| **Happy Path** | Skenario ideal — pengguna melakukan hal yang "benar" sesuai harapan kita |
+| **Edge Case** | Skenario ekstrem atau tidak biasa — hal yang jarang terjadi tapi bisa menyebabkan masalah |
+| **Reproduksi Bug** | Langkah-langkah untuk membuat bug tersebut muncul kembali, supaya bisa diperbaiki |
+| **Sintaks Kode** | "Tata bahasa" dari kode — aturan penulisan yang harus diikuti agar kode bisa berjalan |
+| **Feedback** | Respons dari aplikasi kepada pengguna — misal pesan error, notifikasi, atau perubahan tampilan |
+
+---
+
+## 🛠️ Praktik di Kelas (90 menit)
+
+### Persiapan (5 menit)
+
+Sebelum mulai, pastikan Anda memiliki:
+- [ ] Antigravity IDE terbuka
+- [ ] Proyek aplikasi yang sudah dibangun di pertemuan sebelumnya
+- [ ] File `prd.md` (atau catatan fitur yang ingin dibangun)
+
+> **Jika belum punya `prd.md`:** Buat daftar fitur aplikasi Anda terlebih dahulu. Contoh: *"Aplikasi saya bisa: (1) tambah item, (2) hapus item, (3) simpan data"*
+
+---
+
+### Langkah 1: Buat Daftar Skenario Uji dengan AGY (25 menit)
+
+**Tujuan:** Gunakan AI untuk membantu membuat skenario uji yang komprehensif.
+
+#### Prompt yang Digunakan di AGY:
+
+```
+Saya punya aplikasi [nama aplikasi] dengan fitur-fitur berikut:
+[tempel daftar fitur dari prd.md]
+
+Tolong buatkan saya daftar skenario uji dalam format tabel markdown yang mencakup:
+1. Happy path (alur normal)
+2. Edge cases (kasus tepi) seperti input kosong, karakter khusus, klik cepat ganda
+3. Setiap baris berisi: ID, Fitur, Skenario, Langkah, Hasil yang Diharapkan, Status (isi dengan "⚠️ BELUM DIUJI"), Catatan
+
+Simpan hasilnya ke file test-plan.md
+```
+
+#### Yang Harus Dilakukan:
+1. Buka Antigravity IDE
+2. Ketik prompt di atas, sesuaikan dengan aplikasi Anda
+3. Review dan tambahkan skenario yang menurut Anda penting tapi belum ada
+4. Simpan file `test-plan.md`
+
+---
+
+### Langkah 2: Jalankan Pengujian Manual (45 menit)
+
+**Tujuan:** Eksekusi setiap skenario, catat semua yang gagal.
+
+#### Cara Pengujian yang Baik:
+
+```
+Untuk setiap baris di test-plan.md:
+1. Baca skenarionya
+2. Ikuti langkah-langkahnya PERSIS seperti yang tertulis
+3. Bandingkan hasil aktual dengan "Hasil yang Diharapkan"
+4. Update kolom Status: ✅ LULUS / ❌ GAGAL
+5. Jika GAGAL → tulis Catatan apa yang terjadi
+```
+
+#### ⚠️ Aturan Penting Saat Testing:
+- **Jangan skip edge case** — justru di situlah bug tersembunyi
+- **Catat SEMUA yang aneh**, walau bukan error besar
+- **Jangan perbaiki dulu** saat testing — selesaikan semua skenario terlebih dahulu
+
+#### Contoh Edge Case yang Wajib Dicoba:
+
+| Kategori | Yang Dicoba |
+|---|---|
+| **Input Kosong** | Submit form tanpa mengisi apapun |
+| **Angka Negatif** | Masukkan `-1` atau `-999` di field angka |
+| **Karakter Khusus** | Ketik `<script>`, `' OR 1=1`, `!@#$%^` |
+| **Klik Cepat Ganda** | Double-click tombol simpan/kirim |
+| **Teks Sangat Panjang** | Paste 1000 karakter di satu input field |
+| **Refresh Halaman** | Refresh saat sedang mengisi form |
+
+---
+
+### Langkah 3: Perbaiki Temuan Satu per Satu (20 menit)
+
+**Tujuan:** Perbaiki bug secara sistematis, verifikasi setelah setiap perbaikan.
+
+#### Alur Perbaikan dengan AGY:
+
+```
+1. Pilih satu bug dari daftar (mulai dari yang paling kritis)
+2. Di AGY, prompt:
+   "Saya menemukan bug: [jelaskan bug dari catatan test-plan.md]
+    Langkah reproduksi: [tempel dari test-plan]
+    Hasil aktual: [apa yang terjadi]
+    Hasil diharapkan: [seharusnya apa]
+    Tolong perbaiki bug ini."
+3. Uji ulang skenario yang sama setelah diperbaiki
+4. Update status di test-plan.md menjadi ✅ SUDAH DIPERBAIKI
+5. Ulangi untuk bug berikutnya
+```
+
+> **🔑 Aturan Emas:** Perbaiki **satu bug per satu**, lalu **uji ulang** sebelum lanjut ke bug berikutnya. Memperbaiki banyak bug sekaligus membuat kita tidak tahu perbaikan mana yang berhasil.
+
+---
+
+## 📦 Output Pertemuan
+
+Di akhir kelas, Anda harus memiliki file `test-plan.md` yang berisi:
+
+- ✅ Daftar lengkap skenario uji (happy path + edge cases)
+- ✅ Status setiap skenario (Lulus / Gagal / Belum Diuji)
+- ✅ Catatan temuan bug
+- ✅ Status perbaikan setiap bug
+
+---
+
+## ❌ Kesalahan yang Sering Terjadi
+
+### 1. Hanya Menguji Alur Ideal
+
+```
+❌ "Saya sudah test, bisa login dan tambah data. Selesai."
+✅ "Saya test login sukses, login gagal, login kosong, login karakter aneh..."
+```
+
+Pengguna asli **akan menemukan kasus tepi lebih dulu** daripada Anda. Jangan beri mereka kesempatan itu.
+
+### 2. Langsung Perbaiki Saat Menemukan Bug
+
+```
+❌ Temukan bug → langsung perbaiki → lanjut test → temukan bug lagi → perbaiki lagi...
+✅ Selesaikan semua skenario dulu → catat semua bug → perbaiki satu per satu
+```
+
+### 3. Percaya Penuh pada AI
+
+```
+❌ "AI sudah bilang kodenya benar, pasti tidak ada bug."
+✅ "AI menulis kode, tapi saya yang memvalidasi pengalaman pengguna."
+```
+
+---
+
+## 💬 Prompt Referensi untuk AGY
+
+Simpan prompt-prompt ini untuk digunakan selama praktikum:
 
 ```markdown
-# 📋 Rencana Pengujian Aplikasi (Test Plan) - [Nama Proyek]
+### Prompt 1: Generate Test Plan
+"Buatkan test-plan.md untuk aplikasi [nama] dengan fitur [daftar fitur].
+Sertakan happy path dan edge cases. Format: tabel markdown."
 
-## 📌 Informasi Rilis
-- **Tanggal Pengujian:** 2026-09-11
-- **Tester / Penguji:** [Nama Anda]
-- **Target Platform:** Web Desktop / Mobile PWA / Android
-- **Versi Aplikasi:** v1.0.0-rc1
+### Prompt 2: Perbaiki Bug
+"Perbaiki bug berikut di aplikasi saya:
+- Deskripsi: [deskripsi bug]
+- Langkah reproduksi: [langkah]
+- Hasil aktual: [apa yang terjadi]
+- Hasil diharapkan: [seharusnya apa]"
 
----
+### Prompt 3: Tambah Edge Case
+"Dari fitur [nama fitur] di aplikasi saya, edge case apa lagi yang
+belum saya uji? Tambahkan ke test-plan.md yang sudah ada."
 
-## 🧪 Matriks Skenario Pengujian
-
-| ID | Fitur | Kategori | Skenario Uji | Langkah Pengujian | Hasil yang Diharapkan | Status | Catatan Bug |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **TC-01** | Autentikasi | Happy Path | Login email & password valid | 1. Isi email & pass benar<br>2. Klik 'Masuk' | Berhasil login & redirect ke Dashboard | ⚠️ BELUM DIUJI | - |
-| **TC-02** | Autentikasi | Edge Case | Login dengan password salah | 1. Isi email benar, pass salah<br>2. Klik 'Masuk' | Muncul toast peringatan: "Password salah" | ⚠️ BELUM DIUJI | - |
-| **TC-03** | Autentikasi | Edge Case | Submit form input kosong | 1. Kosongkan semua field<br>2. Klik 'Masuk' | Form tertahan, validasi merah "Wajib diisi" | ⚠️ BELUM DIUJI | - |
-| **TC-04** | CRUD Data | Happy Path | Tambah data baru berhasil | 1. Isi form data lengkap<br>2. Klik 'Simpan' | Data baru muncul di tabel tanpa refresh | ⚠️ BELUM DIUJI | - |
-| **TC-05** | CRUD Data | Edge Case | Rapid double-click tombol Simpan | 1. Klik 'Simpan' 2-3x sangat cepat | Hanya 1 data tersimpan (tidak duplikat) | ⚠️ BELUM DIUJI | - |
-| **TC-06** | Keamanan | Edge Case | Input karakter tag HTML/Script | 1. Input `<script>alert(1)</script>`<br>2. Simpan data | Teks disimpan sebagai teks biasa (aman XSS) | ⚠️ BELUM DIUJI | - |
-
----
-
-## 🪲 Log Temuan Bug (Bug Tracker)
-
-### Format Pencatatan Bug:
-#### BUG-01: [Judul Singkat Masalah]
-- **Terkait Skenario:** TC-05
-- **Tingkat Keparahan (Severity):** 🔴 Critical / 🟠 High / 🟡 Medium / 🔵 Low
-- **Langkah Reproduksi:** Klik tombol Simpan 2x dengan cepat pada koneksi lambat.
-- **Hasil Aktual (Kondisi Rusak):** Terbuat 2 data kembar di database Supabase.
-- **Hasil yang Diharapkan:** Tombol otomatis disable saat request pertama berjalan.
-- **Status Perbaikan:** ⏳ Menunggu Perbaikan / 🔧 Sedang Dikerjakan / ✅ Sudah Diperbaiki
-
----
-
-## 📊 Ringkasan Metrik Pengujian
-- **Total Skenario:** 0 Skenario
-- **Lulus (Passed):** 0 (0%)
-- **Gagal (Failed):** 0 (0%)
-- **Belum Diuji:** 0 (100%)
-- **Skor Kesiapan Rilis:** ⚠️ Belum Siap Rilis (Syarat Rilis: Pass Rate >= 95% & 0 Critical Bug)
+### Prompt 4: Update Status Test Plan
+"Update test-plan.md: skenario T[XX] statusnya ubah menjadi ✅ LULUS.
+Bug BUG-[XX] statusnya ubah menjadi ✅ Sudah Diperbaiki."
 ```
 
 ---
 
-## FASE 2 / PART B: Eksekusi Pengujian Manual & 6 Kategori Edge Cases Wajib (50 Menit)
+## ✅ Checklist Akhir Pertemuan
 
-### 2.1 Enam Kategori Kasus Ekstrem (*Edge Cases*) yang Wajib Diuji
+Sebelum kelas selesai, pastikan:
 
-Ketika melakukan pengujian mandiri, ujilah aplikasi Anda layaknya pengguna yang sedang bingung atau berniat jahat:
-
-```
-┌──────────────────────────────────────────────────────────────────────────────────┐
-│                   6 KATEGORI PENGUJIAN KASUS EKSTREM (EDGE CASES)                │
-├──────────────────────────┬───────────────────────────────────────────────────────┤
-│ 1. Input Kosong & Spasi  │ Submit form dengan field kosong atau hanya berisi      │
-│    (Empty & Whitespace)  │ spasi ("   "). Pastikan ditolak validasi.             │
-├──────────────────────────┼───────────────────────────────────────────────────────┤
-│ 2. Batas Angka & Ukuran  │ Input angka negatif (-5), 0, atau 999999999. Masukkan  │
-│    (Boundary Limits)     │ teks 1000 karakter pada kolom nama/judul.             │
-├──────────────────────────┼───────────────────────────────────────────────────────┤
-│ 3. Karakter Berbahaya    │ Input kutip tunggal (`' OR '1'='1`), tag HTML         │
-│    (Sanitization & XSS)  │ (`<h1>Test</h1>`), atau simbol aneh (`!@#$%^&*()`).   │
-├──────────────────────────┼───────────────────────────────────────────────────────┤
-│ 4. Klik Cepat / Ganda    │ Lakukan spam click (3-4 kali cepat) pada tombol       │
-│    (Rapid Click/Debounce)│ 'Simpan', 'Bayar', atau 'Hapus'. Cegah *race condition*│
-├──────────────────────────┼───────────────────────────────────────────────────────┤
-│ 5. Refresh & Navigasi    │ Tekan F5 (Refresh) saat sedang mengisi form atau      │
-│    (State Persistence)   │ saat sedang berada di halaman detail.                 │
-├──────────────────────────┼───────────────────────────────────────────────────────┤
-│ 6. Simulasi Offline      │ Matikan koneksi internet (DevTools -> Offline) lalu   │
-│    (Network Resilience)  │ coba interaksi. Pastikan muncul pesan ramah.          │
-└──────────────────────────┴───────────────────────────────────────────────────────┘
-```
+- [ ] File `test-plan.md` sudah dibuat dan tersimpan di proyek
+- [ ] Semua fitur utama sudah ada skenario ujinya
+- [ ] Edge case sudah diuji (minimal: input kosong, klik cepat ganda, karakter khusus)
+- [ ] Semua bug yang ditemukan sudah dicatat
+- [ ] Minimal 50% bug yang ditemukan sudah diperbaiki dan diuji ulang
+- [ ] Status setiap skenario di `test-plan.md` sudah diperbarui
 
 ---
 
-### 2.2 Panduan Langkah-demi-Langkah Pengujian Fitur Utama
+## 📝 Refleksi (5 menit terakhir)
 
-#### A. Pengujian Modul Autentikasi (Login / Register)
-1. **Tes Positif:** Masukkan email & password yang benar $\rightarrow$ Pastikan masuk dashboard & session tersimpan.
-2. **Tes Password Salah:** Masukkan password acak $\rightarrow$ Pastikan muncul pesan *"Email atau password salah"*, bukan layar putih/crash.
-3. **Tes Format Email:** Masukkan `bukanemail` $\rightarrow$ Form harus menolak sebelum request dikirim.
+Diskusikan bersama kelas:
 
-#### B. Pengujian Form Input & Operasi CRUD Database
-1. **Tes Duplikasi Data:** Tambahkan item dengan nama/kode yang sama persis $\rightarrow$ Apakah database memvalidasi atau membuat data kembar?
-2. **Tes Delete Safeguard:** Klik tombol 'Hapus' $\rightarrow$ **Wajib** muncul dialog konfirmasi *"Apakah Anda yakin ingin menghapus data ini?"*.
-3. **Tes Edit Tanpa Perubahan:** Buka form edit, jangan ubah apapun, lalu klik simpan $\rightarrow$ Aplikasi tidak boleh melempar error.
-
-#### C. Pengujian Tampilan Responsif (Mobile Viewport)
-1. Buka aplikasi di Google Chrome pada Antigravity IDE.
-2. Tekan `F12` $\rightarrow$ Klik ikon **Toggle Device Toolbar** (`Ctrl + Shift + M`).
-3. Pilih perangkat **iPhone 14** atau **Samsung Galaxy S20**.
-4. Periksa: Apakah ada teks yang terpotong? Apakah tabel meluap keluar layar (*overflow horizontal*)? Apakah tombol terlalu kecil untuk disentuh jari?
+1. **Bug apa yang paling mengejutkan** yang Anda temukan hari ini?
+2. **Edge case mana** yang tidak terpikirkan sebelumnya?
+3. **Apa yang berubah** dari cara Anda melihat "aplikasi yang sudah selesai"?
 
 ---
 
-### 2.3 Master Prompt 2: Deep Edge-Case Discovery Generator
-
-Jika Anda ragu apakah skenario uji Anda sudah lengkap, tanyakan pada AI:
-
-```markdown
-### 📋 PROMPT BUILDER: EKSPLORASI DEEP EDGE CASES
-Aplikasi saya memiliki fitur: [JELASKAN FITUR, MISAL: "Form Checkout Pembayaran & Upload Bukti Transfer"].
-
-Tolong daftarkan 8 kasus ekstrem (edge cases) paling berbahaya yang berpotensi merusak fitur ini atau membuat data di database korup.
-Kategorikan berdasarkan:
-1. Validasi Input (Format, Tipe File, Ukuran File)
-2. Asinkron & Jaringan (Timeout, Double Submit)
-3. Keamanan & Izin Akses (RLS Supabase / Token Expired)
-
-Format jawaban dalam tabel siap tempel ke `test-plan.md`.
-```
-
----
-
-### 2.4 Klasifikasi Derajat Keparahan Bug (*Severity Matrix*)
-
-Ketika Anda menemukan perilaku error selama pengetesan, tentukan tingkat keparahannya sebelum dicatat ke `test-plan.md`:
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│ 🔴 CRITICAL (Blokir Rilis)                                             │
-│    Aplikasi crash layar putih, data hilang, celah keamanan terbuka,     │
-│    atau alur utama (transaksi/login) tidak bisa diselesaikan sama sekali│
-├────────────────────────────────────────────────────────────────────────┤
-│ 🟠 HIGH (Mayor)                                                        │
-│    Fitur penting tidak berfungsi normal, namun ada jalan pintas         │
-│    (workaround) sementara yang bisa dilakukan pengguna.                 │
-├────────────────────────────────────────────────────────────────────────┤
-│ 🟡 MEDIUM (Minor / Logika)                                             │
-│    Fungsi berjalan, tetapi pesan feedback salah, pagination lambat,     │
-│    atau urutan data tidak sesuai sort filter.                          │
-├────────────────────────────────────────────────────────────────────────┤
-│ 🔵 LOW (Kosmetik / Polish)                                             │
-│    Tombol bergeser 2px, warna teks kurang kontras, typo huruf,         │
-│    atau animasi kurang halus pada perangkat mobile.                    │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## FASE 3 / PART C: Systematic Targeted Bug Fixing & Regression Verification (35 Menit)
-
-### 3.1 Mental Model: Prinsip *Atomic Bug Fixing*
-
-> ⚠️ **Peringatan Keras Vibe Coder:**  
-> Jangan pernah memberikan prompt perbaikan yang menggabungkan 5 bug sekaligus! Misal: *"Perbaiki bug login, benerin juga tabel yang rusak, sama ubah warna tombol."*  
-> **Dampaknya:** AI akan menulis ulang seluruh kode aplikasi Anda, menghapus logika yang sebelumnya sudah bekerja, dan menciptakan 10 bug baru (*Code Regression*).
-
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                      ATOMIC BUG FIXING WORKFLOW                         │
-└─────────────────────────────────────────────────────────────────────────┘
-  1. Pilih 1 Bug Paling Kritis (Mulai dari Critical -> High)
-     │
-     ▼
-  2. Susun Targeted Prompt dengan menyertakan Reproduksi & Kode Terkait
-     │
-     ▼
-  3. AI Memperbaiki HANYA Bagian yang Rusak (Cek File Diff di IDE)
-     │
-     ▼
-  4. Uji Ulang (Regression Test) Skenario Tersebut + Skenario Sekitarnya
-     │
-     ▼
-  5. Update Status di test-plan.md menjadi [✅ SUDAH DIPERBAIKI]
-     │
-     ▼
-  6. Lanjut ke Bug Berikutnya
-```
-
----
-
-### 3.2 Master Prompt 3: Targeted Atomic Bug Fixer
-
-Gunakan template prompt presisi ini di Antigravity IDE setiap kali meminta AI memperbaiki bug temuan Anda:
-
-```markdown
-### 📋 PROMPT BUILDER: TARGETED ATOMIC BUG FIX
-Saya menemukan bug pada aplikasi saya saat menjalankan test plan.
-Berikut rincian tiket bug:
-- ID Bug / Skenario: [BUG-01 / TC-05]
-- Fitur: [Nama Fitur, misal: Tombol Tambah Transaksi]
-- Langkah Reproduksi: [Tulis langkah detail cara memunculkan bug]
-- Hasil Aktual: [Apa yang rusak / pesan error di konsol]
-- Hasil yang Diharapkan: [Perilaku yang seharusnya terjadi]
-
-Instruksi Perbaikan:
-1. Perbaiki HANYA bagian fungsi atau file yang bertanggung jawab atas masalah ini.
-2. JANGAN mengubah arsitektur database atau merombak styling komponen lain yang sudah berjalan.
-3. Berikan penjelasan singkat 2 kalimat mengenai akar penyebab masalah dan solusi yang Anda terapkan.
-4. Tuliskan kode perbaikannya secara lengkap dan bersih.
-```
-
----
-
-### 3.3 Verifikasi Komparasi: Sebelum vs Sesudah Perbaikan
-
-Berikut adalah contoh studi kasus perbaikan bug *Double-Click Duplicate Entry*:
-
-#### ❌ Kode Rusak (Sebelum Perbaikan):
-```javascript
-// Tombol langsung mengeksekusi tanpa debounce/disable state
-async function handleSaveData(payload) {
-  // Masalah: Jika user klik 3x cepat, fungsi ini jalan 3x bersamaan!
-  showSpinner();
-  const { data, error } = await supabase.from('products').insert(payload);
-  hideSpinner();
-  if (!error) showToast("Data berhasil disimpan!");
-}
-```
-
-#### ✅ Kode Diperbaiki (Sesudah Perbaikan Terarah):
-```javascript
-let isSubmitting = false;
-
-async function handleSaveData(payload) {
-  // Solusi: Atomic lock & button disable guard
-  if (isSubmitting) return; // Abaikan klik susulan
-  isSubmitting = true;
-  
-  const submitBtn = document.getElementById('btn-submit');
-  if (submitBtn) submitBtn.disabled = true;
-  
-  try {
-    showSpinner();
-    const { data, error } = await supabase.from('products').insert(payload);
-    if (error) throw error;
-    showToast("Data berhasil disimpan!");
-    closeModal();
-  } catch (err) {
-    showToast("Gagal menyimpan: " + err.message, "error");
-  } finally {
-    isSubmitting = false;
-    if (submitBtn) submitBtn.disabled = false;
-    hideSpinner();
-  }
-}
-```
-
----
-
-### 3.4 Uji Regresi (*Regression Testing Checklist*)
-
-Setelah AI menerapkan perbaikan kode:
-1. Jalankan kembali skenario uji yang sebelumnya berstatus `[❌ GAGAL]`.
-2. Pastikan sekarang menghasilkan `[✅ LULUS]`.
-3. **Uji Regresi (Sanity Check):** Jalankan 2 skenario normal di sekitar fitur tersebut untuk memastikan perbaikan kode tidak merusak fitur lama.
-4. Perbarui kolom status dan ringkasan metrik di file `test-plan.md`.
-
----
-
-## 📚 Kumpulan Master Prompt AI Siap Pakai (Prompt Builder K-T-B-H)
-
-Simpan dan manfaatkan template prompt berikut selama sesi praktikum:
-
-```markdown
-### 🧰 KARTU PROMPT 1: AUDIT FORM VALIDATION
-"Tinjau kode form input pada file [nama_file.html / .dart / .jsx].
-Periksa apakah sudah ada:
-1. Validasi tipe data (angka tidak boleh huruf, email harus berformat valid).
-2. Sanitasi terhadap input karakter berbahaya (XSS / SQLi).
-3. Penanganan state saat input kosong.
-Berikan saran perbaikan kode yang ramah pengguna (UI error message berwarna merah)."
-
----
-
-### 🧰 KARTU PROMPT 2: SIMULASI PENANGANAN ERROR JARINGAN (SUPABASE / API)
-"Periksa pemanggilan Supabase / API pada fungsi [nama_fungsi].
-Pastikan ada blok `try ... catch` dan pesan error yang informatif ke pengguna jika:
-1. Koneksi internet putus.
-2. Token autentikasi habis (expired session).
-3. Database menolak karena pelanggaran Row Level Security (RLS).
-Tuliskan perbaikan kodenya."
-
----
-
-### 🧰 KARTU PROMPT 3: GENERATE REKAP AKHIR TEST PLAN
-"Baca seluruh isi tabel pada file `test-plan.md` di workspace saya.
-Hitung total skenario, jumlah status LULUS, GAGAL, dan BELUM DIUJI.
-Hitung persentase Pass Rate: (Lulus / Total) * 100%.
-Perbarui bagian 'Ringkasan Metrik' di `test-plan.md` dengan kesimpulan apakah aplikasi ini sudah memenuhi standar kelayakan rilis ke tahap deployment atau belum."
-```
-
----
-
-## ⚠️ Dosa Besar & Kesalahan Fatal Pengujian Vibe Coding
-
-Hindari 4 kebiasaan buruk yang sering menjebak pemula:
-
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ ❌ DOSA 1: "ASAL JALAN SEKALI DIANGGAP SELESAI"                         │
-│    Hanya mengetes 1 alur normal, lalu langsung menganggap aplikasi      │
-│    siap rilis tanpa mencoba skenario error dan kasus ekstrem.           │
-├─────────────────────────────────────────────────────────────────────────┤
-│ ❌ DOSA 2: LANGSUNG CODING FIX SAAT MENEMUKAN BUG PERTAMA               │
-│    Menghentikan pengujian, membetulkan kode, lalu lupa bagian mana lagi │
-│    yang belum sempat diuji. Selesaikan test plan terlebih dahulu!       │
-├─────────────────────────────────────────────────────────────────────────┤
-│ ❌ DOSA 3: MENYATUKAN BANYAK BUG DALAM SATU PROMPT                      │
-│    Menyuruh AI memperbaiki 5 bug sekaligus menyebabkan halusinasi kode │
-│    dan merusak fitur yang awalnya sudah berfungsi dengan baik.          │
-├─────────────────────────────────────────────────────────────────────────┤
-│ ❌ DOSA 4: PERCAYA PENUH PADA ASUMSI AI                                 │
-│    Menganggap kode AI pasti bebas bug karena tidak ada error sintaks.    │
-│    Ingat: AI tidak memahami konteks kenyamanan pengguna di dunia nyata. │
-└─────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## ✅ Checklist Akhir & Rubrik Evaluasi Kelayakan Rilis
-
-Sebelum mengakhiri sesi praktikum Pertemuan 13, pastikan seluruh item dalam daftar periksa berikut telah terpenuhi:
-
-- [ ] File `test-plan.md` telah tersimpan rapi di root workspace proyek.
-- [ ] Minimal **10 skenario uji** telah didefinisikan (mencakup minimal 4 Happy Path dan 6 Edge Cases).
-- [ ] Seluruh skenario telah dieksekusi secara manual (tidak ada lagi status `⚠️ BELUM DIUJI`).
-- [ ] Semua bug yang ditemukan telah tercatat di tabel log temuan bug lengkap dengan langkah reproduksi.
-- [ ] **100% bug berstatus 🔴 Critical dan 🟠 High telah diperbaiki dan diuji ulang (*Pass*)**.
-- [ ] Persentase kelulusan (*Pass Rate*) pada `test-plan.md` mencapai minimal **90%**.
-- [ ] Aplikasi berjalan mulus pada orientasi layar mobile (*DevTools Responsive View*).
-
----
-
-## 📝 Refleksi & Diskusi Kelas (10 Menit Terakhir)
-
-Diskusikan bersama instruktur dan rekan kelas:
-1. **Bug paling tak terduga apa** yang berhasil Anda temukan melalui pengujian *edge case* hari ini?
-2. Mengapa pendekatan *Atomic Bug Fixing* jauh lebih aman dibandingkan meminta AI merombak seluruh kode sekaligus?
-3. Mengapa dokumentasi `test-plan.md` sangat krusial sebelum kita merapikan performa (P14) dan melakukan deployment ke Vercel di **Pertemuan 15**?
-
----
-
-> 🚀 **Langkah Selanjutnya:**  
-> Selamat! Aplikasi Anda kini telah teruji secara fungsional dan memiliki ketahanan tinggi. Pada **Pertemuan 14**, kita akan merapikan tampilan dan performa (Audit Lighthouse & Mobile Responsive), sebelum meluncurkan (*deploy*) aplikasi ke Vercel di **Pertemuan 15**!
+> *"Kode yang benar secara sintaks bukan berarti pengalaman pengguna yang benar. Testing adalah jembatan antara keduanya."*
