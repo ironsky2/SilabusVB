@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Praktikum Menguji Hasil Akhir &amp; QA Testing — Pertemuan 13 | Vibe Coding Masterclass</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="Modul Praktikum Lengkap Pengujian Fungsional &amp; Edge Cases Berbasis PRD untuk Vibe Coder Non-IT: Matriks Uji, 6 Kasus Ekstrem, Logging Bug Tiket, Atomic Bug Fixing, dan Skor Kelayakan Rilis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Brand Primary Colors */
+      --teal: #028090;
+      --seafoam: #00A896;
+      --mint: #02C39A;
+      --deep: #01656F;
+
+      /* Semantic Alerts & Badges */
+      --amber: #B45309;
+      --amber-bg: #FEF3C7;
+      --rose: #BE123C;
+      --rose-bg: #FFF1F2;
+      --emerald: #047857;
+      --emerald-bg: #ECFDF5;
+      --indigo: #4F46E5;
+      --indigo-bg: #EEF2FF;
+      --purple: #7E22CE;
+      --purple-bg: #FAF5FF;
+
+      /* Neutrals */
+      --ink: #37352F;
+      --ink-mid: #5A5852;
+      --ink-soft: #787774;
+      --line: #EDECE9;
+      --line-soft: #F1F0ED;
+      --bg: #FFFFFF;
+      --bg-soft: #F7F6F3;
+      --bg-tint: #EAF6F4;
+
+      /* Border Radii */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .brand-title, .hero-title, .section-heading {
+      font-family: 'Newsreader', Georgia, serif;
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: .15s;
+    }
+
+    a:hover {
+      color: var(--deep);
+      text-decoration: underline;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88em;
+      background: #F2F1EE;
+      color: #EB5757;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    ::selection {
+      background: var(--mint);
+      color: #fff;
+    }
+
+    /* ---------- NAVIGATION ---------- */
+    header.nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand:hover {
+      text-decoration: none;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--seafoam);
+      box-shadow: 0 0 0 3px rgba(0, 168, 150, 0.2);
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 168, 150, 0.4); }
+      70% { box-shadow: 0 0 0 6px rgba(0, 168, 150, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 168, 150, 0); }
+    }
+
+    .brand-title {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .brand-pill {
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--bg-tint);
+      color: var(--teal);
+      padding: 2px 8px;
+      border-radius: 12px;
+      border: 1px solid #C8E8E4;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Popover Dropdown */
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-dropdown-btn {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #37352F;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-dropdown-btn:hover {
+      background: #F7F6F3;
+      border-color: #D3D1CB;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      background: #FFFFFF;
+      min-width: 280px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.06);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px;
+      z-index: 200;
+    }
+
+    .nav-dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-header {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--ink-soft);
+      padding: 6px 10px 4px;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--ink);
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.1s;
+    }
+
+    .dropdown-item:hover {
+      background: var(--bg-soft);
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    .dropdown-item.active {
+      background: var(--bg-tint);
+      color: var(--teal);
+      font-weight: 600;
+    }
+
+    .nav-cta-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #fff;
+      background: var(--teal);
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+
+    .nav-cta-btn:hover {
+      background: var(--deep);
+      text-decoration: none;
+      color: #fff;
+    }
+
+    /* ---------- HERO HEADER ---------- */
+    .hero-container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 40px 24px 20px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: var(--bg-tint);
+      border: 1px solid #C8E8E4;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-size: 38px;
+      line-height: 1.15;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-lede {
+      font-size: 16px;
+      color: var(--ink-mid);
+      max-width: 820px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .meta-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .meta-chip {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-mid);
+      background: var(--bg-soft);
+      border: 1px solid var(--line-soft);
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .meta-chip.highlight {
+      background: var(--emerald-bg);
+      color: var(--emerald);
+      border-color: #A7F3D0;
+      font-weight: 600;
+    }
+
+    /* ---------- QUICK NAV STICKY ---------- */
+    .lab-nav-sticky {
+      position: sticky;
+      top: 57px;
+      z-index: 90;
+      background: rgba(247, 246, 243, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 8px 24px;
+      margin-bottom: 30px;
+    }
+
+    .lab-nav-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .lab-nav-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .lab-nav-pill {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-mid);
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      padding: 5px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    .lab-nav-pill:hover {
+      background: var(--bg-tint);
+      color: var(--teal);
+      border-color: var(--seafoam);
+      text-decoration: none;
+    }
+
+    /* ---------- MAIN CONTENT LAYOUT ---------- */
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    /* ---------- ARCHITECTURE & ANALOGY BOXES ---------- */
+    .arch-card {
+      background: #1E293B;
+      color: #E2E8F0;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .arch-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 10px;
+    }
+
+    .arch-header h3 {
+      font-size: 16px;
+      color: #38BDF8;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .arch-diagram {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.55;
+      overflow-x: auto;
+      color: #CBD5E1;
+      white-space: pre;
+    }
+
+    .arch-insight {
+      background: #0F172A;
+      border-left: 3px solid #38BDF8;
+      padding: 12px 16px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin-top: 16px;
+      font-size: 12.5px;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .analogy-box {
+      border-radius: var(--radius-md);
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .analogy-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+    }
+
+    .analogy-box.amber { background: #FFFDF5; border-color: #FDE68A; }
+    .analogy-box.blue { background: #F8FBFE; border-color: #BFDBFE; }
+    .analogy-box.purple { background: #FAF5FF; border-color: #E9D5FF; }
+
+    .analogy-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .analogy-box.amber .analogy-title { color: var(--amber); }
+    .analogy-box.blue .analogy-title { color: #1E40AF; }
+    .analogy-box.purple .analogy-title { color: var(--purple); }
+
+    .analogy-text {
+      font-size: 12.5px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+    }
+
+    /* ---------- SECTION STYLES ---------- */
+    .section-block {
+      margin-bottom: 48px;
+      scroll-margin-top: 110px;
+    }
+
+    .section-header-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--line-soft);
+      padding-bottom: 10px;
+    }
+
+    .section-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--deep);
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .section-heading {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    /* ---------- TABLE STYLES ---------- */
+    .table-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .custom-table th {
+      background: var(--bg-soft);
+      color: var(--ink);
+      font-weight: 600;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+    }
+
+    .custom-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line-soft);
+      color: var(--ink-mid);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    .custom-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .custom-table tr:hover td {
+      background: #FAFAF9;
+    }
+
+    /* ---------- PROMPT CARDS ---------- */
+    .prompt-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    .prompt-card-header {
+      background: var(--indigo-bg);
+      border-bottom: 1px solid #E0E7FF;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .prompt-tag {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--indigo);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-copy {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--indigo);
+      background: #FFFFFF;
+      border: 1px solid #C7D2FE;
+      padding: 4px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+
+    .btn-copy:hover {
+      background: var(--indigo);
+      color: #fff;
+      border-color: var(--indigo);
+    }
+
+    .prompt-content {
+      padding: 16px;
+      background: #FAFAFA;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #1E293B;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border-left: 3px solid var(--indigo);
+    }
+
+    /* ---------- CODE COMPARISON CARDS ---------- */
+    .code-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .code-card {
+      background: #1E293B;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .code-card-header {
+      padding: 8px 14px;
+      font-size: 11.5px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .code-card-header.bad {
+      background: #881337;
+      color: #FECDD3;
+    }
+
+    .code-card-header.good {
+      background: #064E3B;
+      color: #A7F3D0;
+    }
+
+    .code-content {
+      padding: 14px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 11.5px;
+      line-height: 1.55;
+      color: #E2E8F0;
+      overflow-x: auto;
+    }
+
+    /* ---------- RESULT VS PITFALL GRID ---------- */
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .res-card {
+      border-radius: var(--radius-md);
+      padding: 16px;
+      border: 1px solid;
+    }
+
+    .res-output {
+      background: var(--emerald-bg);
+      border-color: #A7F3D0;
+    }
+
+    .res-pitfall {
+      background: var(--rose-bg);
+      border-color: #FECDD3;
+    }
+
+    .res-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .res-output .res-title { color: var(--emerald); }
+    .res-pitfall .res-title { color: var(--rose); }
+
+    .res-desc {
+      font-size: 12.5px;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* ---------- INTERACTIVE TEST PLAN SIMULATOR ---------- */
+    .sim-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    }
+
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .progress-bar-wrap {
+      width: 100%;
+      height: 10px;
+      background: var(--line-soft);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--mint));
+      width: 100%;
+      transition: width 0.3s;
+    }
+
+    .checklist-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+
+    .checklist-table th {
+      text-align: left;
+      padding: 8px 10px;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .checklist-table td {
+      padding: 10px;
+      border-bottom: 1px solid var(--line-soft);
+      vertical-align: middle;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .status-pass { background: #DCFCE7; color: #166534; }
+    .status-fail { background: #FEE2E2; color: #991B1B; }
+    .status-pending { background: #FEF3C7; color: #92400E; }
+
+    /* ---------- FOOTER & TOAST ---------- */
+    footer.page-footer {
+      border-top: 1px solid var(--line);
+      background: var(--bg-soft);
+      padding: 30px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1E293B;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+    }
+
+    #toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ---------- RESPONSIVENESS ---------- */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 28px; }
+      .code-grid, .result-grid { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .custom-table { display: block; overflow-x: auto; }
+    }
+
+    /* ---------- PRINT STYLES ---------- */
+    @media print {
+      header.nav, .lab-nav-sticky, .btn-copy, #toast, .nav-actions { display: none !important; }
+      body { background: #fff !important; color: #000 !important; }
+      .arch-card, .code-card { background: #f8f9fa !important; color: #000 !important; border: 1px solid #ccc !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="silabus-vibe-coding-16-pertemuan.html#p13" class="brand">
+        <span class="dot"></span>
+        <span class="brand-title">Vibe Coding</span>
+        <span class="brand-pill">Modul 13 · QA Testing</span>
+      </a>
+
+      <div class="nav-actions">
+        <!-- Module Dropdown -->
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">
+            <span>📚 Pilih Modul</span>
+            <span style="font-size:10px;">▼</span>
+          </button>
+          <div class="dropdown-content">
+            <div class="dropdown-header">Silabus &amp; Lab Praktikum</div>
+            <a href="silabus-vibe-coding-16-pertemuan.html" class="dropdown-item">📋 Master Silabus (16 Pertemuan)</a>
+            <a href="praktikum_git_sebelum_coding.html" class="dropdown-item">🌳 Modul 01: Git Lokal Sebelum Coding</a>
+            <a href="panduan_push_github.html" class="dropdown-item">🚀 Modul 02: Panduan Push GitHub</a>
+            <a href="teori_integrasi_api_eksternal.html" class="dropdown-item">🔌 Modul 03: Teori API Eksternal</a>
+            <a href="praktikum_integrasi_api_eksternal.html" class="dropdown-item">⚡ Modul 04: Praktikum Integrasi API</a>
+            <a href="panduan_keamanan_data.html" class="dropdown-item">🛡️ Modul 05: Keamanan &amp; Validasi Data</a>
+            <a href="laboratorium_lengkap_supabase.html" class="dropdown-item">🗄️ Modul 06: Fullstack Supabase Lab</a>
+            <a href="praktikum_flutter_supabase.html" class="dropdown-item">📱 Modul 07: Flutter Mobile App</a>
+            <a href="panduan_vibecoding_owasp.html" class="dropdown-item">🔒 Modul 09: Standar OWASP Top 10</a>
+            <a href="praktikum_menguji_hasil_akhir.html" class="dropdown-item active">🧪 Modul 13: QA Testing &amp; Bug Fixing</a>
+            <a href="panduan_deploy_vercel.html" class="dropdown-item">🌐 Modul 14: Deploy Vercel &amp; Domain</a>
+          </div>
+        </div>
+
+        <a href="silabus-vibe-coding-16-pertemuan.html#p13" class="nav-cta-btn">
+          <span>← Kembali ke Silabus</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <div class="hero-container">
+    <div class="eyebrow">🧪 PERTEMUAN 13 · QA TESTING &amp; BUG HUNTING</div>
+    <h1 class="hero-title">Praktikum Menguji Hasil Akhir: Black-Box QA, 6 Edge Cases &amp; Atomic Bug Fixing</h1>
+    <p class="hero-lede">
+      Panduan pengujian fungsional dan ketahanan aplikasi dari sudut pandang pengguna nyata tanpa harus membaca ribuan baris kode manual. Hasilkan dokumen <code>test-plan.md</code> berstandar industri dan bersihkan bug kritis sebelum melangkah ke tahap deployment produksi.
+    </p>
+
+    <div class="meta-badge-row">
+      <span class="meta-chip">⏱️ <strong>Durasi:</strong> 120 Menit</span>
+      <span class="meta-chip">🛠️ <strong>Tools:</strong> Antigravity IDE (AGY) &amp; Browser DevTools</span>
+      <span class="meta-chip">🎯 <strong>Sasaran:</strong> Mahasiswa / Vibe Coder Non-IT</span>
+      <span class="meta-chip highlight">📦 <strong>Output Wajib:</strong> test-plan.md (Pass Rate &ge; 90%)</span>
+    </div>
+  </div>
+
+  <!-- STICKY QUICK NAV -->
+  <div class="lab-nav-sticky">
+    <div class="lab-nav-inner">
+      <a href="#arsitektur" class="lab-nav-pill">1. Konsep &amp; Arsitektur</a>
+      <a href="#fase-1" class="lab-nav-pill">2. Fase 1: Matriks PRD</a>
+      <a href="#fase-2" class="lab-nav-pill">3. Fase 2: 6 Edge Cases</a>
+      <a href="#fase-3" class="lab-nav-pill">4. Fase 3: Atomic Fix</a>
+      <a href="#prompts" class="lab-nav-pill">5. Master Prompts AI</a>
+      <a href="#simulator" class="lab-nav-pill">6. Simulator Test Plan</a>
+      <a href="#rubrik" class="lab-nav-pill">7. Rubrik Kelulusan</a>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="container">
+
+    <!-- 1. KONSEP & ARSITEKTUR -->
+    <section class="section-block" id="arsitektur">
+      <div class="section-header-row">
+        <span class="section-badge">BAGIAN 1</span>
+        <h2 class="section-heading">Mental Model &amp; Arsitektur Alur Pengujian</h2>
+      </div>
+
+      <!-- Architecture Card -->
+      <div class="arch-card">
+        <div class="arch-header">
+          <h3>🧭 Peta Konsep: Siklus Pengujian Fungsional Vibe Coding</h3>
+          <span style="font-size:11.5px; color:#94A3B8;">Standar Industri QA</span>
+        </div>
+        <div class="arch-diagram">┌──────────────────────────────────────────────────────────────────────────────────┐
+│                   ALUR PENGUJIAN &amp; BUG HUNTING VIBE CODING                       │
+└──────────────────────────────────────────────────────────────────────────────────┘
+   [ Dokumen PRD / Fitur ]
+              │
+              ▼
+   ┌──────────────────────┐
+   │ FASE 1: TEST MATRIX  │ ──► Generate Matriks Uji via AGY Prompt (Happy + Edge)
+   └──────────────────────┘     Simpan ke file: test-plan.md
+              │
+              ▼
+   ┌──────────────────────┐
+   │ FASE 2: MANUAL TEST  │ ──► Eksekusi Manual 6 Kategori Edge Case di Browser/HP
+   └──────────────────────┘     Logging Temuan: BUG-01, BUG-02 (Severity &amp; Steps)
+              │
+              ▼
+   ┌──────────────────────┐
+   │ FASE 3: ATOMIC FIX   │ ──► Perbaikan Satu per Satu via AI Agent Antigravity
+   └──────────────────────┘     Regression Testing &amp; Verifikasi Status [✅ LULUS]
+              │
+              ▼
+   [ Aplikasi Siap Rilis (Release Ready) ] ──► Masuk ke Pertemuan 14 (Deployment)</div>
+        <div class="arch-insight">
+          💡 <strong>Prinsip Kunci:</strong> Jangan pernah memperbaiki bug saat sedang menguji manual. Selesaikan seluruh skenario terlebih dahulu untuk mengetahui kondisi kesehatan aplikasi secara utuh, baru lakukan perbaikan satu per satu secara terisolasi (<em>Atomic Fix</em>).
+        </div>
+      </div>
+
+      <!-- 3 Grid Analogi -->
+      <div class="grid-3">
+        <div class="analogy-box amber">
+          <div class="analogy-title">🏠 Tukang vs Inspektur Bangunan</div>
+          <div class="analogy-text">
+            AI adalah tukang bangunan cerdas yang memasang dinding dan instalasi pipa sesuai gambar denah. <strong>Pengujian manual adalah saat Anda masuk ke rumah: membuka setiap pintu, menyalakan keran air bersama saklar lampu, dan memastikan pipa tidak bocor.</strong>
+          </div>
+        </div>
+
+        <div class="analogy-box blue">
+          <div class="analogy-title">⚡ Happy Path vs Edge Cases</div>
+          <div class="analogy-text">
+            <strong>Happy Path:</strong> Pengguna mengisi form dengan sempurna. <br>
+            <strong>Edge Cases:</strong> Pengguna mengklik tombol 5x cepat, submit field kosong, atau memasukkan karakter aneh. Pengguna nyata selalu menemukan kasus tepi lebih dulu!
+          </div>
+        </div>
+
+        <div class="analogy-box purple">
+          <div class="analogy-title">🎯 Prinsip Atomic Bug Fixing</div>
+          <div class="analogy-text">
+            Perbaiki <strong>satu bug per satu prompt terarah</strong>. Menggabungkan 5 keluhan bug dalam satu perintah membuat AI merombak seluruh file dan memicu bug baru (<em>code regression</em>).
+          </div>
+        </div>
+      </div>
+
+      <!-- Komparasi Tabel -->
+      <div class="table-card">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Parameter Komparasi</th>
+              <th style="width: 37%;">Unit Testing Kode Tradisional</th>
+              <th style="width: 38%;">Behavioral QA Vibe Coding (User-Centric)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Fokus Pengujian</strong></td>
+              <td>Menguji kebenaran algoritma baris kode internal</td>
+              <td>Menguji apa yang dilihat dan dirasakan pengguna di layar</td>
+            </tr>
+            <tr>
+              <td><strong>Pelaksana Tes</strong></td>
+              <td>Skrip kode otomatis (Jest, PyTest, Mocha)</td>
+              <td>Penguji manusia yang menjalankan skenario nyata (Black-box)</td>
+            </tr>
+            <tr>
+              <td><strong>Beban Belajar</strong></td>
+              <td>Tinggi (Harus paham sintaks &amp; mock database)</td>
+              <td><strong>Rendah &amp; Praktis (Fokus pada hasil fungsional)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Tolak Ukur Keberhasilan</strong></td>
+              <td>100% Code Coverage</td>
+              <td><strong>Aplikasi bebas crash, data konsisten, UX nyaman</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 2. FASE 1: MATRIKS PRD -->
+    <section class="section-block" id="fase-1">
+      <div class="section-header-row">
+        <span class="section-badge">FASE 1</span>
+        <h2 class="section-heading">Dekonstruksi PRD ke Matriks Skenario Uji (25 Menit)</h2>
+      </div>
+
+      <p style="font-size:14px; color:var(--ink-mid); margin-bottom:16px;">
+        Setiap fitur yang tercantum pada dokumen <code>prd.md</code> Anda wajib memiliki minimal 2 skenario uji: 1 alur normal (<em>Happy Path</em>) dan minimal 1 kasus ekstrem (<em>Edge Case</em>).
+      </p>
+
+      <!-- Prompt Card 1 -->
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <div class="prompt-tag">
+            <span>📋 MASTER PROMPT 1: GENERATE TEST PLAN DARI PRD</span>
+          </div>
+          <button class="btn-copy" onclick="copySnippet('prompt-p13-1')">
+            <span>📋 Salin Prompt</span>
+          </button>
+        </div>
+        <div class="prompt-content" id="prompt-p13-1">Bertindaklah sebagai Senior QA Lead &amp; Security Tester profesional.
+Saya memiliki dokumen PRD / daftar fitur aplikasi saya sebagai berikut:
+[TEMPELKAN DAFTAR FITUR DARI prd.md ATAU DESKRIPSI APLIKASI ANDA DI SINI]
+
+Tugas Anda:
+Buatkan file komprehensif `test-plan.md` dalam format tabel Markdown berstandar industri yang mencakup:
+1. Skenario Happy Path (alur normal setiap fitur)
+2. Skenario Edge Cases (input kosong, batasan angka, karakter aneh, double click)
+3. Skenario Penanganan Error &amp; Keamanan Dasar
+
+Format kolom tabel yang wajib digunakan:
+| ID | Fitur | Kategori | Skenario Uji | Langkah Pengujian | Hasil yang Diharapkan | Status | Catatan Bug |
+
+Instruksi Tambahan:
+- Beri status default: "⚠️ BELUM DIUJI"
+- Sertakan struktur bagian "Temuan Bug (Bug Log)" dan "Ringkasan Metrik Kelayakan Rilis" di bagian bawah file.
+- Simpan file ini langsung ke root workspace dengan nama `test-plan.md`.</div>
+      </div>
+
+      <!-- Result vs Pitfall Grid -->
+      <div class="result-grid">
+        <div class="res-card res-output">
+          <div class="res-title">✅ Output yang Benar (Sesuai Standar)</div>
+          <div class="res-desc">
+            File <code>test-plan.md</code> tersimpan di root dengan tabel terstruktur, mencakup minimal 10 skenario uji (fitur autentikasi, transaksi, form input, dan respon error).
+          </div>
+        </div>
+        <div class="res-card res-pitfall">
+          <div class="res-title">❌ Jebakan yang Harus Dihindari</div>
+          <div class="res-desc">
+            Membuat skenario yang terlalu umum seperti <em>"Coba semua tombol"</em> tanpa langkah reproduksi dan ekspektasi hasil yang jelas.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. FASE 2: 6 EDGE CASES -->
+    <section class="section-block" id="fase-2">
+      <div class="section-header-row">
+        <span class="section-badge">FASE 2</span>
+        <h2 class="section-heading">Eksekusi Pengujian Manual &amp; 6 Edge Cases Wajib (50 Menit)</h2>
+      </div>
+
+      <!-- 6 Kotak Kasus Ekstrem -->
+      <div class="table-card" style="padding: 16px; background: #FAF9F6;">
+        <h3 style="font-size:15px; font-weight:700; color:var(--ink); margin-bottom:12px;">⚡ 6 Kategori Kasus Ekstrem Wajib Uji:</h3>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+          <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px;">
+            <strong style="color:var(--deep); font-size:13px;">1. Input Kosong &amp; Whitespace</strong>
+            <p style="font-size:12px; color:var(--ink-mid); margin-top:4px;">Kirim form tanpa isi apapun atau hanya spasi ("   "). Form wajib menolak!</p>
+          </div>
+          <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px;">
+            <strong style="color:var(--deep); font-size:13px;">2. Batasan Angka &amp; Teks</strong>
+            <p style="font-size:12px; color:var(--ink-mid); margin-top:4px;">Input angka `-1`, `0`, atau `999999999`. Paste 1000 karakter pada nama.</p>
+          </div>
+          <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px;">
+            <strong style="color:var(--deep); font-size:13px;">3. Karakter Berbahaya</strong>
+            <p style="font-size:12px; color:var(--ink-mid); margin-top:4px;">Ketik `&lt;script&gt;alert(1)&lt;/script&gt;` atau `' OR '1'='1`. Pastikan aman XSS.</p>
+          </div>
+          <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px;">
+            <strong style="color:var(--deep); font-size:13px;">4. Spam Klik Cepat (Double-Click)</strong>
+            <p style="font-size:12px; color:var(--ink-mid); margin-top:4px;">Klik tombol 'Simpan' / 'Bayar' 3x cepat. Cegah data kembar / double charge.</p>
+          </div>
+          <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px;">
+            <strong style="color:var(--deep); font-size:13px;">5. Refresh &amp; Navigasi Balik</strong>
+            <p style="font-size:12px; color:var(--ink-mid); margin-top:4px;">Tekan F5 saat form sedang diisi. Pastikan session dan state tidak crash.</p>
+          </div>
+          <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px;">
+            <strong style="color:var(--deep); font-size:13px;">6. Simulasi Offline (DevTools)</strong>
+            <p style="font-size:12px; color:var(--ink-mid); margin-top:4px;">Set Network ke Offline pada Chrome DevTools. Harus muncul pesan ramah.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Severity Matrix -->
+      <div style="background:var(--bg-soft); border-radius:var(--radius-md); padding:16px; margin:20px 0; border:1px solid var(--line);">
+        <h3 style="font-size:14px; font-weight:700; margin-bottom:8px;">🚦 Matriks Derajat Keparahan Bug (Severity Matrix):</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <span style="background:#FEE2E2; color:#991B1B; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700;">🔴 Critical (Blokir Rilis: Crash / Data Hilang)</span>
+          <span style="background:#FFEDD5; color:#9A3412; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700;">🟠 High (Fitur Utama Macet, Ada Workaround)</span>
+          <span style="background:#FEF3C7; color:#92400E; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700;">🟡 Medium (Logika / Format Pesan Salah)</span>
+          <span style="background:#E0F2FE; color:#075985; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700;">🔵 Low (Kosmetik / Typo / Geser 2px)</span>
+        </div>
+      </div>
+
+      <!-- Prompt Card 2 -->
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <div class="prompt-tag">
+            <span>📋 MASTER PROMPT 2: EKSPLORASI DEEP EDGE CASES</span>
+          </div>
+          <button class="btn-copy" onclick="copySnippet('prompt-p13-2')">
+            <span>📋 Salin Prompt</span>
+          </button>
+        </div>
+        <div class="prompt-content" id="prompt-p13-2">Aplikasi saya memiliki fitur: [JELASKAN FITUR, CONTOH: "Checkout Belanja &amp; Upload Bukti Pembayaran"].
+
+Tolong daftarkan 8 kasus ekstrem (edge cases) paling berbahaya yang berpotensi merusak fitur ini atau membuat data di database korup.
+Kategorikan berdasarkan:
+1. Validasi Input (Format, Tipe File, Batas Ukuran)
+2. Asinkron &amp; Jaringan (Timeout, Double Submit)
+3. Keamanan &amp; Izin Akses (RLS Supabase / Token Expired)
+
+Format jawaban dalam tabel siap tempel ke file `test-plan.md`.</div>
+      </div>
+    </section>
+
+    <!-- 4. FASE 3: ATOMIC BUG FIX -->
+    <section class="section-block" id="fase-3">
+      <div class="section-header-row">
+        <span class="section-badge">FASE 3</span>
+        <h2 class="section-heading">Atomic Bug Fixing &amp; Uji Regresi (35 Menit)</h2>
+      </div>
+
+      <!-- Code Comparison -->
+      <div class="code-grid">
+        <div class="code-card">
+          <div class="code-card-header bad">
+            <span>❌ Kode Rentan (Sebelum Perbaikan)</span>
+            <span>Bug Double Submit</span>
+          </div>
+          <div class="code-content">// Masalah: Tombol tidak di-lock saat proses
+async function handleSaveData(payload) {
+  showSpinner();
+  // Jika user klik 3x cepat,
+  // request ini dikirim 3 kali!
+  const { data, error } = await supabase
+    .from('orders')
+    .insert(payload);
+  hideSpinner();
+  if (!error) showToast("Tersimpan!");
+}</div>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card-header good">
+            <span>✅ Kode Aman (Atomic Lock Guard)</span>
+            <span>Anti Double Click</span>
+          </div>
+          <div class="code-content">let isSubmitting = false;
+
+async function handleSaveData(payload) {
+  if (isSubmitting) return; // Guard
+  isSubmitting = true;
+  const btn = document.getElementById('btn-submit');
+  if (btn) btn.disabled = true;
+
+  try {
+    showSpinner();
+    const { error } = await supabase
+      .from('orders')
+      .insert(payload);
+    if (error) throw error;
+    showToast("Berhasil disimpan!");
+  } finally {
+    isSubmitting = false;
+    if (btn) btn.disabled = false;
+    hideSpinner();
+  }
+}</div>
+        </div>
+      </div>
+
+      <!-- Prompt Card 3 -->
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <div class="prompt-tag">
+            <span>📋 MASTER PROMPT 3: TARGETED ATOMIC BUG FIX</span>
+          </div>
+          <button class="btn-copy" onclick="copySnippet('prompt-p13-3')">
+            <span>📋 Salin Prompt</span>
+          </button>
+        </div>
+        <div class="prompt-content" id="prompt-p13-3">Saya menemukan bug pada aplikasi saya saat menjalankan test plan:
+- ID Bug / Skenario: [BUG-01 / TC-05]
+- Fitur: [Nama Fitur, contoh: Tombol Simpan Transaksi]
+- Langkah Reproduksi: [Klik tombol Simpan 3x sangat cepat]
+- Hasil Aktual: [Muncul data ganda / duplikat di database]
+- Hasil Diharapkan: [Hanya 1 data yang tersimpan, tombol otomatis disabled saat proses simpan]
+
+Instruksi Perbaikan:
+1. Perbaiki HANYA bagian fungsi atau file yang bertanggung jawab atas masalah ini.
+2. JANGAN mengubah struktur komponen lain yang sudah berjalan normal.
+3. Jelaskan solusi dalam 2 kalimat, lalu tampilkan kode perbaikannya.</div>
+      </div>
+    </section>
+
+    <!-- 5. MASTER PROMPTS CHEAT SHEET -->
+    <section class="section-block" id="prompts">
+      <div class="section-header-row">
+        <span class="section-badge">PROMPTS</span>
+        <h2 class="section-heading">Kumpulan Master Prompt Evaluasi &amp; Sanity Check</h2>
+      </div>
+
+      <!-- Prompt Card 4 -->
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <div class="prompt-tag">
+            <span>📋 MASTER PROMPT 4: HITUNG SKOR KELAYAKAN RILIS</span>
+          </div>
+          <button class="btn-copy" onclick="copySnippet('prompt-p13-4')">
+            <span>📋 Salin Prompt</span>
+          </button>
+        </div>
+        <div class="prompt-content" id="prompt-p13-4">Baca seluruh isi tabel pada file `test-plan.md` di proyek saya.
+Hitung total skenario, jumlah status LULUS, GAGAL, dan BELUM DIUJI.
+Hitung persentase Pass Rate: (Lulus / Total) * 100%.
+Perbarui bagian 'Ringkasan Metrik' di `test-plan.md` dan tentukan apakah aplikasi ini sudah siap di-deploy ke Vercel (Pertemuan 14) atau belum.</div>
+      </div>
+    </section>
+
+    <!-- 6. SIMULATOR TEST PLAN -->
+    <section class="section-block" id="simulator">
+      <div class="section-header-row">
+        <span class="section-badge">INTERAKTIF</span>
+        <h2 class="section-heading">Simulator Dokumentasi Test Plan &amp; Metric Tracker</h2>
+      </div>
+
+      <div class="sim-card">
+        <div class="sim-header">
+          <div>
+            <strong style="font-size:15px; color:var(--ink);">📊 Status Uji Coba Aplikasi (Live Preview)</strong>
+            <p style="font-size:12px; color:var(--ink-soft); margin-top:2px;">Contoh matriks uji coba interaktif di kelas</p>
+          </div>
+          <span style="font-size:13px; font-weight:700; color:var(--emerald);" id="pass-rate-text">Skor Kelulusan: 100% (Siap Rilis)</span>
+        </div>
+
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+
+        <div style="margin-top:16px; overflow-x:auto;">
+          <table class="checklist-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Fitur</th>
+                <th>Kategori</th>
+                <th>Skenario</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>TC-01</strong></td>
+                <td>Autentikasi</td>
+                <td>Happy Path</td>
+                <td>Login email &amp; password valid</td>
+                <td><span class="status-badge status-pass">✅ LULUS</span></td>
+              </tr>
+              <tr>
+                <td><strong>TC-02</strong></td>
+                <td>Autentikasi</td>
+                <td>Edge Case</td>
+                <td>Login dengan password salah (Toast error)</td>
+                <td><span class="status-badge status-pass">✅ LULUS</span></td>
+              </tr>
+              <tr>
+                <td><strong>TC-03</strong></td>
+                <td>CRUD Data</td>
+                <td>Edge Case</td>
+                <td>Double-click cepat tombol Simpan (No duplicate)</td>
+                <td><span class="status-badge status-pass">✅ SUDAH DIPERBAIKI</span></td>
+              </tr>
+              <tr>
+                <td><strong>TC-04</strong></td>
+                <td>Keamanan</td>
+                <td>Edge Case</td>
+                <td>Input tag script `&lt;script&gt;` di form (Aman XSS)</td>
+                <td><span class="status-badge status-pass">✅ LULUS</span></td>
+              </tr>
+              <tr>
+                <td><strong>TC-05</strong></td>
+                <td>Responsif</td>
+                <td>Edge Case</td>
+                <td>Tampilan tabel di viewport mobile HP (No overflow)</td>
+                <td><span class="status-badge status-pass">✅ LULUS</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. RUBRIK KELULUSAN -->
+    <section class="section-block" id="rubrik">
+      <div class="section-header-row">
+        <span class="section-badge">EVALUASI</span>
+        <h2 class="section-heading">Checklist Kelulusan Pertemuan 13</h2>
+      </div>
+
+      <div class="table-card" style="padding:20px;">
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:10px; font-size:13.5px; color:var(--ink);">
+          <li style="display:flex; align-items:center; gap:8px;">
+            <span>☑️</span> <span>File <code>test-plan.md</code> sudah tersimpan rapi di root proyek.</span>
+          </li>
+          <li style="display:flex; align-items:center; gap:8px;">
+            <span>☑️</span> <span>Minimal 10 skenario uji telah didefinisikan (Happy Path &amp; 6 Edge Cases).</span>
+          </li>
+          <li style="display:flex; align-items:center; gap:8px;">
+            <span>☑️</span> <span>Seluruh skenario telah dieksekusi manual (tidak ada status <em>⚠️ BELUM DIUJI</em>).</span>
+          </li>
+          <li style="display:flex; align-items:center; gap:8px;">
+            <span>☑️</span> <span>100% bug berstatus 🔴 Critical &amp; 🟠 High telah diselesaikan dengan <em>Atomic Fix</em>.</span>
+          </li>
+          <li style="display:flex; align-items:center; gap:8px;">
+            <span>☑️</span> <span>Tingkat kelulusan (Pass Rate) mencapai minimal <strong>90%</strong>.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Action Footer -->
+      <div style="background:linear-gradient(135deg, #01656F 0%, #028090 100%); border-radius:var(--radius-lg); padding:24px; color:#fff; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-top:30px;">
+        <div>
+          <div style="font-size:12px; font-weight:700; color:#A7F3D0; text-transform:uppercase; letter-spacing:1px;">Langkah Selanjutnya</div>
+          <div style="font-size:18px; font-weight:700; margin-top:2px;">Aplikasi Anda Siap Diluncurkan ke Dunia!</div>
+          <div style="font-size:13px; color:#E0F2FE; margin-top:4px;">Lanjut ke Pertemuan 14: Merapikan Tampilan &amp; Deploy Produksi di Vercel.</div>
+        </div>
+        <a href="panduan_deploy_vercel.html" style="background:#02C39A; color:#013A40; font-weight:700; padding:10px 20px; border-radius:8px; font-size:13.5px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+          <span>🌐 Lanjut ke Panduan Deploy Vercel (P14) →</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="page-footer">
+    <div style="max-width:1160px; margin:0 auto;">
+      <p style="margin-bottom:6px;"><strong>Vibe Coding Masterclass — 16 Pertemuan &amp; Laboratorium Interaktif</strong></p>
+      <p style="font-size:12px;">Modul Praktikum Pertemuan 13: QA Testing, Edge Cases &amp; Atomic Bug Fixing.</p>
+    </div>
+  </footer>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast">
+    <span>📋</span>
+    <span id="toast-text">Prompt berhasil disalin ke clipboard!</span>
+  </div>
+
+  <script>
+    function copySnippet(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("Prompt berhasil disalin ke clipboard!");
+      }).catch(() => {
+        showToast("Gagal menyalin prompt.");
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toast-text');
+      if (!toast) return;
+      if (toastText) toastText.innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+  </script>
+</body>
+
+</html>

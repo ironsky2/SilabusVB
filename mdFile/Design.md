@@ -9,7 +9,7 @@ Dokumen ini adalah **Design System & UI/UX Guidelines resmi** yang merefleksikan
 
 Seluruh modul dan halaman web dalam proyek ini menerapkan standar desain **Notion-meets-Stripe Clean Aesthetic** dengan struktur pedagogis modular 3-bagian (*Tripartite Architecture*). 
 
-### 🗂️ Cakupan Halaman Aktif (12 File HTML):
+### 🗂️ Cakupan Halaman Aktif (13 File HTML):
 1. [index.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/index.html) / [silabus-vibe-coding-16-pertemuan.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/silabus-vibe-coding-16-pertemuan.html) — *Master Syllabus & Dashboard 16 Pertemuan*
 2. [kurikulum_vibe_coding_pwa_supabase.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/kurikulum_vibe_coding_pwa_supabase.html) — *Kurikulum PWA & Supabase*
 3. [praktikum_git_sebelum_coding.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_git_sebelum_coding.html) — *Modul 01: Git & GitHub Setup*
@@ -21,7 +21,8 @@ Seluruh modul dan halaman web dalam proyek ini menerapkan standar desain **Notio
 9. [praktikum_flutter_supabase.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_flutter_supabase.html) — *Modul 07: Vibe Coding Mobile App Flutter + Supabase*
 10. [panduan_deploy_vercel.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_deploy_vercel.html) — *Modul 08: Deploy Web App ke Vercel*
 11. [panduan_vibecoding_owasp.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_vibecoding_owasp.html) — *Modul 09: Standar Keamanan OWASP Top 10*
-12. [favicon.svg](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/favicon.svg) & [_redirects](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/_redirects) — *Aset Favicon & Konfigurasi Hosting / Routing*
+12. [praktikum_menguji_hasil_akhir.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_menguji_hasil_akhir.html) — *Modul 13: QA Testing, Edge Cases & Atomic Bug Fixing*
+13. [favicon.svg](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/favicon.svg) & [_redirects](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/_redirects) — *Aset Favicon & Konfigurasi Hosting / Routing*
 
 ---
 
