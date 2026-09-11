@@ -9,7 +9,7 @@ Dokumen ini adalah **Design System & UI/UX Guidelines resmi** yang merefleksikan
 
 Seluruh modul dan halaman web dalam proyek ini menerapkan standar desain **Notion-meets-Stripe Clean Aesthetic** dengan struktur pedagogis modular 3-bagian (*Tripartite Architecture*). 
 
-### 🗂️ Cakupan Halaman Web Aktif (13 File HTML):
+### 🗂️ Cakupan Halaman Web Aktif (14 File HTML):
 1. [index.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/index.html) / [silabus-vibe-coding-16-pertemuan.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/silabus-vibe-coding-16-pertemuan.html) — *Master Syllabus & Dashboard 16 Pertemuan*
 2. [kurikulum_vibe_coding_pwa_supabase.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/kurikulum_vibe_coding_pwa_supabase.html) — *Kurikulum PWA & Supabase*
 3. [praktikum_git_sebelum_coding.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_git_sebelum_coding.html) — *Modul Pertemuan 05: Git Lokal Sebelum Coding*
@@ -21,10 +21,12 @@ Seluruh modul dan halaman web dalam proyek ini menerapkan standar desain **Notio
 9. [praktikum_flutter_supabase.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_flutter_supabase.html) — *Modul Spesial: Vibe Coding Mobile App Flutter + Supabase*
 10. [panduan_vibecoding_owasp.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_vibecoding_owasp.html) — *Modul Pengayaan: Standar Keamanan OWASP Top 10*
 11. [praktikum_menguji_hasil_akhir.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_menguji_hasil_akhir.html) — *Modul Pertemuan 13: QA Testing, 6 Edge Cases & Atomic Bug Fixing*
-12. [panduan_deploy_vercel.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_deploy_vercel.html) — *Modul Pertemuan 15: Deploy Web App ke Vercel & Supabase*
-13. [favicon.svg](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/favicon.svg), [_redirects](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/_redirects), & [vercel.json](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/vercel.json) — *Aset Favicon & Konfigurasi Hosting / Routing*
+12. [praktikum_merapikan_tampilan_performa.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/praktikum_merapikan_tampilan_performa.html) — *Modul Pertemuan 14: Tampilan Responsif (375px/1440px), Audit Lighthouse & ui-audit.md*
+13. [panduan_deploy_vercel.html](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/panduan_deploy_vercel.html) — *Modul Pertemuan 15: Deploy Web App ke Vercel & Supabase*
+14. [favicon.svg](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/favicon.svg), [_redirects](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/_redirects), & [vercel.json](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/vercel.json) — *Aset Favicon & Konfigurasi Hosting / Routing*
 
 ### 📝 Cakupan Dokumen Modul Markdown (Folder `mdFile/`):
+* [pertemuan-14-merapikan-tampilan-peforma.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/pertemuan-14-merapikan-tampilan-peforma.md) — *Materi & Praktikum Merapikan Tampilan & Performa (P14)*
 * [pertemuan-13-menguji-hasil-akhir.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/pertemuan-13-menguji-hasil-akhir.md) — *Materi & Praktikum Pengujian Hasil Akhir (P13)*
 * [modul_vibe_coding_flutter_supabase.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/modul_vibe_coding_flutter_supabase.md) — *Modul Android Flutter + Supabase*
 * [owasp-top10-vibe-coding.md](file:///d:/IKA2026/Jurnal%20Conference/MateriLengkap%20VB/mdFile/owasp-top10-vibe-coding.md) — *Panduan OWASP Top 10 untuk Vibe Coder*

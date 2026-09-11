@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 14: Merapikan Tampilan &amp; Performa — Modul Praktikum Vibe Coding</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="Modul Praktikum Pertemuan 14: Merapikan Tampilan & Performa. Belajar memeriksa responsivitas mobile (375px) vs desktop (1440px), menjalankan audit Lighthouse, dan memperbaiki UI/UX dengan Antigravity IDE.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Brand Primary Colors */
+      --teal: #028090;
+      --seafoam: #00A896;
+      --mint: #02C39A;
+      --deep: #01656F;
+
+      /* Semantic Alerts & Badges */
+      --amber: #B45309;
+      --amber-bg: #FEF3C7;
+      --rose: #BE123C;
+      --rose-bg: #FFF1F2;
+      --emerald: #047857;
+      --emerald-bg: #ECFDF5;
+      --indigo: #4F46E5;
+      --indigo-bg: #EEF2FF;
+      --purple: #7E22CE;
+      --purple-bg: #FAF5FF;
+
+      /* Neutrals */
+      --ink: #37352F;
+      --ink-mid: #5A5852;
+      --ink-soft: #787774;
+      --line: #EDECE9;
+      --line-soft: #F1F0ED;
+      --bg: #FFFFFF;
+      --bg-soft: #F7F6F3;
+      --bg-tint: #EAF6F4;
+
+      /* Border Radii */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .brand-title, .hero-title, .section-heading {
+      font-family: 'Newsreader', Georgia, serif;
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: .15s;
+    }
+
+    a:hover {
+      color: var(--deep);
+      text-decoration: underline;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88em;
+      background: #F2F1EE;
+      color: #EB5757;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    ::selection {
+      background: var(--mint);
+      color: #fff;
+    }
+
+    /* ---------- NAVIGATION ---------- */
+    header.nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand:hover {
+      text-decoration: none;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--seafoam);
+      box-shadow: 0 0 0 3px rgba(0, 168, 150, 0.2);
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 168, 150, 0.4); }
+      70% { box-shadow: 0 0 0 6px rgba(0, 168, 150, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 168, 150, 0); }
+    }
+
+    .brand-title {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .brand-pill {
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--bg-tint);
+      color: var(--teal);
+      padding: 2px 8px;
+      border-radius: 12px;
+      border: 1px solid #C8E8E4;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Popover Dropdown */
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-dropdown-btn {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #37352F;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-dropdown-btn:hover {
+      background: #F7F6F3;
+      border-color: #D3D1CB;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      background: #FFFFFF;
+      min-width: 290px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.06);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px;
+      z-index: 200;
+    }
+
+    .nav-dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-header {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--ink-soft);
+      padding: 6px 10px 4px;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--ink);
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.1s;
+    }
+
+    .dropdown-item:hover {
+      background: var(--bg-soft);
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    .dropdown-item.active {
+      background: var(--bg-tint);
+      color: var(--teal);
+      font-weight: 600;
+    }
+
+    .nav-cta-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #fff;
+      background: var(--teal);
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+
+    .nav-cta-btn:hover {
+      background: var(--deep);
+      text-decoration: none;
+      color: #fff;
+    }
+
+    /* ---------- HERO HEADER ---------- */
+    .hero-container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 40px 24px 20px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: var(--bg-tint);
+      border: 1px solid #C8E8E4;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-size: 38px;
+      line-height: 1.15;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-goal-box {
+      background: #FFFDF5;
+      border-left: 4px solid var(--amber);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    .meta-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .meta-chip {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-mid);
+      background: var(--bg-soft);
+      border: 1px solid var(--line-soft);
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .meta-chip.highlight {
+      background: var(--emerald-bg);
+      color: var(--emerald);
+      border-color: #A7F3D0;
+      font-weight: 600;
+    }
+
+    /* ---------- STICKY QUICK NAV ---------- */
+    .lab-nav-sticky {
+      position: sticky;
+      top: 57px;
+      z-index: 90;
+      background: rgba(247, 246, 243, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 8px 0;
+    }
+
+    .lab-nav-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+
+    .lab-nav-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .lab-nav-pill {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-mid);
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    .lab-nav-pill:hover {
+      background: var(--bg-tint);
+      color: var(--teal);
+      border-color: #C8E8E4;
+      text-decoration: none;
+    }
+
+    /* ---------- MAIN CONTENT LAYOUT ---------- */
+    .main-content {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 30px 24px 60px;
+    }
+
+    .section-block {
+      margin-bottom: 48px;
+      padding-top: 20px;
+    }
+
+    .section-heading {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-heading::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+      margin-left: 12px;
+    }
+
+    /* ---------- CARDS & BOXES ---------- */
+    .analogy-box {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-left: 4px solid #D97706;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 16px 20px;
+      margin: 18px 0;
+      font-size: 14px;
+      color: #78350F;
+      line-height: 1.6;
+    }
+
+    .info-card {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin: 16px 0;
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .custom-table th {
+      background: #F4F3EF;
+      color: var(--ink);
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--line);
+      font-size: 12.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .custom-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line-soft);
+      vertical-align: top;
+      color: var(--ink-mid);
+    }
+
+    .custom-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .custom-table tr:hover td {
+      background: #FAF9F6;
+    }
+
+    /* Score Meter Components */
+    .lighthouse-score-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    .score-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    .score-badge-circle {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .score-good {
+      border: 3px solid #10B981;
+      background: #ECFDF5;
+      color: #047857;
+    }
+
+    .score-avg {
+      border: 3px solid #F59E0B;
+      background: #FEF3C7;
+      color: #B45309;
+    }
+
+    .score-poor {
+      border: 3px solid #EF4444;
+      background: #FFF1F2;
+      color: #BE123C;
+    }
+
+    /* 5 UI Pitfall Cards */
+    .ui-issues-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .issue-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .issue-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    }
+
+    .issue-card-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .issue-badge {
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+
+    /* Interactive Viewport Sandbox */
+    .sandbox-container {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .sandbox-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .sandbox-btn {
+      padding: 6px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid #CBD5E1;
+      background: #FFFFFF;
+      color: #475569;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .sandbox-btn.active {
+      background: var(--teal);
+      color: #FFFFFF;
+      border-color: var(--teal);
+    }
+
+    .sandbox-frame-wrap {
+      display: flex;
+      justify-content: center;
+      background: #0F172A;
+      padding: 24px 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sandbox-mock-screen {
+      background: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      padding: 16px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .sandbox-mock-screen.mobile-mode {
+      width: 375px;
+      min-height: 420px;
+    }
+
+    .sandbox-mock-screen.desktop-mode {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* Comparison & Prompt Cards */
+    .prompt-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    .prompt-card-header {
+      background: var(--indigo-bg);
+      border-bottom: 1px solid #E0E7FF;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .prompt-tag {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--indigo);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-copy {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--indigo);
+      background: #FFFFFF;
+      border: 1px solid #C7D2FE;
+      padding: 4px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+
+    .btn-copy:hover {
+      background: var(--indigo);
+      color: #fff;
+      border-color: var(--indigo);
+    }
+
+    .prompt-content {
+      padding: 16px;
+      background: #FAFAFA;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #1E293B;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border-left: 3px solid var(--indigo);
+    }
+
+    .code-preview {
+      background: #1E293B;
+      color: #E2E8F0;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.55;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+
+    .comparison-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .comp-item {
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .comp-wrong {
+      background: var(--rose-bg);
+      border: 1px solid #FECDD3;
+      color: #9F1239;
+    }
+
+    .comp-right {
+      background: var(--emerald-bg);
+      border: 1px solid #A7F3D0;
+      color: #065F46;
+    }
+
+    /* Checklist & Reflection */
+    .checklist-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 13.5px;
+    }
+
+    .checklist-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checklist-list input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      cursor: pointer;
+      accent-color: var(--teal);
+    }
+
+    /* Next Step Banner */
+    .next-step-card {
+      background: linear-gradient(135deg, #01656F 0%, #028090 100%);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      color: #FFFFFF;
+      margin-top: 36px;
+      box-shadow: 0 8px 24px rgba(2, 128, 144, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1E293B;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+    }
+
+    #toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: 28px; }
+      .comparison-box, .lighthouse-score-row { grid-template-columns: 1fr; }
+      .custom-table { display: block; overflow-x: auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="silabus-vibe-coding-16-pertemuan.html#p14" class="brand">
+        <span class="dot"></span>
+        <span class="brand-title">Vibe Coding</span>
+        <span class="brand-pill">Pertemuan 14 · UI &amp; Performa</span>
+      </a>
+
+      <div class="nav-actions">
+        <!-- Module Dropdown -->
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">
+            <span>📚 Pilih Modul</span>
+            <span style="font-size:10px;">▼</span>
+          </button>
+          <div class="dropdown-content">
+            <div class="dropdown-header">Silabus &amp; Lab Praktikum</div>
+            <a href="silabus-vibe-coding-16-pertemuan.html" class="dropdown-item">📋 Master Silabus (16 Pertemuan)</a>
+            <a href="praktikum_git_sebelum_coding.html" class="dropdown-item">🌳 Modul 01: Git Lokal Sebelum Coding</a>
+            <a href="panduan_push_github.html" class="dropdown-item">🚀 Modul 02: Panduan Push GitHub</a>
+            <a href="teori_integrasi_api_eksternal.html" class="dropdown-item">🔌 Modul 03: Teori API Eksternal</a>
+            <a href="praktikum_integrasi_api_eksternal.html" class="dropdown-item">⚡ Modul 04: Praktikum Integrasi API</a>
+            <a href="panduan_keamanan_data.html" class="dropdown-item">🛡️ Modul 05: Keamanan Data &amp; Validasi Input</a>
+            <a href="laboratorium_lengkap_supabase.html" class="dropdown-item">🗄️ Modul 06: Fullstack Supabase Lab</a>
+            <a href="praktikum_flutter_supabase.html" class="dropdown-item">📱 Modul 07: Flutter Mobile App</a>
+            <a href="panduan_vibecoding_owasp.html" class="dropdown-item">🔒 Modul 09: Standar OWASP Top 10</a>
+            <a href="praktikum_menguji_hasil_akhir.html" class="dropdown-item">🧪 Modul 13: Menguji Hasil Akhir</a>
+            <a href="praktikum_merapikan_tampilan_performa.html" class="dropdown-item active">🎨 Modul 14: Merapikan Tampilan &amp; Performa</a>
+            <a href="panduan_deploy_vercel.html" class="dropdown-item">🌐 Modul 15: Deploy Vercel &amp; Domain</a>
+          </div>
+        </div>
+
+        <a href="silabus-vibe-coding-16-pertemuan.html#p14" class="nav-cta-btn">
+          <span>← Kembali ke Silabus</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <div class="hero-container">
+    <div class="eyebrow">🎨 PERTEMUAN 14 · UJI, RILIS &amp; PROYEK AKHIR</div>
+    <h1 class="hero-title">Pertemuan 14: Merapikan Tampilan &amp; Performa</h1>
+    
+    <div class="hero-goal-box">
+      <strong>🎯 Tujuan Pertemuan:</strong> Aplikasi terasa <strong>nyaman dan layak dipakai</strong> oleh orang lain di berbagai ukuran layar.
+    </div>
+
+    <div class="meta-badge-row">
+      <span class="meta-chip">⏱️ <strong>Durasi:</strong> 90 Menit</span>
+      <span class="meta-chip">🛠️ <strong>Tools:</strong> Antigravity IDE (AGY) + Chrome DevTools (F12)</span>
+      <span class="meta-chip highlight">📦 <strong>Output:</strong> File ui-audit.md</span>
+    </div>
+  </div>
+
+  <!-- STICKY QUICK NAV -->
+  <div class="lab-nav-sticky">
+    <div class="lab-nav-inner">
+      <a href="#teori" class="lab-nav-pill">1. Teori Singkat</a>
+      <a href="#masalah-ui" class="lab-nav-pill">2. 5 Masalah Tampilan</a>
+      <a href="#lighthouse" class="lab-nav-pill">3. Skor Lighthouse</a>
+      <a href="#kamus" class="lab-nav-pill">4. Kamus Istilah</a>
+      <a href="#praktik" class="lab-nav-pill">5. Praktik di Kelas (70m)</a>
+      <a href="#prompts" class="lab-nav-pill">6. Prompt Referensi AGY</a>
+      <a href="#kesalahan" class="lab-nav-pill">7. Kesalahan Umum</a>
+      <a href="#checklist" class="lab-nav-pill">8. Checklist &amp; Refleksi</a>
+    </div>
+  </div>
+
+  <!-- MAIN BODY -->
+  <main class="main-content">
+
+    <!-- 1. TEORI SINGKAT -->
+    <section class="section-block" id="teori">
+      <h2 class="section-heading">📖 1. Teori Singkat (15 Menit)</h2>
+
+      <div class="info-card">
+        <h3 style="font-size:18px; margin-bottom:8px; color:var(--ink);">Mengapa Tampilan Responsif Itu Krusial?</h3>
+        <p style="font-size:14px; color:var(--ink-mid); margin-bottom:12px;">
+          Lebih dari <strong>60% pengguna global</strong> mengakses web melalui smartphone mereka. Jika aplikasi Anda hanya terlihat rapi di layar laptop Anda sendiri, sebagian besar pengguna akan langsung meninggalkan aplikasi karena frustrasi.
+        </p>
+
+        <div class="analogy-box">
+          <strong>👕 Analogi Baju &amp; Ukuran Badan:</strong><br>
+          Bayangkan membuat pakaian yang hanya muat untuk satu ukuran badan tertentu. Tampilan responsif adalah "baju fleksibel" yang otomatis menyesuaikan potongannya dengan bentuk dan ukuran layar siapa pun yang memakainya.
+        </div>
+      </div>
+
+      <h3 style="font-size:16px; margin:20px 0 10px; color:var(--ink);">Dua Hal Utama yang Diperiksa di Pertemuan Ini:</h3>
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th style="width:25%;">Aspek Pengujian</th>
+            <th style="width:50%;">Yang Diperiksa</th>
+            <th style="width:25%;">Alat Bantu (Tools)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>📱 Tampilan Responsif</strong></td>
+            <td>Apakah layout tetap rapi di layar ponsel (<strong>375px</strong>) dan laptop (<strong>1440px</strong>) tanpa teks terpotong atau overflow?</td>
+            <td><code>Chrome DevTools — Toggle Device (Ctrl+Shift+M)</code></td>
+          </tr>
+          <tr>
+            <td><strong>⚡ Performa Lighthouse</strong></td>
+            <td>Seberapa cepat dimuat, seberapa accessible bagi semua orang, dan apakah aset gambar sudah teroptimasi?</td>
+            <td><code>Chrome DevTools — Tab Lighthouse</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 2. 5 KESALAHAN TAMPILAN PALING UMUM -->
+    <section class="section-block" id="masalah-ui">
+      <h2 class="section-heading">🚨 2. Lima Kesalahan Tampilan Paling Umum</h2>
+      <p style="font-size:14px; color:var(--ink-mid); margin-bottom:16px;">
+        Sebelum mulai mengaudit, kenali 5 tanda kerusakan visual yang paling sering terjadi pada proyek web:
+      </p>
+
+      <div class="ui-issues-grid">
+        <div class="issue-card">
+          <div class="issue-card-head">
+            <span class="issue-badge">#1</span>
+            <span>Teks Terpotong</span>
+          </div>
+          <p style="font-size:12.5px; color:var(--ink-mid); margin-bottom:8px;">
+            Kotak penampung terlalu sempit atau fixed width, menyebabkan teks tidak muat.
+          </p>
+          <div style="background:#FFF1F2; padding:6px 10px; border-radius:6px; font-size:11.5px; color:#BE123C; font-family:'JetBrains Mono', monospace;">
+            Contoh: "Simpan Data Pengguna" ➔ "Simpan D..."
+          </div>
+        </div>
+
+        <div class="issue-card">
+          <div class="issue-card-head">
+            <span class="issue-badge">#2</span>
+            <span>Overflow Horizontal</span>
+          </div>
+          <p style="font-size:12.5px; color:var(--ink-mid); margin-bottom:8px;">
+            Elemen (tabel/gambar) lebih lebar dari viewport layar ponsel, memunculkan scrollbar samping yang merusak UX.
+          </p>
+          <div style="background:#FFF1F2; padding:6px 10px; border-radius:6px; font-size:11.5px; color:#BE123C; font-family:'JetBrains Mono', monospace;">
+            Layar bergoyang ke kanan &amp; kiri saat disentuh
+          </div>
+        </div>
+
+        <div class="issue-card">
+          <div class="issue-card-head">
+            <span class="issue-badge">#3</span>
+            <span>Kontras Warna Rendah</span>
+          </div>
+          <p style="font-size:12.5px; color:var(--ink-mid); margin-bottom:8px;">
+            Warna teks terlalu pudar mirip warna latar belakang, membuat tulisan sangat sulit dibaca di bawah sinar matahari.
+          </p>
+          <div style="background:#FFF1F2; padding:6px 10px; border-radius:6px; font-size:11.5px; color:#BE123C; font-family:'JetBrains Mono', monospace;">
+            Teks abu-abu muda <code>#CCCCCC</code> di atas putih
+          </div>
+        </div>
+
+        <div class="issue-card">
+          <div class="issue-card-head">
+            <span class="issue-badge">#4</span>
+            <span>Tombol Terlalu Kecil</span>
+          </div>
+          <p style="font-size:12.5px; color:var(--ink-mid); margin-bottom:8px;">
+            Area klik (touch target) di bawah 44px&times;44px, membuat jempol pengguna salah memencet tombol lain.
+          </p>
+          <div style="background:#FFF1F2; padding:6px 10px; border-radius:6px; font-size:11.5px; color:#BE123C; font-family:'JetBrains Mono', monospace;">
+            Ikon hapus kecil terjepit di antara tombol edit
+          </div>
+        </div>
+
+        <div class="issue-card">
+          <div class="issue-card-head">
+            <span class="issue-badge">#5</span>
+            <span>Layout Hancur di Mobile</span>
+          </div>
+          <p style="font-size:12.5px; color:var(--ink-mid); margin-bottom:8px;">
+            Kolom horizontal tidak berpindah ke bawah (stacking), sehingga elemen saling tumpang tindih secara acak.
+          </p>
+          <div style="background:#FFF1F2; padding:6px 10px; border-radius:6px; font-size:11.5px; color:#BE123C; font-family:'JetBrains Mono', monospace;">
+            Sidebar menutupi form login di smartphone
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Viewport Simulator -->
+      <div class="sandbox-container">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <h4 style="font-size:15px; color:var(--ink); font-family:'Inter', sans-serif; font-weight:700;">
+            🖥️ Simulasi Interaktif: Coba Toggle Ukuran Viewport
+          </h4>
+          <span style="font-size:12px; color:var(--ink-soft);">Klik tombol untuk melihat respon layout</span>
+        </div>
+
+        <div class="sandbox-controls">
+          <button class="sandbox-btn active" id="btn-view-mobile" onclick="setViewportMode('mobile')">
+            <span>📱 Layar Ponsel (375px — iPhone SE)</span>
+          </button>
+          <button class="sandbox-btn" id="btn-view-desktop" onclick="setViewportMode('desktop')">
+            <span>💻 Layar Laptop (1440px — Desktop L)</span>
+          </button>
+        </div>
+
+        <div class="sandbox-frame-wrap">
+          <div class="sandbox-mock-screen mobile-mode" id="mock-screen">
+            <div style="border-bottom:1px solid #E2E8F0; padding-bottom:8px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-weight:700; font-size:13px; color:var(--teal);">KasirKu App</span>
+              <span style="font-size:10px; background:#EEF2FF; color:#4F46E5; padding:2px 6px; border-radius:4px;" id="mode-indicator">Mode: 375px (Mobile)</span>
+            </div>
+
+            <div id="sim-grid" style="display:flex; flex-direction:column; gap:10px;">
+              <div style="background:#F1F5F9; border-radius:6px; padding:12px;">
+                <div style="font-weight:600; font-size:12px; margin-bottom:4px;">📊 Total Penjualan Hari Ini</div>
+                <div style="font-size:18px; font-weight:800; color:var(--teal);">Rp 1.450.000</div>
+              </div>
+
+              <div style="background:#F1F5F9; border-radius:6px; padding:12px;">
+                <div style="font-weight:600; font-size:12px; margin-bottom:6px;">⚡ Aksi Cepat</div>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                  <button style="background:var(--teal); color:#fff; border:none; padding:8px 14px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">+ Transaksi Baru</button>
+                  <button style="background:#E2E8F0; color:#334155; border:none; padding:8px 14px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">Cetak Struk</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. MENGENAL SKOR LIGHTHOUSE -->
+    <section class="section-block" id="lighthouse">
+      <h2 class="section-heading">📊 3. Mengenal Skor &amp; Kategori Lighthouse</h2>
+      <p style="font-size:14px; color:var(--ink-mid); margin-bottom:16px;">
+        Google Chrome DevTools menyediakan alat audit otomatis bernama <strong>Lighthouse</strong> yang memberikan penilaian objektif berskala <strong>0–100</strong>:
+      </p>
+
+      <div class="lighthouse-score-row">
+        <div class="score-card">
+          <div class="score-badge-circle score-good">90+</div>
+          <strong style="color:#047857; font-size:14px;">🟢 Baik (Good)</strong>
+          <p style="font-size:12px; color:var(--ink-soft); margin-top:4px;">Skor 90–100: Performa prima, sudah optimal &amp; siap rilis.</p>
+        </div>
+
+        <div class="score-card">
+          <div class="score-badge-circle score-avg">50+</div>
+          <strong style="color:#B45309; font-size:14px;">🟡 Perlu Ditingkatkan</strong>
+          <p style="font-size:12px; color:var(--ink-soft); margin-top:4px;">Skor 50–89: Cukup baik, namun ada peluang optimasi aset.</p>
+        </div>
+
+        <div class="score-card">
+          <div class="score-badge-circle score-poor">&lt;50</div>
+          <strong style="color:#BE123C; font-size:14px;">🔴 Buruk (Poor)</strong>
+          <p style="font-size:12px; color:var(--ink-soft); margin-top:4px;">Skor 0–49: Ada bottleneck berat (gambar raksasa/script lambat).</p>
+        </div>
+      </div>
+
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Kategori Audit</th>
+            <th>Yang Diukur Oleh Lighthouse</th>
+            <th>Prioritas Pertemuan Ini</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>⚡ Performance</strong></td>
+            <td>Seberapa cepat halaman dimuat pertama kali (LCP, FID, CLS, ukuran aset gambar).</td>
+            <td><span style="background:#ECFDF5; color:#047857; padding:2px 8px; border-radius:4px; font-weight:700; font-size:11px;">⭐ FOKUS UTAMA</span></td>
+          </tr>
+          <tr>
+            <td><strong>♿ Accessibility</strong></td>
+            <td>Keterbacaan kontras warna teks dan kelengkapan deskripsi gambar (<code>alt text</code>).</td>
+            <td><span style="background:#ECFDF5; color:#047857; padding:2px 8px; border-radius:4px; font-weight:700; font-size:11px;">⭐ FOKUS UTAMA</span></td>
+          </tr>
+          <tr>
+            <td><strong>🛡️ Best Practices</strong></td>
+            <td>Kepatuhan terhadap standar keamanan web modern (HTTPS, format gambar modern).</td>
+            <td><span style="background:#F1F5F9; color:#475569; padding:2px 8px; border-radius:4px; font-weight:600; font-size:11px;">Sekunder</span></td>
+          </tr>
+          <tr>
+            <td><strong>🔍 SEO</strong></td>
+            <td>Kemudahan halaman diindeks oleh mesin pencari Google (tag meta &amp; heading).</td>
+            <td><span style="background:#F1F5F9; color:#475569; padding:2px 8px; border-radius:4px; font-weight:600; font-size:11px;">Sekunder</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="analogy-box" style="background:#EFF6FF; border-color:#BFDBFE; border-left-color:#3B82F6; color:#1E40AF;">
+        <strong>⚠️ Catatan Emas Pengembang:</strong> Fokus pertemuan ini adalah <strong>Performance + Accessibility</strong>. Jangan mengejar skor 100 dengan cara menghapus fitur atau tombol penting yang sebenarnya dibutuhkan oleh pengguna Anda!
+      </div>
+    </section>
+
+    <!-- 4. KAMUS ISTILAH -->
+    <section class="section-block" id="kamus">
+      <h2 class="section-heading">📚 4. Kamus Istilah (Baca Sebelum Mulai)</h2>
+
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th style="width:25%;">Istilah Teknis</th>
+            <th>Artinya dalam Bahasa Sehari-hari</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Responsif</strong></td>
+            <td>Tampilan yang otomatis menyesuaikan ukuran dan tata letaknya di semua jenis perangkat (ponsel, tablet, laptop).</td>
+          </tr>
+          <tr>
+            <td><strong>Viewport</strong></td>
+            <td>Area layar yang tampak dan bisa dilihat langsung oleh pengguna di browser.</td>
+          </tr>
+          <tr>
+            <td><strong>375px / 1440px</strong></td>
+            <td>Satuan lebar layar dalam piksel. <code>375px</code> = standar smartphone (iPhone SE). <code>1440px</code> = standar laptop layar lebar.</td>
+          </tr>
+          <tr>
+            <td><strong>Overflow</strong></td>
+            <td>Ketika konten "meluber" keluar dari batas kotak/layar, sehingga muncul scrollbar horizontal yang mengganggu.</td>
+          </tr>
+          <tr>
+            <td><strong>Layout</strong></td>
+            <td>Susunan atau tata letak elemen visual pada halaman (header, kartu produk, form input, tombol, footer).</td>
+          </tr>
+          <tr>
+            <td><strong>Chrome DevTools</strong></td>
+            <td>Alat bawaan browser Google Chrome untuk inspeksi kode HTML/CSS, network, console, dan pengujian responsif (tekan <code>F12</code>).</td>
+          </tr>
+          <tr>
+            <td><strong>Lighthouse</strong></td>
+            <td>Fitur audit otomatis di dalam DevTools yang memberikan nilai kualitas dan rekomendasi teknis web.</td>
+          </tr>
+          <tr>
+            <td><strong>Audit</strong></td>
+            <td>Proses pemeriksaan dan evaluasi menyeluruh terhadap performa, aksesibilitas, dan stabilitas halaman web.</td>
+          </tr>
+          <tr>
+            <td><strong>localhost</strong></td>
+            <td>Alamat web lokal di komputer Anda sendiri saat aplikasi sedang dikembangkan (belum dirilis ke internet publik).</td>
+          </tr>
+          <tr>
+            <td><strong>Alt text (Alternative Text)</strong></td>
+            <td>Deskripsi teks pada tag gambar (<code>&lt;img alt="..."&gt;</code>) yang dibaca oleh screen reader tunanetra dan muncul saat gambar gagal dimuat.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 5. PRAKTIK DI KELAS -->
+    <section class="section-block" id="praktik">
+      <h2 class="section-heading">🛠️ 5. Praktik di Kelas (70 Menit)</h2>
+
+      <!-- Persiapan -->
+      <div class="info-card">
+        <h3 style="font-size:16px; margin-bottom:8px; color:var(--ink);">⏱️ Persiapan Awal (5 Menit)</h3>
+        <p style="font-size:13.5px; color:var(--ink-mid); margin-bottom:10px;">Pastikan lingkungan kerja Anda sudah siap:</p>
+        <ul class="checklist-list">
+          <li>
+            <input type="checkbox" id="prep1">
+            <label for="prep1">Aplikasi berjalan normal di Chrome (buka alamat <code>localhost</code> proyek Anda)</label>
+          </li>
+          <li>
+            <input type="checkbox" id="prep2">
+            <label for="prep2">Antigravity IDE (AGY) terbuka pada workspace folder proyek yang sama</label>
+          </li>
+          <li>
+            <input type="checkbox" id="prep3">
+            <label for="prep3">Chrome DevTools siap dibuka (tekan tombol <code>F12</code> atau <code>Ctrl+Shift+I</code>)</label>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Langkah 1 -->
+      <div style="background:#FFFFFF; border:1px solid var(--line); border-radius:var(--radius-md); padding:20px; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+          <h3 style="font-size:18px; color:var(--teal);">Langkah 1: Cek Tampilan di Ponsel &amp; Laptop (20 Menit)</h3>
+          <span style="font-size:11.5px; background:var(--bg-tint); color:var(--teal); padding:3px 8px; border-radius:4px; font-weight:600;">20 Menit</span>
+        </div>
+        <p style="font-size:13.5px; color:var(--ink-mid); margin-bottom:14px;">
+          <strong>Tujuan:</strong> Temukan dan catat semua layout yang rusak pada dua ukuran layar standar.
+        </p>
+
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:14px; font-size:13px; line-height:1.6;">
+          <strong>Cara Membuka Device Toolbar di DevTools:</strong>
+          <ol style="margin-left:20px; margin-top:6px;">
+            <li>Buka aplikasi web Anda di Chrome (<code>http://localhost:3000</code>).</li>
+            <li>Tekan <code>F12</code> (atau klik kanan ➔ <em>Inspect</em>).</li>
+            <li>Klik ikon ponsel 📱 <strong>Toggle device toolbar</strong> (atau tekan <code>Ctrl+Shift+M</code>).</li>
+            <li><strong>Cek Ukuran 375px:</strong> Pilih dropdown "iPhone SE" atau ketik Width: <code>375</code>.</li>
+            <li><strong>Cek Ukuran 1440px:</strong> Ketik manual Width: <code>1440</code> atau pilih "Laptop L".</li>
+          </ol>
+        </div>
+
+        <p style="font-size:13.5px; font-weight:600; margin-bottom:8px;">Format Pencatatan di File <code>ui-audit.md</code>:</p>
+        <div class="code-preview">## Audit Tampilan - [Nama Aplikasi]
+**Tanggal:** 2026-09-11
+
+### Masalah yang Ditemukan
+
+| # | Halaman/Komponen | Masalah | Ukuran Layar | Catatan |
+|---|---|---|---|---|
+| U01 | Header | Teks terpotong | 375px | Nama aplikasi terpotong menjadi "Kasir..." |
+| U02 | Tabel data | Overflow horizontal | 375px | Tabel menonjol ke kanan, ada scrollbar samping |
+| U03 | Form input | Tombol terlalu kecil | 375px | Tombol 'Simpan' susah dipencet jari |</div>
+      </div>
+
+      <!-- Langkah 2 -->
+      <div style="background:#FFFFFF; border:1px solid var(--line); border-radius:var(--radius-md); padding:20px; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+          <h3 style="font-size:18px; color:var(--teal);">Langkah 2: Jalankan Audit Lighthouse (20 Menit)</h3>
+          <span style="font-size:11.5px; background:var(--bg-tint); color:var(--teal); padding:3px 8px; border-radius:4px; font-weight:600;">20 Menit</span>
+        </div>
+        <p style="font-size:13.5px; color:var(--ink-mid); margin-bottom:14px;">
+          <strong>Tujuan:</strong> Dapatkan skor kuantitatif objektif dan pilih 3 rekomendasi perbaikan paling berdampak.
+        </p>
+
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:14px; font-size:13px; line-height:1.6;">
+          <strong>Cara Menjalankan Audit Lighthouse:</strong>
+          <ol style="margin-left:20px; margin-top:6px;">
+            <li>Di DevTools (<code>F12</code>), klik tab <strong>Lighthouse</strong> (jika tidak terlihat, klik tanda <code>&gt;&gt;</code>).</li>
+            <li>Centang seluruh kategori: <em>Performance, Accessibility, Best Practices, SEO</em>.</li>
+            <li>Pilih Device: <strong>Mobile</strong> terlebih dahulu, lalu klik tombol biru <strong>"Analyze page load"</strong>.</li>
+            <li>Tunggu 30–60 detik hingga laporan selesai muncul (jangan menutup browser).</li>
+            <li>Ulangi langkah yang sama untuk mode <strong>Desktop</strong>.</li>
+          </ol>
+        </div>
+
+        <p style="font-size:13.5px; font-weight:600; margin-bottom:8px;">Catat Skor Awal &amp; Top 3 Rekomendasi di <code>ui-audit.md</code>:</p>
+        <div class="code-preview">## Hasil Lighthouse
+
+### Skor Awal
+| Kategori | Mobile | Desktop |
+|---|---|---|
+| Performance | 64 | 88 |
+| Accessibility | 72 | 75 |
+| Best Practices | 85 | 92 |
+| SEO | 80 | 80 |
+
+### 3 Rekomendasi yang Dipilih
+| # | Masalah dari Lighthouse | Kategori | Potensi Dampak |
+|---|---|---|---|
+| L01 | Properly size images (Gambar terlalu besar) | Performance | Hemat 1.2 MB pemuatan |
+| L02 | Background and foreground colors do not have a sufficient contrast ratio | Accessibility | Memperbaiki keterbacaan teks |
+| L03 | Image elements do not have [alt] attributes | Accessibility | Memenuhi standar screen reader |</div>
+      </div>
+
+      <!-- Langkah 3 -->
+      <div style="background:#FFFFFF; border:1px solid var(--line); border-radius:var(--radius-md); padding:20px; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+          <h3 style="font-size:18px; color:var(--teal);">Langkah 3: Perbaiki dengan AGY &amp; Ukur Ulang Skor (30 Menit)</h3>
+          <span style="font-size:11.5px; background:var(--bg-tint); color:var(--teal); padding:3px 8px; border-radius:4px; font-weight:600;">30 Menit</span>
+        </div>
+        <p style="font-size:13.5px; color:var(--ink-mid); margin-bottom:14px;">
+          <strong>Tujuan:</strong> Gunakan prompt terarah di AGY untuk membereskan masalah satu per satu, lalu buktikan kenaikan skornya.
+        </p>
+
+        <div class="analogy-box" style="background:#ECFDF5; border-color:#A7F3D0; border-left-color:#10B981; color:#065F46;">
+          <strong>🔑 Siklus Perbaikan Atomik (Satu per Satu):</strong><br>
+          1. Pilih 1 masalah dari audit ➔ 2. Minta AGY memperbaiki ➔ 3. Simpan &amp; Refresh browser ➔ 4. Cek ulang DevTools / Jalankan Lighthouse ➔ 5. Catat skor baru ➔ 6. Lanjut ke masalah berikutnya.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. PROMPT REFERENSI UNTUK AGY -->
+    <section class="section-block" id="prompts">
+      <h2 class="section-heading">💬 6. Prompt Referensi untuk Antigravity IDE (AGY)</h2>
+      <p style="font-size:14px; color:var(--ink-mid); margin-bottom:16px;">
+        Gunakan koleksi prompt siap pakai berikut. Ganti teks dalam <code>[kurung siku]</code> sesuai komponen proyek Anda:
+      </p>
+
+      <!-- Prompt Group 1: Responsif -->
+      <h3 style="font-size:16px; margin:20px 0 12px; color:var(--ink);">A. Prompt Perbaikan Tampilan Responsif (Mobile &amp; Layout)</h3>
+
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <span class="prompt-tag">📱 Prompt 01 · Memperbaiki Tampilan Ponsel yang Berantakan</span>
+          <button class="btn-copy" onclick="copySnippet('prompt-p1')">📋 Salin Prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt-p1">Di aplikasi saya, saat dilihat di layar ponsel (ukuran 375px), bagian [nama komponen/halaman, contoh: header / tabel transaksi / form input] terlihat berantakan.
+
+Masalahnya: [jelaskan masalahnya, contoh: ada tabel yang keluar dari layar ke kanan / tombol saling tumpang tindih / tulisan terpotong].
+
+Tolong perbaiki kode CSS dan HTML saya agar tampilannya rapi, responsif, dan nyaman dilihat di layar ponsel (375px) maupun laptop (1440px).</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <span class="prompt-tag">✂️ Prompt 02 · Memperbaiki Teks Terpotong</span>
+          <button class="btn-copy" onclick="copySnippet('prompt-p2')">📋 Salin Prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt-p2">Teks pada [nama elemen, contoh: tombol simpan / judul kartu / label form] terpotong saat dibuka di layar kecil.
+
+Tolong perbaiki gaya penataan (styling) agar teks tidak terpotong, memiliki pembungkus otomatis (word-break/wrap) yang rapi, dan tetap mudah dibaca di seluruh ukuran layar.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <span class="prompt-tag">👆 Prompt 03 · Memperbesar Tombol agar Nyaman Disentuh</span>
+          <button class="btn-copy" onclick="copySnippet('prompt-p3')">📋 Salin Prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt-p3">Tombol [nama tombol, contoh: tombol Hapus / Tambah Item] ukurannya terlalu kecil dan susah disentuh jari saat dibuka di smartphone.
+
+Tolong sesuaikan ukuran tombol (padding, min-height 44px, margin) agar memenuhi standar touch target mobile yang nyaman disentuh jempol.</div>
+      </div>
+
+      <!-- Prompt Group 2: Lighthouse -->
+      <h3 style="font-size:16px; margin:28px 0 12px; color:var(--ink);">B. Prompt Perbaikan Berdasarkan Hasil Lighthouse</h3>
+
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <span class="prompt-tag">📋 Prompt 04 · Salin Langsung Rekomendasi Lighthouse</span>
+          <button class="btn-copy" onclick="copySnippet('prompt-p4')">📋 Salin Prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt-p4">Hasil audit Google Lighthouse memberikan rekomendasi perbaikan berikut:
+"[Tempel / paste pesan rekomendasi atau peringatan dari Lighthouse di sini]"
+
+Tolong perbaiki masalah ini pada kode aplikasi saya, dan jelaskan secara singkat dalam bahasa sederhana apa saja yang sudah diubah.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <span class="prompt-tag">🎨 Prompt 05 · Memperbaiki Kontras Warna Rendah</span>
+          <button class="btn-copy" onclick="copySnippet('prompt-p5')">📋 Salin Prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt-p5">Lighthouse melaporkan bahwa warna teks di [lokasi elemen, contoh: subjudul / deskripsi kartu] memiliki kontras warna yang terlalu rendah terhadap latar belakangnya sehingga sulit dibaca.
+
+Tolong rekomendasikan dan ubah kode warnanya agar memiliki rasio kontras yang memenuhi standar aksesibilitas WCAG (minimal 4.5:1) namun tetap harmonis dengan tema aplikasi.</div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <span class="prompt-tag">🖼️ Prompt 06 · Menambahkan Keterangan Gambar (Alt Text) &amp; Optimasi</span>
+          <button class="btn-copy" onclick="copySnippet('prompt-p6')">📋 Salin Prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt-p6">Lighthouse mendeteksi ada elemen gambar di aplikasi saya yang belum memiliki atribut alt text (deskripsi gambar) dan ukurannya terlalu berat saat dimuat.
+
+Tolong periksa semua tag &lt;img&gt; di proyek saya:
+1. Tambahkan atribut alt="..." yang deskriptif dan relevan
+2. Pastikan dimensi gambar (width & height) sudah diset agar tidak menyebabkan pergeseran layout (layout shift)</div>
+      </div>
+    </section>
+
+    <!-- 7. KESALAHAN UMUM -->
+    <section class="section-block" id="kesalahan">
+      <h2 class="section-heading">❌ 7. Kesalahan yang Sering Terjadi &amp; Solusinya</h2>
+
+      <div class="comparison-box">
+        <div class="comp-item comp-wrong">
+          <strong>❌ Jebakan 1: Mengejar Skor 100 dengan Merusak Fitur</strong>
+          <p style="margin-top:6px;">"Saya menghapus gambar produk dan icon tombol supaya skor performanya 100."</p>
+        </div>
+        <div class="comp-item comp-right">
+          <strong>✅ Praktik Benar:</strong>
+          <p style="margin-top:6px;">Optimalkan ukuran gambar dengan format modern (WebP) tanpa menghapus fitur esensial.</p>
+        </div>
+      </div>
+
+      <div class="comparison-box">
+        <div class="comp-item comp-wrong">
+          <strong>❌ Jebakan 2: Hanya Cek di Layar Laptop Sendiri</strong>
+          <p style="margin-top:6px;">"Di laptop saya tampilannya bagus, berarti sudah pasti bagus di semua orang."</p>
+        </div>
+        <div class="comp-item comp-right">
+          <strong>✅ Praktik Benar:</strong>
+          <p style="margin-top:6px;">Wajib buka mode device toolbar DevTools di ukuran <strong>375px</strong> (ponsel) dan <strong>1440px</strong> (desktop).</p>
+        </div>
+      </div>
+
+      <div class="comparison-box">
+        <div class="comp-item comp-wrong">
+          <strong>❌ Jebakan 3: Memperbaiki Banyak Hal Sekaligus</strong>
+          <p style="margin-top:6px;">Meminta AI mengubah 5 komponen sekaligus ➔ skor berubah tapi tidak tahu mana yang berhasil.</p>
+        </div>
+        <div class="comp-item comp-right">
+          <strong>✅ Praktik Benar:</strong>
+          <p style="margin-top:6px;">Terapkan perbaikan satu per satu ➔ refresh ➔ ukur skor ➔ catat dampaknya di <code>ui-audit.md</code>.</p>
+        </div>
+      </div>
+
+      <div class="comparison-box">
+        <div class="comp-item comp-wrong">
+          <strong>❌ Jebakan 4: Panik Melihat Banyak Tulisan Merah</strong>
+          <p style="margin-top:6px;">Merasa harus menyelesaikan 20 rekomendasi Lighthouse dalam waktu 30 menit.</p>
+        </div>
+        <div class="comp-item comp-right">
+          <strong>✅ Praktik Benar:</strong>
+          <p style="margin-top:6px;">Cukup prioritaskan <strong>3 rekomendasi dengan estimasi penghematan/dampak terbesar</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. CHECKLIST & REFLEKSI -->
+    <section class="section-block" id="checklist">
+      <h2 class="section-heading">✅ 8. Checklist Akhir Pertemuan &amp; Refleksi</h2>
+
+      <div class="info-card">
+        <h3 style="font-size:16px; margin-bottom:12px; color:var(--ink);">Checklist Wajib Sebelum Mengakhiri Kelas:</h3>
+        <ul class="checklist-list">
+          <li>
+            <input type="checkbox" id="chk1">
+            <label for="chk1">Sudah menguji tampilan di layar <strong>375px</strong> (mobile) dan <strong>1440px</strong> (desktop) via DevTools</label>
+          </li>
+          <li>
+            <input type="checkbox" id="chk2">
+            <label for="chk2">Seluruh temuan visual (overflow/teks patah) sudah dicatat dalam tabel di <code>ui-audit.md</code></label>
+          </li>
+          <li>
+            <input type="checkbox" id="chk3">
+            <label for="chk3">Audit Lighthouse sudah dijalankan minimal untuk mode <strong>Mobile</strong></label>
+          </li>
+          <li>
+            <input type="checkbox" id="chk4">
+            <label for="chk4">Skor awal Lighthouse sudah dicatat rapi sebelum dilakukan perbaikan</label>
+          </li>
+          <li>
+            <input type="checkbox" id="chk5">
+            <label for="chk5">Minimal <strong>3 rekomendasi perbaikan</strong> Lighthouse sudah dipilih dan diprioritaskan</label>
+          </li>
+          <li>
+            <input type="checkbox" id="chk6">
+            <label for="chk6">Minimal <strong>1 perbaikan kode</strong> sudah berhasil diterapkan melalui AGY</label>
+          </li>
+          <li>
+            <input type="checkbox" id="chk7">
+            <label for="chk7">Skor Lighthouse sesudah perbaikan sudah diukur ulang dan dicatat perkembangannya</label>
+          </li>
+        </ul>
+      </div>
+
+      <div style="background:#FFFDF5; border:1px solid #FDE68A; border-radius:var(--radius-md); padding:18px; margin-top:20px;">
+        <h3 style="font-size:16px; margin-bottom:8px; color:#92400E;">💬 3 Pertanyaan Refleksi Kelas (5 Menit Terakhir):</h3>
+        <ol style="margin-left:20px; font-size:13.5px; color:#78350F; line-height:1.65;">
+          <li><strong>Masalah tampilan apa</strong> yang paling mengejutkan ketika aplikasi pertama kali dibuka di mode ponsel 375px?</li>
+          <li>Berapa poin <strong>kenaikan skor Lighthouse</strong> Anda setelah perbaikan pertama diterapkan?</li>
+          <li>Dari seluruh perbaikan yang dilakukan, <strong>rekomendasi mana</strong> yang paling mudah diselesaikan dan mana yang paling rumit?</li>
+        </ol>
+      </div>
+
+      <!-- NEXT STEP BANNER KE P15 DEPLOY -->
+      <div class="next-step-card">
+        <div>
+          <div style="font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#A7F3D0; margin-bottom:4px;">Langkah Pembelajaran Selanjutnya</div>
+          <h3 style="font-size:18px; font-weight:700; margin-bottom:4px;">Pertemuan 15: Deploy — Aplikasi Keluar dari Laptop</h3>
+          <p style="font-size:13px; color:#E0F2F1; margin:0; max-width:650px;">
+            Aplikasi Anda kini sudah teruji fungsionalitasnya (P13) dan rapi tampilannya di layar ponsel (P14). Saatnya mempublikasikan aplikasi ke cloud Vercel agar dapat diakses oleh semua orang di dunia 24/7!
+          </p>
+        </div>
+        <div>
+          <a href="panduan_deploy_vercel.html" class="btn-nav btn-nav-primary" style="background:#02C39A; color:#013A40; border:none; font-weight:700; padding:10px 18px; border-radius:6px; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+            <span>🚀 Buka Modul Deploy Vercel (P15) →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="page-footer">
+    <div style="max-width:1160px; margin:0 auto;">
+      <p style="font-weight:600; color:var(--ink);">Silabus Vibe Coding &amp; Laboratorium Interaktif</p>
+      <p style="margin-top:4px;">Modul Pertemuan 14: Merapikan Tampilan Responsif &amp; Audit Performa Lighthouse.</p>
+    </div>
+  </footer>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast">
+    <span>✅</span>
+    <span id="toast-msg">Prompt berhasil disalin ke clipboard!</span>
+  </div>
+
+  <script>
+    // Copy Snippet to Clipboard
+    function copySnippet(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("Prompt berhasil disalin ke clipboard!");
+      }).catch(err => {
+        console.error("Gagal menyalin:", err);
+      });
+    }
+
+    // Show Toast
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      toastMsg.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // Interactive Viewport Simulator Toggle
+    function setViewportMode(mode) {
+      const screen = document.getElementById('mock-screen');
+      const btnMobile = document.getElementById('btn-view-mobile');
+      const btnDesktop = document.getElementById('btn-view-desktop');
+      const indicator = document.getElementById('mode-indicator');
+
+      if (mode === 'mobile') {
+        screen.className = 'sandbox-mock-screen mobile-mode';
+        btnMobile.classList.add('active');
+        btnDesktop.classList.remove('active');
+        indicator.innerText = 'Mode: 375px (Mobile)';
+      } else {
+        screen.className = 'sandbox-mock-screen desktop-mode';
+        btnDesktop.classList.add('active');
+        btnMobile.classList.remove('active');
+        indicator.innerText = 'Mode: 1440px (Desktop L)';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1963,8 +1963,10 @@
             <a href="panduan_keamanan_data.html" class="dropdown-item">🛡️ Modul 05: Keamanan Data &amp; Env</a>
             <a href="laboratorium_lengkap_supabase.html" class="dropdown-item">🔬 Modul 06: Lab Fullstack Supabase (9 Lab)</a>
             <a href="praktikum_flutter_supabase.html" class="dropdown-item">📱 Modul 07: Vibe Coding Flutter + Supabase</a>
-            <a href="panduan_deploy_vercel.html" class="dropdown-item">▲ Modul 08: Panduan Deploy Vercel</a>
             <a href="panduan_vibecoding_owasp.html" class="dropdown-item">🔒 Modul 09: Standar OWASP Top 10</a>
+            <a href="praktikum_menguji_hasil_akhir.html" class="dropdown-item">🧪 Modul 13: Menguji Hasil Akhir</a>
+            <a href="praktikum_merapikan_tampilan_performa.html" class="dropdown-item">🎨 Modul 14: Tampilan &amp; Performa</a>
+            <a href="panduan_deploy_vercel.html" class="dropdown-item">▲ Modul 15: Panduan Deploy Vercel</a>
             <div class="dropdown-divider"></div>
             <a href="kurikulum_vibe_coding_pwa_supabase.html" class="dropdown-item">📋 Kurikulum PWA Offline</a>
           </div>
@@ -2192,11 +2194,16 @@
                 <td class="ov-block"><b>Uji, Rilis &amp; Proyek Akhir</b></td>
                 <td class="ov-out"><b>File <code>test-plan.md</code> lengkap (Happy Path &amp; 6 Edge Cases), log tiket bug, dan perbaikan Atomic Bug Fix.</b></td>
               </tr>
-              <tr>
-                <td class="ov-num"><span style="background:#01656F;">14</span></td>
-                <td class="ov-title"><a href="#p14">Merapikan Tampilan &amp; Performa</a></td>
-                <td class="ov-block">Uji, Rilis &amp; Proyek Akhir</td>
-                <td class="ov-out">Audit Lighthouse sebelum/sesudah dan perbaikan responsivitas mobile.</td>
+              <tr style="background:#F0FDFA; border-left: 3px solid #028090;">
+                <td class="ov-num"><span style="background:#028090;">14</span></td>
+                <td class="ov-title">
+                  <a href="#p14" style="color:#028090; font-weight:bold;">Modul 14: Merapikan Tampilan &amp; Performa</a>
+                  <div style="margin-top:4px; font-size:11.5px; display:flex; gap:8px; flex-wrap:wrap;">
+                    <a href="praktikum_merapikan_tampilan_performa.html" style="font-weight:600; color:#028090;">🎨 Lab Tampilan &amp; Performa (P14) →</a>
+                  </div>
+                </td>
+                <td class="ov-block"><b>Uji, Rilis &amp; Proyek Akhir</b></td>
+                <td class="ov-out"><b>Audit tampilan responsif (375px &amp; 1440px), audit skor Lighthouse Chrome DevTools, dan file <code>ui-audit.md</code>.</b></td>
               </tr>
               <tr>
                 <td class="ov-num"><span style="background:#01656F;">15</span></td>
@@ -3791,52 +3798,126 @@ Tolong perbaiki bug ini.</pre>
           </article>
 
           <!-- P14 -->
-          <article class="session" id="p14" data-block="produksi">
+          <!-- ═══════════════════════════════════════════════════════ -->
+          <!-- PERTEMUAN 14 — MERAPIKAN TAMPILAN & PERFORMA            -->
+          <!-- ═══════════════════════════════════════════════════════ -->
+          <article class="session" id="p14" data-block="produksi"
+            style="border-left:4px solid #028090; background:#fbfefe;">
             <div class="session-head">
-              <div class="session-badge" style="background:#01656F;">14</div>
+              <div class="session-badge" style="background:linear-gradient(135deg,#01656F,#028090);">14</div>
               <div class="session-headtext">
-                <h3>Merapikan Tampilan &amp; Performa</h3>
+                <h3>Pertemuan 14: Merapikan Tampilan &amp; Performa</h3>
                 <div class="session-meta">
                   <span class="meta-chip">Uji, Rilis &amp; Proyek Akhir</span>
                   <span class="meta-chip">90 menit</span>
+                  <span class="meta-chip" style="background:#ECFDF5; color:#047857; font-weight:600;">Tools: AGY + Chrome DevTools (F12)</span>
                 </div>
               </div>
             </div>
-            <p class="session-goal"><b>Tujuan:</b> Aplikasi terasa nyaman dan layak dipakai oleh orang lain di berbagai
-              ukuran layar.</p>
-            <div class="session-cols">
-              <div class="col">
-                <h4 class="col-title">Yang dibahas</h4>
-                <ul class="plain-list">
-                  <li>Kesalahan tampilan paling umum: teks terpotong, overflow horizontal, kontras warna rendah</li>
-                  <li>Menjalankan Lighthouse dan membaca skornya secara objektif</li>
-                  <li>Fokus perbaikan performa: optimasi gambar dan pemuatan aset</li>
-                </ul>
-              </div>
-              <div class="col">
-                <h4 class="col-title col-title-do">Praktik di kelas</h4>
-                <ol class="do-list">
-                  <li>Buka aplikasi di viewport ponsel (375px) dan laptop (1440px), catat layout yang patah</li>
-                  <li>Jalankan audit Lighthouse, ambil 3 rekomendasi berdampak terbesar</li>
-                  <li>Perbaiki dengan prompt spesifik, ukur ulang skor setelah perbaikan selesai</li>
-                </ol>
+            <p class="session-goal"><b>Tujuan:</b> Aplikasi terasa <strong>nyaman dan layak dipakai</strong> oleh orang lain di berbagai ukuran layar.</p>
+
+            <!-- ACTION CARD DEDICATED MODULES (UI & LIGHTHOUSE) -->
+            <div style="background: linear-gradient(135deg, #01656F 0%, #028090 100%); border-radius: 12px; padding: 18px 20px; margin: 18px 0; color: #fff; box-shadow: 0 4px 14px rgba(2, 128, 144, 0.25);">
+              <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                <div>
+                  <div style="font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #A7F3D0; margin-bottom: 2px;">🎨 Modul Mandiri Pertemuan 14</div>
+                  <div style="font-size: 15px; font-weight: 700; color: #fff;">Panduan Lengkap Tampilan Responsif, Lighthouse Audit &amp; ui-audit.md:</div>
+                </div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                  <a href="praktikum_merapikan_tampilan_performa.html" target="_blank" class="btn-nav btn-nav-primary" style="background:#02C39A; color:#013A40; border:none; font-weight:700; padding:8px 16px; border-radius:6px; font-size:12.5px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+                    <span>🎨 Buka Lab Tampilan &amp; Performa (P14)</span>
+                  </a>
+                </div>
               </div>
             </div>
+
+            <!-- 3 Kolom Mental Model Pedagogis -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; margin:16px 0 20px;">
+              <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:14px;">
+                <strong style="color:#0F172A; font-size:13px; display:flex; align-items:center; gap:6px;">
+                  <span>👕 Analogi Baju &amp; Ukuran Badan</span>
+                </strong>
+                <p style="font-size:12px; color:#475569; margin:6px 0 0; line-height:1.5;">
+                  &gt;60% traffic dari ponsel. Tampilan responsif adalah "baju fleksibel" yang pas untuk semua ukuran layar (ponsel 375px vs laptop 1440px).
+                </p>
+              </div>
+
+              <div style="background:#FEF3C7; border:1px solid #FDE68A; border-radius:10px; padding:14px;">
+                <strong style="color:#92400E; font-size:13px; display:flex; align-items:center; gap:6px;">
+                  <span>📊 Skor Objektif Lighthouse (0–100)</span>
+                </strong>
+                <p style="font-size:12px; color:#78350F; margin:6px 0 0; line-height:1.5;">
+                  🟢 90–100 (Baik) · 🟡 50–89 (Perlu Ditingkatkan) · 🔴 0–49 (Buruk). Fokus utama: <strong>Performance</strong> &amp; <strong>Accessibility</strong>.
+                </p>
+              </div>
+
+              <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:10px; padding:14px;">
+                <strong style="color:#1E40AF; font-size:13px; display:flex; align-items:center; gap:6px;">
+                  <span>🎯 Prioritaskan 3 Dampak Terbesar</span>
+                </strong>
+                <p style="font-size:12px; color:#1E3A8A; margin:6px 0 0; line-height:1.5;">
+                  Jangan panik dengan puluhan temuan. Ambil 3 rekomendasi Lighthouse paling berdampak (hemat ukuran/kontras), perbaiki satu per satu dengan AGY.
+                </p>
+              </div>
+            </div>
+
+            <div class="session-two-col">
+              <div class="teori-col">
+                <h4 class="col-title">&#128218; Teori &amp; Konsep Kunci</h4>
+                <ul class="plain-list">
+                  <li><strong>Dua Aspek Pemeriksaan:</strong> Tampilan Responsif (375px ponsel &amp; 1440px laptop) &amp; Performa Lighthouse</li>
+                  <li><strong>5 Kesalahan Tampilan Umum:</strong> Teks terpotong, Overflow horizontal (meluber), Kontras rendah, Tombol kekecilan (&lt;44px), Layout berantakan di mobile</li>
+                  <li><strong>Kamus Istilah:</strong> <em>Responsif, Viewport, Overflow, Chrome DevTools (F12), Lighthouse, Alt text</em></li>
+                  <li><strong>Struktur File <code>ui-audit.md</code>:</strong> Log temuan visual, Skor Lighthouse Awal vs Akhir, dan Catatan perbaikan</li>
+                </ul>
+              </div>
+              <div class="praktikum-col">
+                <h4 class="col-title">&#129489;&#8205;&#128187; Praktik di Kelas (3 Langkah AGY)</h4>
+                <p class="prompt-hint">&#128161; Salin prompt berikut ke Antigravity IDE (AGY):</p>
+
+                <!-- Prompt 1 -->
+                <div class="ai-prompt-box" style="margin-bottom:12px;">
+                  <div class="ai-prompt-label">
+                    <span>📱 LANGKAH 1 &amp; 3: PERBAIKI TAMPILAN PONSEL</span>
+                    <span style="font-weight:400;font-size:10.5px;color:#7A9AA3;">20 Menit</span>
+                  </div>
+                  <pre>Di aplikasi saya, saat dilihat di layar ponsel (ukuran 375px), bagian [nama komponen/halaman, misal: header / tabel] terlihat berantakan.
+[Jelaskan masalahnya: ada teks terpotong / tabel keluar batas kanan / tombol terlalu kecil].
+Tolong perbaiki kode CSS dan HTML agar tampilannya rapi dan responsif di layar ponsel maupun laptop.</pre>
+                </div>
+
+                <!-- Prompt 2 -->
+                <div class="ai-prompt-box">
+                  <div class="ai-prompt-label">
+                    <span>⚡ LANGKAH 2 &amp; 3: PERBAIKI REKOMENDASI LIGHTHOUSE</span>
+                    <span style="font-weight:400;font-size:10.5px;color:#7A9AA3;">30 Menit</span>
+                  </div>
+                  <pre>Lighthouse memberi saya rekomendasi berikut:
+[Tempel / paste teks rekomendasi dari Lighthouse]
+
+Tolong perbaiki masalah ini pada kode aplikasi saya dan jelaskan dengan bahasa sederhana apa saja yang diubah.</pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="warn-box" style="border-left-color:#028090; background:#EAF6F4; margin-top:16px;">
+              <div class="warn-mark" style="background:#028090; color:#fff;">💡</div>
+              <p><b>🔑 Prinsip Pengujian Responsif:</b> Aplikasi yang 'selesai' di laptop bukan berarti selesai untuk pengguna. Selalu uji di viewport <strong>375px</strong> (smartphone) dan perbaiki <strong>satu per satu</strong> lalu ukur ulang skornya!</p>
+            </div>
+
             <div class="session-foot">
               <div class="foot-item foot-output">
                 <span class="foot-label">Output pertemuan</span>
-                <span class="foot-text">Laporan audit sebelum/sesudah Lighthouse dan catatan perbaikan tampilan
-                  responsif.</span>
+                <span class="foot-text">File <code>ui-audit.md</code> berisi daftar perbaikan tampilan responsif (375px &amp; 1440px), skor Lighthouse sebelum &amp; sesudah, serta catatan solusi.</span>
               </div>
               <div class="foot-item foot-pitfall">
                 <span class="foot-label">Kesalahan yang sering terjadi</span>
-                <span class="foot-text">Mengejar skor 100 dengan mengorbankan fungsionalitas fitur yang sebenarnya
-                  dibutuhkan pengguna.</span>
+                <span class="foot-text">Mengejar skor 100 dengan menghapus fitur penting pengguna, hanya cek di laptop sendiri, dan memperbaiki banyak hal sekaligus tanpa mengukur ulang.</span>
               </div>
             </div>
             <div class="nav-step-bar">
-              <a href="#p13" class="btn-nav">← Pertemuan 13</a>
-              <a href="#p15" class="btn-nav btn-nav-primary">Lanjut ke Pertemuan 15 →</a>
+              <a href="#p13" class="btn-nav">← Pertemuan 13 (Menguji Hasil Akhir)</a>
+              <a href="#p15" class="btn-nav btn-nav-primary">Lanjut ke Pertemuan 15 (Deploy Vercel) →</a>
             </div>
           </article>
 
