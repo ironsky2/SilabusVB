@@ -16,7 +16,7 @@ Setelah menyelesaikan praktikum pada pertemuan ini, peserta mampu:
 2. **Melakukan Pengujian Manual *Black-Box* Sistematis** mencakup 6 kategori kasus ekstrem (*empty inputs, rapid clicks, boundary limits, injection characters, network resilience, & state loss*).
 3. **Mendokumentasikan Temuan Bug Berstandar Industri** ke dalam file `test-plan.md` lengkap dengan status severity dan langkah reproduksi.
 4. **Mengeksekusi *Atomic Bug Fixing*** bersama Antigravity IDE tanpa merusak fitur lain yang sudah berjalan (*anti-regression*).
-5. **Menghasilkan Metrik Kelayakan Rilis (*Release Readiness Score*)** sebelum melangkah ke tahap deployment produksi di Pertemuan 14.
+5. **Menghasilkan Metrik Kelayakan Rilis (*Release Readiness Score*)** sebelum melangkah ke tahap perapian tampilan di Pertemuan 14 dan deployment produksi di Pertemuan 15.
 
 ---
 
@@ -44,7 +44,7 @@ Setelah menyelesaikan praktikum pada pertemuan ini, peserta mampu:
    └──────────────────────┘     Regression Testing & Verifikasi Status [✅ LULUS]
               │
               ▼
-   [ Aplikasi Siap Rilis (Release Ready) ] ──► Masuk ke Pertemuan 14 (Deployment)
+   [ Aplikasi Siap Rilis (Release Ready) ] ──► Masuk ke Pertemuan 14 (Tampilan) & 15 (Deploy)
 ```
 
 > 💡 **Intisari Arsitektur:** Jangan pernah memperbaiki bug di tengah-tengah pengujian manual. Selesaikan seluruh skenario terlebih dahulu untuk mendapatkan gambaran kesehatan aplikasi secara utuh, baru lakukan perbaikan terisolasi (*atomic fix*).
@@ -467,7 +467,9 @@ Sebelum mengakhiri sesi praktikum Pertemuan 13, pastikan seluruh item dalam daft
 Diskusikan bersama instruktur dan rekan kelas:
 1. **Bug paling tak terduga apa** yang berhasil Anda temukan melalui pengujian *edge case* hari ini?
 2. Mengapa pendekatan *Atomic Bug Fixing* jauh lebih aman dibandingkan meminta AI merombak seluruh kode sekaligus?
-3. Mengapa dokumentasi `test-plan.md` sangat krusial sebelum kita melakukan deployment ke Vercel di **Pertemuan 14**?
+3. Mengapa dokumentasi `test-plan.md` sangat krusial sebelum kita merapikan performa (P14) dan melakukan deployment ke Vercel di **Pertemuan 15**?
+
+---
 
 > 🚀 **Langkah Selanjutnya:**  
-> Selamat! Aplikasi Anda kini telah teruji secara fungsional dan memiliki ketahanan tinggi. Pada **Pertemuan 14**, kita akan mempublikasikan (*deploy*) aplikasi ini ke cloud menggunakan **Vercel** dan menghubungkan *custom domain* agar dapat diakses oleh seluruh dunia!
+> Selamat! Aplikasi Anda kini telah teruji secara fungsional dan memiliki ketahanan tinggi. Pada **Pertemuan 14**, kita akan merapikan tampilan dan performa (Audit Lighthouse & Mobile Responsive), sebelum meluncurkan (*deploy*) aplikasi ke Vercel di **Pertemuan 15**!
