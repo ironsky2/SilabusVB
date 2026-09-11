@@ -1167,15 +1167,15 @@
         <p style="font-size:13.5px; color:var(--ink-mid); margin-bottom:10px;">Pastikan lingkungan kerja Anda sudah siap:</p>
         <ul class="checklist-list">
           <li>
-            <input type="checkbox" id="prep1">
+            <input type="checkbox" id="prep1" data-check-key="p14_prep1" onchange="saveCheckState(this)">
             <label for="prep1">Aplikasi berjalan normal di Chrome (buka alamat <code>localhost</code> proyek Anda)</label>
           </li>
           <li>
-            <input type="checkbox" id="prep2">
+            <input type="checkbox" id="prep2" data-check-key="p14_prep2" onchange="saveCheckState(this)">
             <label for="prep2">Antigravity IDE (AGY) terbuka pada workspace folder proyek yang sama</label>
           </li>
           <li>
-            <input type="checkbox" id="prep3">
+            <input type="checkbox" id="prep3" data-check-key="p14_prep3" onchange="saveCheckState(this)">
             <label for="prep3">Chrome DevTools siap dibuka (tekan tombol <code>F12</code> atau <code>Ctrl+Shift+I</code>)</label>
           </li>
         </ul>
@@ -1285,7 +1285,7 @@
       <div class="prompt-card">
         <div class="prompt-card-header">
           <span class="prompt-tag">📱 Prompt 01 · Memperbaiki Tampilan Ponsel yang Berantakan</span>
-          <button class="btn-copy" onclick="copySnippet('prompt-p1')">📋 Salin Prompt</button>
+          <button class="btn-copy" onclick="copySnippet('prompt-p1')" aria-label="Salin Prompt 1 ke clipboard">📋 Salin Prompt</button>
         </div>
         <div class="prompt-content" id="prompt-p1">Di aplikasi saya, saat dilihat di layar ponsel (ukuran 375px), bagian [nama komponen/halaman, contoh: header / tabel transaksi / form input] terlihat berantakan.
 
@@ -1297,7 +1297,7 @@ Tolong perbaiki kode CSS dan HTML saya agar tampilannya rapi, responsif, dan nya
       <div class="prompt-card">
         <div class="prompt-card-header">
           <span class="prompt-tag">✂️ Prompt 02 · Memperbaiki Teks Terpotong</span>
-          <button class="btn-copy" onclick="copySnippet('prompt-p2')">📋 Salin Prompt</button>
+          <button class="btn-copy" onclick="copySnippet('prompt-p2')" aria-label="Salin Prompt 2 ke clipboard">📋 Salin Prompt</button>
         </div>
         <div class="prompt-content" id="prompt-p2">Teks pada [nama elemen, contoh: tombol simpan / judul kartu / label form] terpotong saat dibuka di layar kecil.
 
@@ -1307,7 +1307,7 @@ Tolong perbaiki gaya penataan (styling) agar teks tidak terpotong, memiliki pemb
       <div class="prompt-card">
         <div class="prompt-card-header">
           <span class="prompt-tag">👆 Prompt 03 · Memperbesar Tombol agar Nyaman Disentuh</span>
-          <button class="btn-copy" onclick="copySnippet('prompt-p3')">📋 Salin Prompt</button>
+          <button class="btn-copy" onclick="copySnippet('prompt-p3')" aria-label="Salin Prompt 3 ke clipboard">📋 Salin Prompt</button>
         </div>
         <div class="prompt-content" id="prompt-p3">Tombol [nama tombol, contoh: tombol Hapus / Tambah Item] ukurannya terlalu kecil dan susah disentuh jari saat dibuka di smartphone.
 
@@ -1320,7 +1320,7 @@ Tolong sesuaikan ukuran tombol (padding, min-height 44px, margin) agar memenuhi 
       <div class="prompt-card">
         <div class="prompt-card-header">
           <span class="prompt-tag">📋 Prompt 04 · Salin Langsung Rekomendasi Lighthouse</span>
-          <button class="btn-copy" onclick="copySnippet('prompt-p4')">📋 Salin Prompt</button>
+          <button class="btn-copy" onclick="copySnippet('prompt-p4')" aria-label="Salin Prompt 4 ke clipboard">📋 Salin Prompt</button>
         </div>
         <div class="prompt-content" id="prompt-p4">Hasil audit Google Lighthouse memberikan rekomendasi perbaikan berikut:
 "[Tempel / paste pesan rekomendasi atau peringatan dari Lighthouse di sini]"
@@ -1331,7 +1331,7 @@ Tolong perbaiki masalah ini pada kode aplikasi saya, dan jelaskan secara singkat
       <div class="prompt-card">
         <div class="prompt-card-header">
           <span class="prompt-tag">🎨 Prompt 05 · Memperbaiki Kontras Warna Rendah</span>
-          <button class="btn-copy" onclick="copySnippet('prompt-p5')">📋 Salin Prompt</button>
+          <button class="btn-copy" onclick="copySnippet('prompt-p5')" aria-label="Salin Prompt 5 ke clipboard">📋 Salin Prompt</button>
         </div>
         <div class="prompt-content" id="prompt-p5">Lighthouse melaporkan bahwa warna teks di [lokasi elemen, contoh: subjudul / deskripsi kartu] memiliki kontras warna yang terlalu rendah terhadap latar belakangnya sehingga sulit dibaca.
 
@@ -1341,7 +1341,7 @@ Tolong rekomendasikan dan ubah kode warnanya agar memiliki rasio kontras yang me
       <div class="prompt-card">
         <div class="prompt-card-header">
           <span class="prompt-tag">🖼️ Prompt 06 · Menambahkan Keterangan Gambar (Alt Text) &amp; Optimasi</span>
-          <button class="btn-copy" onclick="copySnippet('prompt-p6')">📋 Salin Prompt</button>
+          <button class="btn-copy" onclick="copySnippet('prompt-p6')" aria-label="Salin Prompt 6 ke clipboard">📋 Salin Prompt</button>
         </div>
         <div class="prompt-content" id="prompt-p6">Lighthouse mendeteksi ada elemen gambar di aplikasi saya yang belum memiliki atribut alt text (deskripsi gambar) dan ukurannya terlalu berat saat dimuat.
 
@@ -1405,34 +1405,37 @@ Tolong periksa semua tag &lt;img&gt; di proyek saya:
       <h2 class="section-heading">✅ 8. Checklist Akhir Pertemuan &amp; Refleksi</h2>
 
       <div class="info-card">
-        <h3 style="font-size:16px; margin-bottom:12px; color:var(--ink);">Checklist Wajib Sebelum Mengakhiri Kelas:</h3>
-        <ul class="checklist-list">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <h3 style="font-size:16px; color:var(--ink);">Checklist Wajib Sebelum Mengakhiri Kelas:</h3>
+          <button id="btn-reset-p14" onclick="resetChecklist('p14')" style="background:#F1F5F9; border:1px solid #CBD5E1; color:#475569; font-size:11.5px; padding:4px 10px; border-radius:6px; cursor:pointer; font-weight:600;" aria-label="Reset checklist">🔄 Reset Centang</button>
+        </div>
+        <ul class="checklist-list" id="p14-checklist-items">
           <li>
-            <input type="checkbox" id="chk1">
+            <input type="checkbox" id="chk1" data-check-key="p14_chk1" onchange="saveCheckState(this)">
             <label for="chk1">Sudah menguji tampilan di layar <strong>375px</strong> (mobile) dan <strong>1440px</strong> (desktop) via DevTools</label>
           </li>
           <li>
-            <input type="checkbox" id="chk2">
+            <input type="checkbox" id="chk2" data-check-key="p14_chk2" onchange="saveCheckState(this)">
             <label for="chk2">Seluruh temuan visual (overflow/teks patah) sudah dicatat dalam tabel di <code>ui-audit.md</code></label>
           </li>
           <li>
-            <input type="checkbox" id="chk3">
+            <input type="checkbox" id="chk3" data-check-key="p14_chk3" onchange="saveCheckState(this)">
             <label for="chk3">Audit Lighthouse sudah dijalankan minimal untuk mode <strong>Mobile</strong></label>
           </li>
           <li>
-            <input type="checkbox" id="chk4">
+            <input type="checkbox" id="chk4" data-check-key="p14_chk4" onchange="saveCheckState(this)">
             <label for="chk4">Skor awal Lighthouse sudah dicatat rapi sebelum dilakukan perbaikan</label>
           </li>
           <li>
-            <input type="checkbox" id="chk5">
+            <input type="checkbox" id="chk5" data-check-key="p14_chk5" onchange="saveCheckState(this)">
             <label for="chk5">Minimal <strong>3 rekomendasi perbaikan</strong> Lighthouse sudah dipilih dan diprioritaskan</label>
           </li>
           <li>
-            <input type="checkbox" id="chk6">
+            <input type="checkbox" id="chk6" data-check-key="p14_chk6" onchange="saveCheckState(this)">
             <label for="chk6">Minimal <strong>1 perbaikan kode</strong> sudah berhasil diterapkan melalui AGY</label>
           </li>
           <li>
-            <input type="checkbox" id="chk7">
+            <input type="checkbox" id="chk7" data-check-key="p14_chk7" onchange="saveCheckState(this)">
             <label for="chk7">Skor Lighthouse sesudah perbaikan sudah diukur ulang dan dicatat perkembangannya</label>
           </li>
         </ul>
@@ -1474,30 +1477,36 @@ Tolong periksa semua tag &lt;img&gt; di proyek saya:
     </div>
   </footer>
 
-  <!-- TOAST NOTIFICATION -->
-  <div id="toast">
-    <span>✅</span>
+  <!-- TOAST NOTIFICATION (Accessible) -->
+  <div id="toast" role="status" aria-live="polite">
+    <span aria-hidden="true">✅</span>
     <span id="toast-msg">Prompt berhasil disalin ke clipboard!</span>
   </div>
 
   <script>
-    // Copy Snippet to Clipboard
+    // Copy Snippet to Clipboard with Error Handling
     function copySnippet(elementId) {
-      const text = document.getElementById(elementId).innerText;
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
       navigator.clipboard.writeText(text).then(() => {
         showToast("Prompt berhasil disalin ke clipboard!");
       }).catch(err => {
         console.error("Gagal menyalin:", err);
+        showToast("Gagal menyalin prompt ke clipboard.");
       });
     }
 
-    // Show Toast
+    // Accessible Toast Handler
+    let toastTimer = null;
     function showToast(msg) {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toast-msg');
+      if (!toast || !toastMsg) return;
       toastMsg.innerText = msg;
       toast.classList.add('show');
-      setTimeout(() => {
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
         toast.classList.remove('show');
       }, 2500);
     }
@@ -1508,6 +1517,7 @@ Tolong periksa semua tag &lt;img&gt; di proyek saya:
       const btnMobile = document.getElementById('btn-view-mobile');
       const btnDesktop = document.getElementById('btn-view-desktop');
       const indicator = document.getElementById('mode-indicator');
+      if (!screen) return;
 
       if (mode === 'mobile') {
         screen.className = 'sandbox-mock-screen mobile-mode';
@@ -1521,6 +1531,56 @@ Tolong periksa semua tag &lt;img&gt; di proyek saya:
         indicator.innerText = 'Mode: 1440px (Desktop L)';
       }
     }
+
+    // Local Storage Persistence for Checklists
+    function saveCheckState(el) {
+      if (!el || !el.dataset.checkKey) return;
+      try {
+        localStorage.setItem(el.dataset.checkKey, el.checked ? 'true' : 'false');
+      } catch (e) {
+        console.warn("Storage access restricted:", e);
+      }
+    }
+
+    function restoreCheckState() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"][data-check-key]');
+      checkboxes.forEach(chk => {
+        try {
+          const saved = localStorage.getItem(chk.dataset.checkKey);
+          if (saved === 'true') {
+            chk.checked = true;
+          } else if (saved === 'false') {
+            chk.checked = false;
+          }
+        } catch (e) {
+          console.warn("Storage access restricted:", e);
+        }
+      });
+    }
+
+    function resetChecklist(prefix) {
+      const checkboxes = document.querySelectorAll(`input[type="checkbox"][data-check-key^="${prefix}"]`);
+      checkboxes.forEach(chk => {
+        chk.checked = false;
+        try {
+          localStorage.removeItem(chk.dataset.checkKey);
+        } catch (e) {}
+      });
+      showToast("Checklist berhasil di-reset.");
+    }
+
+    // Keyboard Accessibility (Escape to close dropdowns / blur)
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const activeEl = document.activeElement;
+        if (activeEl) activeEl.blur();
+      }
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      restoreCheckState();
+    });
   </script>
 </body>
 </html>

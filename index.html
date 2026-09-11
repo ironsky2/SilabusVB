@@ -4241,7 +4241,18 @@ Tolong perbaiki masalah ini pada kode aplikasi saya dan jelaskan dengan bahasa s
         fallbackCopy(text);
       }
     }
+
+    // Keyboard Accessibility (Escape to blur active elements)
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const activeEl = document.activeElement;
+        if (activeEl) activeEl.blur();
+      }
+    });
   </script>
+
+  <!-- Accessible Toast Notification -->
+  <div id="toast" role="status" aria-live="polite"></div>
 
 </body>
 

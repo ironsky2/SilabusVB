@@ -1190,7 +1190,7 @@ Tolong perbaiki bug ini.</div>
           <div class="prompt-tag">
             <span>📋 Prompt 1: Generate Test Plan</span>
           </div>
-          <button class="btn-copy" onclick="copySnippet('prompt-ref-1')">
+          <button class="btn-copy" onclick="copySnippet('prompt-ref-1')" aria-label="Salin Prompt 1 ke clipboard">
             <span>📋 Salin Prompt</span>
           </button>
         </div>
@@ -1204,7 +1204,7 @@ Sertakan happy path dan edge cases. Format: tabel markdown."</div>
           <div class="prompt-tag">
             <span>📋 Prompt 2: Perbaiki Bug</span>
           </div>
-          <button class="btn-copy" onclick="copySnippet('prompt-ref-2')">
+          <button class="btn-copy" onclick="copySnippet('prompt-ref-2')" aria-label="Salin Prompt 2 ke clipboard">
             <span>📋 Salin Prompt</span>
           </button>
         </div>
@@ -1221,7 +1221,7 @@ Sertakan happy path dan edge cases. Format: tabel markdown."</div>
           <div class="prompt-tag">
             <span>📋 Prompt 3: Tambah Edge Case</span>
           </div>
-          <button class="btn-copy" onclick="copySnippet('prompt-ref-3')">
+          <button class="btn-copy" onclick="copySnippet('prompt-ref-3')" aria-label="Salin Prompt 3 ke clipboard">
             <span>📋 Salin Prompt</span>
           </button>
         </div>
@@ -1235,7 +1235,7 @@ belum saya uji? Tambahkan ke test-plan.md yang sudah ada."</div>
           <div class="prompt-tag">
             <span>📋 Prompt 4: Update Status Test Plan</span>
           </div>
-          <button class="btn-copy" onclick="copySnippet('prompt-ref-4')">
+          <button class="btn-copy" onclick="copySnippet('prompt-ref-4')" aria-label="Salin Prompt 4 ke clipboard">
             <span>📋 Salin Prompt</span>
           </button>
         </div>
@@ -1252,15 +1252,36 @@ Bug BUG-[XX] statusnya ubah menjadi ✅ Sudah Diperbaiki."</div>
       </div>
 
       <div class="content-card">
-        <h3 style="font-size:16px; margin-bottom:10px;">Checklist Akhir Pertemuan</h3>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <h3 style="font-size:16px; color:var(--ink);">Checklist Akhir Pertemuan</h3>
+          <button id="btn-reset-p13" onclick="resetChecklist('p13')" style="background:#F1F5F9; border:1px solid #CBD5E1; color:#475569; font-size:11.5px; padding:4px 10px; border-radius:6px; cursor:pointer; font-weight:600;" aria-label="Reset checklist">🔄 Reset Centang</button>
+        </div>
         <p style="font-size:13px; color:var(--ink-mid); margin-bottom:10px;">Sebelum kelas selesai, pastikan:</p>
-        <ul class="checklist-list">
-          <li><span>☑️</span> <span>File <code>test-plan.md</code> sudah dibuat dan tersimpan di proyek</span></li>
-          <li><span>☑️</span> <span>Semua fitur utama sudah ada skenario ujinya</span></li>
-          <li><span>☑️</span> <span>Edge case sudah diuji (minimal: input kosong, klik cepat ganda, karakter khusus)</span></li>
-          <li><span>☑️</span> <span>Semua bug yang ditemukan sudah dicatat</span></li>
-          <li><span>☑️</span> <span>Minimal 50% bug yang ditemukan sudah diperbaiki dan diuji ulang</span></li>
-          <li><span>☑️</span> <span>Status setiap skenario di <code>test-plan.md</code> sudah diperbarui</span></li>
+        <ul class="checklist-list" id="p13-checklist-items">
+          <li>
+            <input type="checkbox" id="chk13_1" data-check-key="p13_chk1" onchange="saveCheckState(this)">
+            <label for="chk13_1">File <code>test-plan.md</code> sudah dibuat dan tersimpan di proyek</label>
+          </li>
+          <li>
+            <input type="checkbox" id="chk13_2" data-check-key="p13_chk2" onchange="saveCheckState(this)">
+            <label for="chk13_2">Semua fitur utama sudah ada skenario ujinya</label>
+          </li>
+          <li>
+            <input type="checkbox" id="chk13_3" data-check-key="p13_chk3" onchange="saveCheckState(this)">
+            <label for="chk13_3">Edge case sudah diuji (minimal: input kosong, klik cepat ganda, karakter khusus)</label>
+          </li>
+          <li>
+            <input type="checkbox" id="chk13_4" data-check-key="p13_chk4" onchange="saveCheckState(this)">
+            <label for="chk13_4">Semua bug yang ditemukan sudah dicatat</label>
+          </li>
+          <li>
+            <input type="checkbox" id="chk13_5" data-check-key="p13_chk5" onchange="saveCheckState(this)">
+            <label for="chk13_5">Minimal 50% bug yang ditemukan sudah diperbaiki dan diuji ulang</label>
+          </li>
+          <li>
+            <input type="checkbox" id="chk13_6" data-check-key="p13_chk6" onchange="saveCheckState(this)">
+            <label for="chk13_6">Status setiap skenario di <code>test-plan.md</code> sudah diperbarui</label>
+          </li>
         </ul>
 
         <h3 style="font-size:16px; margin:24px 0 10px;">📝 Refleksi (5 menit terakhir)</h3>
@@ -1299,9 +1320,9 @@ Bug BUG-[XX] statusnya ubah menjadi ✅ Sudah Diperbaiki."</div>
     </div>
   </footer>
 
-  <!-- TOAST NOTIFICATION -->
-  <div id="toast">
-    <span>📋</span>
+  <!-- TOAST NOTIFICATION (Accessible) -->
+  <div id="toast" role="status" aria-live="polite">
+    <span aria-hidden="true">📋</span>
     <span id="toast-text">Prompt berhasil disalin ke clipboard!</span>
   </div>
 
@@ -1317,16 +1338,67 @@ Bug BUG-[XX] statusnya ubah menjadi ✅ Sudah Diperbaiki."</div>
       });
     }
 
+    let toastTimer = null;
     function showToast(message) {
       const toast = document.getElementById('toast');
       const toastText = document.getElementById('toast-text');
       if (!toast) return;
       if (toastText) toastText.innerText = message;
       toast.classList.add('show');
-      setTimeout(() => {
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
         toast.classList.remove('show');
       }, 2500);
     }
+
+    // Local Storage Persistence for Checklists
+    function saveCheckState(el) {
+      if (!el || !el.dataset.checkKey) return;
+      try {
+        localStorage.setItem(el.dataset.checkKey, el.checked ? 'true' : 'false');
+      } catch (e) {
+        console.warn("Storage access restricted:", e);
+      }
+    }
+
+    function restoreCheckState() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"][data-check-key]');
+      checkboxes.forEach(chk => {
+        try {
+          const saved = localStorage.getItem(chk.dataset.checkKey);
+          if (saved === 'true') {
+            chk.checked = true;
+          } else if (saved === 'false') {
+            chk.checked = false;
+          }
+        } catch (e) {
+          console.warn("Storage access restricted:", e);
+        }
+      });
+    }
+
+    function resetChecklist(prefix) {
+      const checkboxes = document.querySelectorAll(`input[type="checkbox"][data-check-key^="${prefix}"]`);
+      checkboxes.forEach(chk => {
+        chk.checked = false;
+        try {
+          localStorage.removeItem(chk.dataset.checkKey);
+        } catch (e) {}
+      });
+      showToast("Checklist berhasil di-reset.");
+    }
+
+    // Keyboard Accessibility (Escape to blur active element)
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const activeEl = document.activeElement;
+        if (activeEl) activeEl.blur();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      restoreCheckState();
+    });
   </script>
 </body>
 
